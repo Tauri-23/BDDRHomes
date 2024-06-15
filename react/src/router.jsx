@@ -1,25 +1,31 @@
 import {createBrowserRouter} from "react-router-dom";
-import Signup from "./views/public/signup";
-import Signin from "./views/public/signin";
-import Index from "./views/public";
-import NotFound from "./views/public/notFound";
+import Signup from "./views/guest/signup";
+import Signin from "./views/guest/signin";
+import NotFound from "./notFound";
+import GuestDefault from "./views/guest";
 
 const router = createBrowserRouter([
-    /**
-     * Public
-     */
-    {
-        path: '/signin',
-        element: <Signin/>
-    },
-    {
-        path: '/signup',
-        element: <Signup/>
-    },
+    /*
+    |----------------------------------------
+    | Guest 
+    |----------------------------------------
+    */
     {
         path: '/',
-        element: <Index/>
+        element: <GuestDefault/>,
+        children: [
+            {
+                path: '/signin',
+                element: <Signin/>
+            },
+            {
+                path: '/signup',
+                element: <Signup/>
+            },
+        ]
     },
+    
+    
     {
         path: '*',
         element: <NotFound/>
@@ -29,17 +35,21 @@ const router = createBrowserRouter([
 
 
 
-    /**
-     * Clients
-     */
+    /*
+    |----------------------------------------
+    | Clients 
+    |----------------------------------------
+    */
 
 
 
 
 
-    /**
-     * Agents
-     */
+    /*
+    |----------------------------------------
+    | Agents 
+    |----------------------------------------
+    */
 ]);
 
 

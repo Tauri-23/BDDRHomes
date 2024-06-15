@@ -1,0 +1,30 @@
+/*
+|----------------------------------------
+| Navbar 
+|----------------------------------------
+*/
+.navbar1 {
+    width: 100%;
+    height: 70px;
+    padding: 10px 50px;
+    background: var(--white);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    filter: drop-shadow(0 0 1px var(--grey1));
+}
+.navbar-1-logo-pic {
+    background: aliceblue;
+    width: 50px;
+    height: 50px;
+}
+.navbar1-links {
+    display: flex;
+    gap: 20px;
+}
+.navbar1-link {
+    font-size: var(--text-m1);
+    padding: 5px 10px;
+    text-decoration: none;
+    color: var(--black2);
+}
