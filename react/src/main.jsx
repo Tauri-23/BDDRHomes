@@ -8,6 +8,9 @@ import router from './router.jsx'
 import '././assets/css/app.css';
 import '././assets/css/elements.css';
 import '././assets/css/navbar.css';
+import '././assets/css/form.css';
+
+import '././assets/css/signinup.css';
 
 // BOOTSTRAP
 import "bootstrap/dist/css/bootstrap.min.css";

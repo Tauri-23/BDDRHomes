@@ -20,6 +20,11 @@
     --text-m1: 18px;
     --text-m2: 16px;
     --text-m3: 14px;
+
+    --radius1: 30px;
+    --radius2: 20px;
+    --radius3: 10px;
+    --radius4: 5px;
 }
 
 * {
@@ -31,6 +36,35 @@
 body, html {
     background: var(--white2) !important;
 }
+
+
+
+
+
+/*
+|----------------------------------------
+| Colors and BGs 
+|----------------------------------------
+*/
+.color-white1 {
+    color: var(--white);
+}
+.color-white2 {
+    color: var(--white2);
+}
+.color-white3 {
+    color: var(--white3);
+}
+.color-black1 {
+    color: var(--black1);
+}
+.color-black2 {
+    color: var(--black2);
+}
+.color-blue1 {
+    color: var(--blue1);
+}
+
 
 
 
@@ -337,4 +371,17 @@ body, html {
 }
 .flex-direction-y-reverse {
     flex-direction: column-reverse;
+}
+
+
+
+
+
+/*
+|----------------------------------------
+| Cursor 
+|----------------------------------------
+*/
+.cursor-pointer {
+    cursor: pointer;
 }

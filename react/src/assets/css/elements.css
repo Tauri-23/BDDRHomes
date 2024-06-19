@@ -1,0 +1,29 @@
+/*
+|----------------------------------------
+| Buttons 
+|----------------------------------------
+*/
+.primary-btn-blue1 {
+    padding: 8px 15px;
+    text-decoration: none;
+    border-radius: var(--radius3);
+    color: var(--white);
+    cursor: pointer;
+    border: none;
+}
+.primary-btn-blue1 {
+    background: var(--blue1);
+}
+
+
+
+.secondary-btn-blue1 {
+    padding: 8px 15px;
+    text-decoration: none;
+    border-radius: var(--radius3);
+    cursor: pointer;
+    border: none;
+}
+.secondary-btn-blue1 {
+    border: 1px solid var(--blue1);
+}
