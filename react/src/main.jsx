@@ -12,6 +12,8 @@ import '././assets/css/form.css';
 
 import '././assets/css/signinup.css';
 
+import '././assets/css/listings.css';
+
 // BOOTSTRAP
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";

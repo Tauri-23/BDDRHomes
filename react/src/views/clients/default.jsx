@@ -23,10 +23,12 @@ export default function ClientDefault() {
 
             {/* Client Sidenav */}
             <div className="side-nav1">
-                <div className="d-flex align-items-center gap3 w-100">
+                <div className="d-flex align-items-center gap3 w-100 ">
                     <img src={"/src/assets/media/logos/logo1.png"} className="navbar-1-logo-pic" alt="" />
                     <div className="text-l3 fw-bold">BDDR <span className="color-blue1 fw-bold">Homes</span></div>
                 </div>
+
+                
             </div>
 
             {/* Children Contents */}

@@ -1,6 +1,7 @@
 import { Outlet } from "react-router-dom";
 import * as Icon from 'react-bootstrap-icons';
 import { useStateContext } from "../../contexts/ContextProvider";
+import { useLocation } from "react-router-dom";
 
 export default function GuestDefault() {
     // const {user, token} = useStateContext();
@@ -8,6 +9,8 @@ export default function GuestDefault() {
     // if(!token) {
     //     return
     // }
+    const location = useLocation();
+    console.log(location.pathname);
 
     return (
         <div className="w-100 h-100">
@@ -20,9 +23,9 @@ export default function GuestDefault() {
                 </div>
 
                 <div className="navbar1-links">
-                    <a href="/" className="navbar1-link active"><Icon.House/> Home</a>
-                    <a href="/" className="navbar1-link"><Icon.Shop/> Listings</a>
-                    <a href="/" className="navbar1-link"><Icon.InfoSquare/> About</a>
+                    <a href="/" className={`navbar1-link ${location.pathname == '/' ? 'active' : ''}`}><Icon.House/> Home</a>
+                    <a href="/listings" className={`navbar1-link ${location.pathname == '/listings' ? 'active' : ''}`}><Icon.Shop/> Listings</a>
+                    <a href="/" className={`navbar1-link ${location.pathname == '/about' ? 'active' : ''}`}><Icon.InfoSquare/> About</a>
                 </div>
                     
                 <div className="navbar1-links">

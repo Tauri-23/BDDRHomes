@@ -6,6 +6,7 @@ import GuestDefault from "./views/guest/default";
 import GuestIndex from "./views/guest/index";
 import ClientDefault from "./views/clients/default";
 import ClientIndex from "./views/clients";
+import GuestListings from "./views/guest/listings";
 
 const router = createBrowserRouter([
     /*
@@ -20,6 +21,10 @@ const router = createBrowserRouter([
             {
                 path: '/',
                 element: <GuestIndex/>
+            },
+            {
+                path: '/listings',
+                element: <GuestListings/>
             },
             {
                 path: '/signin',

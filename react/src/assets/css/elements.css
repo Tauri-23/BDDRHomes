@@ -27,3 +27,33 @@
 .secondary-btn-blue1 {
     border: 1px solid var(--blue1);
 }
+
+
+
+.category-btn-blue1 {
+    display: flex;
+    gap: 10px;
+    border-radius: var(--radius2);
+    border: 1px solid var(--blue1);
+    padding: 5px 13px;
+    align-items: center;
+    cursor: pointer;
+}
+
+.category-icon1 {
+    width: 20px;
+}
+
+
+
+
+
+/*
+|----------------------------------------
+| Contents 
+|----------------------------------------
+*/
+.content1 {
+    width: 100%;
+    padding: 50px;
+}
