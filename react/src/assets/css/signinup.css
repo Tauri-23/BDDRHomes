@@ -1,17 +1,20 @@
 .signinup-cont {
     width: 100%;
     height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    padding: 100px;
 }
 
 
 
-.sign-in-box {
+.sign-in-box, .sign-up-box {
+    margin: auto;
     width: 500px;
     border-radius: var(--radius2);
     background: var(--white);
     filter: drop-shadow(0 0 1px var(--grey1));
     padding: 30px;
+}
+
+.sign-up-box {
+    width: 800px;
 }

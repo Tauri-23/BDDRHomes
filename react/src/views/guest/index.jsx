@@ -10,6 +10,6 @@ export default function GuestIndex() {
     // }
 
     return (
-        <div className="text-l3">HOME</div>
+        <div className="content1 text-l3">HOME</div>
     )
 };

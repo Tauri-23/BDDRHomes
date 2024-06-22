@@ -1,3 +1,10 @@
+.properties-cont {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+
 .property-box {
     width: calc(100% / 4 - 20px);
     height: 400px;
@@ -42,4 +49,17 @@
 .property-box-agent-pfp img {
     position: absolute;
     height: 100%;
+}
+
+.listing-box-specs-box {
+    background: var(--grey1);
+    padding: 3px 8px;
+    display: flex;
+    gap: 10px;
+    border-radius: var(--radius3);
+    align-items: center;
+    font-size: var(--text-m3);
+}
+.listing-box-specs-box img {
+    height: 20px;
 }

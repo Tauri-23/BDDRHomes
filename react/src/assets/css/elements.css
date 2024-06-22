@@ -56,4 +56,5 @@
 .content1 {
     width: 100%;
     padding: 50px;
+    min-height: 70vh;
 }

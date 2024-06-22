@@ -1,13 +1,13 @@
-import { Outlet } from "react-router-dom";
+import { Navigate, Outlet } from "react-router-dom";
 import * as Icon from 'react-bootstrap-icons';
 import { useStateContext } from "../../contexts/ContextProvider";
 
 export default function ClientDefault() {
-    // const {user, token} = useStateContext();
+    const {user, token} = useStateContext();
 
-    // if(!token) {
-    //     return
-    // }
+    if(!token) {
+        return <Navigate to="/" />
+    }
 
     return (
         <div className="w-100 h-100">

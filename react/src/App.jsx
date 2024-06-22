@@ -1,9 +1,3 @@
-function App() {
-  return (
-    <>
-      App
-    </>
-  )
+function isEmptyOrSpaces(str) {
+  return str === null || str.match(/^ *$/) !== null;
 }
-
-export default App

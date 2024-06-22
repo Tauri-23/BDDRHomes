@@ -12,6 +12,9 @@
     align-items: center;
     justify-content: space-between;
     filter: drop-shadow(0 0 1px var(--grey1));
+    position: sticky;
+    top: 0;
+    z-index: 20;
 }
 .navbar-1-logo-pic {
     width: 50px;
