@@ -7,7 +7,7 @@ export default function GuestDefault() {
     const {user, token} = useStateContext();
     const location = useLocation();
 
-    if(token && user == "Client") {
+    if(token) {
         return <Navigate to="/BDDRClient"/>
     }
     

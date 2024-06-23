@@ -1,39 +1,16 @@
 import { useRef } from 'react';
-import {ToastContainer, toast} from 'react-toastify';
+import {notify} from '../../assets/js/utils';
+import {ToastContainer} from 'react-toastify';
 import * as Icon from 'react-bootstrap-icons';
 import { Link } from 'react-router-dom';
 import axiosClient from '../../axios-client';
-
-const notify = (type, message) => {
-    if(type == 'success') {
-        toast.success(message, {
-            position: "top-center",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-        });
-    }
-    else if(type === 'error') {
-        toast.error(message, {
-            position: "top-center",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-        });
-    }
-}
+import { useStateContext } from '../../contexts/ContextProvider';
 
 export default function Signin() {
     const email_uname_phone_ref = useRef();
     const passRef = useRef();
+
+    const {setUser, setToken} = useStateContext();
 
     const loginHandler = (ev) => {
         ev.preventDefault();
@@ -41,11 +18,17 @@ export default function Signin() {
             email_uname_phone: email_uname_phone_ref.current.value,
             pass: passRef.current.value,
         }
-    
+        console.log(payload);
         axiosClient.post('/login', payload)
         .then(({data}) => {
-            setUser(data.user);
-            setToken(data.token);
+            if(data.status === 200) {
+                setUser(data.user);
+                setToken(data.token);
+                notify('success', data.message, 3000);
+            }
+            else {
+                notify('error', data.message, 3000);
+            }
         })
         .catch(error => {
             console.log(error);
@@ -92,6 +75,7 @@ export default function Signin() {
                 <Link to='/signup' className='text-decoration-none'><div className="secondary-btn-blue1 text-center color-blue1">Create account</div></Link>
                 
             </div>
+            <ToastContainer/>
         </div>
     )
 };

@@ -1,38 +1,14 @@
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import * as Icon from 'react-bootstrap-icons';
-import {isEmptyOrSpaces, isEmail} from '../../assets/js/utils';
+import {isEmptyOrSpaces, isEmail, formatPhoneNumber, usePasswordToggle, notify} from '../../assets/js/utils';
+import {ToastContainer} from 'react-toastify';
 import { Link } from 'react-router-dom';
-import {ToastContainer, toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axiosClient from '../../axios-client';
 import { useStateContext } from '../../contexts/ContextProvider';
+import PasswordInput from '../../components/password-input';
 
-const notify = (type, message, ms) => {
-    if(type == 'success') {
-        toast.success(message, {
-            position: "top-center",
-            autoClose: ms,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-        });
-    }
-    else if(type === 'error') {
-        toast.error(message, {
-            position: "top-center",
-            autoClose: ms,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-        });
-    }
-}
+
 
 
 export default function Signup() {
@@ -50,19 +26,6 @@ export default function Signup() {
 
     const {setUser, setToken} = useStateContext();
 
-    // const formatPhoneNum = (event) => {
-    //     phoneNum.on('input', function () {
-    //         let rawPhoneNumber = $(this).val().replace(/\D/g, '');
-    
-    //         rawPhoneNumber = rawPhoneNumber.replace(/^0+/, '');
-    
-    //         if (rawPhoneNumber.length <= 10) {
-    //             let formattedPhoneNumber = rawPhoneNumber.replace(/(\d{3})(\d{3})(\d{4})/, '$1 $2 $3');
-    
-    //             $(this).val(formattedPhoneNumber);
-    //         }
-    //     });
-    // };
 
     const signupHandler = (ev) => {
         ev.preventDefault();
@@ -102,6 +65,12 @@ export default function Signup() {
         .then(({data}) => {
             setUser(data.user);
             setToken(data.token);
+            if(data.status === 200) {
+                notify('success', data.message, 3000);
+            }
+            else {
+                notify('error', data.message, 3000);
+            }
         })
         .catch(error => {
             const response = error.response;
@@ -111,6 +80,11 @@ export default function Signup() {
         });
         
     }
+
+    const handlePhoneInputChange = (event) => {
+        const formattedPhoneNumber = formatPhoneNumber(event.target.value);
+        event.target.value = formattedPhoneNumber; // Update the input field directly
+    };
 
 
     return (
@@ -157,7 +131,7 @@ export default function Signup() {
 
                 <div className="d-flex flex-direction-y gap4">
                     <label htmlFor="phone-in">Phone Number</label>
-                    <input ref={phoneRef} type="text" id="phone-in" name="phone-in" className="edit-text-1 w-100" placeholder="9XX XXX XXXX" maxLength={10} />
+                    <input ref={phoneRef} onInput={handlePhoneInputChange} type="text" id="phone-in" name="phone-in" className="edit-text-1 w-100" placeholder="9XX XXX XXXX" maxLength={10} />
                 </div>
 
 
@@ -178,21 +152,24 @@ export default function Signup() {
                 </div>
                 
                 <div className="d-flex gap3 w-100 mar-bottom-l1">
-                    <div className="d-flex flex-direction-y gap4 w-100">
+                    {/* <div className="d-flex flex-direction-y gap4 w-100">
                         <label htmlFor="pass-in">Password</label>
                         <div className="d-flex position-relative align-items-center w-100">
-                            <input ref={passRef} type="password" id="pass-in" name="pass-in" className="edit-text-1 w-100" />
-                            <Icon.EyeFill className='position-absolute right3'/>
+                            <input ref={passRef} type={inputType} id="pass-in" name="pass-in password-input" className="edit-text-1 w-100" />
+                            <Icon.EyeFill className='position-absolute right3 seePassIcon' onClick={togglePasswordVisibility}/>
                         </div>
-                    </div>
+                    </div> */}
 
-                    <div className="d-flex flex-direction-y gap4 w-100">
+                    <PasswordInput innerRef={passRef} id='pass-in' label="Password"/>
+                    <PasswordInput innerRef={conpassRef} id='con-pass-in' label="Confirm Password"/>
+
+                    {/* <div className="d-flex flex-direction-y gap4 w-100">
                         <label htmlFor="con-pass-in">Confirm Password</label>
                         <div className="d-flex position-relative align-items-center w-100">
-                            <input ref={conpassRef} type="password" id="con-pass-in" name="con-pass-in" className="edit-text-1 w-100" />
-                            <Icon.EyeFill className='position-absolute right3'/>
+                            <input ref={conpassRef} type={inputType2} id="con-pass-in" name="con-pass-in password-input" className="edit-text-1 w-100" />
+                            <Icon.EyeFill className='position-absolute right3 seePassIcon' onClick={togglePasswordVisibility2}/>
                         </div>
-                    </div>
+                    </div> */}
                 </div>
 
 

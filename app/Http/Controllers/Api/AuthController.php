@@ -9,63 +9,120 @@ use App\Http\Requests\SignupRequest;
 use App\Models\user_clients;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
     protected $generateId;
 
-    public function __construct(IGenerateIdService $generateId) {
+    public function __construct(IGenerateIdService $generateId) 
+    {
         $this->generateId = $generateId;
     }
 
 
     public function signupPost(Request $request)
     {
-        /** @var user_clients $user **/
-
-
+        $isEmailExist = user_clients::where('email', $request->email)->exists();
+        $isPhoneExist = user_clients::where('phone', $request->phone)->exists();
         
-        $user = user_clients::create([
-            'id' => $this->generateId->generate(user_clients::class, 6),
-            'firstname' => $request->fname,
-            'middlename' => $request->mname,
-            'lastname' => $request->lname,
-            'gender' => $request->gender,
-            'bdate' => $request->bdate,
-            'phone' => $request->phone,
-
-            'username' => $request->uname,
-            'email' => $request->email,            
-            'password' => bcrypt($request->pass),
-        ]);
-
-        $token = $user->createToken('main')->plaintTextToken;
-
-        return response(compact('user', 'token'));
-    }
-
-
-    public function login(LoginRequest $request) 
-    {
-        $credentials = $request->validated();
-        if(!Auth::attempt($credentials)) {
-            return response([
-                'message' => `Credentials doesn't match`
+        if($isEmailExist) 
+        {
+            return response()->json([
+                'status' => 422,
+                'message' => 'Email already exists.'
             ]);
         }
 
-        /** @var user_clients $user **/
-        $user = Auth::user();
-        $token = $user->createToken('main')->plaintTextToken;
+        if($isPhoneExist) 
+        {
+            return response()->json([
+                'status' => 422,
+                'message' => 'Phone Number already exists.'
+            ]);
+        }
 
-        return response(compact('user', 'token'));
+        $user = new user_clients();
+        $user->id = $this->generateId->generate(user_clients::class, 6);
+        $user->firstname = $request->fname;
+        $user->middlename = $request->mname;
+        $user->lastname = $request->lname;
+        $user->gender = $request->gender;
+        $user->bdate = $request->bdate;
+        $user->phone = $request->phone;
+
+        $user->username = $request->uname;
+        $user->email = $request->email;
+        $user->password = bcrypt($request->pass);
+
+        if($user->save()) 
+        {
+            $token = $user->createToken('main')->plainTextToken;
+
+            return response()->json([
+                'status' => 200,
+                'message' => 'Success',
+                'user' => $user,
+                'token' => $token,
+            ]);
+        }
+        else
+        {
+            return response()->json([
+                'status' => 401,
+                'message' => 'Something went wrong please try again later.'
+            ]);
+        }      
+
+        
+    }
+
+
+    public function login(Request $request) 
+    {
+        $user = user_clients::where('email', $request->email_uname_phone)
+        ->orWhere('username', $request->email_uname_phone)
+        ->orWhere('phone', $request->email_uname_phone)
+        ->first();
+
+        if(!$user || Hash::check($request->pass, $user->password))
+        {
+            // TODO:: Add checker for agents and admin and other usertype
+            // This will return error for now
+            return response()->json([
+                'status' => 401,
+                'message' => "Credentials doesn't match"
+            ]);
+        }
+
+        $token = $user->createToken('main')->plainTextToken;
+
+        return response()->json([
+            'status' => 200,
+            'message' => 'Success',
+            'user' => $user,
+            'token' => $token,
+        ]);
     }
 
     public function logout(Request $request)
     {
-        /** @var user_clients $user **/
         $user = $request->user();
-        $user->currentAccessToken()->delete();
-        return response('', 204);
+
+        if ($user) 
+        {
+            $user->tokens()->delete();
+
+            return response()->json([
+                'status' => 200,
+                'message' => 'Logged out successfully.'
+            ]);
+        }
+
+        return response()->json([
+            'status' => 401,
+            'message' => 'User not authenticated.'
+        ], 401);
     }
+
 }
