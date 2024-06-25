@@ -1,13 +1,19 @@
-import React, { useImperativeHandle, useRef } from "react";
-import { usePasswordToggle } from "../assets/js/utils"
+import React, { useImperativeHandle, useRef, forwardRef } from "react";
+import { usePasswordToggle } from "../assets/js/utils";
 import * as Icon from 'react-bootstrap-icons';
 
-const PasswordInput = ({id, label ,innerRef}) => {
-    const {visible, togglePasswordVisibility} = usePasswordToggle();
-    const inputRef = useRef(innerRef);
+const PasswordInput = forwardRef(({ id, label }, ref) => {
+    const { visible, togglePasswordVisibility } = usePasswordToggle();
+    const inputRef = useRef();
+
+    useImperativeHandle(ref, () => ({
+        get value() {
+            return inputRef.current.value;
+        }
+    }));
 
     const inputType = visible ? 'text' : 'password';
-    const iconComponent = visible ? <Icon.EyeSlashFill/> : <Icon.EyeFill/>;
+    const iconComponent = visible ? <Icon.EyeSlashFill /> : <Icon.EyeFill />;
 
     return (
         <div className="d-flex flex-direction-y gap4 w-100">
@@ -20,6 +26,6 @@ const PasswordInput = ({id, label ,innerRef}) => {
             </div>
         </div>
     );
-};
+});
 
 export default PasswordInput;

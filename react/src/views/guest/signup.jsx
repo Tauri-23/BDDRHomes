@@ -160,8 +160,8 @@ export default function Signup() {
                         </div>
                     </div> */}
 
-                    <PasswordInput innerRef={passRef} id='pass-in' label="Password"/>
-                    <PasswordInput innerRef={conpassRef} id='con-pass-in' label="Confirm Password"/>
+                    <PasswordInput ref={passRef} id='pass-in' label="Password"/>
+                    <PasswordInput ref={conpassRef} id='con-pass-in' label="Confirm Password"/>
 
                     {/* <div className="d-flex flex-direction-y gap4 w-100">
                         <label htmlFor="con-pass-in">Confirm Password</label>

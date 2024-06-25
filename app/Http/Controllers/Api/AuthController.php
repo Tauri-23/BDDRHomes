@@ -85,7 +85,7 @@ class AuthController extends Controller
         ->orWhere('phone', $request->email_uname_phone)
         ->first();
 
-        if(!$user || Hash::check($request->pass, $user->password))
+        if(!$user || !Hash::check($request->pass, $user->password))
         {
             // TODO:: Add checker for agents and admin and other usertype
             // This will return error for now

@@ -12,6 +12,8 @@
     border-radius: var(--radius2);
     filter: drop-shadow(0 0 1px var(--grey1));
     overflow: hidden;
+    cursor: pointer;
+    user-select: none;
 }
 
 .property-box-pic {
@@ -20,11 +22,13 @@
     background: var(--grey1);
     display: flex;
     justify-content: center;
+    align-items: center;
     position: relative;
+    overflow: hidden;
 }
 .property-box-pic img {
     position: absolute;
-    height: 100%;
+    width: 100%;
 }
 
 .property-box-desc {
@@ -52,7 +56,7 @@
 }
 
 .listing-box-specs-box {
-    background: var(--grey1);
+    background: var(--grey2);
     padding: 3px 8px;
     display: flex;
     gap: 10px;

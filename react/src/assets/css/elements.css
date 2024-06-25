@@ -38,6 +38,7 @@
     padding: 5px 13px;
     align-items: center;
     cursor: pointer;
+    user-select: none;
 }
 
 .category-icon1 {
@@ -53,8 +54,12 @@
 | Contents 
 |----------------------------------------
 */
-.content1 {
+.content1, .content1.compressed {
     width: 100%;
     padding: 50px;
     min-height: 70vh;
+}
+.content1.compressed {
+    width: calc(100% - 300px);
+    margin: 0 0 0 300px;
 }
