@@ -137,6 +137,15 @@ body, html {
 | Margins 
 |----------------------------------------
 */
+.mar-top-l1 {
+    margin-top: 60px;
+}
+.mar-top-l2 {
+    margin-top: 50px;
+}
+.mar-top-l3 {
+    margin-top: 40px;
+}
 .mar-top-1 {
     margin-top: 30px;
 }

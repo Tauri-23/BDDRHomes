@@ -3,7 +3,7 @@
     gap: 10px;
     width: 100%;
     height: 500px;
-    border-radius: var(--radius1);
+    border-radius: var(--radius2);
     overflow: hidden;
 }
 .property-picture {
@@ -23,9 +23,34 @@
 
 
 .action-box {
-    width: 400px;
+    width: 500px;
     padding: 30px;
     background: var(--white);
     filter: drop-shadow(0 0 1px var(--grey1));
+    border-radius: var(--radius2);
+    margin: auto;
+}
+
+.listed-by-pfp {
+    width: 75px;
+    height: 75px;
+    background: var(--grey1);
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    border-radius: 100%;
+    position: relative;
+    filter: drop-shadow(0 0 1px var(--grey1));
+}
+.listed-by-pfp img {
+    position: absolute;
+    height: 100%;
+}
+
+
+.listing-spec-box {
+    padding: 8px 10px;
+    font-size: var(--text-m1);
+    border: 1px solid var(--black2);
     border-radius: var(--radius2);
 }
