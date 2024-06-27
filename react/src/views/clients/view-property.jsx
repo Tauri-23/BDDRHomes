@@ -32,7 +32,7 @@ export default function ClientViewProperty() {
             </div>
 
             {/* Property Infos */}
-            <div className="d-flex gap1 mar-top-1">
+            <div className="property-infos mar-top-1">
                     <div className="flex-grow-1">
                         {/* Property Name */}
                         <div className="text-l1 fw-bold">Anyana, Paris</div>
@@ -43,7 +43,7 @@ export default function ClientViewProperty() {
                         </div>
 
                         {/* Specs */}
-                        <div className="mar-top-l2 d-flex flex-direction-y gap2">
+                        <div className="mar-top-l1 d-flex flex-direction-y gap2">
                             <div className="text-l2">Specs</div>
 
                             <div className="d-flex flex-wrap gap3">
@@ -57,20 +57,28 @@ export default function ClientViewProperty() {
                         </div>
 
                         {/* Features and Amenities */}
-                        <div className="mar-top-l2 d-flex flex-direction-y gap2">
+                        <div className="mar-top-l1 d-flex flex-direction-y gap2">
                             <div className="text-l2">What this place offer</div>
 
                             <div className="d-flex flex-wrap gap3">
-                                <div className="listing-spec-box">Clubhouse</div>
-                                <div className="listing-spec-box">Basketball Court</div>
-                                <div className="listing-spec-box">Covered Court</div>
-                                <div className="listing-spec-box">Playground</div>
-                                <div className="listing-spec-box">Gym</div>
-                                <div className="listing-spec-box">24 Hour Securty</div>
-                                <div className="listing-spec-box">Jogging Path</div>
-                                <div className="listing-spec-box">Internet Service</div>
-                                <div className="listing-spec-box">Swimming Pool</div>
-                                <div className="listing-spec-box">Park</div>
+                                <div className="listing-spec-box"><img src="/src/assets/media/icons/club1.svg" className="listing-spec-box-icon"/>Clubhouse</div>
+                                <div className="listing-spec-box"><img src="/src/assets/media/icons/court.svg" className="listing-spec-box-icon"/> Basketball Court</div>
+                                <div className="listing-spec-box"><img src="/src/assets/media/icons/swing.svg" className="listing-spec-box-icon"/>Playground</div>
+                                <div className="listing-spec-box"><img src="/src/assets/media/icons/dumbbell.svg" className="listing-spec-box-icon"/>Gym</div>
+                                <div className="listing-spec-box"><img src="/src/assets/media/icons/security1.svg" className="listing-spec-box-icon"/>24 Hour Securty</div>
+                                <div className="listing-spec-box"><img src="/src/assets/media/icons/park2.svg" className="listing-spec-box-icon"/>Jogging Path</div>
+                                <div className="listing-spec-box"><img src="/src/assets/media/icons/internet1.svg" className="listing-spec-box-icon"/>Internet Service</div>
+                                <div className="listing-spec-box"><img src="/src/assets/media/icons/pool.svg" className="listing-spec-box-icon"/>Swimming Pool</div>
+                                <div className="listing-spec-box"><img src="/src/assets/media/icons/park2.svg" className="listing-spec-box-icon"/>Park</div>
+                            </div>
+                        </div>
+
+
+                        {/* Map */}
+                        <div className="mar-top-l1 d-flex flex-direction-y gap2">
+                            <div className="text-l2">Property Map</div>
+
+                            <div className="property-map-cont">
                             </div>
                         </div>
                     </div>

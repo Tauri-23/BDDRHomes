@@ -1,3 +1,9 @@
+.property-infos {
+    display: flex;
+    gap: 50px;
+}
+
+
 .property-pictures {
     display: flex;
     gap: 10px;
@@ -23,12 +29,14 @@
 
 
 .action-box {
-    width: 500px;
+    width: 700px;
     padding: 30px;
     background: var(--white);
     filter: drop-shadow(0 0 1px var(--grey1));
     border-radius: var(--radius2);
-    margin: auto;
+    margin: 0 0 auto 0;
+    position: sticky;
+    top: 100px;
 }
 
 .listed-by-pfp {
@@ -52,5 +60,23 @@
     padding: 8px 10px;
     font-size: var(--text-m1);
     border: 1px solid var(--black2);
+    border-radius: var(--radius2);
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+.listing-spec-box-icon {
+    height: 25px;
+}
+
+
+
+
+.property-map-cont {
+    width: 100%;
+    height: 50vh;
+    background: var(--grey1);
+    overflow: hidden;
+    position: relative;
     border-radius: var(--radius2);
 }

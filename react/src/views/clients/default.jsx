@@ -28,8 +28,11 @@ export default function ClientDefault() {
                 </div>
                 
                 <div className={`position-relative d-flex align-items-center ${location.pathname !== '/BDDRClient' ? 'd-none' : ''}`}>
-                    <Icon.Search className="position-absolute right2"/>
                     <input type="text" name="" id="" className="search-bar-1" placeholder="Search Properties, Locations, Agents, etc." />
+                    
+                    <div className="search-btn">
+                        <Icon.Search/>
+                    </div>
                 </div>
                 
 
