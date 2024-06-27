@@ -7,6 +7,8 @@ import GuestIndex from "./views/guest/index";
 import ClientDefault from "./views/clients/default";
 import ClientIndex from "./views/clients";
 import GuestListings from "./views/guest/listings";
+import ClientLikedProperties from "./views/clients/likes";
+import ClientViewProperty from "./views/clients/view-property";
 
 const router = createBrowserRouter([
     /*
@@ -59,6 +61,14 @@ const router = createBrowserRouter([
             {
                 path: '/BDDRClient',
                 element: <ClientIndex/>
+            },
+            { //TODO::implement get property id
+                path: '/BDDRClient/ViewProperty',
+                element: <ClientViewProperty/>
+            },
+            {
+                path: '/BDDRClient/Likes',
+                element: <ClientLikedProperties/>
             }
         ]
     },

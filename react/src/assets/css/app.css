@@ -231,6 +231,19 @@ body, html {
     right: 0;
 }
 
+.left1 {
+    left: 30px;
+}
+.left2 {
+    left: 20px;
+}
+.left3 {
+    left: 10px;
+}
+.left0 {
+    left: 0;
+}
+
 
 .gap1 {
     gap: 30px;

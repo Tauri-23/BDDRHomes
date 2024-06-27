@@ -11,3 +11,13 @@
     outline-color: var(--blue1);
     border-radius: var(--radius3);
 }
+
+.search-bar-1 {
+    width: 500px;
+    padding: 8px 40px 8px 10px;
+    font-size: var(--text-m2);
+    background: var(--white2);
+    border: 1px solid var(--white3);
+    outline-color: var(--blue1);
+    border-radius: var(--radius2);
+}
