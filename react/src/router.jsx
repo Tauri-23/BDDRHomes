@@ -9,6 +9,7 @@ import ClientIndex from "./views/clients";
 import GuestListings from "./views/guest/listings";
 import ClientLikedProperties from "./views/clients/likes";
 import ClientViewProperty from "./views/clients/view-property";
+import ClientMessages from "./views/clients/messages";
 
 const router = createBrowserRouter([
     /*
@@ -69,7 +70,11 @@ const router = createBrowserRouter([
             {
                 path: '/BDDRClient/Likes',
                 element: <ClientLikedProperties/>
-            }
+            },
+            {
+                path: '/BDDRClient/Messages',
+                element: <ClientMessages/>
+            },
         ]
     },
 

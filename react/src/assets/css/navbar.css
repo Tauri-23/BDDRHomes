@@ -53,7 +53,6 @@
 }
 .navbar2 {
     width: calc(100% - 0px);
-    /* margin-left: 300px; */
     height: 70px;
     padding: 10px 50px;
     background: var(--white);
@@ -67,17 +66,18 @@
 }
 .navbar2-mini-profile {
     display: flex;
-    gap: 20px;
+    gap: 10px;
     border-radius: var(--radius1);
     border: 1px solid var(--grey1);
     align-items: center;
-    padding: 3px 3px 3px 10px;
+    padding: 5px 5px 5px 10px;
     cursor: pointer;
+    user-select: none;
 }
 .navbar-2-pfp {
     position: relative;
-    width: 40px;
-    height: 40px;
+    width: 35px;
+    height: 35px;
     border-radius: 100%;
     background: aliceblue;
     display: flex;
@@ -114,8 +114,4 @@
     user-select: none;
     text-decoration: none;
     color: var(--black2);
-}
-.side-nav1-link.active {
-    background: var(--blue1);
-    color: var(--white);
 }

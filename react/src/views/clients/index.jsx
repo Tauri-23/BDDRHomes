@@ -1,12 +1,12 @@
 import { Outlet } from "react-router-dom";
 import * as Icon from 'react-bootstrap-icons';
 import { useStateContext } from "../../contexts/ContextProvider";
-import { PropertyBox1 } from "../../components/property-box1";
+import { PropertyBox1 } from "../../components/property_box1";
 
 export default function ClientIndex() {
 
     return (
-        <div>
+        <>
             {/* Property Types Category-btns */}
             <div className="listing-category-nav">
                 <div className="listing-category-cont">
@@ -101,6 +101,6 @@ export default function ClientIndex() {
 
                 </div>
             </div>
-        </div>
+        </>
     )
 };
