@@ -5,8 +5,9 @@ export const SideNavLink1 = ({ to, icon: IconComponent, activeIcon: ActiveIconCo
     const IconToRender = isActive && ActiveIconComponent ? ActiveIconComponent : IconComponent;
     return (
         <Link to={to} className="text-decoration-none">
-            <div className={`side-nav1-link ${isActive ? 'active' : ''}`}>
-                <IconToRender className="text-l3" /> {label}
+            <div className={`nav-modal1-link ${isActive ? 'active' : ''}`}>
+                {/* <IconToRender className="text-l3" />  */}
+                {label}
             </div>
         </Link>        
     );

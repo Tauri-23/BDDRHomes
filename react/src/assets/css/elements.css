@@ -17,7 +17,7 @@
 
 
 
-.secondary-btn-blue1 {
+.secondary-btn-blue1, .secondary-btn-black1, .secondary-btn-black2 {
     padding: 8px 15px;
     text-decoration: none;
     border-radius: var(--radius3);
@@ -27,24 +27,39 @@
 .secondary-btn-blue1 {
     border: 1px solid var(--blue1);
 }
+.secondary-btn-black1 {
+    border: 1px solid var(--black1);
+} 
+.secondary-btn-black2 {
+    border: 1px solid var(--black2);
+}
 
 
 
 .category-btn-blue1 {
     display: flex;
-    gap: 10px;
-    border-radius: var(--radius2);
-    border: 1px solid var(--blue1);
-    padding: 5px 13px;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    padding: 5px 0;
     align-items: center;
     cursor: pointer;
     user-select: none;
+    font-size: var(--text-m3);
+    color: var(--black2);
+    text-align: center;
+    opacity: .8;
 }
 
 .category-icon1 {
-    width: 20px;
+    height: 30px;
 }
 
+.category-btn-blue1.active {
+    border-bottom: 2px solid var(--black1);
+    color: var(--black1);
+    opacity: 1;
+}
 
 
 

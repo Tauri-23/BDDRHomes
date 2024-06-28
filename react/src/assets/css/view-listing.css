@@ -1,3 +1,7 @@
+:root {
+    --action-box-width: 550px;
+}
+
 .property-infos {
     display: flex;
     gap: 50px;
@@ -28,11 +32,26 @@
 
 
 
+
+.property-infos-texts {
+    width: calc(100% - var(--action-box-width));
+}
+.about-content {
+    width: 100%;
+    text-align: justify;
+    display: -webkit-box;
+    -webkit-line-clamp: 10;
+    -webkit-box-orient: vertical;  
+    overflow: hidden;
+}
+
+
+
 .action-box {
-    width: 700px;
+    width: var(--action-box-width);
     padding: 30px;
     background: var(--white);
-    filter: drop-shadow(0 0 1px var(--grey1));
+    filter: drop-shadow(0 0 5px var(--grey1));
     border-radius: var(--radius2);
     margin: 0 0 auto 0;
     position: sticky;
@@ -65,6 +84,12 @@
     gap: 10px;
     align-items: center;
 }
+.listing-spec-box2 {
+    padding: 5px 10px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
 .listing-spec-box-icon {
     height: 25px;
 }
@@ -79,4 +104,12 @@
     overflow: hidden;
     position: relative;
     border-radius: var(--radius2);
+}
+
+
+
+.listing-hr {
+    height: 1px;
+    background: var(--black2);
+    opacity: 0.3;
 }

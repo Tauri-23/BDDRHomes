@@ -47,9 +47,13 @@
 | Navbar Client
 |----------------------------------------
 */
+.nav-hr {
+    height: 1px;
+    background: var(--grey1);
+}
 .navbar2 {
-    width: calc(100% - 300px);
-    margin-left: 300px;
+    width: calc(100% - 0px);
+    /* margin-left: 300px; */
     height: 70px;
     padding: 10px 50px;
     background: var(--white);
@@ -63,11 +67,11 @@
 }
 .navbar2-mini-profile {
     display: flex;
-    gap: 10px;
+    gap: 20px;
     border-radius: var(--radius1);
-    background: var(--grey1);
+    border: 1px solid var(--grey1);
     align-items: center;
-    padding: 3px 10px 3px 3px;
+    padding: 3px 3px 3px 10px;
     cursor: pointer;
 }
 .navbar-2-pfp {
@@ -85,26 +89,27 @@
     position: absolute;
     height: 100%;
 }
-.side-nav1 {
-    height: 100%;
-    width: 300px;
+.nav-modal1 {
+    padding: 10px 0;
+    border-radius: var(--radius3);
+    filter: drop-shadow(0 0 10px var(--grey1));    
+    background: var(--white);
     position: fixed;
-    background-color: var(--white);
-    filter: drop-shadow(0 0 1px var(--grey1));
-    top: 0;
-    z-index: 2;
-    padding: 10px 20px;
+    z-index: 22;
+    right: 50px;
+    top: 65px
 }
-.side-nav1-links {
+.nav-modal1-links {
     display: flex;
     flex-direction: column;
-    gap: 10px;    
+    gap: 15px;    
 }
-.side-nav1-link {
+.nav-modal1-link {
     display: flex;
+    width: 250px;
     align-items: center;
     gap: 10px;
-    padding: 10px 20px;
+    padding: 5px 20px;
     border-radius: var(--radius3);
     user-select: none;
     text-decoration: none;

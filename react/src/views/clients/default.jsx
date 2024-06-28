@@ -1,4 +1,4 @@
-import { Navigate, Outlet, useLocation } from "react-router-dom";
+import { Link, Navigate, Outlet, useLocation } from "react-router-dom";
 import * as Icon from 'react-bootstrap-icons';
 import { useStateContext } from "../../contexts/ContextProvider";
 import { SideNavLink1 } from "../../components/navlink1";
@@ -20,12 +20,26 @@ export default function ClientDefault() {
 
     const navTitle = navTitles[location.pathname];
 
+
+    // Toggle Nav Modal
+    function toggleNavModal() {
+        
+    }
+
     return (
-        <div className="w-100 h-100">
+        <div className="w-100 h-100 position-relative">          
+
             <div className="navbar2">
-                <div className="text-l3 fw-bold">
+                {/* <div className="text-l3 fw-bold">
                     {navTitle}
-                </div>
+                </div> */}
+                <Link to={'/BDDRClient'} className="text-decoration-none color-black2">
+                    <div className="d-flex align-items-center gap3">
+                        <img src="/src/assets/media/logos/logo1.png" className="navbar-1-logo-pic" alt="" />
+                        <div className="text-l3 fw-bold">BDDR <span className="color-blue1 fw-bold">Homes</span></div>
+                    </div>
+                </Link>
+                
                 
                 <div className={`position-relative d-flex align-items-center ${location.pathname !== '/BDDRClient' ? 'd-none' : ''}`}>
                     <input type="text" name="" id="" className="search-bar-1" placeholder="Search Properties, Locations, Agents, etc." />
@@ -36,36 +50,38 @@ export default function ClientDefault() {
                 </div>
                 
 
-                <div className="navbar2-mini-profile">
+                <div className="navbar2-mini-profile" onClick={toggleNavModal}>
+                    <Icon.List className="text-l3 color-black1"/>
+
                     <div className="navbar-2-pfp">
                         <img src="/src/assets/media/clients/pfp/airich-pfp.jpg" alt="" />
                     </div>
 
-                    <div className="text-m2 d-flex gap3 align-items-center">
+                    {/* <div className="text-m2 d-flex gap3 align-items-center">
                         Airich Jay
-                        <Icon.ChevronDown/>
-                    </div>
+                        <Icon.List/>
+                    </div> */}
                     {/* <a href="/logout" className="navbar1-link"><Icon.BoxArrowInRight/> Logout</a> */}
                 </div>
             </div>
 
-            {/* Client Sidenav */}
-            <div className="side-nav1">
-                <div className="d-flex align-items-center gap3 w-100 ">
-                    <img src="/src/assets/media/logos/logo1.png" className="navbar-1-logo-pic" alt="" />
-                    <div className="text-l3 fw-bold">BDDR <span className="color-blue1 fw-bold">Homes</span></div>
-                </div>
+            <div className="nav-modal1">
+                <div className="nav-modal1-links d-none">
+                    <SideNavLink1 to="/BDDRClient" label="Properties" />
+                    <SideNavLink1 to="/BDDRClient/Likes" label="Wishlists" />
+                    <SideNavLink1 to="/BDDRClient/OngoingDeals" label="Trippings" />
+                    <SideNavLink1 to="/BDDRClient/OngoingDeals" label="Ongoing Deals" />
+                    <SideNavLink1 to="/BDDRClient/Agents" label="Agents" />
+                    <SideNavLink1 to="/BDDRClient/Agents" label="Profile" />
 
-                <div className="side-nav1-links mar-top-1">
-                    <SideNavLink1 to="/BDDRClient" icon={Icon.House} activeIcon={Icon.HouseFill} label="Properties" currentPath={location.pathname} />
-                    <SideNavLink1 to="/BDDRClient/Likes" icon={Icon.Heart} activeIcon={Icon.HeartFill} label="Likes" currentPath={location.pathname} />
-                    <SideNavLink1 to="/BDDRClient/OngoingDeals" icon={Icon.FileEarmarkRichtext} activeIcon={Icon.FileEarmarkRichtextFill} label="Ongoing Deals" currentPath={location.pathname} />
-                    <SideNavLink1 to="/BDDRClient/Agents" icon={Icon.Person} activeIcon={Icon.PersonFill} label="Agents" currentPath={location.pathname} />
+                    <div className="nav-hr"></div>
+
+                    <SideNavLink1 to="/logout" icon={Icon.Person} activeIcon={Icon.PersonFill} label="Logout" currentPath={location.pathname} />
                 </div>
             </div>
 
             {/* Children Contents */}
-            <Outlet/>
+            <Outlet/>        
         </div>
     )
 };

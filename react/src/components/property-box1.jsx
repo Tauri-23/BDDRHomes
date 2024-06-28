@@ -10,10 +10,12 @@ export const PropertyBox1 = ({}) => { //TODO::put parameters
                     </div>
 
                     <div className="property-box-desc">
-                        <div className="text-l3">Property Name</div>
-                        <div className="text-m2 d-flex align-items-center gap4">
+                        <div className="text-l3">Anyana Paris</div>
+                        <div className="d-flex gap4 align-items-center text-m2 w-100">
                             <Icon.GeoAlt/>
-                            Address
+                            <div className="listing-property-address">
+                                Antero Soriano Highway in Tanza, Cavite, 4108asdas dasdasdasd asdasd
+                            </div>                            
                         </div>
 
                         <div className="text-m2 d-flex gap4 align-items-center mar-top-3">
@@ -47,7 +49,7 @@ export const PropertyBox1 = ({}) => { //TODO::put parameters
                         </div>
 
                         {/* Price */}
-                        <div className="text-end mar-top-3">
+                        <div className="text-start mar-top-3">
                             ₱ 12,000,000.00
                         </div>
 
