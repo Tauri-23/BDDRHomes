@@ -112,6 +112,7 @@
     user-select: none;
     text-decoration: none;
     color: var(--black2);
+    cursor: pointer;
 }
 .nav-modal1-link:hover {
     background: var(--grey2);

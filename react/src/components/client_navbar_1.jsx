@@ -3,14 +3,13 @@ import * as Icon from 'react-bootstrap-icons';
 import { Link } from "react-router-dom";
 import { SideNavLink1 } from "./navlink1";
 
-export const ClientNavbar1 = () => {
+export const ClientNavbar1 = ({onLogout}) => {
     const [navModal1Visible, setNavModal1Visibility] = useState(false);
     const navModalRef = useRef(null);
 
     const toggleNavModal1Visibility = (event) => {
         event.stopPropagation();
         setNavModal1Visibility(!navModal1Visible);
-        console.log(navModal1Visible);
     }
 
     const handleClickOutside = (event) => {
@@ -80,7 +79,7 @@ export const ClientNavbar1 = () => {
 
                     <div className="nav-hr"></div>
 
-                    <SideNavLink1 to="/logout" icon={Icon.Person} activeIcon={Icon.PersonFill} label="Logout" currentPath={location.pathname} />
+                    <div className="nav-modal1-link" onClick={onLogout}>Logout</div>
                 </div>
             </div>
         </>

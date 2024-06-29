@@ -6,23 +6,25 @@ const axiosClient = axios.create({
 
 axiosClient.interceptors.request.use((config) => {
     const token = localStorage.getItem('ACCESS_TOKEN');
-    config.headers.Authorization = `Barer ${token}`
-    return config;
-})
-
-axiosClient.interceptors.response.use((response) => {
-    return response;
-}, (error) => {
-    try {
-        const {response} = error;
-        if(response.status === 401) {
-            localStorage.removeItem('ACCESS_TOKEN');
-        } else {
-            throw error;
-        }
-    }catch(e) {
-        console.error(e.response);
+    if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
     }
+    return config;
 });
+
+axiosClient.interceptors.response.use(
+    (response) => {
+        return response;
+    },
+    (error) => {
+        const { response } = error;
+        if (response && response.status === 401) {
+            // Handle 401 Unauthorized: clear token and log user out
+            localStorage.removeItem('ACCESS_TOKEN');
+            // Optionally redirect or perform other actions
+        }
+        return Promise.reject(error);
+    }
+);
 
 export default axiosClient;
