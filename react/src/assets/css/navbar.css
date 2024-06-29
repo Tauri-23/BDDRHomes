@@ -102,16 +102,17 @@
 .nav-modal1-links {
     display: flex;
     flex-direction: column;
-    gap: 15px;    
+    gap: 5px;    
 }
 .nav-modal1-link {
     display: flex;
     width: 250px;
     align-items: center;
-    gap: 10px;
-    padding: 5px 20px;
-    border-radius: var(--radius3);
+    padding: 10px 20px;
     user-select: none;
     text-decoration: none;
     color: var(--black2);
+}
+.nav-modal1-link:hover {
+    background: var(--grey2);
 }

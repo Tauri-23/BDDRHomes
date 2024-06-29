@@ -1,0 +1,6 @@
+.messages-lists {
+    width: calc(100% / 3);
+    padding: 20px 50px;
+    height: calc(100vh - 70px);
+    border: 1px solid var(--grey1);
+}

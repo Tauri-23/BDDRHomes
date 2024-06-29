@@ -1,11 +1,10 @@
-import { Outlet } from "react-router-dom";
 import * as Icon from 'react-bootstrap-icons';
 import '/src/assets/css/view-listing.css';
 
 export default function ClientViewProperty() {
 
     return (
-        <div className="content1 compressed">
+        <div className="content2">
             <div className="property-pictures">
                 <div className="property-picture large">
 
@@ -111,18 +110,6 @@ export default function ClientViewProperty() {
                                 </div>
                             </div>
                         </div>
-
-
-                        <div className="mar-top-l1 mar-bottom-l1 listing-hr"></div>
-
-
-                        {/* Map */}
-                        <div className="mar-top-l1 d-flex flex-direction-y gap2">
-                            <div className="text-l2 fw-bold">Property Map</div>
-
-                            <div className="property-map-cont">
-                            </div>
-                        </div>
                     </div>
 
 
@@ -145,9 +132,19 @@ export default function ClientViewProperty() {
                             
                         </div>
                         <div className="d-flex flex-direction-y gap3">
-                            <div className="primary-btn-blue1 text-l3 text-center">Contact Agent</div>
-                            <div className="secondary-btn-blue1 text-l3 text-center color-blue1">Book A Tripping</div>
+                            <div className="primary-btn-blue1 text-m2 text-center">Contact Agent</div>
+                            <div className="secondary-btn-blue1 text-m2 text-center color-blue1">Book A Tripping</div>
                         </div>
+                    </div>
+                </div>
+
+                <div className="mar-top-l1 mar-bottom-l1 listing-hr"></div>
+
+                {/* Map */}
+                <div className="mar-top-l1 d-flex flex-direction-y gap2">
+                    <div className="text-l2 fw-bold">Property Map</div>
+
+                    <div className="property-map-cont">
                     </div>
                 </div>
         </div>

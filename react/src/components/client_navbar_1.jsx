@@ -64,19 +64,19 @@ export const ClientNavbar1 = () => {
             {/* Nav Modal where the links are there */}
             <div ref={navModalRef} className={`nav-modal1 ${displayNavModal}`}>
                 <div className="nav-modal1-links text-m3">
-                    <SideNavLink1 to="/BDDRClient" label="Properties" />
-                    <SideNavLink1 to="/BDDRClient/Likes" label="Wishlists" />
+                    <SideNavLink1 to="/BDDRClient" label="Properties" onClick={toggleNavModal1Visibility} />
+                    <SideNavLink1 to="/BDDRClient/Likes" label="Wishlists" onClick={toggleNavModal1Visibility} />
 
                     <div className="nav-hr"></div>
 
-                    <SideNavLink1 to="/BDDRClient/Messages" label="Messages" />
-                    <SideNavLink1 to="/BDDRClient/OngoingDeals" label="Trippings" />
-                    <SideNavLink1 to="/BDDRClient/OngoingDeals" label="Ongoing Deals" />
+                    <SideNavLink1 to="/BDDRClient/Messages" label="Messages" onClick={toggleNavModal1Visibility} />
+                    <SideNavLink1 to="/BDDRClient/OngoingDeals" label="Trippings" onClick={toggleNavModal1Visibility} />
+                    <SideNavLink1 to="/BDDRClient/OngoingDeals" label="Ongoing Deals" onClick={toggleNavModal1Visibility} />
 
                     <div className="nav-hr"></div>
 
-                    <SideNavLink1 to="/BDDRClient/Agents" label="Agents" />
-                    <SideNavLink1 to="/BDDRClient/Agents" label="Profile" />
+                    <SideNavLink1 to="/BDDRClient/Agents" label="Agents" onClick={toggleNavModal1Visibility} />
+                    <SideNavLink1 to="/BDDRClient/Agents" label="Profile" onClick={toggleNavModal1Visibility} />
 
                     <div className="nav-hr"></div>
 
