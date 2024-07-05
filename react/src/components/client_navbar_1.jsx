@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import * as Icon from 'react-bootstrap-icons';
 import { Link } from "react-router-dom";
-import { SideNavLink1 } from "./navlink1";
+import { NavLink1 } from "./navlink1";
 
 export const ClientNavbar1 = ({onLogout}) => {
     const [navModal1Visible, setNavModal1Visibility] = useState(false);
@@ -24,7 +24,7 @@ export const ClientNavbar1 = ({onLogout}) => {
 
         // Cleanup event listener on component unmount
         return () => {
-        window.removeEventListener('click', handleClickOutside);
+            window.removeEventListener('click', handleClickOutside);
         }
     }, []);
 
@@ -63,19 +63,17 @@ export const ClientNavbar1 = ({onLogout}) => {
             {/* Nav Modal where the links are there */}
             <div ref={navModalRef} className={`nav-modal1 ${displayNavModal}`}>
                 <div className="nav-modal1-links text-m3">
-                    <SideNavLink1 to="/BDDRClient" label="Properties" onClick={toggleNavModal1Visibility} />
-                    <SideNavLink1 to="/BDDRClient/Likes" label="Wishlists" onClick={toggleNavModal1Visibility} />
+                    <NavLink1 to="/BDDRClient" label="Properties" onClick={toggleNavModal1Visibility} />
+                    <NavLink1 to="/BDDRClient/Likes" label="Wishlists" onClick={toggleNavModal1Visibility} />
+
+                    <NavLink1 to="/BDDRClient/Messages" label="Messages" onClick={toggleNavModal1Visibility} />
+                    <NavLink1 to="/BDDRClient/Trippings" label="Trippings" onClick={toggleNavModal1Visibility} />
+                    <NavLink1 to="/BDDRClient/OngoingDeals" label="Ongoing Deals" onClick={toggleNavModal1Visibility} />
 
                     <div className="nav-hr"></div>
 
-                    <SideNavLink1 to="/BDDRClient/Messages" label="Messages" onClick={toggleNavModal1Visibility} />
-                    <SideNavLink1 to="/BDDRClient/OngoingDeals" label="Trippings" onClick={toggleNavModal1Visibility} />
-                    <SideNavLink1 to="/BDDRClient/OngoingDeals" label="Ongoing Deals" onClick={toggleNavModal1Visibility} />
-
-                    <div className="nav-hr"></div>
-
-                    <SideNavLink1 to="/BDDRClient/Agents" label="Agents" onClick={toggleNavModal1Visibility} />
-                    <SideNavLink1 to="/BDDRClient/Agents" label="Profile" onClick={toggleNavModal1Visibility} />
+                    <NavLink1 to="/BDDRClient/Agents" label="Agents" onClick={toggleNavModal1Visibility} />
+                    <NavLink1 to="/BDDRClient/Profile" label="Profile" onClick={toggleNavModal1Visibility} />
 
                     <div className="nav-hr"></div>
 

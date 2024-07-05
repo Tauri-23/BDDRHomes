@@ -3,13 +3,16 @@ import { createContext, useContext, useState, useEffect } from "react";
 const StateContext = createContext({
     user: null,
     token: null,
+    userType: null,
     setUser: () => {},
-    setToken: () => {}
+    setToken: () => {},
+    setUserType: () => {}
 });
 
 export const ContextProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const [token, setToken] = useState(localStorage.getItem('ACCESS_TOKEN'));
+    const [userType, setUserType] = useState(null);
 
     useEffect(() => {
         // Check if token exists in localStorage and set it initially
@@ -32,8 +35,10 @@ export const ContextProvider = ({ children }) => {
         <StateContext.Provider value={{
             user,
             token,
+            userType,
             setUser,
-            setToken: updateToken
+            setToken: updateToken,
+            setUserType
         }}>
             {children}
         </StateContext.Provider>

@@ -79,7 +79,7 @@
     width: 35px;
     height: 35px;
     border-radius: 100%;
-    background: aliceblue;
+    background: var(--black1);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -89,6 +89,8 @@
     position: absolute;
     height: 100%;
 }
+
+
 .nav-modal1 {
     padding: 10px 0;
     border-radius: var(--radius3);
@@ -116,4 +118,96 @@
 }
 .nav-modal1-link:hover {
     background: var(--grey2);
+}
+
+
+
+
+
+/*
+|----------------------------------------
+| Navbar Agents
+|----------------------------------------
+*/
+.navbar3 {
+    width: calc(100% - 0px);
+    height: 70px;
+    padding: 0 50px;
+    background: var(--white);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    filter: drop-shadow(0 0 1px var(--grey1));
+    position: sticky;
+    top: 0;
+    z-index: 20;
+}
+.nav3-links {
+    display: flex;
+    gap: 10px;
+    height: 100%;
+}
+.nav3-link {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    padding: 0 15px;    
+    user-select: none;
+    text-decoration: none;
+    color: var(--black2);
+    cursor: pointer;
+}
+.nav3-link.active {
+    border-bottom: 2px solid var(--blue1);
+    color: var(--blue1);
+}
+
+.navbar-3-circle {
+    width: 40px;
+    height: 40px;
+    background: var(--white);
+    filter: drop-shadow(0 0 1px var(--black2));
+    border-radius: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+.navbar-3-circle.active {
+    border: 2px solid var(--black2);
+}
+
+.navbar-3-pfp {
+    position: relative;
+    width: 35px;
+    height: 35px;
+    border-radius: 100%;
+    background: var(--black1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    cursor: pointer;
+    user-select: none;
+}
+.navbar-3-pfp img {
+    position: absolute;
+    height: 100%;
+}
+
+.nav-notif1 {
+    width: 400px;
+    height: 600px;
+    padding: 30px 20px;
+    border-radius: var(--radius3);
+    filter: drop-shadow(0 0 10px var(--grey1));    
+    background: var(--white);
+    position: fixed;
+    z-index: 22;
+    right: 80px;
+    top: 75px
+}
+.notifications {
+    width: 100%;
+    height: 100%;
 }

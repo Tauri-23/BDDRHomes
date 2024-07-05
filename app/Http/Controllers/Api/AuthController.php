@@ -6,6 +6,7 @@ use App\Contracts\IGenerateIdService;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\SignupRequest;
+use App\Models\user_agents;
 use App\Models\user_clients;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -81,17 +82,34 @@ class AuthController extends Controller
     public function login(Request $request) 
     {
         $user = user_clients::where('email', $request->email_uname_phone)
-        ->orWhere('username', $request->email_uname_phone)
-        ->orWhere('phone', $request->email_uname_phone)
-        ->first();
+            ->orWhere('username', $request->email_uname_phone)
+            ->orWhere('phone', $request->email_uname_phone)
+            ->first();
 
-        if(!$user || !Hash::check($request->pass, $user->password))
+        if (!$user || !Hash::check($request->pass, $user->password)) 
         {
-            // TODO:: Add checker for agents and admin and other usertype
-            // This will return error for now
+            // If not a client, check if it's an agent
+            $userAgent = user_agents::where('email', $request->email_uname_phone)
+                ->orWhere('username', $request->email_uname_phone)
+                ->orWhere('phone', $request->email_uname_phone)
+                ->first();
+
+            if ($userAgent && Hash::check($request->pass, $userAgent->password)) 
+            {
+                $token = $userAgent->createToken('main')->plainTextToken;
+
+                return response()->json([
+                    'status' => 200,
+                    'message' => 'Success',
+                    'user' => $userAgent,
+                    'token' => $token,
+                    'user_type' => "Agent"
+                ]);
+            }
+
             return response()->json([
                 'status' => 401,
-                'message' => "Credentials doesn't match"
+                'message' => "Credentials don't match"
             ]);
         }
 
@@ -102,8 +120,10 @@ class AuthController extends Controller
             'message' => 'Success',
             'user' => $user,
             'token' => $token,
+            'user_type' => "Client"
         ]);
     }
+
 
     public function logout(Request $request)
     {
@@ -123,6 +143,19 @@ class AuthController extends Controller
             'status' => 401,
             'message' => 'User not authenticated.'
         ], 401);
+    }
+
+
+
+
+
+    public function getUser(Request $request) {
+        $user = $request->user();
+        $userType = $user instanceof user_clients ? 'client' : 'agent'; //This is for now
+        return response()->json([
+            'user' => $user,
+            'user_type' => $userType,
+        ]);
     }
 
 }

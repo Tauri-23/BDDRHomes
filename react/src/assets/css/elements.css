@@ -3,8 +3,8 @@
 | Buttons 
 |----------------------------------------
 */
-.primary-btn-blue1 {
-    padding: 8px 15px;
+.primary-btn-blue1, .primary-btn-black1, .primary-btn-black2 {
+    padding: 10px 15px;
     text-decoration: none;
     border-radius: var(--radius3);
     color: var(--white);
@@ -14,11 +14,17 @@
 .primary-btn-blue1 {
     background: var(--blue1);
 }
+.primary-btn-black1 {
+    background: var(--black1);
+}
+.primary-btn-black2 {
+    background: var(--black2);
+}
 
 
 
 .secondary-btn-blue1, .secondary-btn-black1, .secondary-btn-black2 {
-    padding: 8px 15px;
+    padding: 10px 15px;
     text-decoration: none;
     border-radius: var(--radius3);
     cursor: pointer;
@@ -86,7 +92,7 @@
 .content1, .content1.compressed {
     width: 100%;
     padding: 50px;
-    min-height: 70vh;
+    min-height: 100vh;
 }
 .content1.compressed {
     width: calc(100% - 300px);
@@ -96,7 +102,7 @@
 .content2 {
     width: 100%;
     padding: 50px 250px;
-    min-height: 70vh;
+    min-height: 100vh;
 }
 
 
@@ -116,4 +122,20 @@
 }
 .icon3 {
     height: 30px;
+}
+
+
+
+
+
+/*
+|----------------------------------------
+| Icons 
+|----------------------------------------
+*/
+.hr-line1 {
+    width: 100%;
+    height: 1px;
+    background: var(--black2);
+    opacity: .3;
 }

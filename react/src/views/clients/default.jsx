@@ -2,6 +2,7 @@ import { Link, Navigate, Outlet, useLocation } from "react-router-dom";
 import * as Icon from 'react-bootstrap-icons';
 import { useStateContext } from "../../contexts/ContextProvider";
 import { ClientNavbar1 } from "../../components/client_navbar_1";
+import { Footer1 } from "../../components/footer1";
 import { useEffect } from "react";
 import axiosClient from "../../axios-client";
 
@@ -29,6 +30,7 @@ export default function ClientDefault() {
             .then(() => {
                 setUser({});
                 setToken(null);
+                setUserType(null);
             });
     };
 
@@ -44,6 +46,9 @@ export default function ClientDefault() {
 
             {/* Children Contents */}
             <Outlet />
+
+            {/* Footer */}
+            <Footer1/>
         </div>
     );
 }

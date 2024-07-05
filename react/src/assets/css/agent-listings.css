@@ -1,0 +1,65 @@
+:root {
+    --listing-img-wh: 400px;
+}
+
+.circle-btn-1 {
+    border-radius: 100%;
+    width: 40px;
+    height: 40px;
+    background: var(--grey2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+
+.agent-listing-box {
+    width: var(--listing-img-wh);
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+}
+.agent-listing-pic {
+    width: var(--listing-img-wh);
+    height: var(--listing-img-wh);
+    border-radius: var(--radius3);
+    background: var(--grey1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+.agent-listing-pic img {
+    position: absolute;
+    height: 100%;
+}
+.agent-listing-desc {
+    padding: 5px 0;
+    width: 100%;
+}
+.agent-listing-address {
+    white-space: nowrap; 
+    width: 100%; 
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+
+
+/* For Modals */
+.listing-option-modal-pic {
+    width: 150px;
+    height: 150px;
+    margin: 30px auto 10px auto;
+    background: var(--grey1);
+    border-radius: var(--radius3);
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.listing-option-modal-pic img {
+    position: absolute;
+    height: 100%;
+}

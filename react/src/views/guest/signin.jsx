@@ -18,7 +18,6 @@ export default function Signin() {
             email_uname_phone: email_uname_phone_ref.current.value,
             pass: passRef.current.value,
         }
-        console.log(payload);
         axiosClient.post('/login', payload)
         .then(({data}) => {
             if(data.status === 200) {

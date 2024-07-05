@@ -2,14 +2,48 @@ import { Link, Navigate, Outlet } from "react-router-dom";
 import * as Icon from 'react-bootstrap-icons';
 import { useStateContext } from "../../contexts/ContextProvider";
 import { useLocation } from "react-router-dom";
+import { useEffect } from "react";
+import axiosClient from "../../axios-client";
 
 export default function GuestDefault() {
-    const {user, token} = useStateContext();
+    const {user, token, setUser, userType, setUserType, setToken} = useStateContext();
     const location = useLocation();
 
-    if(token) {
-        return <Navigate to="/BDDRClient"/>
+    useEffect(() => {
+        if (token) {
+            axiosClient.get('/user')
+                .then(({ data }) => {
+                    setUserType(data.user_type);
+                    setUser(data.user);
+                })
+                .catch((error) => {
+                    if (error.response && error.response.status === 401) {
+                        setUserType(null);
+                        setUser({});
+                        setToken(null);
+                    }
+                });
+        }
+    }, [token, setUserType, setUser, setToken]);
+
+    // Render logic based on userType
+    if (token) {
+        console.log(userType);
+        if (userType === 'client') {
+            return <Navigate to="/BDDRClient" />;
+        } else if (userType === 'agent') {
+            return <Navigate to="/BDDRAgent" />;
+        }
     }
+
+    // if(token) {
+    //     // if(userType === 'client') {
+    //     //     return <Navigate to="/BDDRClient"/>
+    //     // }
+    //     // else if(userType === 'agent') {
+    //     //     return <Navigate to={"/BDDRAgent"}/>
+    //     // }        
+    // }
     
 
     return (
