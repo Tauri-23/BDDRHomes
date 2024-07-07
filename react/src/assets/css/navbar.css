@@ -211,3 +211,21 @@
     width: 100%;
     height: 100%;
 }
+
+
+.navbar4, .bot-navbar4 {
+    width: calc(100% - 0px);
+    padding: 20px 80px;
+    background: var(--white);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 20;
+}
+
+.bot-navbar4 {
+    bottom: 0;
+    position: sticky;
+}

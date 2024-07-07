@@ -6,6 +6,7 @@
     --white3: #ededf0;
     --black1: #1d1d1d;
     --black2: #434343;
+    --black3: #555555;
 
     --grey1: #DDDDDD;
     --grey2: #f0f0f0;
@@ -39,6 +40,19 @@
 
 body, html {
     background: var(--white) !important;
+}
+
+
+
+
+
+/*
+|----------------------------------------
+| width and height
+|----------------------------------------
+*/
+.h-100vh {
+    height: 100vh;
 }
 
 
@@ -427,6 +441,20 @@ body, html {
 }
 .flex-direction-y-reverse {
     flex-direction: column-reverse;
+}
+
+
+
+
+
+/*
+|----------------------------------------
+| Lines 
+|----------------------------------------
+*/
+.h-line-general-grey1 {
+    height: 1px;
+    background: var(--grey1);
 }
 
 

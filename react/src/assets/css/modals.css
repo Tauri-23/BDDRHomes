@@ -11,7 +11,7 @@
 
 .modal-box3{
     width: 400px;
-    padding: 30px;
+    padding: 25px;
     border-radius: var(--radius2);
     background: var(--white);
     filter: drop-shadow(0 0 10px var(--black2));

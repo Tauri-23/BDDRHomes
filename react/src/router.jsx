@@ -13,10 +13,18 @@ import ClientMessages from "./views/clients/messages";
 import ClientTrippings from "./views/clients/trippings";
 import ClientProfile from "./views/clients/profile";
 import AgentDefault from "./views/agents/default";
-import AgentListing from "./views/agents/listings";
+import AgentListing from "./views/agents/Listings/listings";
 import AgentIndex from "./views/agents";
 import AgentMessages from "./views/agents/messages";
 import AgentPerformance from "./views/agents/performance";
+import AgentCreateListingDefault from "./views/agents/Listings/CreateListing/create-listing-default";
+import AgentCreateListingType from "./views/agents/Listings/CreateListing/create-listings-type";
+import AgentCreateListingIndex from "./views/agents/Listings/CreateListing/create-listing-index";
+import AgentCreateListingNameLoc from "./views/agents/Listings/CreateListing/create-listing-nameloc";
+import AgentCreateListingFloorPlan from "./views/agents/Listings/CreateListing/create-listing-floorplan";
+import AgentCreateListingStep2 from "./views/agents/Listings/CreateListing/create-listing-step2";
+import AgentCreateListingAmenities from "./views/agents/Listings/CreateListing/create-listing-amenities";
+import AgentCreateListingPhotos from "./views/agents/Listings/CreateListing/create-listing-photos";
 
 const router = createBrowserRouter([
     /*
@@ -47,7 +55,15 @@ const router = createBrowserRouter([
         ]
     },
     
+
     
+
+
+    /*
+    |----------------------------------------
+    | Clients 
+    |----------------------------------------
+    */
     {
         path: '*',
         element: <NotFound/>
@@ -114,6 +130,7 @@ const router = createBrowserRouter([
                 path: 'Listings',
                 element: <AgentListing/>
             },
+                    
             {
                 path: 'Messages',
                 element: <AgentMessages/>
@@ -124,6 +141,40 @@ const router = createBrowserRouter([
             }
         ]
     },
+    {
+        path: '/BDDRAgent/CreateListing',
+        element: <AgentCreateListingDefault/>,
+        children: [
+            {
+                index: true,
+                element: <AgentCreateListingIndex/>
+            },
+            {
+                path: 'PropertyType',
+                element: <AgentCreateListingType/>
+            },
+            {
+                path: 'NameAndLoc',
+                element: <AgentCreateListingNameLoc/>
+            },
+            {
+                path: 'Floorplan',
+                element: <AgentCreateListingFloorPlan/>
+            },
+            {
+                path: 'Step2',
+                element: <AgentCreateListingStep2/>
+            },
+            {
+                path: 'Amenities',
+                element: <AgentCreateListingAmenities/>
+            },
+            {
+                path: 'Photos',
+                element: <AgentCreateListingPhotos/>
+            }
+        ]
+    }, 
 ]);
 
 

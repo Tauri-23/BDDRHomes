@@ -6,11 +6,19 @@ import axiosClient from "../../axios-client";
 import { AgentNavbar1 } from "../../components/agent_navbar_1";
 
 import '/src/assets/css/agent-listings.css';
+import { AgentListingOptionModal1 } from "../../components/Modals/agent_listing_option_modal1";
+import { ModalProvider } from "../../contexts/ModalContext";
+import ModalManager from "../../Managers/ModalManager";
 
 export default function AgentDefault() {
     const { user, token, setUser, setToken } = useStateContext();
-    const location = useLocation();    
+    const location = useLocation();
 
+    /*
+    |----------------------------------------
+    | Token and UserType Checker 
+    |----------------------------------------
+    */
     useEffect(() => {
         if (token) {
             axiosClient.get('/user')
@@ -41,43 +49,37 @@ export default function AgentDefault() {
     }
 
 
+    
+    /*
+    |----------------------------------------
+    | Modals 
+    |----------------------------------------
+    */
+    // const openModal = (listing) => {
+    //     setCurrentListing(listing);
+    //     setModalVisible(true);
+    // };
+
+    // const closeModal = () => {
+    //     setModalVisible(false);
+    //     setCurrentListing(null);
+    // };
 
 
-    // Modals
-    const [listingOptionModalVisibility, setListingOptionModalVisibility] = useState(false);
 
-    const listingOptionModal = listingOptionModalVisibility ? '' : 'd-none';
+
+
     return (
-        <div className="w-100 h-100 position-relative">
-            {/* Modals */}
-            <div className= {`modal1 ${listingOptionModal}`}>
-                <div className="modal-box3">
-                    <div className="circle-btn1 text-l1">
-                        <Icon.X/>
-                    </div>
+        <ModalProvider>
+            <div className="w-100 h-100 position-relative">
+                <ModalManager/>
 
-                    {/* Image */}
-                    <div className="listing-option-modal-pic">
-                        <img src="" alt="" />
-                    </div>
+                <AgentNavbar1 onLogout={onLogout}/>
 
-                    {/* Desc */}
-                    <div className="text-m2 fw-bold text-center">Anyana Paris</div>
-                    <div className="text-m3 text-center mar-bottom-1">Anyana Paris</div>
+                <Outlet/>
 
-                    {/* Btns */}
-                    <div className="d-flex flex-direction-y gap3">
-                        <div className="primary-btn-black1 text-center">Edit Listing</div>
-                        <div className="secondary-btn-black2 text-center">Remove Listing</div>
-                    </div>
-                </div>
+                
             </div>
-
-
-
-            <AgentNavbar1 onLogout={onLogout}/>
-
-            <Outlet context={{ setListingOptionModalVisibility }}/>
-        </div>
+        </ModalProvider>
     );
 }

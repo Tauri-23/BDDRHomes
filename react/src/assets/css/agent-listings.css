@@ -1,5 +1,7 @@
 :root {
     --listing-img-wh: 400px;
+
+    --create-listing-option-box1-width: 200px;
 }
 
 .circle-btn-1 {
@@ -29,6 +31,7 @@
     justify-content: center;
     align-items: center;
     position: relative;
+    overflow: hidden;
 }
 .agent-listing-pic img {
     position: absolute;
@@ -58,8 +61,53 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    overflow: hidden;
 }
 .listing-option-modal-pic img {
     position: absolute;
     height: 100%;
+}
+
+
+
+
+
+/*
+|----------------------------------------
+| Create Listing 
+|----------------------------------------
+*/
+.create-listing-cont {
+    width: calc(var(--create-listing-option-box1-width) * 3 + 40px);
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+.create-listing-option-box-cont {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    width: calc(var(--create-listing-option-box1-width) * 3 + 40px);
+}
+.create-listing-option-box1 {
+    width: 200px;
+    height: 100px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    padding: 15px;
+    border-radius: var(--radius3);
+    outline: 1px solid var(--grey1);
+    background: var(--white);
+    justify-content: center;
+    cursor: pointer;
+    box-sizing: border-box;
+    transition: outline 50ms ease;
+}
+.create-listing-option-box1:hover {
+    outline: 2px solid var(--black1);
+}
+.create-listing-option-box1-icon {
+    height: 30px;
+    align-self: self-start;
 }
