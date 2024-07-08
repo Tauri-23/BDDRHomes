@@ -21,6 +21,10 @@
     background: var(--black2);
 }
 
+.primary-btn-black1.disabled {
+    opacity: .5;
+}
+
 
 
 .secondary-btn-blue1, .secondary-btn-black1, .secondary-btn-black2, 
@@ -30,6 +34,7 @@
     border-radius: var(--radius3);
     cursor: pointer;
     border: none;
+    background: transparent;
 }
 .secondary-btn-blue1 {
     border: 1px solid var(--blue1);

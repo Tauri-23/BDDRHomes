@@ -469,3 +469,35 @@ body, html {
 .cursor-pointer {
     cursor: pointer;
 }
+
+
+
+
+
+
+/*
+|----------------------------------------
+| Transitions 
+|----------------------------------------
+*/
+.transition-fade-in {
+    animation: fadeIn linear .4s;
+}
+
+
+
+
+
+/*
+|----------------------------------------
+| Animations 
+|----------------------------------------
+*/
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}

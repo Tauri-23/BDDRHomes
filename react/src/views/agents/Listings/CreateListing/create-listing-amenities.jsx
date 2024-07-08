@@ -17,6 +17,11 @@ export default function AgentCreateListingAmenities() {
                             </div>
 
                             <div className="create-listing-option-box1">
+                                <img src="/src/assets/media/icons/swing.svg" className='create-listing-option-box1-icon'/>
+                                <div className="text-m2">Playground</div>
+                            </div>
+
+                            <div className="create-listing-option-box1">
                                 <img src="/src/assets/media/icons/park2.svg" className='create-listing-option-box1-icon'/>
                                 <div className="text-m2">Dog Park</div>
                             </div>

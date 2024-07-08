@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\AgentCreateListingController;
 use App\Http\Controllers\Api\AuthController;
 use App\Models\user_clients;
 use Illuminate\Http\Request;
@@ -22,3 +23,14 @@ Route::middleware('auth:sanctum')
 */
 Route::post('/signup', [AuthController::class, 'SignupPost']);
 Route::post('/login', [AuthController::class, 'login']);
+
+
+
+
+
+/*
+|----------------------------------------
+| Agent 
+|----------------------------------------
+*/
+Route::get('/get-property-types', [AgentCreateListingController::class, 'getPropertyTypes']);
