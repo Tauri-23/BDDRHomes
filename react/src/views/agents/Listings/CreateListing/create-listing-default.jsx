@@ -13,6 +13,7 @@ export default function AgentCreateListingDefault() {
         '/BDDRAgent/CreateListing/Floorplan': '/BDDRAgent/CreateListing/NameAndLoc',
         '/BDDRAgent/CreateListing/Step2': '/BDDRAgent/CreateListing/Floorplan',
         '/BDDRAgent/CreateListing/Amenities': '/BDDRAgent/CreateListing/Step2',
+        '/BDDRAgent/CreateListing/Photos': '/BDDRAgent/CreateListing/Amenities',
     };
 
     const nextLinks = {
@@ -31,6 +32,12 @@ export default function AgentCreateListingDefault() {
     const [propertyName, setPropertyName] = useState(null);
     const [propertyAddress, setPropertyAddress] = useState(null);
     const [propertyDesc, setPropertyDesc] = useState(null);
+    const [bedroom, setBedroom] = useState(1);
+    const [bathroom, setBathroom] = useState(1);
+    const [carport, setCarport] = useState(0);
+    const [lotArea, setLotArea] = useState(null);
+    const [floorArea, setFloorArea] = useState(null);
+    const [selectedPropertyAmenities, setSelectedPropertyAmenities] = useState([]);
 
     useEffect(() => {
         // Property Type Script
@@ -60,6 +67,7 @@ export default function AgentCreateListingDefault() {
 
         // Property Floor plan inputs
         if(location.pathname === '/BDDRAgent/CreateListing/Floorplan'
+            && ((isEmptyOrSpaces(lotArea) || lotArea < 1) || (isEmptyOrSpaces(floorArea) || floorArea < 1))
         ) {
             setNextBtnState(true);
             return;
@@ -68,7 +76,7 @@ export default function AgentCreateListingDefault() {
             setNextBtnState(false);
         }
         
-    }, [location.pathname, selectedTypes, propertyName, propertyAddress, propertyDesc]);
+    }, [location.pathname, selectedTypes, propertyName, propertyAddress, propertyDesc, floorArea, lotArea]);
 
 
     return(
@@ -97,7 +105,14 @@ export default function AgentCreateListingDefault() {
                         selectedTypes, setSelectedTypes,
                         propertyName, setPropertyName, 
                         propertyAddress, setPropertyAddress, 
-                        propertyDesc, setPropertyDesc
+                        propertyDesc, setPropertyDesc,
+                        bedroom, setBedroom,
+                        bathroom, setBathroom,
+                        carport, setCarport,
+                        lotArea, setLotArea,
+                        floorArea, setFloorArea,
+                        selectedPropertyAmenities, 
+                        setSelectedPropertyAmenities
                     }
                 }/>
 

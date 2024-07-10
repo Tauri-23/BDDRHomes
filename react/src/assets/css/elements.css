@@ -96,7 +96,8 @@
 
 
 
-.circular-btn-1 {
+.circular-btn-1,
+.secondary-circular-btn-black1{
     width: 45px;
     height: 45px;
     display: flex;
@@ -104,6 +105,18 @@
     justify-content: center;
     border-radius: 100%;
     background: var(--grey2);
+    cursor: pointer;
+}
+
+.secondary-circular-btn-black1 {
+    width: 35px;
+    height: 35px;
+    background: transparent;
+    border: 1px solid var(--black1);
+    color: var(--black1);
+}
+.secondary-circular-btn-black1.disabled {
+    opacity: .5;
 }
 
 

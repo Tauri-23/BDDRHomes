@@ -120,7 +120,64 @@
 .create-listing-add-photo-cont1 {
     width: 100%;
     height: 400px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     border-radius: var(--radius2);
-    border: 1px dashed var(--black2);
+    outline: 1px dashed var(--black2);
     cursor: pointer;
+    z-index: 10;
+}
+.create-listing-add-photo-cont1.active {
+    outline: 2px solid var(--black2);
+}
+
+.photos-preview-cont {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    width: 100%;    
+}
+.photos-preview-box {
+    width: calc((100% / 2) - 5px);
+    height: 200px;
+    border-radius: 20px;
+    overflow: hidden;
+    position: relative;
+    background: var(--grey1);
+    display: flex;
+    justify-content: center;
+    cursor: pointer;
+    outline: 1px dashed var(--grey2);
+}
+.photos-preview-box img {
+    position: absolute;
+    width: 100%;
+}
+.photos-preview-box-option-btn {
+    position: absolute;
+    background: var(--grey2);
+    padding: 8px;
+    border-radius: var(--radius2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2;
+    right: 10px;
+    top: 10px;
+    opacity: .8;
+}
+.photos-preview-box-option-box {
+    position: absolute;
+    top: 50px;
+    right: 10px;
+    width: 100px;
+    padding: 10px 0;
+    background: var(--white);
+    filter: drop-shadow(0 0 2px var(--black2));
+    z-index: 3;
+    border-radius: var(--radius3);
+}
+.photos-preview-box-option-box-btn {
+    
 }
