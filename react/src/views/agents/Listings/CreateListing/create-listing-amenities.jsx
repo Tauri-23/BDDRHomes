@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import * as Icon from 'react-bootstrap-icons';
-import { fethPropertyAmenities } from '../../../../Services/AgentCreateListingService';
+import { fetchPropertyAmenities } from '../../../../Services/AgentCreateListingService';
 import { useOutletContext } from 'react-router-dom';
 
 export default function AgentCreateListingAmenities() {
@@ -12,7 +12,7 @@ export default function AgentCreateListingAmenities() {
     useEffect(() => {
         const getPropertyAmenities = async () => {
             try {
-                const data = await fethPropertyAmenities();
+                const data = await fetchPropertyAmenities();
                 setPropertyAmenities(data);
                 setLoading(false);
             } catch (error) {

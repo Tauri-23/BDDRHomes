@@ -4,7 +4,7 @@ export default function AgentCreateListingStep2() {
             <div className="create-listing-cont d-flex flex-direction-y gap2">
                 <div className="text-m1 fw-bold">Step 2</div>
                 <div className="text-xl2 fw-bold">Make your property stand out.</div>
-                <div className="text-l3">In this step you will add amenities, pictures, property name, and property description.</div>
+                <div className="text-l3">In this step you will add amenities and pictures.</div>
             </div>
             
         </div>

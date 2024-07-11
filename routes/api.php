@@ -34,4 +34,5 @@ Route::post('/login', [AuthController::class, 'login']);
 |----------------------------------------
 */
 Route::get('/get-property-types', [AgentCreateListingController::class, 'getPropertyTypes']);
-Route::get('//get-property-amenities', [AgentCreateListingController::class, 'getPropertyAmenities']);
+Route::get('/get-property-amenities', [AgentCreateListingController::class, 'getPropertyAmenities']);
+Route::get('/get-property-financing', [AgentCreateListingController::class, 'getPropertyFinancing']);

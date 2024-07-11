@@ -25,6 +25,8 @@ import AgentCreateListingFloorPlan from "./views/agents/Listings/CreateListing/c
 import AgentCreateListingStep2 from "./views/agents/Listings/CreateListing/create-listing-step2";
 import AgentCreateListingAmenities from "./views/agents/Listings/CreateListing/create-listing-amenities";
 import AgentCreateListingPhotos from "./views/agents/Listings/CreateListing/create-listing-photos";
+import AgentCreateListingStep3 from "./views/agents/Listings/CreateListing/create-listing-step3";
+import AgentCreateListingFinancing from "./views/agents/Listings/CreateListing/create-listing-financing";
 
 const router = createBrowserRouter([
     /*
@@ -172,6 +174,14 @@ const router = createBrowserRouter([
             {
                 path: 'Photos',
                 element: <AgentCreateListingPhotos/>
+            },
+            {
+                path: 'Step3',
+                element: <AgentCreateListingStep3/>
+            },
+            {
+                path: 'Financing',
+                element: <AgentCreateListingFinancing/>
             }
         ]
     }, 

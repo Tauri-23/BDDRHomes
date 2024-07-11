@@ -9,11 +9,12 @@ export default function AgentCreateListingDefault() {
     const backLinks = {
         '/BDDRAgent/CreateListing': '/BDDRAgent/Listings',
         '/BDDRAgent/CreateListing/PropertyType': '/BDDRAgent/CreateListing',
-        '/BDDRAgent/CreateListing/NameAndLoc': '/BDDRAgent/CreateListing/PropertyType',
-        '/BDDRAgent/CreateListing/Floorplan': '/BDDRAgent/CreateListing/NameAndLoc',
-        '/BDDRAgent/CreateListing/Step2': '/BDDRAgent/CreateListing/Floorplan',
-        '/BDDRAgent/CreateListing/Amenities': '/BDDRAgent/CreateListing/Step2',
-        '/BDDRAgent/CreateListing/Photos': '/BDDRAgent/CreateListing/Amenities',
+        '/BDDRAgent/CreateListing/NameAndLoc': 'PropertyType',
+        '/BDDRAgent/CreateListing/Floorplan': 'NameAndLoc',
+        '/BDDRAgent/CreateListing/Step2': 'Floorplan',
+        '/BDDRAgent/CreateListing/Amenities': 'Step2',
+        '/BDDRAgent/CreateListing/Photos': 'Amenities',
+        '/BDDRAgent/CreateListing/Step3': 'Photos',
     };
 
     const nextLinks = {
@@ -23,6 +24,8 @@ export default function AgentCreateListingDefault() {
         '/BDDRAgent/CreateListing/Floorplan': 'Step2',
         '/BDDRAgent/CreateListing/Step2': 'Amenities',
         '/BDDRAgent/CreateListing/Amenities': 'Photos',
+        '/BDDRAgent/CreateListing/Photos': 'Step3',
+        '/BDDRAgent/CreateListing/Step3': 'Financing',
     }
 
     const [nextBtnState, setNextBtnState] = useState(false);
@@ -38,6 +41,7 @@ export default function AgentCreateListingDefault() {
     const [lotArea, setLotArea] = useState(null);
     const [floorArea, setFloorArea] = useState(null);
     const [selectedPropertyAmenities, setSelectedPropertyAmenities] = useState([]);
+    const [selectedPropertyFinancing, setSelectedPropertyFinancing] = useState([]);
 
     useEffect(() => {
         // Property Type Script
@@ -112,7 +116,9 @@ export default function AgentCreateListingDefault() {
                         lotArea, setLotArea,
                         floorArea, setFloorArea,
                         selectedPropertyAmenities, 
-                        setSelectedPropertyAmenities
+                        setSelectedPropertyAmenities,
+                        selectedPropertyFinancing, 
+                        setSelectedPropertyFinancing
                     }
                 }/>
 

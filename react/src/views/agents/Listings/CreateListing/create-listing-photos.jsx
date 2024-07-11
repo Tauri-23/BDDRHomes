@@ -54,7 +54,7 @@ export default function AgentCreateListingPhotos() {
                         
                         {photos.map((photo, index) => (
                             <div className="photos-preview-box">
-                                <div className="photos-preview-box-option-btn" onClick={deletePhoto}>
+                                <div className="photos-preview-box-option-btn" onClick={() => deletePhoto(index)}>
                                     <Icon.XLg/>
                                 </div>
 
