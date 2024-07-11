@@ -24,10 +24,10 @@ export default function AgentCreateListingAmenities() {
     }, []);
 
     const handleSelectAmenities = (typeId) => {
-        setSelectedPropertyAmenities(prevSelectedTypes =>
-            prevSelectedTypes.includes(typeId)
-                ? prevSelectedTypes.filter(id=> id !== typeId)
-                : [...prevSelectedTypes, typeId]
+        setSelectedPropertyAmenities(prevSelectedAmenities =>
+            prevSelectedAmenities.includes(typeId)
+                ? prevSelectedAmenities.filter(id=> id !== typeId)
+                : [...prevSelectedAmenities, typeId]
         );
     };
 
@@ -45,8 +45,8 @@ export default function AgentCreateListingAmenities() {
                                 {propertyAmenities.map((amenity) => (
                                     <div 
                                         key={amenity.id}
-                                        onClick={() => handleSelectAmenities(amenity.id)}
-                                        className={`create-listing-option-box1 ${selectedPropertyAmenities.includes(amenity.id) ? 'active' : ''}`}
+                                        onClick={() => handleSelectAmenities(amenity)}
+                                        className={`create-listing-option-box1 ${selectedPropertyAmenities.includes(amenity) ? 'active' : ''}`}
                                     >
                                         <img src={`/src/assets/media/icons/${amenity.icon}`} className='create-listing-option-box1-icon'/>
                                         <div className="text-m2">{amenity.amenity_name}</div>

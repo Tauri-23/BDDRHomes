@@ -15,6 +15,8 @@ export default function AgentCreateListingDefault() {
         '/BDDRAgent/CreateListing/Amenities': 'Step2',
         '/BDDRAgent/CreateListing/Photos': 'Amenities',
         '/BDDRAgent/CreateListing/Step3': 'Photos',
+        '/BDDRAgent/CreateListing/Financing': 'Step3',
+        '/BDDRAgent/CreateListing/Finalize': 'Financing',
     };
 
     const nextLinks = {
@@ -26,6 +28,7 @@ export default function AgentCreateListingDefault() {
         '/BDDRAgent/CreateListing/Amenities': 'Photos',
         '/BDDRAgent/CreateListing/Photos': 'Step3',
         '/BDDRAgent/CreateListing/Step3': 'Financing',
+        '/BDDRAgent/CreateListing/Financing': 'Finalize',
     }
 
     const [nextBtnState, setNextBtnState] = useState(false);
@@ -41,6 +44,7 @@ export default function AgentCreateListingDefault() {
     const [lotArea, setLotArea] = useState(null);
     const [floorArea, setFloorArea] = useState(null);
     const [selectedPropertyAmenities, setSelectedPropertyAmenities] = useState([]);
+    const [photos, setPhotos] = useState([]);
     const [selectedPropertyFinancing, setSelectedPropertyFinancing] = useState([]);
 
     useEffect(() => {
@@ -118,7 +122,9 @@ export default function AgentCreateListingDefault() {
                         selectedPropertyAmenities, 
                         setSelectedPropertyAmenities,
                         selectedPropertyFinancing, 
-                        setSelectedPropertyFinancing
+                        setSelectedPropertyFinancing,
+                        photos, 
+                        setPhotos
                     }
                 }/>
 
@@ -132,7 +138,7 @@ export default function AgentCreateListingDefault() {
                 </Link>
                 <Link to={nextLinks[location.pathname]} className="text-decoration-none color-black1">
                     <button disabled={nextBtnState} className={`primary-btn-black1 ${nextBtnState ? 'disabled' : ''} d-flex gap4 align-items-center`}>
-                        Next
+                        {location.pathname === "/BDDRAgent/CreateListing/Finalize" ? "Publish" : "Next"}                        
                         <Icon.ChevronRight/>
                     </button>
                 </Link>

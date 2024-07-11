@@ -1,8 +1,9 @@
 import { useRef, useState } from 'react';
 import * as Icon from 'react-bootstrap-icons';
+import { useOutletContext } from 'react-router-dom';
 
-export default function AgentCreateListingPhotos() {
-    const [photos, setPhotos] = useState([]);
+export default function AgentCreateListingPhotos() {    
+    const {photos, setPhotos} = useOutletContext();
     const dragPicContainerRef = useRef(null);
 
     const handleDrop = (event) => {

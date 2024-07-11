@@ -23,32 +23,42 @@ export default function AgentCreateListingFinancing() {
         getPropertyAmenities();
     }, []);
 
+    const handleSelectedFinancing = (typeId) => {
+        setSelectedPropertyFinancing(prevSelectedAmenities =>
+            prevSelectedAmenities.includes(typeId)
+                ? prevSelectedAmenities.filter(id=> id !== typeId)
+                : [...prevSelectedAmenities, typeId]
+        );
+    }
 
-    return(
-        <div className="d-flex justify-content-center transition-fade-in">
-            <div className='d-flex flex-direction-y gapl1'>
-    
-                <div className="d-flex flex-direction-y gap1">
+
+    if(!loading) {
+        return(
+            <div className="d-flex justify-content-center transition-fade-in">
+                <div className='d-flex flex-direction-y gapl1'>
+        
                     <div className="d-flex flex-direction-y gap1">
-                        <div className="text-l1 fw-bold create-listing-cont">Available Financing for the property.</div>
-                        
-                        <div className="create-listing-option-box-cont">
-    
-                            {propertyFinancing.map((financing) => (
-                                <div 
-                                    key={financing.id}
-                                    // onClick={() => handleSelectAmenities(financing.id)}
-                                    className={`create-listing-option-box1 ${selectedPropertyFinancing.includes(financing.id) ? 'active' : ''}`}
-                                >
-                                    <img src={`/src/assets/media/icons/${financing.icon}`} className='create-listing-option-box1-icon'/>
-                                    <div className="text-m2">{financing.financing_name}</div>
-                                </div>
-                            ))}
-                        </div>                                                
-                    </div>           
+                        <div className="d-flex flex-direction-y gap1">
+                            <div className="text-l1 fw-bold create-listing-cont">Select Financing for the property.</div>
+                            
+                            <div className="create-listing-option-box-cont">
+        
+                                {propertyFinancing.map((financing) => (
+                                    <div 
+                                        key={financing.id}
+                                        onClick={() => handleSelectedFinancing(financing)}
+                                        className={`create-listing-option-box1 ${selectedPropertyFinancing.includes(financing) ? 'active' : ''}`}
+                                    >
+                                        <img src={`/src/assets/media/icons/${financing.icon}`} className='create-listing-option-box1-icon'/>
+                                        <div className="text-m2">{financing.financing_type}</div>
+                                    </div>
+                                ))}
+                            </div>                                                
+                        </div>           
+                    </div>
+                    
                 </div>
-                
             </div>
-        </div>
-    );
+        );
+    }
 }
