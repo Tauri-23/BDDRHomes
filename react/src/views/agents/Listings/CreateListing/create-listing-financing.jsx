@@ -47,7 +47,7 @@ export default function AgentCreateListingFinancing() {
                                     <div 
                                         key={financing.id}
                                         onClick={() => handleSelectedFinancing(financing)}
-                                        className={`create-listing-option-box1 ${selectedPropertyFinancing.includes(financing) ? 'active' : ''}`}
+                                        className={`create-listing-option-box1 ${selectedPropertyFinancing.some(element => element.id === financing.id) ? 'active' : ''}`}
                                     >
                                         <img src={`/src/assets/media/icons/${financing.icon}`} className='create-listing-option-box1-icon'/>
                                         <div className="text-m2">{financing.financing_type}</div>

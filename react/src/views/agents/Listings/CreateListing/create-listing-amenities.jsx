@@ -46,7 +46,7 @@ export default function AgentCreateListingAmenities() {
                                     <div 
                                         key={amenity.id}
                                         onClick={() => handleSelectAmenities(amenity)}
-                                        className={`create-listing-option-box1 ${selectedPropertyAmenities.includes(amenity) ? 'active' : ''}`}
+                                        className={`create-listing-option-box1 ${selectedPropertyAmenities.some(element => element.id === amenity.id) ? 'active' : ''}`}
                                     >
                                         <img src={`/src/assets/media/icons/${amenity.icon}`} className='create-listing-option-box1-icon'/>
                                         <div className="text-m2">{amenity.amenity_name}</div>

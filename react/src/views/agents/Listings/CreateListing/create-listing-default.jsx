@@ -2,7 +2,9 @@ import { Link, Outlet, useLocation } from "react-router-dom";
 import * as Icon from 'react-bootstrap-icons';
 import { useEffect, useState } from "react";
 import { fetchPropertyTypes } from "../../../../Services/AgentCreateListingService";
-import { isEmptyOrSpaces } from "../../../../assets/js/utils";
+import { isEmptyOrSpaces, notify } from "../../../../assets/js/utils";
+import axiosClient from "../../../../axios-client";
+import { ToastContainer } from "react-toastify";
 
 export default function AgentCreateListingDefault() {
     const location = useLocation();
@@ -87,6 +89,44 @@ export default function AgentCreateListingDefault() {
     }, [location.pathname, selectedTypes, propertyName, propertyAddress, propertyDesc, floorArea, lotArea]);
 
 
+    const handlePublishProperty = (event) => {
+        //event.preventDefault();
+        const payload = {
+            property_type: selectedTypes.id,
+            property_name: propertyName,
+            property_address: propertyAddress,
+            property_desc: propertyDesc,
+            bedroom: bedroom,
+            bathroom: bathroom,
+            carport: carport,
+            lot_area: lotArea,
+            floor_area: floorArea,
+            property_amenities: selectedPropertyAmenities.map((key) => {return key.id}),
+            photos: photos,
+            property_financing: selectedPropertyFinancing.map((key) => {return key.id}),
+            required_income: 0
+        };
+
+        console.log(payload);
+
+        axiosClient.post('/publish-property', payload)
+        .then(({data}) => {
+            if(data.status === 200) {
+                notify('success', data.message, 3000);
+            }
+            else {
+                notify('error', data.message, 3000);
+            }
+        })
+        .catch(error => {
+            const response = error.response;
+            if(response) {
+                console.log(response);
+            }
+        });
+    }
+
+
     return(
         <div className="h-100vh w-100 d-flex flex-direction-y justify-content-between">
             {/* Navbar */}
@@ -136,13 +176,31 @@ export default function AgentCreateListingDefault() {
                         back
                     </button>
                 </Link>
-                <Link to={nextLinks[location.pathname]} className="text-decoration-none color-black1">
-                    <button disabled={nextBtnState} className={`primary-btn-black1 ${nextBtnState ? 'disabled' : ''} d-flex gap4 align-items-center`}>
-                        {location.pathname === "/BDDRAgent/CreateListing/Finalize" ? "Publish" : "Next"}                        
+
+
+                {/* Publish Btn */}
+                <button 
+                    disabled={nextBtnState} 
+                    className={`primary-btn-black1 ${nextBtnState ? 'disabled' : ''} d-flex gap4 align-items-center ${location.pathname === "/BDDRAgent/CreateListing/Finalize" ? '' : 'd-none'}`}
+                    onClick={handlePublishProperty}
+                >
+                    Publish                      
+                    <Icon.ChevronRight/>
+                </button>
+                
+                {/* Next Btn */}
+                <Link to={nextLinks[location.pathname]} className={`text-decoration-none color-black1 ${location.pathname === "/BDDRAgent/CreateListing/Finalize" ? 'd-none' : ''}`}>
+                    <button 
+                        disabled={nextBtnState} 
+                        className={`primary-btn-black1 ${nextBtnState ? 'disabled' : ''} d-flex gap4 align-items-center`}
+                    >
+                        Next                     
                         <Icon.ChevronRight/>
                     </button>
                 </Link>
             </div>
+
+            <ToastContainer/>
         </div>
     );
 }

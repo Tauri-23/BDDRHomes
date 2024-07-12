@@ -40,13 +40,13 @@ export default function AgentCreateListingType() {
                         {propertyTypes.map((type) => (
                             <div 
                                 key={type.id} 
-                                className={`create-listing-option-box1 ${selectedTypes === type.id ? 'active' : ''}`}
-                                onClick={() => handleSelectType(type.id)}
+                                onClick={() => handleSelectType(type)}
+                                className={`create-listing-option-box1 ${selectedTypes && selectedTypes.id === type.id ? 'active' : ''}`}                                
                             >
                                 <img src={`/src/assets/media/icons/${type.icon}`} className="create-listing-option-box1-icon" alt={type.type_name} />
                                 <div className="text-m1">{type.type_name}</div>
                             </div>
-                        ))}                            
+                        ))}
     
                     </div>  
                     

@@ -30,8 +30,8 @@ export default function AgentCreateListingFinal() {
             <div className="create-listing-cont d-flex flex-direction-y gapl1 padding-y-1">
                 <div className="d-flex flex-direction-y gap2">
                     <div className="text-m1 fw-bold">Final Step</div>
-                    <div className="text-xl2 fw-bold">You've finally fill-out the form, the only thing to do is publish your listing</div>
-                    <div className="text-l3">please check the preview below, and if you're happy about the information you can click the publish button.</div>
+                    <div className="text-xl2 fw-bold">You've finally filled out the form; the only thing to do is publish your listing.</div>
+                    <div className="text-l3">Please check the preview below, and if you're happy with the information, you can click the publish button.</div>
                 </div>
 
                 <div className="h-line-general-grey1"></div>               
@@ -85,7 +85,7 @@ export default function AgentCreateListingFinal() {
 
                                 <div className="listing-spec-box2">
                                     <img src="/src/assets/media/icons/house.svg" className="icon-s" alt="Bedroom"/>
-                                    <div className="text-m1">House type: {selectedTypes}</div>
+                                    <div className="text-m1">House type: {selectedTypes.type_name}</div>
                                 </div>
                             </div>                           
                         </div>
