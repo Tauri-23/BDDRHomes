@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Contracts\IGenerateFilenameService;
 use App\Contracts\IGenerateIdService;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\PropertyTypeResource;
@@ -10,14 +11,17 @@ use App\Models\property_financing;
 use App\Models\property_types;
 use App\Models\published_properties;
 use App\Models\published_properties_amenities;
+use App\Models\published_properties_photos;
 use Illuminate\Http\Request;
 
 class AgentCreateListingController extends Controller
 {
     protected $generateId;
-    public function __construct(IGenerateIdService $generateId)
+    protected $generateFilename;
+    public function __construct(IGenerateIdService $generateId, IGenerateFilenameService $generateFilename)
     {
         $this->generateId = $generateId;
+        $this->generateFilename = $generateFilename;
     }
 
     public function getPropertyTypes() 
@@ -58,9 +62,49 @@ class AgentCreateListingController extends Controller
             ]);
         }
 
-        // $amenities = new published_properties_amenities();
-        // $amenities->id = $this->generateId->generate(published_properties_amenities::class, 6);
-        // $amenities->
+        
+        foreach($request->property_amenities as $amenity) {
+            $amenities = new published_properties_amenities();
+            $amenities->id = $this->generateId->generate(published_properties_amenities::class, 6);
+            $amenities->amenity = $amenity;
+            $amenities->property = $propertyId;
+
+            if(!$amenities->save()) {
+                return response()->json([
+                    'status' => 401,
+                    'message' =>'There was an error publishing your property.'
+                ]);
+            }
+        }
+
+
+        // Upload photos to storage and database
+        foreach($request->file('photo') as $photo) {
+            try {
+                $targetDirectory = base_path('react/src/assets/media/properties');
+    
+                $newFilename = $this->generateFilename->generate($photo, $targetDirectory);
+    
+                //upload the file to the public directory
+                $photo->move($targetDirectory, $newFilename);
+
+                $propertyPhoto = new published_properties_photos();
+                $propertyPhoto->id = $this->generateId->generate(published_properties_photos::class, 6);
+                $propertyPhoto->filename = $newFilename;
+                $propertyPhoto->property = $propertyId;
+
+                $propertyPhoto->save();  
+                
+    
+            } catch(\Exception $ex) {
+                return response()->json([
+                    'status' => 500,
+                    'message' =>'Failed to upload file: ' . $ex->getMessage()
+                ]);
+            }
+        }
+        
+        
 
         return response()->json([
             'status' => 200,

@@ -91,25 +91,33 @@ export default function AgentCreateListingDefault() {
 
     const handlePublishProperty = (event) => {
         //event.preventDefault();
-        const payload = {
-            property_type: selectedTypes.id,
-            property_name: propertyName,
-            property_address: propertyAddress,
-            property_desc: propertyDesc,
-            bedroom: bedroom,
-            bathroom: bathroom,
-            carport: carport,
-            lot_area: lotArea,
-            floor_area: floorArea,
-            property_amenities: selectedPropertyAmenities.map((key) => {return key.id}),
-            photos: photos,
-            property_financing: selectedPropertyFinancing.map((key) => {return key.id}),
-            required_income: 0
-        };
+        const formData = new FormData();
+        formData.append('property_type', selectedTypes.id);
+        formData.append('property_name', propertyName);
+        formData.append('property_address', propertyAddress);
+        formData.append('property_desc', propertyDesc);
+        formData.append('bedroom', bedroom);
+        formData.append('bathroom', bathroom);
+        formData.append('carport', carport);
+        formData.append('lot_area', lotArea);
+        formData.append('floor_area', floorArea);
+        formData.append('required_income', 0);
 
-        console.log(payload);
+        selectedPropertyAmenities.forEach((amenity, index) => {
+            formData.append(`property_amenities[${index}]`, amenity.id);
+        });
 
-        axiosClient.post('/publish-property', payload)
+        selectedPropertyFinancing.forEach((financing, index) => {
+            formData.append(`property_financing[${index}]`, financing.id);
+        });
+
+        photos.forEach((photo, index) => {
+            formData.append(`photo[${index}]`, photo);
+        });
+
+        console.log(formData);
+
+        axiosClient.post('/publish-property', formData)
         .then(({data}) => {
             if(data.status === 200) {
                 notify('success', data.message, 3000);
@@ -128,7 +136,7 @@ export default function AgentCreateListingDefault() {
 
 
     return(
-        <div className="h-100vh w-100 d-flex flex-direction-y justify-content-between">
+        <div className="h-100vh w-100 d-flex flex-direction-y justify-content-between position-relative">
             {/* Navbar */}
             <div className="navbar4">
                 <Link to={'/BDDRAgent'} className="text-decoration-none color-black2">
@@ -168,6 +176,8 @@ export default function AgentCreateListingDefault() {
                     }
                 }/>
 
+            <ToastContainer/>
+
             {/* Action Btns */}
             <div className="bot-navbar4">
                 <Link to={backLinks[location.pathname]} className="text-decoration-none color-black1">
@@ -198,9 +208,7 @@ export default function AgentCreateListingDefault() {
                         <Icon.ChevronRight/>
                     </button>
                 </Link>
-            </div>
-
-            <ToastContainer/>
+            </div>            
         </div>
     );
 }
