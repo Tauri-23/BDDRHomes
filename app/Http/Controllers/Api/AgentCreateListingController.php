@@ -11,6 +11,7 @@ use App\Models\property_financing;
 use App\Models\property_types;
 use App\Models\published_properties;
 use App\Models\published_properties_amenities;
+use App\Models\published_properties_financing;
 use App\Models\published_properties_photos;
 use Illuminate\Http\Request;
 
@@ -53,9 +54,11 @@ class AgentCreateListingController extends Controller
         $publishedProperty->lot_area = $request->lot_area;
         $publishedProperty->floor_area = $request->floor_area;
         $publishedProperty->property_type = $request->property_type;
+        $publishedProperty->agent = $request->agent_id;
         $publishedProperty->required_income = $request->required_income;
 
-        if(!$publishedProperty->save()) {
+        if(!$publishedProperty->save()) 
+        {
             return response()->json([
                 'status' => 401,
                 'message' =>'There was an error publishing your property.'
@@ -63,13 +66,32 @@ class AgentCreateListingController extends Controller
         }
 
         
-        foreach($request->property_amenities as $amenity) {
+        foreach($request->property_amenities as $amenity) 
+        {
             $amenities = new published_properties_amenities();
             $amenities->id = $this->generateId->generate(published_properties_amenities::class, 6);
             $amenities->amenity = $amenity;
             $amenities->property = $propertyId;
 
-            if(!$amenities->save()) {
+            if(!$amenities->save()) 
+            {
+                return response()->json([
+                    'status' => 401,
+                    'message' =>'There was an error publishing your property.'
+                ]);
+            }
+        }
+
+
+        foreach($request->property_financing as $financing) 
+        {
+            $financings = new published_properties_financing();
+            $financings->id = $this->generateId->generate(property_financing::class, 6);
+            $financings->financing = $financing;
+            $financings->property = $propertyId;
+
+            if(!$financings->save())
+            {
                 return response()->json([
                     'status' => 401,
                     'message' =>'There was an error publishing your property.'
@@ -79,8 +101,10 @@ class AgentCreateListingController extends Controller
 
 
         // Upload photos to storage and database
-        foreach($request->file('photo') as $photo) {
-            try {
+        foreach($request->file('photo') as $photo) 
+        {
+            try 
+            {
                 $targetDirectory = base_path('react/src/assets/media/properties');
     
                 $newFilename = $this->generateFilename->generate($photo, $targetDirectory);
@@ -96,7 +120,9 @@ class AgentCreateListingController extends Controller
                 $propertyPhoto->save();  
                 
     
-            } catch(\Exception $ex) {
+            } 
+            catch(\Exception $ex) 
+            {
                 return response()->json([
                     'status' => 500,
                     'message' =>'Failed to upload file: ' . $ex->getMessage()

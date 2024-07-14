@@ -1,13 +1,17 @@
-import { Link, Outlet, useLocation } from "react-router-dom";
+import { Link, Outlet, redirect, useLocation } from "react-router-dom";
 import * as Icon from 'react-bootstrap-icons';
 import { useEffect, useState } from "react";
 import { fetchPropertyTypes } from "../../../../Services/AgentCreateListingService";
 import { isEmptyOrSpaces, notify } from "../../../../assets/js/utils";
 import axiosClient from "../../../../axios-client";
 import { ToastContainer } from "react-toastify";
+import { useStateContext } from "../../../../contexts/ContextProvider";
 
 export default function AgentCreateListingDefault() {
     const location = useLocation();
+    const {user} = useStateContext();
+
+    // Links
     const backLinks = {
         '/BDDRAgent/CreateListing': '/BDDRAgent/Listings',
         '/BDDRAgent/CreateListing/PropertyType': '/BDDRAgent/CreateListing',
@@ -20,7 +24,6 @@ export default function AgentCreateListingDefault() {
         '/BDDRAgent/CreateListing/Financing': 'Step3',
         '/BDDRAgent/CreateListing/Finalize': 'Financing',
     };
-
     const nextLinks = {
         '/BDDRAgent/CreateListing': 'PropertyType',
         '/BDDRAgent/CreateListing/PropertyType': 'NameAndLoc',
@@ -31,7 +34,7 @@ export default function AgentCreateListingDefault() {
         '/BDDRAgent/CreateListing/Photos': 'Step3',
         '/BDDRAgent/CreateListing/Step3': 'Financing',
         '/BDDRAgent/CreateListing/Financing': 'Finalize',
-    }
+    };
 
     const [nextBtnState, setNextBtnState] = useState(false);
 
@@ -85,8 +88,30 @@ export default function AgentCreateListingDefault() {
         else {
             setNextBtnState(false);
         }
+
+        // Amenities Inputs
+        if(location.pathname === '/BDDRAgent/CreateListing/Amenities'
+            && (selectedPropertyAmenities.length < 1)
+        ) {
+            setNextBtnState(true);
+            return;
+        }
+        else {
+            setNextBtnState(false);
+        }
+
+        // Photos Input
+        if(location.pathname === '/BDDRAgent/CreateListing/Photos'
+            && (photos.length < 1 || photos.length < 5)
+        ) {
+            setNextBtnState(true);
+            return;
+        }
+        else {
+            setNextBtnState(false);
+        }
         
-    }, [location.pathname, selectedTypes, propertyName, propertyAddress, propertyDesc, floorArea, lotArea]);
+    }, [location.pathname, selectedTypes, propertyName, propertyAddress, propertyDesc, floorArea, lotArea, selectedPropertyAmenities, photos]);
 
 
     const handlePublishProperty = (event) => {
@@ -102,6 +127,7 @@ export default function AgentCreateListingDefault() {
         formData.append('lot_area', lotArea);
         formData.append('floor_area', floorArea);
         formData.append('required_income', 0);
+        formData.append('agent_id', user.user.id);
 
         selectedPropertyAmenities.forEach((amenity, index) => {
             formData.append(`property_amenities[${index}]`, amenity.id);
@@ -115,12 +141,10 @@ export default function AgentCreateListingDefault() {
             formData.append(`photo[${index}]`, photo);
         });
 
-        console.log(formData);
-
         axiosClient.post('/publish-property', formData)
         .then(({data}) => {
             if(data.status === 200) {
-                notify('success', data.message, 3000);
+                window.location.href = '/BDDRAgent/Listings';
             }
             else {
                 notify('error', data.message, 3000);

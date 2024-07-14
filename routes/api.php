@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\AgentListingController;
 use App\Http\Controllers\Api\AgentCreateListingController;
 use App\Http\Controllers\Api\AuthController;
 use App\Models\user_clients;
@@ -37,3 +38,5 @@ Route::get('/get-property-types', [AgentCreateListingController::class, 'getProp
 Route::get('/get-property-amenities', [AgentCreateListingController::class, 'getPropertyAmenities']);
 Route::get('/get-property-financing', [AgentCreateListingController::class, 'getPropertyFinancing']);
 Route::post('/publish-property', [AgentCreateListingController::class, 'publishPropertyPost']);
+
+Route::get('/get-property-agent/{agentId}', [AgentListingController::class, 'getPropertiesAgent']);

@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class published_properties_photos extends Model
 {
     use HasFactory;
+
+    public function properties()
+    {
+        return $this->belongsTo(published_properties::class, 'property', 'id');
+    }
 }

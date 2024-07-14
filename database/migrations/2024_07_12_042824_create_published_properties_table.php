@@ -24,6 +24,8 @@ return new class extends Migration
             $table->float('floor_area');
             $table->string('property_type', 6)->nullable();
 
+            $table->string('agent', 6)->nullable();
+
             $table->double('required_income');
             $table->string('status')->default('active');
 
@@ -35,6 +37,12 @@ return new class extends Migration
             $table->foreign('property_type')
                 ->references('id')
                 ->on('property_types')
+                ->nullOnDelete()
+                ->cascadeOnUpdate();
+
+            $table->foreign('agent')
+                ->references('id')
+                ->on('user_agents')
                 ->nullOnDelete()
                 ->cascadeOnUpdate();
         });
