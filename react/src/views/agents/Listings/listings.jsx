@@ -5,6 +5,7 @@ import { useModal } from '../../../contexts/ModalContext';
 import { useEffect, useState } from 'react';
 import { fetchAgentPublishedProperties } from '../../../Services/AgentListingService';
 import { useStateContext } from '../../../contexts/ContextProvider';
+import { SkeletonListingBox } from '../../../Skeletons/agent-listing-skeletons';
 
 export default function AgentListing() {
 
@@ -14,7 +15,6 @@ export default function AgentListing() {
     const [loading, setLoading] = useState(true);
     
     useEffect(() => {
-        console.log(user.user.id);
         const getListedProperties = async () => {
             try {
                 const data = await fetchAgentPublishedProperties(user.user.id);
@@ -31,17 +31,11 @@ export default function AgentListing() {
     const handleListingClick = (listing) => {
         showModal('AgentListingOptionModal1', { listing });
     };
-
-
-    useEffect(() => {
-        console.log(listings);
-    }, [listings]);
     
-    if(!loading){
-        return (
-            <div className="content1">
-                {/* upper part */}
-                <div className="d-flex justify-content-between mar-bottom-l1">
+    return (
+        <div className="content1">
+            {/* upper part */}
+            <div className="d-flex justify-content-between mar-bottom-l1">
                     <div className="text-l1 fw-bold">Listings</div>
     
                     <div className="d-flex align-items-center gap3">
@@ -55,25 +49,29 @@ export default function AgentListing() {
                         </Link>
                         
                     </div>                
-                </div>
+            </div>
     
-                {/* Listings */}
-                <div className="d-flex flex-wrap gap1">
-                    {listings.data.map(listing => (
-                        <div key={listing.id} className="agent-listing-box" onClick={() => handleListingClick(listing)}>
-                            <div className="agent-listing-pic">
-                                <img src={`/src/assets/media/properties/${listing.photos[1].filename}`} alt={listing.title} />
-                            </div>
-                            <div className="agent-listing-desc">
-                                <div className="text-m2 fw-bold">{listing.name}</div>
-                                <div className="agent-listing-address text-m3">{listing.address}</div>
-                            </div>
+            {/* Listings */}
+            <div className="d-flex flex-wrap gap1">
+                {listings.data && (
+                    listings.data.map(listing => (
+                    <div key={listing.id} className="agent-listing-box" onClick={() => handleListingClick(listing)}>
+                        <div className="agent-listing-pic">
+                            <img src={`/src/assets/media/properties/${listing.photos[1].filename}`} alt={listing.title} />
                         </div>
-                    ))}
-                </div>
-                
-            </div>        
-        )
-    }
+                        <div className="agent-listing-desc">
+                            <div className="agent-listing-name">{listing.name}</div>
+                            <div className="agent-listing-address">{listing.address}</div>
+                        </div>
+                    </div>
+                )))}
+
+                {!listings.data && Array.from({length:10}).map(x =>(
+                    <SkeletonListingBox/>
+                ))}
+            </div>
+            
+        </div>        
+    )
     
 };

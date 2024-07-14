@@ -523,3 +523,33 @@ body, html {
         opacity: 1;
     }
 }
+@keyframes SkeletonAnimation {
+    0% {transform: translateX(-150%);}
+    50% {transform: translateX(-60%);}
+    100% {transform: translateX(150%);}
+}
+
+
+
+
+
+/*
+|----------------------------------------
+| Skeletons 
+|----------------------------------------
+*/
+.shimmer-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    animation: SkeletonAnimation 2.5s infinite;
+}
+.shimmer {
+    width: 50%;
+    height: 100%;
+    background: rgba(255,255,255,0.08);
+    transform: skewX(-20deg);
+}
+
