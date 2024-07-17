@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class published_properties_amenities extends Model
 {
     use HasFactory;
+
+    public function amenity()
+    {
+        return $this->belongsTo(property_amenities::class, 'amenity', 'id');
+    }
 }

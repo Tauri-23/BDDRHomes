@@ -40,3 +40,4 @@ Route::get('/get-property-financing', [AgentCreateListingController::class, 'get
 Route::post('/publish-property', [AgentCreateListingController::class, 'publishPropertyPost']);
 
 Route::get('/get-property-agent/{agentId}', [AgentListingController::class, 'getPropertiesAgent']);
+Route::get('/get-full-property/{propId}', [AgentListingController::class, 'getFullPropertyViaPropId']);

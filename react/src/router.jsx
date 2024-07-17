@@ -28,6 +28,8 @@ import AgentCreateListingPhotos from "./views/agents/Listings/CreateListing/crea
 import AgentCreateListingStep3 from "./views/agents/Listings/CreateListing/create-listing-step3";
 import AgentCreateListingFinancing from "./views/agents/Listings/CreateListing/create-listing-financing";
 import AgentCreateListingFinal from "./views/agents/Listings/CreateListing/create-listing-final";
+import AgentEditListingDefault from "./views/agents/Listings/EditListing/edit-listing-default";
+import AgentListingDefault from "./views/agents/Listings/listings-default";
 
 const router = createBrowserRouter([
     /*
@@ -129,10 +131,26 @@ const router = createBrowserRouter([
                 index: true,
                 element: <AgentIndex/>
             },
+
+
+
             {
                 path: 'Listings',
-                element: <AgentListing/>
+                element: <AgentListingDefault/>,
+                children: [
+                    {
+                        index: true,
+                        element: <AgentListing/>
+                    },
+                    {
+                        path: 'EditListing/:id/:page',
+                        element: <AgentEditListingDefault/>
+                    },
+                ]
             },
+            
+
+
                     
             {
                 path: 'Messages',

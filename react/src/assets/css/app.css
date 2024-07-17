@@ -544,12 +544,30 @@ body, html {
     left: 0;
     width: 100%;
     height: 100%;
-    animation: SkeletonAnimation 2.5s infinite;
+    animation: SkeletonAnimation 1s infinite;
 }
 .shimmer {
     width: 50%;
     height: 100%;
-    background: rgba(255,255,255,0.08);
+    background: rgba(255,255,255,0.1);
     transform: skewX(-20deg);
+}
+
+
+
+
+
+/*
+|----------------------------------------
+| Line Clamps 
+|----------------------------------------
+*/
+.line-clamp-3 {
+    width: 100%;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    -webkit-box-orient: vertical;  
+    overflow: hidden;
 }
 

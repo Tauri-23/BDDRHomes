@@ -17,4 +17,15 @@ class AgentListingController extends Controller
             'data' => $properties
         ]);
     }
+
+    public function getFullPropertyViaPropId($propId)
+    {
+        $property = published_properties::find($propId)
+            ->with(['photos', 'amenities', 'propertyType', 'financings'])
+            ->get();
+
+        return response()->json([
+            'data' => $property
+        ]);
+    }
 }

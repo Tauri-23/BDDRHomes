@@ -1,5 +1,6 @@
 import * as Icon from 'react-bootstrap-icons';
 import propTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
 export const AgentListingOptionModal1 = ({listing, onClose }) => {
     return(
@@ -20,7 +21,10 @@ export const AgentListingOptionModal1 = ({listing, onClose }) => {
 
                 {/* Btns */}
                 <div className="d-flex flex-direction-y gap3">
-                    <div className="primary-btn-black1 text-center">Edit Listing</div>
+                    <Link to={`Listings/EditListing/${listing.id}/index`} className='text-decoration-none' onClick={onClose}>
+                        <div className="primary-btn-black1 text-center">Edit Listing</div>
+                    </Link>
+                    
                     <div className="secondary-btn-black2 text-center d-flex gap3 align-items-center justify-content-center">
                         <Icon.Trash3Fill/>
                         Remove Listing
