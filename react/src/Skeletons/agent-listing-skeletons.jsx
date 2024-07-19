@@ -14,3 +14,11 @@ export const SkeletonListingBox = () => {
         </div>
     )
 }
+
+export const SkeletonListingOptionBox = () => {
+    return(
+        <div className="create-listing-option-box1 skeleton position-relative">
+            <Shimmer/>
+        </div>
+    )
+}

@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, Outlet, useLocation, useParams } from "react-router-dom";
 import '/src/assets/css/agent-edit-listing.css';
 import { fetchAgentSpecificPropertyFull } from "../../../../Services/AgentListingService";
+import * as Icon from 'react-bootstrap-icons';
 
 export default function AgentEditListingDefault() {
-    const {id, page} = useParams();
+    const {id} = useParams();
     const [listing, setListing] = useState([]);
+    const location = useLocation();
 
     useEffect(() => {
         const getListingFull = async() => {
@@ -17,53 +19,72 @@ export default function AgentEditListingDefault() {
             }
         };
 
-        getListingFull();
-
-        
+        getListingFull();        
     }, []);
 
-    console.log(listing.data);
+    useEffect(() => {
+        console.log(listing);
+    }, [listing])
 
     return (
         <div className="edit-listing-content">                
 
             {listing.data && (
-                <div className="d-flex">
+                <div className="d-flex w-100">
                     <div className="edit-listing-sidenav">
-                        <div className="edit-listing-sidenav-box active">
-                            <div className="text-m2 fw-bold">Photos</div>
-                            <div className="edit-listing-sidenav-box-prop-pic-cont">
-                                {listing.data[0].photos.slice(0,5).map(photo =>
-                                    <div key={photo.id} className="edit-listing-sidenav-box-prop-pic">
-                                        <img src={`/src/assets/media/properties/${photo.filename}`} alt="" />
-                                    </div>
-                                )}
-                                
+                        <div className="text-l1 fw-bold d-flex gap1 mar-bottom-1">
+                            <Link to={'/BDDRAgent/Listings'} className="text-decoration-none color-black1">
+                                <div className="circle-btn-1">
+                                    <Icon.ArrowLeft className='text-m1'/>
+                                </div>
+                            </Link>
+                            Edit Listing
+                        </div>
+
+                        <Link to={'Photos'} className="text-decoration-none color-black1">
+                            <div className={`edit-listing-sidenav-box ${location.pathname === '/BDDRAgent/Listings/EditListing/'+ id +'/Photos' ? 'active' : ''}`}>
+                                <div className="text-m2 fw-bold mar-bottom-3">Photos</div>
+                                <div className="edit-listing-sidenav-box-prop-pic-cont">
+                                    {listing.data[0].photos.slice(0,5).map(photo =>
+                                        <div key={photo.id} className="edit-listing-sidenav-box-prop-pic">
+                                            <img src={`/src/assets/media/properties/${photo.filename}`} alt="" />
+                                        </div>
+                                    )}
+                                    
+                                </div>
                             </div>
-                        </div>
+                        </Link>
 
-                        <div className="edit-listing-sidenav-box">
-                            <div className="text-m2 fw-bold">Name</div>
-                            <div className="text-l3">{listing.data[0].name}</div>
-                        </div>
+                        <Link to={'Name'} className="text-decoration-none color-black1">
+                            <div className={`edit-listing-sidenav-box ${location.pathname === '/BDDRAgent/Listings/EditListing/'+ id +'/Name' ? 'active' : ''}`}>
+                                <div className="text-m2 fw-bold">Name</div>
+                                <div className="text-l3">{listing.data[0].name}</div>
+                            </div>
+                        </Link>
 
-                        <div className="edit-listing-sidenav-box">
-                            <div className="text-m2 fw-bold">Property Type</div>
-                            <div className="text-l3">{listing.data[0].property_type.type_name}</div>
-                        </div>
+                        <Link to={'Type'} className="text-decoration-none color-black1">
+                            <div className={`edit-listing-sidenav-box ${location.pathname === '/BDDRAgent/Listings/EditListing/'+ id +'/Type' ? 'active' : ''}`}>
+                                <div className="text-m2 fw-bold">Property Type</div>
+                                <div className="text-l3">{listing.data[0].property_type.type_name}</div>
+                            </div>
+                        </Link>                        
 
-                        <div className="edit-listing-sidenav-box">
-                            <div className="text-m2 fw-bold">Description</div>
-                            <div className="line-clamp-3">{listing.data[0].description}</div>
-                        </div>
+                        <Link to={'Description'} className="text-decoration-none color-black1">
+                            <div className={`edit-listing-sidenav-box ${location.pathname === '/BDDRAgent/Listings/EditListing/'+ id +'/Description' ? 'active' : ''}`}>
+                                <div className="text-m2 fw-bold">Description</div>
+                                <div className="line-clamp-3">{listing.data[0].description}</div>
+                            </div>
+                        </Link>
 
-                        <div className="edit-listing-sidenav-box">
-                            <div className="text-m2 fw-bold mar-bottom-3">Floorplan</div>
-                            <div className="listing-spec-box3"><img src="/src/assets/media/icons/bed.svg" className="listing-spec-box-icon"/>Bedroom: {listing.data[0].bedroom}</div>
-                            <div className="listing-spec-box3"><img src="/src/assets/media/icons/bathtub.svg" className="listing-spec-box-icon"/>Bath: {listing.data[0].bath}</div>
-                            <div className="listing-spec-box3"><img src="/src/assets/media/icons/garages.svg" className="listing-spec-box-icon"/>Carport: {listing.data[0].carport}</div>
-                            <div className="text-m2 mar-top-3 text-decoration-underline">See more...</div>
-                        </div>
+                        <Link to={'Floorplan'} className="text-decoration-none color-black1">
+                            <div className={`edit-listing-sidenav-box ${location.pathname === '/BDDRAgent/Listings/EditListing/'+ id +'/Floorplan' ? 'active' : ''}`}>
+                                <div className="text-m2 fw-bold mar-bottom-3">Floorplan</div>
+                                <div className="listing-spec-box3"><img src="/src/assets/media/icons/bed.svg" className="listing-spec-box-icon"/>Bedroom: {listing.data[0].bedroom}</div>
+                                <div className="listing-spec-box3"><img src="/src/assets/media/icons/bathtub.svg" className="listing-spec-box-icon"/>Bath: {listing.data[0].bath}</div>
+                                <div className="listing-spec-box3"><img src="/src/assets/media/icons/garages.svg" className="listing-spec-box-icon"/>Carport: {listing.data[0].carport}</div>
+                                <div className="text-m2 mar-top-3 text-decoration-underline">See more...</div>
+                            </div>
+                        </Link>
 
                         <div className="edit-listing-sidenav-box">
                             <div className="text-m2 fw-bold mar-bottom-3">Amenities</div>
@@ -80,6 +101,17 @@ export default function AgentEditListingDefault() {
                             )}
 
                         </div>
+                    </div>
+
+                    <div className="edit-listing-content-2">
+                        <Outlet 
+                            context={{
+                                id: listing.data[0].id,
+                                photos: listing.data[0].photos,
+                                name: listing.data[0].name,
+                                type: listing.data[0].property_type.id,
+                                description: listing.data[0].description
+                            }}/>
                     </div>
                     
                 </div>

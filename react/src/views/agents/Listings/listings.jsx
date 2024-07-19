@@ -12,14 +12,12 @@ export default function AgentListing() {
     const {showModal} = useModal();
     const [listings, setListing] = useState([]);
     const {user} = useStateContext();
-    const [loading, setLoading] = useState(true);
     
     useEffect(() => {
         const getListedProperties = async () => {
             try {
                 const data = await fetchAgentPublishedProperties(user.user.id);
                 setListing(data);
-                setLoading(false);
             } catch (error) {
                 console.error(error);
             }

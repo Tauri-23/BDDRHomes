@@ -30,6 +30,11 @@ import AgentCreateListingFinancing from "./views/agents/Listings/CreateListing/c
 import AgentCreateListingFinal from "./views/agents/Listings/CreateListing/create-listing-final";
 import AgentEditListingDefault from "./views/agents/Listings/EditListing/edit-listing-default";
 import AgentListingDefault from "./views/agents/Listings/listings-default";
+import AgentEditListingPhotos from "./views/agents/Listings/EditListing/edit-listing-photos";
+import AgentEditListingName from "./views/agents/Listings/EditListing/edit-listing-name";
+import AgentEditListingType from "./views/agents/Listings/EditListing/edit-listing-type";
+import AgentEditListingDescription from "./views/agents/Listings/EditListing/edit-listing-description";
+import AgentEditListingFloorplan from "./views/agents/Listings/EditListing/edit-listing-floorplan";
 
 const router = createBrowserRouter([
     /*
@@ -143,8 +148,30 @@ const router = createBrowserRouter([
                         element: <AgentListing/>
                     },
                     {
-                        path: 'EditListing/:id/:page',
-                        element: <AgentEditListingDefault/>
+                        path: 'EditListing/:id/',
+                        element: <AgentEditListingDefault/>,
+                        children: [
+                            {
+                                path: 'Photos',
+                                element: <AgentEditListingPhotos/>
+                            },
+                            {
+                                path: 'Name',
+                                element: <AgentEditListingName/>
+                            },
+                            {
+                                path: 'Type',
+                                element: <AgentEditListingType/>
+                            },
+                            {
+                                path: 'Description',
+                                element: <AgentEditListingDescription/>
+                            },
+                            {
+                                path: 'Floorplan',
+                                element: <AgentEditListingFloorplan/>
+                            }
+                        ]
                     },
                 ]
             },

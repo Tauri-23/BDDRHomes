@@ -21,7 +21,7 @@ export const AgentListingOptionModal1 = ({listing, onClose }) => {
 
                 {/* Btns */}
                 <div className="d-flex flex-direction-y gap3">
-                    <Link to={`Listings/EditListing/${listing.id}/index`} className='text-decoration-none' onClick={onClose}>
+                    <Link to={`Listings/EditListing/${listing.id}/Photos`} className='text-decoration-none' onClick={onClose}>
                         <div className="primary-btn-black1 text-center">Edit Listing</div>
                     </Link>
                     

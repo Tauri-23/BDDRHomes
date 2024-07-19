@@ -136,6 +136,10 @@
     box-sizing: border-box;
     transition: outline 50ms ease;
 }
+.create-listing-option-box1.skeleton {
+    background: var(--white2);
+    outline: none;
+}
 .create-listing-option-box1.active {
     outline: 2px solid var(--black1);
     background: var(--grey2);
@@ -200,3 +204,13 @@
     top: 10px;
     opacity: .8;
 }
+
+
+
+
+
+/*
+|----------------------------------------
+| Skeleton
+|----------------------------------------
+*/
