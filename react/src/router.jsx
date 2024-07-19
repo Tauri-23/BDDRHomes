@@ -35,6 +35,8 @@ import AgentEditListingName from "./views/agents/Listings/EditListing/edit-listi
 import AgentEditListingType from "./views/agents/Listings/EditListing/edit-listing-type";
 import AgentEditListingDescription from "./views/agents/Listings/EditListing/edit-listing-description";
 import AgentEditListingFloorplan from "./views/agents/Listings/EditListing/edit-listing-floorplan";
+import AgentEditListingAmenities from "./views/agents/Listings/EditListing/edit-listing-amenities";
+import AgentEditListingFinancing from "./views/agents/Listings/EditListing/edit-listing-financing";
 
 const router = createBrowserRouter([
     /*
@@ -170,6 +172,14 @@ const router = createBrowserRouter([
                             {
                                 path: 'Floorplan',
                                 element: <AgentEditListingFloorplan/>
+                            },
+                            {
+                                path: 'Amenities',
+                                element: <AgentEditListingAmenities/>
+                            },
+                            {
+                                path: 'Financing',
+                                element: <AgentEditListingFinancing/>
                             }
                         ]
                     },

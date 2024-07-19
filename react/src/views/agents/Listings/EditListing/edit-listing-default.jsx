@@ -86,21 +86,25 @@ export default function AgentEditListingDefault() {
                             </div>
                         </Link>
 
-                        <div className="edit-listing-sidenav-box">
-                            <div className="text-m2 fw-bold mar-bottom-3">Amenities</div>
-                            {listing.data[0].amenities.slice(0,3).map(amenity =>
-                                <div key={amenity.amenity.id} className="listing-spec-box3"><img src={`/src/assets/media/icons/${amenity.amenity.icon}`} className="listing-spec-box-icon"/>{amenity.amenity.amenity_name}</div>
-                            )}
-                            <div className="text-m2 mar-top-3 text-decoration-underline">See more...</div>
-                        </div>
+                        <Link to={'Amenities'} className="text-decoration-none color-black1">
+                            <div className={`edit-listing-sidenav-box ${location.pathname === '/BDDRAgent/Listings/EditListing/'+ id +'/Amenities' ? 'active' : ''}`}>
+                                <div className="text-m2 fw-bold mar-bottom-3">Amenities</div>
+                                {listing.data[0].amenities.slice(0,3).map(amenity =>
+                                    <div key={amenity.amenity.id} className="listing-spec-box3"><img src={`/src/assets/media/icons/${amenity.amenity.icon}`} className="listing-spec-box-icon"/>{amenity.amenity.amenity_name}</div>
+                                )}
+                                <div className="text-m2 mar-top-3 text-decoration-underline">See more...</div>
+                            </div>
+                        </Link>
 
-                        <div className="edit-listing-sidenav-box">
-                            <div className="text-m2 fw-bold mar-bottom-3">Financing</div>
-                            {listing.data[0].financings.slice(0,3).map(financing => 
-                                <div key={financing.financing.id} className="listing-spec-box3"><img src={`/src/assets/media/icons/${financing.financing.icon}`} className="listing-spec-box-icon"/>{financing.financing.financing_type}</div>
-                            )}
+                        <Link to={'Financing'} className="text-decoration-none color-black1">
+                            <div className={`edit-listing-sidenav-box ${location.pathname === '/BDDRAgent/Listings/EditListing/'+ id +'/Financing' ? 'active' : ''}`}>
+                                <div className="text-m2 fw-bold mar-bottom-3">Financing</div>
+                                {listing.data[0].financings.slice(0,3).map(financing => 
+                                    <div key={financing.financing.id} className="listing-spec-box3"><img src={`/src/assets/media/icons/${financing.financing.icon}`} className="listing-spec-box-icon"/>{financing.financing.financing_type}</div>
+                                )}
 
-                        </div>
+                            </div>
+                        </Link>
                     </div>
 
                     <div className="edit-listing-content-2">
