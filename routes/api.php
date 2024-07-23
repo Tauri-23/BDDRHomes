@@ -43,3 +43,4 @@ Route::get('/get-property-agent/{agentId}', [AgentListingController::class, 'get
 Route::get('/get-full-property/{propId}', [AgentListingController::class, 'getFullPropertyViaPropId']);
 
 Route::post('/remove-published-prop-amenity', [AgentListingController::class, 'removeAmenityInProperty']);
+Route::post('/add-published-prop-amenity', [AgentListingController::class, 'addAmenityInProperty']);

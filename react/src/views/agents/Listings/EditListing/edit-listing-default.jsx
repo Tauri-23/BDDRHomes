@@ -5,6 +5,8 @@ import { fetchAgentSpecificPropertyFull } from "../../../../Services/AgentListin
 import * as Icon from 'react-bootstrap-icons';
 import { ToastContainer } from "react-toastify";
 import { fetchPropertyAmenities } from "../../../../Services/AgentCreateListingService";
+import axiosClient from "../../../../axios-client";
+import { notify } from "../../../../assets/js/utils";
 
 export default function AgentEditListingDefault() {
     const {id} = useParams(); // Property Id
@@ -15,6 +17,10 @@ export default function AgentEditListingDefault() {
 
     const [isSidenavHidden, setSidenavHidden] = useState(false); 
     const [isAddAmenity, setAddAmenity] = useState(false);
+
+
+
+
 
     useEffect(() => {
         const getListingFull = async() => {
@@ -41,6 +47,7 @@ export default function AgentEditListingDefault() {
     }, []);
 
     
+
     /*
      This Will Populate the Amenities 
     */
@@ -51,35 +58,33 @@ export default function AgentEditListingDefault() {
     }, [listing]);
 
 
-    /*
-     This Will Populate the Amenities and available amenities to add
-    */    
-     useEffect(() => {
-        if (listing && listing.data && listing.data[0] && availableAmenitiesToAdd.length < 0) {
-            const currentAmenities = listing.data[0].amenities;
-            const filteredAmenities = availableAmenitiesToAdd.filter(availableAmenity => 
-                !currentAmenities.some(amenityDefault => 
-                    availableAmenity.id === amenityDefault.amenity.id
-                )
-            );
-            setAvailableAmenitiestoAdd(filteredAmenities);
-        }
-    }, [listing, amenities]);
 
-    /* 
-     This will update the available Amenities to add based on the amenities array
-    */
-    //  useEffect(() => {
-    //     if (amenities.length > 0) {
-    //         setAvailableAmenitiestoAdd((availableAmenities) => 
-    //             availableAmenities.filter(availableAmenity => 
-    //                 !amenities.some(amenityDefault => 
-    //                     availableAmenity.id === amenityDefault.amenity.id
-    //                 )
-    //             )
-    //         );
-    //     }
-    // }, [amenities]);
+
+
+    const handleAddAmenity = (amenityId) => {       
+
+        const formData = new FormData();
+        formData.append('propertyId', id);
+        formData.append('amenityId', amenityId);
+
+        console.log(amenities);
+        console.log(amenityId);
+
+        axiosClient.post('/add-published-prop-amenity', formData)
+        .then(({data}) => {
+            if(data.status === 200) {
+                notify('success', data.message, 3000);
+                setAmenities([...amenities, data.amenity]);
+            } 
+            else {
+                notify('error', data.message, 3000);
+            }
+        });
+    }
+
+
+
+
 
     return (
         <div className="edit-listing-content">                
@@ -162,6 +167,7 @@ export default function AgentEditListingDefault() {
                         </Link>
                     </div>
 
+                    {/* Outlet Content (CHildren) */}
                     <div className={`edit-listing-content-2 ${isAddAmenity ? 'compressed' : ''}`}>
                         <Outlet 
                             context={{
@@ -187,21 +193,23 @@ export default function AgentEditListingDefault() {
                     <div className={`edit-listing-content-add-amenity ${isAddAmenity ? '' : 'd-none'}`}>
                         <div className="text-l1 fw-bold mar-bottom-l2">Add Amenities</div>
 
-                        {availableAmenitiesToAdd && availableAmenitiesToAdd.map((amenity) => 
-                        (
-                            <div
-                            key={amenity.id} 
-                            className="d-flex align-items-center justify-content-between padding-y-4"
-                            >
-                                <div className="d-flex gap1 align-items-center">
-                                    <img src={`/src/assets/media/icons/${amenity.icon}`} className={`create-listing-option-box1-icon`} alt={amenity.type_name} />
-                                    <div className="text-m1">{amenity.amenity_name}</div>
+                        {availableAmenitiesToAdd && availableAmenitiesToAdd.map((amenity) => (
+                            !amenities.some(existAmenity => existAmenity.amenity.id === amenity.id) 
+                            && (
+                                <div
+                                key={amenity.id}                                 
+                                className="d-flex align-items-center justify-content-between padding-y-4"
+                                >
+                                    <div className="d-flex gap1 align-items-center">
+                                        <img src={`/src/assets/media/icons/${amenity.icon}`} className={`create-listing-option-box1-icon`} alt={amenity.type_name} />
+                                        <div className="text-m1">{amenity.amenity_name}</div>
+                                    </div>
+                                    
+                                    <div className="circle-btn-1" onClick={() => handleAddAmenity(amenity.id)}>
+                                        <Icon.PlusLg className='text-m1 color-black1'/>
+                                    </div>
                                 </div>
-                                
-                                <div className="circle-btn-1">
-                                    <Icon.PlusLg className='text-m1 color-black1'/>
-                                </div>
-                            </div>
+                            )
                         ))}
                     </div>
                     
