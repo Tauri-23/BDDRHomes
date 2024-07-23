@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\published_properties;
+use App\Models\published_properties_amenities;
 use Illuminate\Http\Request;
 
 class AgentListingController extends Controller
@@ -26,6 +27,15 @@ class AgentListingController extends Controller
 
         return response()->json([
             'data' => $property
+        ]);
+    }
+
+    public function removeAmenityInProperty(Request $request) {
+        $amenityToRemove = published_properties_amenities::find($request->id)->delete();
+
+        return response()->json([
+            'status' => 200,
+            'message' => 'Success'
         ]);
     }
 }

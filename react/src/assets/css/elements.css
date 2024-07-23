@@ -3,7 +3,7 @@
 | Buttons 
 |----------------------------------------
 */
-.primary-btn-blue1, .primary-btn-black1, .primary-btn-black2 {
+.primary-btn-blue1, .primary-btn-black1, .primary-btn-black2, .primary-btn-grey1, .primary-btn-grey2 {
     padding: 10px 15px;
     text-decoration: none;
     border-radius: var(--radius3);
@@ -19,6 +19,14 @@
 }
 .primary-btn-black2 {
     background: var(--black2);
+}
+.primary-btn-grey1 {
+    background: var(--grey1);
+    color: var(--black1);
+}
+.primary-btn-grey2 {
+    background: var(--grey2);
+    color: var(--black1);
 }
 
 .primary-btn-black1.disabled {

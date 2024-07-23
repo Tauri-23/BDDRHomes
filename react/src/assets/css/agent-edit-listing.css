@@ -1,41 +1,57 @@
 .edit-listing-content {
     width: 100%;
-    padding: 0 0 0 150px;
     height: calc(100vh - 70px);
     overflow: hidden;
 }
 .edit-listing-content-2 {
     width: calc(100% - 450px);
-    height: 100vh;
-    padding: 50px 50px 100px 50px;
+    height: calc(100vh - 70px);
+    padding: 50px 180px 0 180px;
     overflow-y: auto;
+    transition: width ease-in-out .5s;
+}
+.edit-listing-content-2.compressed {
+    width: calc(100% - 700px);
+}
+.edit-listing-content-add-amenity {
+    width: 700px;
+    height: calc(100vh - 70px);
+    padding: 50px;
+    overflow-y: auto;
+    border-left: 1px solid var(--grey2);
 }
 .edit-listing-sidenav {
     display: flex;
     flex-direction: column;
     gap: 20px;
-    width: 450px;
-    padding: 50px 30px;
+    width: 600px;
+    padding: 50px 30px 50px 100px;
     height: calc(100vh - 70px);
     overflow-y: scroll;
-    overflow-x: hidden;
+    transition: margin ease-in-out .5s;
 }
+.edit-listing-sidenav.hidden {
+    margin-left: -600px;
+}
+
 
 
 
 .edit-listing-sidenav-box {
     width: 350px;
     padding: 10px 30px;
-    outline: 1px solid var(--grey1);
+    /* outline: 1px solid var(--grey1); */
+    filter: drop-shadow(0 0 10px var(--grey1));
     border-radius: var(--radius3);
     display: flex;
     flex-direction: column;
+    background: var(--white);
     cursor: pointer;
     user-select: none;
 }
 
 .edit-listing-sidenav-box.active {
-    outline: 2px solid var(--black2);
+    outline: 2px solid var(--black3);
 }
 
 .edit-listing-sidenav-box-prop-pic-cont {
@@ -129,5 +145,11 @@
     width: 100%;
     display: flex;
     flex-wrap: wrap;
+    gap: 20px;
+}
+.edit-listing-prop-type-cont2 {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
     gap: 20px;
 }

@@ -210,6 +210,15 @@ body, html {
 }
 
 
+.mar-start-l1 {
+    margin-left: 60px;
+}
+.mar-start-l2 {
+    margin-left: 50px;
+}
+.mar-start-l3 {
+    margin-left: 40px;
+}
 .mar-start-1 {
     margin-left: 30px;
 }
@@ -254,6 +263,19 @@ body, html {
     margin-bottom: auto;
 }
 
+
+.top1 {
+    top: 30px;
+}
+.top2 {
+    top: 20px;
+}
+.top3 {
+    top: 10px;
+}
+.top0 {
+    top: 0;
+}
 
 .right1 {
     right: 30px;

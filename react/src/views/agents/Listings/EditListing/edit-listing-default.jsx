@@ -3,11 +3,18 @@ import { Link, Outlet, useLocation, useParams } from "react-router-dom";
 import '/src/assets/css/agent-edit-listing.css';
 import { fetchAgentSpecificPropertyFull } from "../../../../Services/AgentListingService";
 import * as Icon from 'react-bootstrap-icons';
+import { ToastContainer } from "react-toastify";
+import { fetchPropertyAmenities } from "../../../../Services/AgentCreateListingService";
 
 export default function AgentEditListingDefault() {
-    const {id} = useParams();
-    const [listing, setListing] = useState([]);
+    const {id} = useParams(); // Property Id
+    const [listing, setListing] = useState([]); // General Listing Object from Database
+    const [amenities, setAmenities] = useState([]); //Amenities that is set to the Property, hiniwalay ko para decouple sya sa listing object para kapag niremove hindi na naka base sa listing object
+    const [availableAmenitiesToAdd, setAvailableAmenitiestoAdd] = useState([]); //This is the array of the amenities that are available to add
     const location = useLocation();
+
+    const [isSidenavHidden, setSidenavHidden] = useState(false); 
+    const [isAddAmenity, setAddAmenity] = useState(false);
 
     useEffect(() => {
         const getListingFull = async() => {
@@ -19,19 +26,67 @@ export default function AgentEditListingDefault() {
             }
         };
 
-        getListingFull();        
+        const getAvailableAmenities = async () => {
+            try {
+                const data = await fetchPropertyAmenities();
+                setAvailableAmenitiestoAdd(data);
+            } catch(error) {
+                console.error('Failed to fech property amenities:', error);
+            }
+        }
+
+        getListingFull();
+        getAvailableAmenities();
+           
     }, []);
 
-    useEffect(() => {
-        console.log(listing);
-    }, [listing])
+    
+    /*
+     This Will Populate the Amenities 
+    */
+     useEffect(() => {
+        if (listing && listing.data && listing.data[0]) {
+            setAmenities(listing.data[0].amenities);
+        }
+    }, [listing]);
+
+
+    /*
+     This Will Populate the Amenities and available amenities to add
+    */    
+     useEffect(() => {
+        if (listing && listing.data && listing.data[0] && availableAmenitiesToAdd.length < 0) {
+            const currentAmenities = listing.data[0].amenities;
+            const filteredAmenities = availableAmenitiesToAdd.filter(availableAmenity => 
+                !currentAmenities.some(amenityDefault => 
+                    availableAmenity.id === amenityDefault.amenity.id
+                )
+            );
+            setAvailableAmenitiestoAdd(filteredAmenities);
+        }
+    }, [listing, amenities]);
+
+    /* 
+     This will update the available Amenities to add based on the amenities array
+    */
+    //  useEffect(() => {
+    //     if (amenities.length > 0) {
+    //         setAvailableAmenitiestoAdd((availableAmenities) => 
+    //             availableAmenities.filter(availableAmenity => 
+    //                 !amenities.some(amenityDefault => 
+    //                     availableAmenity.id === amenityDefault.amenity.id
+    //                 )
+    //             )
+    //         );
+    //     }
+    // }, [amenities]);
 
     return (
         <div className="edit-listing-content">                
 
             {listing.data && (
                 <div className="d-flex w-100">
-                    <div className="edit-listing-sidenav">
+                    <div className={`edit-listing-sidenav ${isSidenavHidden ? 'hidden' : ''}`}>
                         <div className="text-l1 fw-bold d-flex gap1 mar-bottom-1">
                             <Link to={'/BDDRAgent/Listings'} className="text-decoration-none color-black1">
                                 <div className="circle-btn-1">
@@ -107,15 +162,47 @@ export default function AgentEditListingDefault() {
                         </Link>
                     </div>
 
-                    <div className="edit-listing-content-2">
+                    <div className={`edit-listing-content-2 ${isAddAmenity ? 'compressed' : ''}`}>
                         <Outlet 
                             context={{
                                 id: listing.data[0].id,
                                 photos: listing.data[0].photos,
                                 name: listing.data[0].name,
                                 type: listing.data[0].property_type.id,
-                                description: listing.data[0].description
+                                description: listing.data[0].description,
+                                propertyAmenities: amenities,
+                                setPropertyAmenities: setAmenities,
+                                bedroom: listing.data[0].bedroom,
+                                bath: listing.data[0].bath,
+                                carport: listing.data[0].carport,
+                                lotArea: listing.data[0].lot_area,
+                                floorArea: listing.data[0].floor_area,
+                                setSideNavHidden: setSidenavHidden,
+                                isSidenavHidden: isSidenavHidden,
+                                setAddAmenity: setAddAmenity
                             }}/>
+                    </div>
+
+                    {/* Add Amenities */}
+                    <div className={`edit-listing-content-add-amenity ${isAddAmenity ? '' : 'd-none'}`}>
+                        <div className="text-l1 fw-bold mar-bottom-l2">Add Amenities</div>
+
+                        {availableAmenitiesToAdd && availableAmenitiesToAdd.map((amenity) => 
+                        (
+                            <div
+                            key={amenity.id} 
+                            className="d-flex align-items-center justify-content-between padding-y-4"
+                            >
+                                <div className="d-flex gap1 align-items-center">
+                                    <img src={`/src/assets/media/icons/${amenity.icon}`} className={`create-listing-option-box1-icon`} alt={amenity.type_name} />
+                                    <div className="text-m1">{amenity.amenity_name}</div>
+                                </div>
+                                
+                                <div className="circle-btn-1">
+                                    <Icon.PlusLg className='text-m1 color-black1'/>
+                                </div>
+                            </div>
+                        ))}
                     </div>
                     
                 </div>
@@ -124,6 +211,8 @@ export default function AgentEditListingDefault() {
             {!listing.data && (
                 <div className="text-l3 center-absolute-xy">Loading...</div>
             )}
+
+            <ToastContainer/>
 
                     
         </div>

@@ -16,18 +16,18 @@ export default function AgentCreateListingAmenities() {
                 setPropertyAmenities(data);
                 setLoading(false);
             } catch (error) {
-                console.error('Failed to fetch property types:', error);
+                console.error('Failed to fetch property amenities:', error);
             }
         };
 
         getPropertyAmenities();
     }, []);
 
-    const handleSelectAmenities = (typeId) => {
+    const handleSelectAmenities = (amenityId) => {
         setSelectedPropertyAmenities(prevSelectedAmenities =>
-            prevSelectedAmenities.includes(typeId)
-                ? prevSelectedAmenities.filter(id=> id !== typeId)
-                : [...prevSelectedAmenities, typeId]
+            prevSelectedAmenities.includes(amenityId)
+                ? prevSelectedAmenities.filter(id=> id !== amenityId)
+                : [...prevSelectedAmenities, amenityId]
         );
     };
 
