@@ -74,7 +74,7 @@ export default function AgentEditListingAmenities() {
                     <div className="primary-btn-grey2 color-black" onClick={handleEditMode}>
                         Edit
                     </div>
-                    <div className="circle-btn-1" onClick={() => {setSideNavHidden(true); setAddAmenity(true)}}>
+                    <div className="circle-btn-1" onClick={() => {setSideNavHidden(true); setAddAmenity(true); setEditMode(false);}}>
                         <Icon.PlusLg className='text-m1'/>
                     </div>
                 </div>

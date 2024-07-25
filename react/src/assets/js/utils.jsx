@@ -6,6 +6,10 @@ import {ToastContainer, toast} from 'react-toastify';
 | Empty or spaces string checker
 |----------------------------------------
 */
+/**
+ * 
+ * @param {string} str
+ */
 export function isEmptyOrSpaces(str) {
     return str === null || str.match(/^ *$/) !== null;
 }
@@ -16,6 +20,10 @@ export function isEmptyOrSpaces(str) {
 | Email Validator 
 |----------------------------------------
 */
+/**
+ * 
+ * @param {string} email 
+ */
 export function isEmail(email) {
     var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
     return regex.test(email);
@@ -49,6 +57,11 @@ export function formatPhoneNumber(inputValue) {
 |----------------------------------------
 | Toast and Modals
 |----------------------------------------
+*/
+/**
+@param {string} type
+@param {string} message
+@param {number} ms
 */
 export function notify(type, message, ms) {
     if(type == 'success') {

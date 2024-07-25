@@ -51,7 +51,7 @@ export default function AgentEditListingDefault() {
     /*
      This Will Populate the Amenities 
     */
-     useEffect(() => {
+    useEffect(() => {
         if (listing && listing.data && listing.data[0]) {
             setAmenities(listing.data[0].amenities);
         }
@@ -125,7 +125,7 @@ export default function AgentEditListingDefault() {
                         <Link to={'Type'} className="text-decoration-none color-black1">
                             <div className={`edit-listing-sidenav-box ${location.pathname === '/BDDRAgent/Listings/EditListing/'+ id +'/Type' ? 'active' : ''}`}>
                                 <div className="text-m2 fw-bold">Property Type</div>
-                                <div className="text-l3">{listing.data[0].property_type.type_name}</div>
+                                <div className="text-l3" id="property-type-sidenav">{listing.data ? listing.data[0].property_type.type_name : 'Loading...'}</div>
                             </div>
                         </Link>                        
 
@@ -133,6 +133,13 @@ export default function AgentEditListingDefault() {
                             <div className={`edit-listing-sidenav-box ${location.pathname === '/BDDRAgent/Listings/EditListing/'+ id +'/Description' ? 'active' : ''}`}>
                                 <div className="text-m2 fw-bold">Description</div>
                                 <div className="line-clamp-3">{listing.data[0].description}</div>
+                            </div>
+                        </Link>
+
+                        <Link to={'Address'} className="text-decoration-none color-black1">
+                            <div className={`edit-listing-sidenav-box ${location.pathname === '/BDDRAgent/Listings/EditListing/'+ id +'/Address' ? 'active' : ''}`}>
+                                <div className="text-m2 fw-bold">Address</div>
+                                <div className="text-l3">{listing.data[0].address}</div>
                             </div>
                         </Link>
 
@@ -165,6 +172,14 @@ export default function AgentEditListingDefault() {
 
                             </div>
                         </Link>
+
+                        <Link to={'Price'} className="text-decoration-none color-black1">
+                            <div className={`edit-listing-sidenav-box ${location.pathname === '/BDDRAgent/Listings/EditListing/'+ id +'/Price' ? 'active' : ''}`}>
+                                <div className="text-m2 fw-bold mar-bottom-3">Price and Required Income</div>
+                                <div className="text-l3">₱ {listing.data[0].price}</div>
+
+                            </div>
+                        </Link>
                     </div>
 
                     {/* Outlet Content (CHildren) */}
@@ -185,7 +200,9 @@ export default function AgentEditListingDefault() {
                                 floorArea: listing.data[0].floor_area,
                                 setSideNavHidden: setSidenavHidden,
                                 isSidenavHidden: isSidenavHidden,
-                                setAddAmenity: setAddAmenity
+                                setAddAmenity: setAddAmenity,
+                                setListing: setListing,
+                                listing: listing
                             }}/>
                     </div>
 

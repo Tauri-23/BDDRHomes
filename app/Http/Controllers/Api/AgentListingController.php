@@ -82,4 +82,25 @@ class AgentListingController extends Controller
             ]);
         }
     }
+
+    public function updatePropertyTypeInProperty(Request $request)
+    {
+        $property = published_properties::find($request->propertyId);
+        $property->property_type = $request->propertyType;
+
+        if($property->save())
+        {
+            return response()->json([
+                'status' => 200,
+                'message' => 'Success'
+            ]);
+        }
+        else
+        {
+            return response()->json([
+                'status' => 401,
+                'message' => 'Something went wrong please try again later.'
+            ]);
+        }
+    }
 }
