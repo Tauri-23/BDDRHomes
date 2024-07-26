@@ -24,10 +24,7 @@ export default function AgentEditListingAmenities() {
         setEditMode(!isEditMode);
     }
 
-    const removeAmenityHandler = (amenityId) => {
-        setPropertyAmenities(amenities => 
-            amenities.filter(amenity => amenity.id !== amenityId)
-        );
+    const removeAmenityHandler = (amenityId) => {      
 
         const formData = new FormData();
         formData.append('id', amenityId);
@@ -36,6 +33,9 @@ export default function AgentEditListingAmenities() {
         .then(({data}) => {
             if(data.status === 200) {
                 notify('success', data.message, 3000);
+                setPropertyAmenities(amenities => 
+                    amenities.filter(amenity => amenity.id !== amenityId)
+                );
             }
             else {
                 notify('error', data.message, 3000);
@@ -61,6 +61,7 @@ export default function AgentEditListingAmenities() {
     return(        
 
         <div className="d-flex w-100 h-100 flex-direction-y padding-bottom-1">
+            {/* Upper Part */}
             <div className="d-flex justify-content-between align-items-center mar-bottom-l2">  
                 <div className="d-flex gap1 align-items-center">
                     <div className={`circle-btn-1 ${!isSidenavHidden ? 'd-none' : ''}`} onClick={() => {setSideNavHidden(false); setAddAmenity(false)}}>

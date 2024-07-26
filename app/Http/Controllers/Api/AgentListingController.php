@@ -5,8 +5,10 @@ namespace App\Http\Controllers\Api;
 use App\Contracts\IGenerateIdService;
 use App\Http\Controllers\Controller;
 use App\Models\property_amenities;
+use App\Models\property_financing;
 use App\Models\published_properties;
 use App\Models\published_properties_amenities;
+use App\Models\published_properties_financing;
 use Illuminate\Http\Request;
 
 class AgentListingController extends Controller
@@ -78,7 +80,7 @@ class AgentListingController extends Controller
         else{
             return response()->json([
                 'status' => 401,
-                'message' => 'Failed'
+                'message' => 'Something went wrong please try again later.'
             ]);
         }
     }
@@ -93,6 +95,51 @@ class AgentListingController extends Controller
             return response()->json([
                 'status' => 200,
                 'message' => 'Success'
+            ]);
+        }
+        else
+        {
+            return response()->json([
+                'status' => 401,
+                'message' => 'Something went wrong please try again later.'
+            ]);
+        }
+    }
+
+    public function removeFinancingInProperty(Request $request)
+    {
+        $financingToRemove = published_properties_financing::find($request->id)->delete();
+
+        return response()->json([
+            'status' => 200,
+            'message' => 'success'
+        ]);
+    }
+
+    public function addFinancingInProperty(Request $request)
+    {
+        $financingId = $this->generateId->generate(published_properties_financing::class, 6);
+        $financingToAdd = property_financing::find($request->financingId);
+
+        $financing = new published_properties_financing();
+        $financing->id = $financingId;
+        $financing->property = $request->propertyId;
+        $financing->financing = $request->financingId;
+
+        if($financing->save())
+        {
+            return response()->json([
+                'status' => 200,
+                'message' => 'Success',
+                'financing' => [
+                    'id' => $financingId,
+                    'property' => $request->propertyId,
+                    'financing' => [
+                        'id' => $financingToAdd->id,
+                        'icon' => $financingToAdd->icon,
+                        'financing_type' => $financingToAdd->financing_type
+                    ]
+                ]
             ]);
         }
         else

@@ -34,7 +34,9 @@ Route::post('/login', [AuthController::class, 'login']);
 | Agent 
 |----------------------------------------
 */
-// Listing
+/*
+* LISTING (ALL)
+*/
 Route::get('/get-property-types', [AgentCreateListingController::class, 'getPropertyTypes']);
 Route::get('/get-property-amenities', [AgentCreateListingController::class, 'getPropertyAmenities']);
 Route::get('/get-property-financing', [AgentCreateListingController::class, 'getPropertyFinancing']);
@@ -46,3 +48,6 @@ Route::get('/get-full-property/{propId}', [AgentListingController::class, 'getFu
 Route::post('/remove-published-prop-amenity', [AgentListingController::class, 'removeAmenityInProperty']);
 Route::post('/add-published-prop-amenity', [AgentListingController::class, 'addAmenityInProperty']);
 Route::post('/change-published-prop-type', [AgentListingController::class, 'updatePropertyTypeInProperty']);
+Route::post('/remove-published-prop-financing', [AgentListingController::class, 'removeFinancingInProperty']);
+Route::post('/add-published-prop-financing', [AgentListingController::class, 'addFinancingInProperty']);
+
