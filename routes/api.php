@@ -50,4 +50,5 @@ Route::post('/add-published-prop-amenity', [AgentListingController::class, 'addA
 Route::post('/change-published-prop-type', [AgentListingController::class, 'updatePropertyTypeInProperty']);
 Route::post('/remove-published-prop-financing', [AgentListingController::class, 'removeFinancingInProperty']);
 Route::post('/add-published-prop-financing', [AgentListingController::class, 'addFinancingInProperty']);
+Route::post('/update-published-prop-floorplan', [AgentListingController::class, 'updatePropertyFloorplan']);
 

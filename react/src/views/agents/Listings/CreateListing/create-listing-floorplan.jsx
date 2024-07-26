@@ -67,7 +67,7 @@ export default function AgentCreateListingFloorPlan() {
                             <div className="text-l2 fw-bold">Area</div>
                             <div className="d-flex flex-direction-y gap2">
                                 <div className='d-flex flex-direction-y gap3'>
-                                    <label htmlFor="lot-area-in" className='text-m1'>Lot area is sqm</label>
+                                    <label htmlFor="lot-area-in" className='text-m1'>Lot area in sqm</label>
                                     <input 
                                         ref={lotAreaRef} 
                                         type="number"
@@ -80,7 +80,7 @@ export default function AgentCreateListingFloorPlan() {
                                     />
                                 </div>
                                 <div className="d-flex flex-direction-y gap3">
-                                    <label htmlFor="floor-area-in" className='text-m1'>Floor area is sqm</label>
+                                    <label htmlFor="floor-area-in" className='text-m1'>Floor area in sqm</label>
                                     <input 
                                         ref={floorAreaRef} 
                                         type="number" 

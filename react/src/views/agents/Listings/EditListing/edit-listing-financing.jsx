@@ -65,7 +65,7 @@ export default function AgentEditListingFinancing() {
 
                 <div className={`d-flex gap3 align-items-center ${isSidenavHidden ? 'd-none' : ''}`}>
                     <div className="primary-btn-grey2 color-black" onClick={() => setEditMode(!isEditMode)}>
-                        Edit
+                        {isEditMode ? 'Cancel Edit' : 'Edit'}
                     </div>
                     <div className="circle-btn-1" onClick={() => {setSideNavHidden(true); setAddFinancing(true); setEditMode(false);}}>
                         <Icon.PlusLg className='text-m1'/>

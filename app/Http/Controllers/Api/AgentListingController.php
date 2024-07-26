@@ -150,4 +150,30 @@ class AgentListingController extends Controller
             ]);
         }
     }
+
+    public function updatePropertyFloorplan(Request $request)
+    {
+        $property = published_properties::find($request->id);
+        $property->bedroom = $request->bedroom;
+        $property->bath = $request->bath;
+        $property->carport = $request->carport;
+        $property->lot_area = $request->lotArea;
+        $property->floor_area = $request->floorArea;
+
+        if($property->save())
+        {
+            return response()->json([
+                'status' => 200,
+                'message' => 'Success'
+            ]);
+        }
+        else
+        {
+            return response()->json([
+                'status' => 200,
+                'message' => 'Something went wrong please try again later.'
+            ]);
+        }
+
+    }
 }

@@ -73,7 +73,7 @@ export default function AgentEditListingAmenities() {
 
                 <div className={`d-flex gap3 align-items-center ${isSidenavHidden ? 'd-none' : ''}`}>
                     <div className="primary-btn-grey2 color-black" onClick={handleEditMode}>
-                        Edit
+                        {isEditMode ? 'Cancel Edit' : 'Edit'}
                     </div>
                     <div className="circle-btn-1" onClick={() => {setSideNavHidden(true); setAddAmenity(true); setEditMode(false);}}>
                         <Icon.PlusLg className='text-m1'/>
