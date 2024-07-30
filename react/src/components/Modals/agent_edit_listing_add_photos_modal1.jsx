@@ -6,6 +6,17 @@ import { useEffect, useRef, useState } from 'react';
 const AgentEditListingAddPhotoModal1 = ({ addPhotoHandler, addPhotos, setAddPhotos, onClose }) => {
     const divPhotoInputRef = useRef();
     const [internalPhotos, setInternalPhotos] = useState(addPhotos);
+    const [isAddBtnDisabled, setAddBtnDisabled] = useState(true);
+
+
+    useEffect(() => {
+        if(internalPhotos.length > 0) {
+            setAddBtnDisabled(false);
+        }
+        else {
+            setAddBtnDisabled(true);
+        }
+    }, [internalPhotos])
 
 
     const handledrop = (event) => {
@@ -127,12 +138,13 @@ const AgentEditListingAddPhotoModal1 = ({ addPhotoHandler, addPhotos, setAddPhot
                 {/* Btns */}
                 <div className="d-flex flex-direction-y gap3">
                         
-                    <div 
+                    <button 
                     onClick={() => {addPhotoHandler(); onClose();}} 
-                    className="primary-btn-black1 text-center"
+                    disabled={isAddBtnDisabled}
+                    className={`primary-btn-black1 text-center ${isAddBtnDisabled ? 'disabled' : ''}`}
                     >
                         Add
-                    </div>
+                    </button>
                     
                     <div className="secondary-btn-black2 text-center d-flex gap3 align-items-center justify-content-center" onClick={onClose}>
                         Cancel
