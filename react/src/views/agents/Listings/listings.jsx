@@ -65,7 +65,7 @@ export default function AgentListing() {
                 )))}
 
                 {!listings.data && Array.from({length:10}).map(x =>(
-                    <SkeletonListingBox/>
+                    <SkeletonListingBox key={x}/>
                 ))}
             </div>
             

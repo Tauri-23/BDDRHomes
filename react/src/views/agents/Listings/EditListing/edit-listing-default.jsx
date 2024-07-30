@@ -13,6 +13,7 @@ export default function AgentEditListingDefault() {
     const [listing, setListing] = useState([]); // General Listing Object from Database
     const [amenities, setAmenities] = useState([]); //Amenities that is set to the Property, hiniwalay ko para decouple sya sa listing object para kapag niremove hindi na naka base sa listing object
     const [financings, setFinancings] = useState([]); // Same concept as amenities
+    const [photos, setPhotos] = useState([]); //Same concept as amenities
     const [availableAmenitiesToAdd, setAvailableAmenitiestoAdd] = useState([]); //This is the array of the amenities that are available to add
     const [availableFinancingsToAdd, setAvailableFinancingsToAdd] = useState([]); //This is the array of the financing that are available to add
     const location = useLocation();
@@ -68,6 +69,7 @@ export default function AgentEditListingDefault() {
         if (listing && listing.data && listing.data[0]) {
             setAmenities(listing.data[0].amenities);
             setFinancings(listing.data[0].financings);
+            setPhotos(listing.data[0].photos);
         }
     }, [listing]);
 
@@ -139,7 +141,7 @@ export default function AgentEditListingDefault() {
                             <div className={`edit-listing-sidenav-box ${location.pathname === '/BDDRAgent/Listings/EditListing/'+ id +'/Photos' ? 'active' : ''}`}>
                                 <div className="text-m2 fw-bold mar-bottom-3">Photos</div>
                                 <div className="edit-listing-sidenav-box-prop-pic-cont">
-                                    {listing.data[0].photos.slice(0,5).map(photo =>
+                                    {photos.slice(0,5).map(photo =>
                                         <div key={photo.id} className="edit-listing-sidenav-box-prop-pic">
                                             <img src={`/src/assets/media/properties/${photo.filename}`} alt="" />
                                         </div>
@@ -228,7 +230,8 @@ export default function AgentEditListingDefault() {
                                 id: listing.data[0].id,
 
                                 // Photos
-                                photos: listing.data[0].photos,
+                                photos: photos,
+                                setPhotos: setPhotos,
 
                                 // Name
                                 name: listing.data[0].name,

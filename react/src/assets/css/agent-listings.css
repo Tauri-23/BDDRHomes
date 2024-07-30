@@ -173,6 +173,7 @@
     flex-wrap: wrap;
     gap: 10px;
     width: 100%;    
+    overflow: auto;
 }
 .photos-preview-box {
     width: calc((100% / 2) - 5px);

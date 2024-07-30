@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Contracts\IGenerateFilenameService;
 use App\Contracts\IGenerateIdService;
 use App\Http\Controllers\Controller;
 use App\Models\property_amenities;
@@ -9,15 +10,18 @@ use App\Models\property_financing;
 use App\Models\published_properties;
 use App\Models\published_properties_amenities;
 use App\Models\published_properties_financing;
+use App\Models\published_properties_photos;
 use Illuminate\Http\Request;
 
 class AgentListingController extends Controller
 {
     protected $generateId;
+    protected $generateFilename;
 
-    public function __construct(IGenerateIdService $generateId)
+    public function __construct(IGenerateIdService $generateId, IGenerateFilenameService $generateFilename)
     {
         $this->generateId = $generateId;
+        $this->generateFilename = $generateFilename;
     }
 
     public function getPropertiesAgent($agentId)
@@ -175,5 +179,120 @@ class AgentListingController extends Controller
             ]);
         }
 
+    }
+
+    public function updatePropertyName(Request $request)
+    {
+        $property = published_properties::find($request->id);
+        $property->name = $request->name;
+
+        if($property->save())
+        {
+            return response()->json([
+                'status' => 200,
+                'message' => 'Success'
+            ]);
+        }
+        else
+        {
+            return response()->json([
+                'status' => 401,
+                'message' => 'Something went wrong please try again later.'
+            ]);
+        }
+    }
+
+    public function updatePropertyDesc(Request $request)
+    {
+        $property = published_properties::find($request->id);
+        $property->description = $request->description;
+
+        if($property->save())
+        {
+            return response()->json([
+                'status' => 200,
+                'message' => 'Success'
+            ]);
+        }
+        else
+        {
+            return response()->json([
+                'status' => 401,
+                'message' => 'Something went wrong please try again later.'
+            ]);
+        }
+    }
+
+    public function removePropertyPhoto(Request $request)
+    {
+        $photo = published_properties_photos::find($request->id);
+
+        if($photo->delete())
+        {
+            $targetDirectory = base_path('react/src/assets/media/properties');
+            $filepath = $targetDirectory . '/' . $request->filename;
+            if(file_exists($filepath))
+            {
+                unlink($filepath);
+            }
+
+            return response()->json([
+                'status' => 200,
+                'message' => 'Success'
+            ]);
+        }
+        else
+        {
+            return response()->json([
+                'status' => 401,
+                'message' => 'Something went wrong please try again later.'
+            ]);
+        }
+    }
+
+    public function addPropertyPhoto(Request $request)
+    {
+        $photosToReturn = [];
+
+        try
+        {
+            foreach($request->file('photo') as $photo)
+            {
+                $propertyPhotoId = $this->generateId->generate(published_properties_photos:: class, 6);
+
+                $targetDirectory = base_path('react/src/assets/media/properties');
+
+                $newFilename = $this->generateFilename->generate($photo, $targetDirectory);
+
+                $photo->move($targetDirectory, $newFilename);
+
+                $propertyPhoto = new published_properties_photos();
+                $propertyPhoto->id = $propertyPhotoId;
+                $propertyPhoto->filename = $newFilename;
+                $propertyPhoto->property = $request->propertyId;
+
+                $propertyPhoto->save();
+
+                $photosToReturn[] = [
+                    'id' => $propertyPhotoId,
+                    'filename' => $newFilename,
+                    'property' => $request->propertyId
+                ];
+            }
+        }
+        catch(\Exception $ex)
+        {
+            return response()->json([
+                'status' => 500,
+                'message' => 'Failed to upload file: '. $ex->getMessage()
+            ]);
+        }
+
+
+        return response()->json([
+            'status' => 200,
+            'photos' => $photosToReturn,
+            'message' => 'Success'
+        ]);
     }
 }

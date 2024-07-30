@@ -51,4 +51,8 @@ Route::post('/change-published-prop-type', [AgentListingController::class, 'upda
 Route::post('/remove-published-prop-financing', [AgentListingController::class, 'removeFinancingInProperty']);
 Route::post('/add-published-prop-financing', [AgentListingController::class, 'addFinancingInProperty']);
 Route::post('/update-published-prop-floorplan', [AgentListingController::class, 'updatePropertyFloorplan']);
+Route::post('/update-published-prop-name', [AgentListingController::class, 'updatePropertyName']);
+Route::post('/update-published-prop-desc', [AgentListingController::class, 'updatePropertyDesc']);
+Route::post('/add-published-prop-photo', [AgentListingController::class, 'addPropertyPhoto']);
+Route::post('/remove-published-prop-photo', [AgentListingController::class, 'removePropertyPhoto']);
 
