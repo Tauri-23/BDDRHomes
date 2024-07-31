@@ -6,7 +6,7 @@ import * as Icon from 'react-bootstrap-icons';
 import { ToastContainer } from "react-toastify";
 import { fetchPropertyAmenities, fetchPropertyFinancing } from "../../../../Services/AgentCreateListingService";
 import axiosClient from "../../../../axios-client";
-import { notify } from "../../../../assets/js/utils";
+import { formatToPhilPeso, notify } from "../../../../assets/js/utils";
 
 export default function AgentEditListingDefault() {
     const {id} = useParams(); // Property Id
@@ -212,7 +212,7 @@ export default function AgentEditListingDefault() {
                         <Link to={'Price'} className="text-decoration-none color-black1">
                             <div className={`edit-listing-sidenav-box ${location.pathname === '/BDDRAgent/Listings/EditListing/'+ id +'/Price' ? 'active' : ''}`}>
                                 <div className="text-m2 fw-bold mar-bottom-3">Price and Required Income</div>
-                                <div className="text-l3">₱ {listing.data[0].price}</div>
+                                <div className="text-l3">{formatToPhilPeso(listing.data[0].price)}</div>
 
                             </div>
                         </Link>

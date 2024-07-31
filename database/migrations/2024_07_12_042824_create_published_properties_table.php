@@ -29,6 +29,8 @@ return new class extends Migration
             $table->double('required_income');
             $table->string('status')->default('active');
 
+            $table->float('price');
+
             $table->timestamps();
 
             /**
