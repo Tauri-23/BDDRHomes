@@ -15,6 +15,7 @@ return new class extends Migration
             $table->string('id', 6)->primary();
             $table->longText('filename');
             $table->string('property', 12)->nullable();
+            $table->integer('position');
             $table->timestamps();
 
             /**

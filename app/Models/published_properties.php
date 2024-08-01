@@ -11,7 +11,7 @@ class published_properties extends Model
 
     public function photos()
     {
-        return $this->hasMany(published_properties_photos::class, 'property', 'id');
+        return $this->hasMany(published_properties_photos::class, 'property', 'id')->orderBy('position',  'ASC');
     }
 
     public function amenities()
@@ -27,5 +27,10 @@ class published_properties extends Model
     public function financings()
     {
         return $this->hasMany(published_properties_financing::class, 'property', 'id')->with('financing');
+    }
+
+    public function agent()
+    {
+        return $this->belongsTo(user_agents::class, 'agent', 'id');
     }
 }

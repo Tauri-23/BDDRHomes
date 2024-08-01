@@ -55,7 +55,7 @@ export default function AgentListing() {
                     listings.data.map(listing => (
                     <div key={listing.id} className="agent-listing-box" onClick={() => handleListingClick(listing)}>
                         <div className="agent-listing-pic">
-                            <img src={`/src/assets/media/properties/${listing.photos[1].filename}`} alt={listing.title} />
+                            <img src={`/src/assets/media/properties/${listing.photos[0].filename}`} alt={listing.title} />
                         </div>
                         <div className="agent-listing-desc">
                             <div className="agent-listing-name">{listing.name}</div>

@@ -5,6 +5,11 @@ import { useModal } from "../../../../contexts/ModalContext";
 import { notify } from "../../../../assets/js/utils";
 import axiosClient from "../../../../axios-client";
 
+import {closestCorners, DndContext} from '@dnd-kit/core';
+import {arrayMove, rectSortingStrategy, SortableContext} from '@dnd-kit/sortable';
+import { useSortable } from "@dnd-kit/sortable";
+import { EditListingPhotoCard } from "../../../../components/AgentEditListing/edit_listing_photo_card";
+
 export default function AgentEditListingPhotos() {
     const {showModal} = useModal();
     const {id, photos, setPhotos} = useOutletContext();
@@ -111,6 +116,39 @@ export default function AgentEditListingPhotos() {
     }
 
 
+
+    /*
+    |   Drag
+    */
+    const getPhotoPos = id => photos.findIndex(photo => 
+        photo.id === id
+    );
+
+    const handleDragEnd = (event) => { 
+        const {active, over} = event;
+
+        if(active.id === over.id) return;
+
+        setPhotos(photos => {
+            const originalPos = getPhotoPos(active.id)
+            const newPos = getPhotoPos(over.id);
+
+            return arrayMove(photos, originalPos, newPos);            
+        });
+
+        setPhotos(photos => {
+            console.log(photos);
+            const formData = new FormData();
+            photos.forEach((photo, index) => {
+                formData.append(`photos[${index}]`, photo.id);
+            });
+
+            axiosClient.post('/update-prop-photo-sequence', formData)
+            return photos;
+        })
+    }
+
+
     
     return(
         <>
@@ -121,27 +159,44 @@ export default function AgentEditListingPhotos() {
                 
                 <div className="d-flex gap2 align-items-center">
                     <div className="primary-btn-grey2 color-black" onClick={() => setEditPhotos(!isEditPhotos)}>
-                        Edit
+                        {isEditPhotos ? 'Cancel Manage Photos' : 'Manage Photos'}
                     </div>
                     <div className="circle-btn-1" onClick={handleAddPhoto}>
                         <Icon.PlusLg className='text-m1'/>
                     </div>
                 </div>
             </div>
-            <div className="d-flex flex-wrap gap2">
-                {photos.map(photo => 
-                    <div key={photo.id} className="edit-listing-photo">
-                        
-                        <img src={`/src/assets/media/properties/${photo.filename}`}/>
 
-                        <div 
-                        onClick={() => handleRemovePhoto(photo.id, photo.filename)}
-                        className={`secondary-circular-btn-black1 top3 right3 position-absolute ${isEditPhotos ? '' : 'd-none'}`}>
-                            <Icon.XLg/>
-                        </div>
-                    </div>                    
-                )}
+            <div className={`text-m2 color-black3 mar-bottom-l2 fst-italic fw-bold`}>
+                {!isEditPhotos 
+                ? (<>TIP: <br/> <div className="mar-start-3 fst-italic">you can drag and drop photos to your prefered sequence (the first one is the thumbnail for your listing).</div></>)
+                : (<>TIP: <br/> <div className="mar-start-3 fst-italic">Manage Photo: you can remove photos.</div></>)}
+                
             </div>
+
+            <DndContext
+            collisionDetection={closestCorners}
+            onDragEnd={handleDragEnd}
+            >
+                <div className="d-flex flex-wrap gap2">
+                    <SortableContext 
+                        items={photos.map(photo => photo.id)}  // Ensure `items` is just the IDs
+                        strategy={rectSortingStrategy}
+                    >
+                        {photos.map(photo => 
+                            <EditListingPhotoCard
+                                id={photo.id}
+                                photo={photo}
+                                isEditPhotos={isEditPhotos}
+                                handleRemovePhoto={() => handleRemovePhoto(photo.id, photo.filename)}
+                                key={photo.id}
+                            />
+                        )}
+                    </SortableContext>
+                </div>
+            </DndContext>
+
+            
             
         </>
     );

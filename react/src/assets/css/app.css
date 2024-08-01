@@ -79,6 +79,9 @@ body, html {
 .color-black2 {
     color: var(--black2);
 }
+.color-black3 {
+    color: var(--black3);
+}
 .color-blue1 {
     color: var(--blue1);
 }

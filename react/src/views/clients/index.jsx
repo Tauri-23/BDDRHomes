@@ -1,9 +1,30 @@
 import { Outlet } from "react-router-dom";
 import * as Icon from 'react-bootstrap-icons';
-import { useStateContext } from "../../contexts/ContextProvider";
 import { PropertyBox1 } from "../../components/property_box1";
+import { useEffect, useState } from "react";
+import axiosClient from "../../axios-client";
+import { fetchAllProperties } from "../../Services/ClientListingService";
 
 export default function ClientIndex() {
+
+    const [properties, setProperties] = useState([]);
+
+    useEffect(() => {
+        const getListedProperties = async() => {
+            try {
+                const data = await fetchAllProperties();
+                setProperties(data);                
+            } catch (error) {
+                console.error(error);
+            }
+        }
+
+        getListedProperties();
+    }, []);
+    
+    useEffect(() => {
+        console.log(properties);
+    }, [properties.data]);
 
     return (
         <>
@@ -91,12 +112,19 @@ export default function ClientIndex() {
 
 
                     {/* Render Property boxes */}
-                    <PropertyBox1/>
-                    <PropertyBox1/>
-                    <PropertyBox1/>
-                    <PropertyBox1/>
-                    <PropertyBox1/>
-                    <PropertyBox1/>
+                    {properties.data 
+                    ?
+                     properties.data.map(prop => (
+                        <PropertyBox1
+                        key={prop.id}
+                        property={prop}
+                        />
+                    ))
+                    : (
+                        <div>Loading</div>
+                    )}
+
+                    
 
 
                 </div>

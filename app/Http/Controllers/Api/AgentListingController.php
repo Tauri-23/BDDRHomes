@@ -254,6 +254,9 @@ class AgentListingController extends Controller
     {
         $photosToReturn = [];
 
+        //get all the property then get the position which is the highest e.g. 1,2,3,4,5 the highest is 5
+        $propertyPhotosFinalPosition = published_properties_photos::where('property', $request->propertyId)->orderBy('position', 'DESC')->value('position');
+
         try
         {
             foreach($request->file('photo') as $photo)
@@ -268,8 +271,9 @@ class AgentListingController extends Controller
 
                 $propertyPhoto = new published_properties_photos();
                 $propertyPhoto->id = $propertyPhotoId;
-                $propertyPhoto->filename = $newFilename;
+                $propertyPhoto->filename = $newFilename;                
                 $propertyPhoto->property = $request->propertyId;
+                $propertyPhoto->position = (int) ++$propertyPhotosFinalPosition;
 
                 $propertyPhoto->save();
 
@@ -278,6 +282,8 @@ class AgentListingController extends Controller
                     'filename' => $newFilename,
                     'property' => $request->propertyId
                 ];
+
+                //$propertyPhotosFinalPosition += 1;
             }
         }
         catch(\Exception $ex)
@@ -292,6 +298,23 @@ class AgentListingController extends Controller
         return response()->json([
             'status' => 200,
             'photos' => $photosToReturn,
+            'message' => 'Success'
+        ]);
+    }
+
+    public function updatePhotosSequence(Request $request)
+    {
+        $position = 1;
+        foreach($request->photos as $photo)
+        {
+            $propPhoto = published_properties_photos::find($photo);
+            $propPhoto->position = $position;
+            $propPhoto->save();
+            $position += 1;
+        }
+
+        return response()->json([
+            'status' => 200,
             'message' => 'Success'
         ]);
     }

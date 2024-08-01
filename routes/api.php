@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\AgentListingController;
 use App\Http\Controllers\Api\AgentCreateListingController;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\ClientListingController;
 use App\Models\user_clients;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -55,4 +56,19 @@ Route::post('/update-published-prop-name', [AgentListingController::class, 'upda
 Route::post('/update-published-prop-desc', [AgentListingController::class, 'updatePropertyDesc']);
 Route::post('/add-published-prop-photo', [AgentListingController::class, 'addPropertyPhoto']);
 Route::post('/remove-published-prop-photo', [AgentListingController::class, 'removePropertyPhoto']);
+Route::post('/update-prop-photo-sequence', [AgentListingController::class, 'updatePhotosSequence']);
+
+
+
+
+
+/*
+|----------------------------------------
+| Client 
+|----------------------------------------
+*/
+/*
+* LISTINGS (ALL)
+*/
+Route::get('/client-get-all-props', [ClientListingController::class, 'getAllProperties']);
 

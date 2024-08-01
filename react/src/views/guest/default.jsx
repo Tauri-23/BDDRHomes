@@ -28,22 +28,13 @@ export default function GuestDefault() {
 
     // Render logic based on userType
     if (token) {
-        console.log(userType);
+        
         if (userType === 'client') {
             return <Navigate to="/BDDRClient" />;
         } else if (userType === 'agent') {
             return <Navigate to="/BDDRAgent" />;
         }
     }
-
-    // if(token) {
-    //     // if(userType === 'client') {
-    //     //     return <Navigate to="/BDDRClient"/>
-    //     // }
-    //     // else if(userType === 'agent') {
-    //     //     return <Navigate to={"/BDDRAgent"}/>
-    //     // }        
-    // }
     
 
     return (

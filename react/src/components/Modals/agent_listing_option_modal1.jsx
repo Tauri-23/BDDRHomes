@@ -12,7 +12,7 @@ export const AgentListingOptionModal1 = ({listing, onClose }) => {
 
                 {/* Image */}
                 <div className="listing-option-modal-pic">
-                    <img src={`/src/assets/media/properties/${listing.photos[1].filename}`} alt={listing.name} />
+                    <img src={`/src/assets/media/properties/${listing.photos[0].filename}`} alt={listing.name} />
                 </div>
 
                 {/* Desc */}

@@ -31,8 +31,8 @@
     width: calc(100% / 4 - 20px);
     height: 400px;
     background: var(--white);
-    border-radius: var(--radius2);
-    filter: drop-shadow(0 0 1px var(--grey1));
+    
+    /* filter: drop-shadow(0 0 1px var(--grey1)); */
     overflow: hidden;
     cursor: pointer;
     user-select: none;
@@ -42,6 +42,7 @@
     width: 100%;
     height: 200px;
     background: var(--grey1);
+    border-radius: var(--radius2);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -73,11 +74,13 @@
     width: 30px;
     height: 30px;
     border-radius: 100%;
-    background: var(--grey1);
+    background: var(--black1);
     overflow: hidden;
     display: flex;
     justify-content: center;
+    align-items: center;
     position: relative;
+    color: var(--white);
 }
 .property-box-agent-pfp img {
     position: absolute;

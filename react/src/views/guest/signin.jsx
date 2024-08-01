@@ -10,7 +10,7 @@ export default function Signin() {
     const email_uname_phone_ref = useRef();
     const passRef = useRef();
 
-    const {setUser, setToken} = useStateContext();
+    const {setUser, setToken, setUserType} = useStateContext();
 
     const loginHandler = (ev) => {
         ev.preventDefault();
@@ -23,6 +23,7 @@ export default function Signin() {
             if(data.status === 200) {
                 setUser(data.user);
                 setToken(data.token);
+                setUserType(data.user_type);
                 notify('success', data.message, 3000);
             }
             else {
