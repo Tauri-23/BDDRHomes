@@ -56,6 +56,7 @@ class AgentCreateListingController extends Controller
         $publishedProperty->property_type = $request->property_type;
         $publishedProperty->agent = $request->agent_id;
         $publishedProperty->required_income = $request->required_income;
+        $publishedProperty->price = $request->price;
 
         if(!$publishedProperty->save()) 
         {
@@ -101,6 +102,7 @@ class AgentCreateListingController extends Controller
 
 
         // Upload photos to storage and database
+        $position = 1;
         foreach($request->file('photo') as $photo) 
         {
             try 
@@ -116,9 +118,8 @@ class AgentCreateListingController extends Controller
                 $propertyPhoto->id = $this->generateId->generate(published_properties_photos::class, 6);
                 $propertyPhoto->filename = $newFilename;
                 $propertyPhoto->property = $propertyId;
-
-                $propertyPhoto->save();  
-                
+                $propertyPhoto->position = ++$position;
+                $propertyPhoto->save();                  
     
             } 
             catch(\Exception $ex) 

@@ -2,6 +2,7 @@ import { useOutletContext } from "react-router-dom";
 import '/src/assets/css/view-listing.css';
 import { useEffect, useState } from "react";
 import { fetchPropertyAmenities } from "../../../../Services/AgentCreateListingService";
+import { formatToPhilPeso } from "../../../../assets/js/utils";
 
 export default function AgentCreateListingFinal() {
 
@@ -18,6 +19,8 @@ export default function AgentCreateListingFinal() {
         floorArea,
         selectedPropertyAmenities,
         selectedPropertyFinancing,
+        price,
+        requiredIncome
     } = useOutletContext();
 
     // Divide the amenities into two halves
@@ -142,11 +145,23 @@ export default function AgentCreateListingFinal() {
                                         <div className="text-m1">{financing.financing_type}</div>
                                     </div>
                                 ))}
-                            </div>                   
+                            </div>                 
                         </div>
                     </div>
 
-                    
+                    {/* <div className="d-flex flex-direction-y gap3 mar-top-1">
+                        <div className="text-l3 fw-bold mar-bottom-3">Price: </div>
+                        <div className="text-l3 about-content">{propertyDesc}</div>
+                    </div> */}
+                    <div className="d-flex flex-direction-y gap4">
+                        <div className="text-m1">Price: </div>
+                        <div className="text-l3 fw-bold">{formatToPhilPeso(price)}</div>
+                    </div>
+
+                    <div className="d-flex flex-direction-y gap4">
+                        <div className="text-m1">Required Income: </div>
+                        <div className="text-l3 fw-bold">{formatToPhilPeso(requiredIncome)}</div>
+                    </div>
                 </div>
             </div>
         </div>

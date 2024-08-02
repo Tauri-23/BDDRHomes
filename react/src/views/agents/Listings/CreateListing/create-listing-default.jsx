@@ -22,7 +22,8 @@ export default function AgentCreateListingDefault() {
         '/BDDRAgent/CreateListing/Photos': 'Amenities',
         '/BDDRAgent/CreateListing/Step3': 'Photos',
         '/BDDRAgent/CreateListing/Financing': 'Step3',
-        '/BDDRAgent/CreateListing/Finalize': 'Financing',
+        '/BDDRAgent/CreateListing/Price': 'Financing',
+        '/BDDRAgent/CreateListing/Finalize': 'Price',
     };
     const nextLinks = {
         '/BDDRAgent/CreateListing': 'PropertyType',
@@ -33,7 +34,8 @@ export default function AgentCreateListingDefault() {
         '/BDDRAgent/CreateListing/Amenities': 'Photos',
         '/BDDRAgent/CreateListing/Photos': 'Step3',
         '/BDDRAgent/CreateListing/Step3': 'Financing',
-        '/BDDRAgent/CreateListing/Financing': 'Finalize',
+        '/BDDRAgent/CreateListing/Financing': 'Price',
+        '/BDDRAgent/CreateListing/Price': 'Finalize',
     };
 
     const [nextBtnState, setNextBtnState] = useState(false);
@@ -51,6 +53,8 @@ export default function AgentCreateListingDefault() {
     const [selectedPropertyAmenities, setSelectedPropertyAmenities] = useState([]);
     const [photos, setPhotos] = useState([]);
     const [selectedPropertyFinancing, setSelectedPropertyFinancing] = useState([]);
+    const [price, setPrice] = useState(0);
+    const [requiredIncome, setRequiredIncome] = useState(0);
 
     useEffect(() => {
         // Property Type Script
@@ -126,7 +130,8 @@ export default function AgentCreateListingDefault() {
         formData.append('carport', carport);
         formData.append('lot_area', lotArea);
         formData.append('floor_area', floorArea);
-        formData.append('required_income', 0);
+        formData.append('required_income', requiredIncome);
+        formData.append('price', price);
         formData.append('agent_id', user.user.id);
 
         selectedPropertyAmenities.forEach((amenity, index) => {
@@ -196,7 +201,11 @@ export default function AgentCreateListingDefault() {
                         selectedPropertyFinancing, 
                         setSelectedPropertyFinancing,
                         photos, 
-                        setPhotos
+                        setPhotos,
+                        price,
+                        setPrice,
+                        requiredIncome,
+                        setRequiredIncome
                     }
                 }/>
 

@@ -37,6 +37,7 @@ import AgentEditListingDescription from "./views/agents/Listings/EditListing/edi
 import AgentEditListingFloorplan from "./views/agents/Listings/EditListing/edit-listing-floorplan";
 import AgentEditListingAmenities from "./views/agents/Listings/EditListing/edit-listing-amenities";
 import AgentEditListingFinancing from "./views/agents/Listings/EditListing/edit-listing-financing";
+import AgentCreateListingPriceReqIncome from "./views/agents/Listings/CreateListing/create-listing-price-req-income";
 
 const router = createBrowserRouter([
     /*
@@ -99,7 +100,7 @@ const router = createBrowserRouter([
                 element: <ClientIndex/>
             },
             { //TODO::implement get property id
-                path: 'ViewProperty',
+                path: 'ViewProperty/:id',
                 element: <ClientViewProperty/>
             },
             {
@@ -238,6 +239,10 @@ const router = createBrowserRouter([
             {
                 path: 'Financing',
                 element: <AgentCreateListingFinancing/>
+            },
+            {
+                path: 'Price',
+                element: <AgentCreateListingPriceReqIncome/>
             },
             {
                 path: 'Finalize',

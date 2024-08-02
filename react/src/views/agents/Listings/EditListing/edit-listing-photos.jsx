@@ -40,7 +40,6 @@ export default function AgentEditListingPhotos() {
         }
 
         const photoToRemove = photos.filter(photo => photo.id === photoId);
-        console.log(photoToRemove);
         showModal('AgentEditListisngDelPhotoModal1', {
             photo: photoToRemove,
             removePhotoHandler: () => handleRemovePhotoPost(photoId, filename)
@@ -99,9 +98,7 @@ export default function AgentEditListingPhotos() {
 
         axiosClient.post('/add-published-prop-photo', formData)
         .then(({data}) => {
-            if(data.status === 200) {
-                console.log(data.photos);
-                
+            if(data.status === 200) {                
                 const updatedPhotos = [...photos, ...data.photos];
                 setPhotos(updatedPhotos);
 
@@ -137,7 +134,6 @@ export default function AgentEditListingPhotos() {
         });
 
         setPhotos(photos => {
-            console.log(photos);
             const formData = new FormData();
             photos.forEach((photo, index) => {
                 formData.append(`photos[${index}]`, photo.id);

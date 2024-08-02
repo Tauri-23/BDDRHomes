@@ -193,3 +193,23 @@
     background: var(--black2);
     opacity: .3;
 }
+
+
+
+
+
+/*
+|----------------------------------------
+| Skeleton 
+|----------------------------------------
+*/
+.text-skeleton-sm, .text-skeleton-m, .text-skeleton-l {
+    height: 20px;
+    background: var(--grey2);
+}
+.text-skeleton-m {
+    height: 30px;
+}
+.text-skeleton-l {
+    height: 40px;
+}

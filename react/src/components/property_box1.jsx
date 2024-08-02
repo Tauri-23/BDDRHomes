@@ -3,9 +3,8 @@ import * as Icon from "react-bootstrap-icons";
 import { formatToPhilPeso } from "../assets/js/utils";
 
 export const PropertyBox1 = ({property}) => { //TODO::put parameters]
-    console.log(property);
     return (
-        <Link to={'/BDDRClient/ViewProperty'} className="text-decoration-none property-box color-black2">
+        <Link to={`/BDDRClient/ViewProperty/${property.id}`} className="text-decoration-none property-box color-black2">
             <div>
                 <div className="property-box-pic">
                         <img src={`/src/assets/media/properties/${property.photos[0].filename}`} alt="" />

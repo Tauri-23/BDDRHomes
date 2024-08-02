@@ -36,8 +36,8 @@ class AgentListingController extends Controller
 
     public function getFullPropertyViaPropId($propId)
     {
-        $property = published_properties::find($propId)
-            ->with(['photos', 'amenities', 'propertyType', 'financings'])
+        $property = published_properties::where('id', $propId)
+            ->with(['photos', 'amenities', 'propertyType', 'financings', 'agent'])
             ->get();
 
         return response()->json([

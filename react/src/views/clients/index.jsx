@@ -4,6 +4,7 @@ import { PropertyBox1 } from "../../components/property_box1";
 import { useEffect, useState } from "react";
 import axiosClient from "../../axios-client";
 import { fetchAllProperties } from "../../Services/ClientListingService";
+import { ClientSkeletonListingBox } from "../../Skeletons/client-listing-skeletons";
 
 export default function ClientIndex() {
 
@@ -22,9 +23,9 @@ export default function ClientIndex() {
         getListedProperties();
     }, []);
     
-    useEffect(() => {
-        console.log(properties);
-    }, [properties.data]);
+    // useEffect(() => {
+    //     console.log(properties);
+    // }, [properties.data]);
 
     return (
         <>
@@ -120,9 +121,9 @@ export default function ClientIndex() {
                         property={prop}
                         />
                     ))
-                    : (
-                        <div>Loading</div>
-                    )}
+                    : Array.from({length:10}, (_, index) => index).map((x) => (
+                        <ClientSkeletonListingBox key={x}/>
+                    ))}
 
                     
 

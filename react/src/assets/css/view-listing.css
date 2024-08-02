@@ -14,12 +14,27 @@
     width: 100%;
     height: 500px;
     border-radius: var(--radius2);
+    
     overflow: hidden;
 }
 .property-picture {
     background: var(--grey1);
     height: 100%;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
     cursor: pointer;
+}
+
+.property-picture.large img {
+    position: absolute;
+    width: 100%;
+}
+
+.property-picture.small img {
+    position: absolute;
+    height: 100%;
 }
 
 .property-picture.large {
@@ -62,10 +77,12 @@
 .listed-by-pfp {
     width: 75px;
     height: 75px;
-    background: var(--grey1);
+    background: var(--black1);
+    color: var(--white);
     overflow: hidden;
     display: flex;
     align-items: center;
+    justify-content: center;
     border-radius: 100%;
     position: relative;
     filter: drop-shadow(0 0 1px var(--grey1));
