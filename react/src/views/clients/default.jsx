@@ -5,6 +5,8 @@ import { ClientNavbar1 } from "../../components/client_navbar_1";
 import { Footer1 } from "../../components/footer1";
 import { useEffect } from "react";
 import axiosClient from "../../axios-client";
+import { ModalProvider } from "../../contexts/ModalContext";
+import ModalManager from "../../Managers/ModalManager";
 
 export default function ClientDefault() {
     const { user, token, setUser, setToken } = useStateContext();
@@ -40,15 +42,20 @@ export default function ClientDefault() {
     }
 
     return (
-        <div className="w-100 h-100 position-relative">
-            {/* Navbar */}
-            <ClientNavbar1 onLogout={onLogout} />
+        <ModalProvider>
+            <div className="w-100 h-100 position-relative">
+                <ModalManager/>
+                
+                {/* Navbar */}
+                <ClientNavbar1 onLogout={onLogout} />
 
-            {/* Children Contents */}
-            <Outlet />
+                {/* Children Contents */}
+                <Outlet context={user}/>
 
-            {/* Footer */}
-            <Footer1/>
-        </div>
+                {/* Footer */}
+                <Footer1/>
+            </div>
+        </ModalProvider>
+        
     );
 }

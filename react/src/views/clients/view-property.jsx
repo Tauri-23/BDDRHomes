@@ -1,17 +1,23 @@
 import * as Icon from 'react-bootstrap-icons';
 import '/src/assets/css/view-listing.css';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { fetchAgentSpecificPropertyFull } from '../../Services/AgentListingService';
 import { formatToPhilPeso } from '../../assets/js/utils';
+import { useModal } from '../../contexts/ModalContext';
 
 export default function ClientViewProperty() {
+    const {showModal} = useModal();
     const {id} = useParams(); // Property Id
     const [listing, setListing] = useState([]);
 
-    const [middleIndex, setMiddleIndex] = useState(null);
+    const [middleIndexAmenities, setMiddleIndexAmenities] = useState(null);
     const [firstHalfAmenities, setFirstHalfAmenities] = useState(null);
     const [secondHalfAmenities, setSecondHalfAmenities] = useState(null);
+
+    const [middleIndexFinancings, setMiddleIndexFinancings] = useState(null);
+    const [firstHalfFinancings, setFirstHalfFinancings] = useState(null);
+    const [secondHalfFinancings, setSecondHalfFinancings] = useState(null);
 
 
 
@@ -30,13 +36,23 @@ export default function ClientViewProperty() {
 
     useEffect(() => {
         if(listing.data) {
-            setMiddleIndex(Math.ceil(listing.data[0].amenities.length / 2));
-            setFirstHalfAmenities(listing.data[0].amenities.slice(0, middleIndex));
-            setSecondHalfAmenities(listing.data[0].amenities.slice(middleIndex));
-            //console.log(firstHalfAmenities);
+            setMiddleIndexAmenities(Math.ceil(listing.data[0].amenities.length / 2));
+            setFirstHalfAmenities(listing.data[0].amenities.slice(0, middleIndexAmenities));
+            setSecondHalfAmenities(listing.data[0].amenities.slice(middleIndexAmenities));
+
+            setMiddleIndexFinancings(Math.ceil(listing.data[0].financings.length / 2));
+            setFirstHalfFinancings(listing.data[0].financings.slice(0, middleIndexFinancings));
+            setSecondHalfFinancings(listing.data[0].financings.slice(middleIndexFinancings));
+            console.log(listing.data[0].financings);
         }
         
     }, [listing.data]);
+
+
+
+    const handleShowAllPhotos = (photos) => {
+        showModal('ViewPropertyShowAllPhotosModal2', {photos});
+    }
 
 
     
@@ -45,28 +61,47 @@ export default function ClientViewProperty() {
             {listing.data && firstHalfAmenities && secondHalfAmenities
             ? (
                 <>
+                    <div className="d-flex justify-content-between mar-bottom-1 align-items-center">
+                        <Link to={'/'} className="d-flex gap3 align-items-center text-l3 color-black1 text-decoration-none">
+                            <Icon.ChevronLeft/>
+                            Back
+                        </Link>
+
+                        <div className="d-flex gap2">
+                            <div className="d-flex align-items-center gap4 text-m1 text-decoration-underline cursor-pointer">
+                                <Icon.Heart className='text-l2'/>
+                                Save
+                            </div>
+                        </div>
+                    </div>
                     {/* Property Pics */}
                     <div className="property-pictures">
-                        <div className="property-picture large">
+                        <div onClick={() => handleShowAllPhotos(listing.data[0].photos)} className="property-picture large">
                             <img src={`/src/assets/media/properties/${listing.data[0].photos[0].filename}`} alt={listing.data[0].photos[0].filename} />
                         </div>
 
                         
                         <div className="d-flex flex-wrap gap3 h-100 flex-grow-1">
-                            <div className="property-picture small">
+                            <div onClick={() => handleShowAllPhotos(listing.data[0].photos)} className="property-picture small">
                                 <img src={`/src/assets/media/properties/${listing.data[0].photos[1].filename}`} alt={listing.data[0].photos[1].filename} />
                             </div>
 
-                            <div className="property-picture small">
+                            <div onClick={() => handleShowAllPhotos(listing.data[0].photos)} className="property-picture small">
                                 <img src={`/src/assets/media/properties/${listing.data[0].photos[2].filename}`} alt={listing.data[0].photos[2].filename} />
                             </div>
 
-                            <div className="property-picture small">
+                            <div onClick={() => handleShowAllPhotos(listing.data[0].photos)} className="property-picture small">
                                 <img src={`/src/assets/media/properties/${listing.data[0].photos[3].filename}`} alt={listing.data[0].photos[3].filename} />
                             </div>
 
-                            <div className="property-picture small">
-                            <img src={`/src/assets/media/properties/${listing.data[0].photos[4].filename}`} alt={listing.data[0].photos[4].filename} />
+                            <div onClick={() => handleShowAllPhotos(listing.data[0].photos)} className="property-picture small">
+                                <div className="property-picture-overlay">
+                                    <div className="d-flex gap3 align-items-center">
+                                        <Icon.Grid3x3Gap className='text-l1'/>
+                                        Show All
+                                    </div>
+                                </div>
+                                <img src={`/src/assets/media/properties/${listing.data[0].photos[4].filename}`} alt={listing.data[0].photos[4].filename} />
                             </div>
                         </div>
                     </div>
@@ -122,9 +157,9 @@ export default function ClientViewProperty() {
                                 <div className="mar-top-l1 mar-bottom-l1 listing-hr"></div>
 
 
-                                {/* Features and Amenities */}
+                                {/* Amenities */}
                                 <div className="d-flex flex-direction-y gap2">
-                                    <div className="text-l2 fw-bold">What this place offer</div>
+                                    <div className="text-l2 fw-bold">Amenities</div>
 
                                     <div className="d-flex gap1">
                                         <div className="w-50 d-flex flex-direction-y gap3">
@@ -136,6 +171,29 @@ export default function ClientViewProperty() {
                                         <div className="w-50 d-flex flex-direction-y gap3">
                                             {secondHalfAmenities.map((amenity) => (
                                                 <div key={amenity.id} className="listing-spec-box2"><img src={`/src/assets/media/icons/${amenity.amenity.icon}`} className="listing-spec-box-icon"/>{amenity.amenity.amenity_name}</div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div className="mar-top-l1 mar-bottom-l1 listing-hr"></div>
+
+
+                                {/* Financings */}
+                                <div className="d-flex flex-direction-y gap2">
+                                    <div className="text-l2 fw-bold">Financings</div>
+
+                                    <div className="d-flex gap1">
+                                        <div className="w-50 d-flex flex-direction-y gap3">
+                                            {firstHalfFinancings.map((financing) => (
+                                                <div key={financing.id} className="listing-spec-box2"><img src={`/src/assets/media/icons/${financing.financing.icon}`} className="listing-spec-box-icon"/>{financing.financing.financing_type}</div>
+                                            ))}
+                                        </div>
+                                        
+                                        <div className="w-50 d-flex flex-direction-y gap3">
+                                            {secondHalfFinancings.map((financing) => (
+                                                <div key={financing.id} className="listing-spec-box2"><img src={`/src/assets/media/icons/${financing.financing.icon}`} className="listing-spec-box-icon"/>{financing.financing.financing_type}</div>
                                             ))}
                                         </div>
                                     </div>

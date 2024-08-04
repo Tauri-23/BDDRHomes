@@ -1,8 +1,11 @@
+import { useEffect } from "react";
 import AgentEditListingAddPhotoModal1 from "../components/Modals/agent_edit_listing_add_photos_modal1";
 import { AgentEditListingDelAmenityModal1 } from "../components/Modals/agent_edit_listing_del_amenity_modal1";
 import { AgentEditListingDelPhotoModal1 } from "../components/Modals/agent_edit_listing_del_photo_modal1";
 import { AgentListingOptionModal1 } from "../components/Modals/agent_listing_option_modal1";
+import { ViewPropertyShowAllPhotosModal2 } from "../components/Modals/view_property_show_all_photos_modal2";
 import { useModal } from "../contexts/ModalContext"
+import { ClientAddToWishlistModal1 } from "../components/Modals/client_add_to_wishlist_modal1";
 
 const ModalManager = () => {
     const {modalState, hideModal} = useModal();
@@ -17,6 +20,10 @@ const ModalManager = () => {
                 return <AgentEditListingDelPhotoModal1 {...modalState.props} onClose={hideModal}/>
             case 'AgentEditListingAddPhotoModal1' :
                 return <AgentEditListingAddPhotoModal1 {...modalState.props} onClose={hideModal}/>
+            case 'ViewPropertyShowAllPhotosModal2' :
+                return <ViewPropertyShowAllPhotosModal2 {...modalState.props} onClose={hideModal}/>
+            case 'ClientAddToWishlistModal1' :
+                    return <ClientAddToWishlistModal1 {...modalState.props} onClose={hideModal}/>
             default:
                 return null;
         }

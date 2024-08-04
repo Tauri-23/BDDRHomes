@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\AgentListingController;
 use App\Http\Controllers\Api\AgentCreateListingController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\ClientListingController;
+use App\Http\Controllers\Api\ClientWishlistController;
 use App\Models\user_clients;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -71,4 +72,5 @@ Route::post('/update-prop-photo-sequence', [AgentListingController::class, 'upda
 * LISTINGS (ALL)
 */
 Route::get('/client-get-all-props', [ClientListingController::class, 'getAllProperties']);
+Route::get('/client-get-all-wishlist/{clientId}', [ClientWishlistController::class, 'getAllClientWishlist']);
 

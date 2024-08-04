@@ -24,6 +24,7 @@
     overflow: hidden;
     display: flex;
     justify-content: center;
+    align-items: center;
     cursor: pointer;
 }
 
@@ -43,6 +44,18 @@
 .property-picture.small {
     width: calc(100% / 2 - 5px);
     height: calc(100% / 2);
+}
+
+.property-picture-overlay {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, .6);
+    z-index: 2;
+    color: var(--white);
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 

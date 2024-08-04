@@ -9,10 +9,12 @@ export const ModalProvider = ({children}) => {
 
     const showModal = (type, props = {}) => {
         setModalState({ type, props });
+        document.body.style.overflow = 'hidden';
     };
 
     const hideModal = () => {
         setModalState({type: null, props: {}});
+        document.body.style.overflow = 'auto';
     };
 
     return(

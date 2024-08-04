@@ -1,14 +1,16 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, useOutletContext } from "react-router-dom";
 import * as Icon from 'react-bootstrap-icons';
 import { PropertyBox1 } from "../../components/property_box1";
 import { useEffect, useState } from "react";
 import axiosClient from "../../axios-client";
 import { fetchAllProperties } from "../../Services/ClientListingService";
 import { ClientSkeletonListingBox } from "../../Skeletons/client-listing-skeletons";
+import { fetchAllClientWishlists } from "../../Services/ClientWishlistService";
 
 export default function ClientIndex() {
-
+    const {user} = useOutletContext();
     const [properties, setProperties] = useState([]);
+    const [wishlists, setWishlists] = useState([]);
 
     useEffect(() => {
         const getListedProperties = async() => {
@@ -19,8 +21,20 @@ export default function ClientIndex() {
                 console.error(error);
             }
         }
+        
+
+        const getAllClientWishlists = async() => {
+            try {
+                const data = await fetchAllClientWishlists(user.id);
+                setWishlists(data);
+            } catch (error) {
+                console.error(error);
+            }
+
+        }
 
         getListedProperties();
+        getAllClientWishlists();
     }, []);
     
     // useEffect(() => {
@@ -119,6 +133,8 @@ export default function ClientIndex() {
                         <PropertyBox1
                         key={prop.id}
                         property={prop}
+                        clientId={user.id}
+                        wishlists={wishlists}
                         />
                     ))
                     : Array.from({length:10}, (_, index) => index).map((x) => (

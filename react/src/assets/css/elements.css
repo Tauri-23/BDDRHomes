@@ -213,3 +213,28 @@
 .text-skeleton-l {
     height: 40px;
 }
+
+
+
+
+
+/*
+|----------------------------------------
+| Image Grid 
+|----------------------------------------
+*/
+.img-grid-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+.img-grid-column {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.img-grid-column img {
+    vertical-align: middle;
+    width: 100%;
+}
