@@ -72,5 +72,11 @@ Route::post('/update-prop-photo-sequence', [AgentListingController::class, 'upda
 * LISTINGS (ALL)
 */
 Route::get('/client-get-all-props', [ClientListingController::class, 'getAllProperties']);
+
+/*
+* Wishlists (ALL)
+*/
 Route::get('/client-get-all-wishlist/{clientId}', [ClientWishlistController::class, 'getAllClientWishlist']);
+Route::post('/client-create-wishlist', [ClientWishlistController::class, 'createClientWishlist']);
+Route::post('/client-create-wishlist-put-property', [ClientWishlistController::class, 'createClientWishlistAndPutProperty']);
 

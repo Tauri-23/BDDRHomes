@@ -7,6 +7,7 @@ import { useEffect } from "react";
 import axiosClient from "../../axios-client";
 import { ModalProvider } from "../../contexts/ModalContext";
 import ModalManager from "../../Managers/ModalManager";
+import { ToastContainer } from "react-toastify";
 
 export default function ClientDefault() {
     const { user, token, setUser, setToken } = useStateContext();
@@ -51,6 +52,8 @@ export default function ClientDefault() {
 
                 {/* Children Contents */}
                 <Outlet context={user}/>
+
+                <ToastContainer/>
 
                 {/* Footer */}
                 <Footer1/>

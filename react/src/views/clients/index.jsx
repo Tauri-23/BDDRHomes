@@ -36,10 +36,25 @@ export default function ClientIndex() {
         getListedProperties();
         getAllClientWishlists();
     }, []);
+
+    const isInWishlist = (propId) => {
+        if(wishlists.data) {
+            return wishlists.data.some(wishlists =>
+                wishlists.wishlist_properties.some(wishProp => 
+                    wishProp.property == propId
+                )
+            );
+        }        
+    }
+    
     
     // useEffect(() => {
     //     console.log(properties);
     // }, [properties.data]);
+
+    useEffect(() => {
+        console.log(wishlists);
+    }, [wishlists]);
 
     return (
         <>
@@ -127,7 +142,7 @@ export default function ClientIndex() {
 
 
                     {/* Render Property boxes */}
-                    {properties.data 
+                    {properties.data && wishlists.data
                     ?
                      properties.data.map(prop => (
                         <PropertyBox1
@@ -135,6 +150,8 @@ export default function ClientIndex() {
                         property={prop}
                         clientId={user.id}
                         wishlists={wishlists}
+                        isInWishlist={isInWishlist(prop.id)}
+                        setWishlists={setWishlists}
                         />
                     ))
                     : Array.from({length:10}, (_, index) => index).map((x) => (

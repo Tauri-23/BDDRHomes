@@ -75,6 +75,9 @@
     position: absolute;
     z-index: 2;
 }
+.property-box-pic-icon1.fill {
+    color: var(--red1);
+}
 .property-box-pic-icon2 {
     position: absolute;
     color: rgba(0, 0, 0, .5);

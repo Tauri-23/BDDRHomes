@@ -4,8 +4,12 @@ import { formatToPhilPeso } from "../assets/js/utils";
 import { useEffect } from "react";
 import { useModal } from "../contexts/ModalContext";
 
-export const PropertyBox1 = ({ wishlists, property}) => { //TODO::put parameters]
+export const PropertyBox1 = ({ wishlists, clientId, property, isInWishlist, setWishlists}) => { //TODO::put parameters]
     const {showModal} = useModal();
+
+    useEffect(() => {
+        console.log(`${property.name}: ${isInWishlist}`);
+    }, [])
 
     const handleViewProperty = (event) => {
         window.location.href = `/BDDRClient/ViewProperty/${property.id}`;
@@ -13,7 +17,8 @@ export const PropertyBox1 = ({ wishlists, property}) => { //TODO::put parameters
 
     const handleAddToWishlist = (event) => {
         event.stopPropagation();
-        showModal('ClientAddToWishlistModal1', { propertyId: property.id, wishlists});
+        console.log(wishlists.data.length);
+        showModal('ClientAddToWishlistModal1', { propertyId: property.id, wishlists, clientId, setWishlists});
     }
 
 
@@ -22,7 +27,8 @@ export const PropertyBox1 = ({ wishlists, property}) => { //TODO::put parameters
             <div>
                 <div className="property-box-pic">
                     <div className="property-box-pic-icons" onClick={handleAddToWishlist}>
-                        <Icon.Heart className="property-box-pic-icon1"/>
+                        {isInWishlist ? (<Icon.HeartFill className="property-box-pic-icon1 fill"/>): (<Icon.Heart className="property-box-pic-icon1"/>)}
+                        
                         <Icon.HeartFill className="property-box-pic-icon2"/>
                     </div>
                     <img src={`/src/assets/media/properties/${property.photos[0].filename}`} alt="" />
