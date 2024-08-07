@@ -7,7 +7,6 @@ import GuestIndex from "./views/guest/index";
 import ClientDefault from "./views/clients/default";
 import ClientIndex from "./views/clients";
 import GuestListings from "./views/guest/listings";
-import ClientWishLists from "./views/clients/wishlists";
 import ClientViewProperty from "./views/clients/view-property";
 import ClientMessages from "./views/clients/messages";
 import ClientTrippings from "./views/clients/trippings";
@@ -38,6 +37,7 @@ import AgentEditListingFloorplan from "./views/agents/Listings/EditListing/edit-
 import AgentEditListingAmenities from "./views/agents/Listings/EditListing/edit-listing-amenities";
 import AgentEditListingFinancing from "./views/agents/Listings/EditListing/edit-listing-financing";
 import AgentCreateListingPriceReqIncome from "./views/agents/Listings/CreateListing/create-listing-price-req-income";
+import ClientWishLists from "./views/clients/Wishlist/wishlists";
 
 const router = createBrowserRouter([
     /*

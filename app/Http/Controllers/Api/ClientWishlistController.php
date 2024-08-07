@@ -69,7 +69,7 @@ class ClientWishlistController extends Controller
             if($wishlistProperty->save()) 
             {
 
-                $wishlistPropInWishlist = wishlist_properties::where('wishlist', $wishlistId)->get();
+                $wishlistPropInWishlist = wishlist_properties::where('wishlist', $wishlistId)->with('property')->get();
                 
                 return response()->json([
                     'status' => 200,
@@ -105,17 +105,23 @@ class ClientWishlistController extends Controller
     {
         try {
             $wishlists = wishlist::where('client', $request->clientId)->get();
+            $wishlistName = '';
 
             foreach ($wishlists as $wishlist) {
-                wishlist_properties::where([
+                $wishlistToDel = wishlist_properties::where([
                     ['property', $request->propId],
                     ['wishlist', $wishlist->id]
-                ])->delete();
+                ])->first();
+
+                if($wishlistToDel) {
+                    $wishlistName = wishlist::where('id', $wishlist->id)->first();
+                    $wishlistToDel->delete();
+                }
             }
 
             return response()->json([
                 'status' => 200,
-                'message' => "Removed from {$wishlists[0]->name}"
+                'message' => "Removed from {$wishlistName->name}"
             ]);
         } catch (Exception $e) {
             return response()->json([

@@ -69,7 +69,7 @@ export default function ClientIndex() {
             return wishlists.data.some(wishlist =>
                 wishlist.wishlist_properties &&
                 wishlist.wishlist_properties.some(wishlistProp => 
-                    String(wishlistProp.property) === propIdStr
+                    String(wishlistProp.property.id) === propIdStr
                 )
             );
         }
@@ -112,7 +112,7 @@ export default function ClientIndex() {
         setWishlists(prevWishlists => {
             const updatedWishlists = prevWishlists.data.map(prevWishlist => {
                 const updatedProperties = prevWishlist.wishlist_properties.filter(
-                    wishlistProp => String(wishlistProp.property) !== String(propId)
+                    wishlistProp => String(wishlistProp.property.id) !== String(propId)
                 );
     
                 return {
@@ -173,7 +173,7 @@ export default function ClientIndex() {
                                 ...prevWishlist,
                                 wishlist_properties: [
                                     ...prevWishlist.wishlist_properties,
-                                    {id: data.id, wishlist: String(wishlistId), property: String(propId)}
+                                    {id: data.id, wishlist: String(wishlistId), property: {id: String(propId)}}
                                 ]
                             };
                         }
