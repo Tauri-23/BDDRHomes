@@ -54,3 +54,23 @@
     overflow-y: auto;
     padding: 10px;
 }
+
+/* Client Add Add Property to wishlist Modal */
+.wishlist-box-img-cont-modal {
+    width: 200px;
+    height: 200px;
+    border-radius: var(--radius1);
+    background: var(--white);
+    filter: drop-shadow(0 0 3px var(--grey1));
+    padding: 5px;
+    cursor: pointer;    
+}
+.wishlists-cont-modal {
+    display: flex;
+    height: 400px;
+    flex-wrap: wrap;
+    overflow-y: auto;
+    padding: 5px;
+    width: 100%;
+    gap: 15px;
+}

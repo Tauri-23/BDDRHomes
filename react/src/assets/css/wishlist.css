@@ -25,6 +25,7 @@
     border-radius: calc(var(--radius1) - 5px);
     display: flex;
     justify-content: center;
+    background: var(--grey1);
     overflow: hidden;
 }
 .wishlist-box-img img {

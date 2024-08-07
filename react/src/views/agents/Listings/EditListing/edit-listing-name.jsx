@@ -32,7 +32,7 @@ export default function AgentEditListingName() {
         axiosClient.post('/update-published-prop-name', formData)
         .then(({data}) => {
             if(data.status === 200){
-                notify('success', data.message, 3000);
+                notify('success', data.message, 'top-center', 3000);
                 setListing((propName) => {
                     const updatePropName = {...propName};
                     updatePropName.data[0].name = _name;
@@ -40,7 +40,7 @@ export default function AgentEditListingName() {
                 });
             }
             else {
-                notify('error', data.message, 3000);
+                notify('error', data.message, 'top-center', 3000);
             }
         })
         .catch((error) => {

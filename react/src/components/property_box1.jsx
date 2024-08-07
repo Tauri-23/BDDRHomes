@@ -4,21 +4,26 @@ import { formatToPhilPeso } from "../assets/js/utils";
 import { useEffect } from "react";
 import { useModal } from "../contexts/ModalContext";
 
-export const PropertyBox1 = ({ wishlists, clientId, property, isInWishlist, setWishlists}) => { //TODO::put parameters]
+export const PropertyBox1 = ({ wishlists, property, isInWishlist, handleCreateWishlistAndAddPropToIt, handleRemovePropFromWishlist, handleAddPropToWishlist}) => { //TODO::put parameters]
     const {showModal} = useModal();
+    const propId = property.id;
 
-    useEffect(() => {
-        console.log(`${property.name}: ${isInWishlist}`);
-    }, [])
+    // useEffect(() => {
+    //     console.log(`${property.name}: ${isInWishlist}`);
+    // }, [])
 
     const handleViewProperty = (event) => {
         window.location.href = `/BDDRClient/ViewProperty/${property.id}`;
     }
 
-    const handleAddToWishlist = (event) => {
+    const handleHeartPressed = (event) => {
         event.stopPropagation();
-        console.log(wishlists.data.length);
-        showModal('ClientAddToWishlistModal1', { propertyId: property.id, wishlists, clientId, setWishlists});
+        if(isInWishlist) {
+            handleRemovePropFromWishlist(propId);
+        }
+        else {
+            showModal('ClientAddToWishlistModal1', { propId, wishlists, handleCreateWishlistAndAddPropToIt, handleAddPropToWishlist});
+        }        
     }
 
 
@@ -26,7 +31,7 @@ export const PropertyBox1 = ({ wishlists, clientId, property, isInWishlist, setW
         <div className="text-decoration-none property-box color-black2" onClick={handleViewProperty}>
             <div>
                 <div className="property-box-pic">
-                    <div className="property-box-pic-icons" onClick={handleAddToWishlist}>
+                    <div className="property-box-pic-icons" onClick={handleHeartPressed}>
                         {isInWishlist ? (<Icon.HeartFill className="property-box-pic-icon1 fill"/>): (<Icon.Heart className="property-box-pic-icon1"/>)}
                         
                         <Icon.HeartFill className="property-box-pic-icon2"/>

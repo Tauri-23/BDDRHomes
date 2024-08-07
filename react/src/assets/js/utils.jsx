@@ -63,10 +63,10 @@ export function formatPhoneNumber(inputValue) {
 @param {string} message
 @param {number} ms
 */
-export function notify(type, message, ms) {
+export function notify(type, message, position, ms) {
     if(type == 'success') {
         toast.success(message, {
-            position: "top-center",
+            position: position,
             autoClose: ms,
             hideProgressBar: false,
             closeOnClick: true,
@@ -76,9 +76,21 @@ export function notify(type, message, ms) {
             theme: "light",
         });
     }
+    else if(type === 'default') {
+        toast(message, {
+            position: position,
+            autoClose: ms,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+        });
+    }
     else if(type === 'error') {
         toast.error(message, {
-            position: "top-center",
+            position: position,
             autoClose: ms,
             hideProgressBar: false,
             closeOnClick: true,

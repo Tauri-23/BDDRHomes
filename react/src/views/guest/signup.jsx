@@ -47,17 +47,17 @@ export default function Signup() {
             isEmptyOrSpaces(payload.uname) || isEmptyOrSpaces(payload.email) ||
             isEmptyOrSpaces(payload.pass) || isEmptyOrSpaces(payload.conpass)) {
 
-            notify('error', 'Please fill-up the required fields.', 3000);
+            notify('error', 'Please fill-up the required fields.', 'top-center', 3000);
             return;
         }
 
         if (!isEmail(payload.email)) {
-            notify('error', 'Invalid email format.', 3000);
+            notify('error', 'Invalid email format.', 'top-center', 3000);
             return;
         }
 
         if (payload.pass !== payload.conpass) {
-            notify('error', 'Passwords do not match.', 3000);
+            notify('error', 'Passwords do not match.', 'top-center', 3000);
             return;
         }
     
@@ -66,10 +66,10 @@ export default function Signup() {
             setUser(data.user);
             setToken(data.token);
             if(data.status === 200) {
-                notify('success', data.message, 3000);
+                notify('success', data.message, 'top-center', 3000);
             }
             else {
-                notify('error', data.message, 3000);
+                notify('error', data.message, 'top-center', 3000);
             }
         })
         .catch(error => {

@@ -35,7 +35,7 @@ export default function AgentEditListingPhotos() {
     */
     const handleRemovePhoto = (photoId, filename) => {
         if(photos.length < 6) {
-            notify('error', 'Photos could not be less than 5.', 3000);
+            notify('error', 'Photos could not be less than 5.', 'top-center', 3000);
             return;
         }
 
@@ -58,10 +58,10 @@ export default function AgentEditListingPhotos() {
                 setPhotos(photosToRemove => 
                     photosToRemove.filter(photo => photo.id !== photoId)
                 );
-                notify('success', data.message, 3000);
+                notify('success', data.message, 'top-center', 3000);
             }
             else {
-                notify('error', data.message, 3000);
+                notify('error', data.message, 'top-center', 3000);
             }
         })
         .catch(error => console.error(error));
@@ -102,10 +102,10 @@ export default function AgentEditListingPhotos() {
                 const updatedPhotos = [...photos, ...data.photos];
                 setPhotos(updatedPhotos);
 
-                notify('success', data.message, 3000);
+                notify('success', data.message, 'top-center', 3000);
             }
             else {
-                notify('error', data.message, 3000);
+                notify('error', data.message, 'top-center', 3000);
                 console.error(data.message);
             }
         })

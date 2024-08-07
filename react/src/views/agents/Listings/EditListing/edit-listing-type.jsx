@@ -47,7 +47,7 @@ export default function AgentEditListingType() {
         axiosClient.post('/change-published-prop-type', formData)
         .then(({data}) => {
             if(data.status === 200) {
-                notify('success', data.message, 3000);
+                notify('success', data.message, 'top-center', 3000);
 
                 setListing((propType) => {
                     const updatedPropType = {...propType};
@@ -57,7 +57,7 @@ export default function AgentEditListingType() {
                 });
             }
             else {
-                notify('error', data.message, 3000);
+                notify('error', data.message, 'top-center', 3000);
             }
         });
     }

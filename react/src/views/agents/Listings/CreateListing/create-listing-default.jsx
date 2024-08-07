@@ -152,7 +152,7 @@ export default function AgentCreateListingDefault() {
                 window.location.href = '/BDDRAgent/Listings';
             }
             else {
-                notify('error', data.message, 3000);
+                notify('error', data.message, 'top-center', 3000);
             }
         })
         .catch(error => {

@@ -79,4 +79,5 @@ Route::get('/client-get-all-props', [ClientListingController::class, 'getAllProp
 Route::get('/client-get-all-wishlist/{clientId}', [ClientWishlistController::class, 'getAllClientWishlist']);
 Route::post('/client-create-wishlist', [ClientWishlistController::class, 'createClientWishlist']);
 Route::post('/client-create-wishlist-put-property', [ClientWishlistController::class, 'createClientWishlistAndPutProperty']);
-
+Route::Post('/client-remove-property-from-wishlist', [ClientWishlistController::class, 'removePropertyFromWishlist']);
+Route::Post('/client-add-property-to-wishlist', [ClientWishlistController::class, 'addPropertyToWishlist']);

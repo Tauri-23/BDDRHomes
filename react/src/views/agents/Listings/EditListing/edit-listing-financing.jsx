@@ -26,7 +26,7 @@ export default function AgentEditListingFinancing() {
     // Handlers
     const handleRemoveFinancing = (financingId) => {
         if(propertyFinancings.length < 2) {
-            notify('error', 'Financings cannot be less that one.', 3000);
+            notify('error', 'Financings cannot be less that one.', 'top-center', 3000);
             return;
         }
 
@@ -36,13 +36,13 @@ export default function AgentEditListingFinancing() {
         axiosClient.post('/remove-published-prop-financing', formData)
         .then(({data}) => {
             if(data.status === 200) {
-                notify('success', data.message, 3000);
+                notify('success', data.message, 'top-center', 3000);
                 setPropertyFinancings(financings => 
                     financings.filter(financing => financing.id !== financingId)
                 );
             }
             else {
-                notify('error', data.message, 3000);
+                notify('error', data.message, 'top-center', 3000);
             }
         })
     }

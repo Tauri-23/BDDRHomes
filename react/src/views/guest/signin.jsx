@@ -24,10 +24,10 @@ export default function Signin() {
                 setUser(data.user);
                 setToken(data.token);
                 setUserType(data.user_type);
-                notify('success', data.message, 3000);
+                notify('success', data.message, 'top-center', 3000);
             }
             else {
-                notify('error', data.message, 3000);
+                notify('error', data.message, 'top-center', 3000);
             }
         })
         .catch(error => {

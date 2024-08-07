@@ -40,10 +40,10 @@ export default function AgentEditListingDescription() {
                     updatedDescription.data[0].description = _description;
                     return updatedDescription;
                 });
-                notify('success', data.message, 3000);
+                notify('success', data.message, 'top-center', 3000);
             }
             else {
-                notify('error', data.message, 3000);
+                notify('error', data.message, 'top-center', 3000);
             }
         })
         .catch((error) => console.error(error));       

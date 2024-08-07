@@ -89,11 +89,11 @@ export default function AgentEditListingDefault() {
         axiosClient.post('/add-published-prop-amenity', formData)
         .then(({data}) => {
             if(data.status === 200) {
-                notify('success', data.message, 3000);
+                notify('success', data.message, 'top-center', 3000);
                 setAmenities([...amenities, data.amenity]);
             } 
             else {
-                notify('error', data.message, 3000);
+                notify('error', data.message, 'top-center', 3000);
             }
         });
     }
@@ -107,11 +107,11 @@ export default function AgentEditListingDefault() {
         axiosClient.post('/add-published-prop-financing', formData)
         .then(({data}) => {
             if(data.status === 200) {
-                notify('success', data.message, 3000);
+                notify('success', data.message, 'top-center', 3000);
                 setFinancings([...financings, data.financing]);
             }
             else {
-                notify('error', data.message, 3000);
+                notify('error', data.message, 'top-center', 3000);
             }
         })
     }
