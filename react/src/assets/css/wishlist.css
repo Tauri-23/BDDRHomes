@@ -7,7 +7,27 @@
 .wishlist-box {
     display: flex;
     flex-direction: column;
+    position: relative;
     gap: 10px;
+}
+.wishlist-box:hover .remove-wishlist-btn {
+    display: flex;
+}
+.remove-wishlist-btn {
+    width: 40px;
+    height: 40px;
+    display: none;
+    justify-content: center;
+    align-items: center;  
+    border-radius: 100%;  
+    cursor: pointer;
+    background: var(--grey2);
+
+    font-size: var(--text-l1);
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 2;
 }
 .wishlist-box-img-cont {
     width: 300px;

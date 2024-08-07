@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import '/src/assets/css/wishlist.css';
 import { Link, useOutletContext } from "react-router-dom";
 import { fetchAllClientWishlists } from '../../../Services/ClientWishlistService';
+import * as Icon from 'react-bootstrap-icons';
 
 export default function ClientWishLists() {
 
@@ -55,6 +56,9 @@ export default function ClientWishLists() {
 
                 {wishlists.data?.length > 1 && wishlists.data.map(wishlist => (
                     <div key={wishlist.id} className="wishlist-box">
+                        <div className="remove-wishlist-btn">
+                            <Icon.X/>
+                        </div>
                         <div className="wishlist-box-img-cont">
                             <div className="wishlist-box-img">
                                 {wishlist.wishlist_properties.length > 0 
