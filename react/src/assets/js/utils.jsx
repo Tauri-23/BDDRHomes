@@ -59,9 +59,10 @@ export function formatPhoneNumber(inputValue) {
 |----------------------------------------
 */
 /**
-@param {string} type
-@param {string} message
-@param {number} ms
+@param {string} type - Type of toast (success, default, error).
+@param {string} message - Message of the toast.
+@param {string} position - Position of the toast (top-left, top-center, top-right, bottom-left- bottom-center, bottom-right).
+@param {number} ms - Duration of the toast in ms.
 */
 export function notify(type, message, position, ms) {
     if(type == 'success') {

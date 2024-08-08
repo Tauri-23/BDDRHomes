@@ -38,6 +38,7 @@ import AgentEditListingAmenities from "./views/agents/Listings/EditListing/edit-
 import AgentEditListingFinancing from "./views/agents/Listings/EditListing/edit-listing-financing";
 import AgentCreateListingPriceReqIncome from "./views/agents/Listings/CreateListing/create-listing-price-req-income";
 import ClientWishLists from "./views/clients/Wishlist/wishlists";
+import ClientViewWishlist from "./views/clients/Wishlist/view-wishlist";
 
 const router = createBrowserRouter([
     /*
@@ -103,14 +104,26 @@ const router = createBrowserRouter([
                 path: 'ViewProperty/:id',
                 element: <ClientViewProperty/>
             },
+
+            // Wishlists
             {
-                path: 'Likes',
+                path: 'Wishlists',
                 element: <ClientWishLists/>
+            },            
+            {
+                path: 'ViewWishlist/:wishlistId',
+                element: <ClientViewWishlist/>
             },
+
+
+            // Messages
             {
                 path: 'Messages',
                 element: <ClientMessages/>
             },
+
+
+            // Trippings
             {
                 path: 'Trippings',
                 element: <ClientTrippings/>

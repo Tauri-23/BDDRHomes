@@ -22,37 +22,39 @@ export default function ClientIndex() {
     |    Get all necessary datas from db
     */
     useEffect(() => {
-        const getListedProperties = async() => {
-            try {
-                const data = await fetchAllProperties();
-                setProperties(data);                
-            } catch (error) {
-                console.error(error);
+        if(user) {
+            const getListedProperties = async() => {
+                try {
+                    const data = await fetchAllProperties();
+                    setProperties(data);                
+                } catch (error) {
+                    console.error(error);
+                }
             }
-        }
-
-        const getAllClientWishlists = async() => {
-            try {
-                const data = await fetchAllClientWishlists(user.id);
-                setWishlists(data);
-            } catch (error) {
-                console.error(error);
+    
+            const getAllClientWishlists = async() => {
+                try {
+                    const data = await fetchAllClientWishlists(user.id);
+                    setWishlists(data);
+                } catch (error) {
+                    console.error(error);
+                }
+    
             }
-
-        }
-
-        const getAllPropTypes = async() => {
-            try {
-                const data = await fetchPropertyTypes();
-                setPropTypes(data);
-            } catch (error) {
-                console.error(error);
+    
+            const getAllPropTypes = async() => {
+                try {
+                    const data = await fetchPropertyTypes();
+                    setPropTypes(data);
+                } catch (error) {
+                    console.error(error);
+                }
             }
-        }
-
-        getListedProperties();
-        getAllClientWishlists();
-        getAllPropTypes();
+    
+            getListedProperties();
+            getAllClientWishlists();
+            getAllPropTypes();
+        }        
     }, []);
 
 
@@ -93,7 +95,7 @@ export default function ClientIndex() {
                 setWishlists(prevWishlists => ({
                     data: [...prevWishlists.data, data.wishlist]
                 }));
-                notify('success', data.message, 'top-center', 3000);
+                notify('default', data.message, 'bottom-left', 3000);
             } else {
                 notify('error', data.message, 'top-center', 3000);
             }
@@ -105,9 +107,6 @@ export default function ClientIndex() {
         const formData = new FormData();
         formData.append('clientId',  user.id);
         formData.append('propId', propId);
-
-        console.log(user.id);
-        console.log(propId);
 
         setWishlists(prevWishlists => {
             const updatedWishlists = prevWishlists.data.map(prevWishlist => {
@@ -199,13 +198,9 @@ export default function ClientIndex() {
         console.log(wishlists);
     }, [wishlists]);
 
-    useEffect(() => {
-        console.log(wishlists);
-    }, [wishlists]);
-
-    useEffect(() => {
-        console.log(propTypes);
-    }, [propTypes]);
+    // useEffect(() => {
+    //     console.log(propTypes);
+    // }, [propTypes]);
 
     return (
         <>

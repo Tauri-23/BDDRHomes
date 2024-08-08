@@ -64,7 +64,7 @@ export const ClientNavbar1 = ({onLogout}) => {
             <div ref={navModalRef} className={`nav-modal1 ${displayNavModal}`}>
                 <div className="nav-modal1-links text-m3">
                     <NavLink1 to="/BDDRClient" label="Properties" onClick={toggleNavModal1Visibility} />
-                    <NavLink1 to="/BDDRClient/Likes" label="Wishlists" onClick={toggleNavModal1Visibility} />
+                    <NavLink1 to="/BDDRClient/Wishlists" label="Wishlists" onClick={toggleNavModal1Visibility} />
 
                     <NavLink1 to="/BDDRClient/Messages" label="Messages" onClick={toggleNavModal1Visibility} />
                     <NavLink1 to="/BDDRClient/Trippings" label="Trippings" onClick={toggleNavModal1Visibility} />

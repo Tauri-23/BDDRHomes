@@ -3,10 +3,16 @@ import '/src/assets/css/wishlist.css';
 import { Link, useOutletContext } from "react-router-dom";
 import { fetchAllClientWishlists } from '../../../Services/ClientWishlistService';
 import * as Icon from 'react-bootstrap-icons';
+import axiosClient from '../../../axios-client';
+import { notify } from '../../../assets/js/utils';
+import { useModal } from '../../../contexts/ModalContext';
+import { ClientSkeletonWishlistBox } from '../../../Skeletons/client-wishlist-skeletons';
+import { ClientWishlistBox1 } from '../../../components/client_wishlist_box1';
 
 export default function ClientWishLists() {
 
     const {user} = useOutletContext();
+    const {showModal} = useModal();
     const [wishlists, setWishlists] = useState([]);
     
 
@@ -23,13 +29,37 @@ export default function ClientWishLists() {
         };
 
         getAllWishlists();
-    }, []);
+    }, [user]);
+
+    /*
+    |   Debug
+    */
+    // useEffect(() => {
+    //     console.log(wishlists);
+    // }, [wishlists]);
 
 
 
-    useEffect(() => {
-        console.log(wishlists);
-    }, [wishlists]);
+    const handleRemoveWishlist = (wishlist) => {
+        showModal('ClientDelWishlistModal1', {wishlist, handleRemoveWishlistPost});
+    }
+
+    const handleRemoveWishlistPost = (wishlistId) => {
+        
+        const formData = new FormData();
+
+        formData.append('wishlistId', wishlistId);
+
+        axiosClient.post('/client-del-wishlist', formData)
+        .then(({data}) => {
+            if(data.status === 200) {
+                notify('default', data.message, 'bottom-left', 3000);
+                setWishlists(prevWislist => {
+                    return {data: prevWislist.data.filter(wishlist => String(wishlist.id) !== String(wishlistId))};
+                });
+            }
+        })
+    }
     
 
     return (
@@ -37,7 +67,7 @@ export default function ClientWishLists() {
             <div className="text-l1 fw-bold">Wishlists</div>
 
             <div className="wishlist-cont">
-                {wishlists.data?.length > 1 && (
+                {wishlists.data && (
                     <div className="wishlist-box">
                         <div className="wishlist-box-img-cont">
                             <div className="wishlist-box-img">
@@ -53,26 +83,15 @@ export default function ClientWishLists() {
                     </div>
                 )}
                 
+                {/* Render Wishlists */}
+                {wishlists.data?.length > 0 && wishlists.data.map(wishlist => (
+                    <ClientWishlistBox1 key={wishlist.id} wishlist={wishlist} handleRemoveWishlist={handleRemoveWishlist}/>
+                ))}
 
-                {wishlists.data?.length > 1 && wishlists.data.map(wishlist => (
-                    <div key={wishlist.id} className="wishlist-box">
-                        <div className="remove-wishlist-btn">
-                            <Icon.X/>
-                        </div>
-                        <div className="wishlist-box-img-cont">
-                            <div className="wishlist-box-img">
-                                {wishlist.wishlist_properties.length > 0 
-                                ? (<img src={`/src/assets/media/properties/${wishlist.wishlist_properties[0].property.photos[0].filename}`} alt="" />)
-                                : ''}
-                            </div>
-                        </div>
-                        
-                        
-                        <div className="">
-                            <div className="text-m2 fw-bold">{wishlist.name}</div>
-                            <div className="text-m3">Today</div>
-                        </div>
-                    </div>
+
+                {/* Wishlists Skeleton */}
+                {!wishlists.data && Array.from({length: 10}, (_, index) => index).map(x => (
+                    <ClientSkeletonWishlistBox key={x}/>
                 ))}
                 
 

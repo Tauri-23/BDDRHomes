@@ -33,11 +33,15 @@
     width: 300px;
     height: 300px;
     border-radius: var(--radius1);
-    background: var(--white);
+    background: var(--grey2);
     filter: drop-shadow(0 0 3px var(--grey1));
     padding: 5px;
     cursor: pointer;
 }
+.wishlist-box-img-cont.skeleton {
+    filter: none;
+}
+
 .wishlist-box-img {
     width: 100%;
     height: 100%;

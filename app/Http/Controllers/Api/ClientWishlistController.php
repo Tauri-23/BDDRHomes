@@ -27,6 +27,11 @@ class ClientWishlistController extends Controller
         ]);
     }
 
+    public function getWishlistViaId($wishlistId)
+    {
+        return wishlist::where('id', $wishlistId)->with('wishlistProperties')->first();
+    }
+
     public function createClientWishlist(Request $request)
     {
         $wishlist = new wishlist();
@@ -73,7 +78,7 @@ class ClientWishlistController extends Controller
                 
                 return response()->json([
                     'status' => 200,
-                    'message' => 'Success',
+                    'message' => "Added to {$request->wishlistName}",
                     'wishlist' => [
                         'id' => $wishlistId,
                         'client' => $request->clientId,
@@ -156,4 +161,27 @@ class ClientWishlistController extends Controller
         }
     }
 
+    public function deleteWishlist(Request $request)
+    {
+        $wishlistName = "";
+        $wishlist = wishlist::find($request->wishlistId);
+        $wishlistProperties = wishlist_properties::where('wishlist', $request->wishlistId)->get();
+
+        if($wishlist)
+        {
+            $wishlistName = $wishlist->name;
+
+            foreach($wishlistProperties as $wishlistProperty)
+            {
+                $wishlistProperty->delete();
+            }
+            $wishlist->delete();
+        }
+
+
+        return response()->json([
+            'status' => 200,
+            'message' => "{$wishlistName} deleted."
+        ]);
+    }
 }

@@ -6,12 +6,16 @@ import { AgentListingOptionModal1 } from "../components/Modals/agent_listing_opt
 import { ViewPropertyShowAllPhotosModal2 } from "../components/Modals/view_property_show_all_photos_modal2";
 import { useModal } from "../contexts/ModalContext"
 import { ClientAddToWishlistModal1 } from "../components/Modals/client_add_to_wishlist_modal1";
+import { ClientDelWishlistModal1 } from "../components/Modals/client_del_wishlist_modal1";
 
 const ModalManager = () => {
     const {modalState, hideModal} = useModal();
 
     const renderModal = () => {
         switch(modalState.type) {
+            /*
+            |   AGENT
+            */
             case 'AgentListingOptionModal1':
                 return <AgentListingOptionModal1 {...modalState.props} onClose={hideModal}/>
             case 'AgentEditListingDelAmenityModal1':
@@ -22,8 +26,27 @@ const ModalManager = () => {
                 return <AgentEditListingAddPhotoModal1 {...modalState.props} onClose={hideModal}/>
             case 'ViewPropertyShowAllPhotosModal2' :
                 return <ViewPropertyShowAllPhotosModal2 {...modalState.props} onClose={hideModal}/>
+
+
+
+
+
+            /*
+            |   CLIENT
+            */
+            // Wishlist
             case 'ClientAddToWishlistModal1' :
-                    return <ClientAddToWishlistModal1 {...modalState.props} onClose={hideModal}/>
+                return <ClientAddToWishlistModal1 {...modalState.props} onClose={hideModal}/>
+            case 'ClientDelWishlistModal1' :
+                return <ClientDelWishlistModal1 {...modalState.props} onClose={hideModal}/>
+            
+
+
+
+                
+            /*
+            |   DEFAULT
+            */
             default:
                 return null;
         }
