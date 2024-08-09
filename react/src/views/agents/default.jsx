@@ -3,7 +3,7 @@ import * as Icon from 'react-bootstrap-icons';
 import { useStateContext } from "../../contexts/ContextProvider";
 import { useEffect, useState } from "react";
 import axiosClient from "../../axios-client";
-import { AgentNavbar1 } from "../../components/agent_navbar_1";
+import { AgentNavbar1 } from "../../components/AgentComponents/agent_navbar_1";
 
 import '/src/assets/css/agent-listings.css';
 import { AgentListingOptionModal1 } from "../../components/Modals/agent_listing_option_modal1";
@@ -11,7 +11,7 @@ import { ModalProvider } from "../../contexts/ModalContext";
 import ModalManager from "../../Managers/ModalManager";
 
 export default function AgentDefault() {
-    const { user, token, setUser, setToken } = useStateContext();
+    const { userType, setUserType, user, token, setUser, setToken } = useStateContext();
     const location = useLocation();
 
     /*
@@ -22,15 +22,15 @@ export default function AgentDefault() {
     useEffect(() => {
         if (token) {
             axiosClient.get('/user')
-                .then(({ data }) => {
-                    setUser(data);
-                })
-                .catch((error) => {
-                    if (error.response && error.response.status === 401) {
-                        setUser({});
-                        setToken(null);
-                    }
-                });
+            .then(({ data }) => {
+                setUser(data);
+            })
+            .catch((error) => {
+                if (error.response && error.response.status === 401) {
+                    setUser({});
+                    setToken(null);
+                }
+            });
         }
     }, [token, setUser, setToken]);
 
@@ -44,7 +44,7 @@ export default function AgentDefault() {
     };
 
     // Handle redirection in the component body
-    if (!token) {
+    if (!token || userType !== 'agent') {
         return <Navigate to="/" />;
     }
 

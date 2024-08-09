@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
-import { NavLink2 } from "./navlink2";
+import { NavLink2 } from "../navlink2";
 import * as Icon from "react-bootstrap-icons";
-import { NavLink1 } from "./navlink1";
+import { NavLink1 } from "../navlink1";
 import { useEffect, useRef, useState } from "react";
 
 export const AgentNavbar1 = ({onLogout}) => {

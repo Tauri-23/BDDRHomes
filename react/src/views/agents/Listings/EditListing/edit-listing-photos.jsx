@@ -8,7 +8,7 @@ import axiosClient from "../../../../axios-client";
 import {closestCorners, DndContext} from '@dnd-kit/core';
 import {arrayMove, rectSortingStrategy, SortableContext} from '@dnd-kit/sortable';
 import { useSortable } from "@dnd-kit/sortable";
-import { EditListingPhotoCard } from "../../../../components/AgentEditListing/edit_listing_photo_card";
+import { EditListingPhotoCard } from "../../../../components/AgentComponents/edit_listing_photo_card";
 
 export default function AgentEditListingPhotos() {
     const {showModal} = useModal();

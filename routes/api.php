@@ -58,6 +58,7 @@ Route::post('/update-published-prop-desc', [AgentListingController::class, 'upda
 Route::post('/add-published-prop-photo', [AgentListingController::class, 'addPropertyPhoto']);
 Route::post('/remove-published-prop-photo', [AgentListingController::class, 'removePropertyPhoto']);
 Route::post('/update-prop-photo-sequence', [AgentListingController::class, 'updatePhotosSequence']);
+Route::post('/delete-property-permanently', [AgentListingController::class, 'deleteProperty']);
 
 
 

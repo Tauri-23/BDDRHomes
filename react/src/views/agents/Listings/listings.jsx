@@ -6,6 +6,9 @@ import { useEffect, useState } from 'react';
 import { fetchAgentPublishedProperties } from '../../../Services/AgentListingService';
 import { useStateContext } from '../../../contexts/ContextProvider';
 import { SkeletonListingBox } from '../../../Skeletons/agent-listing-skeletons';
+import { AgentListingBox1 } from '../../../components/AgentComponents/agent_listing_box1';
+import axiosClient from '../../../axios-client';
+import { notify } from '../../../assets/js/utils';
 
 export default function AgentListing() {
 
@@ -26,8 +29,40 @@ export default function AgentListing() {
         getListedProperties();        
     }, []);
 
+
+
+    /*
+    |   Debugging
+    */
+    // useEffect(() => {
+    //     console.log(listings);
+    // }, [listings]);
+
+    
+
+    const handleRemovePropertyPost = (propId) => {
+        const formData = new FormData();
+        formData.append('propId', propId);            
+
+        axiosClient.post('/delete-property-permanently', formData)
+        .then(({data}) => {
+            if(data.status === 200) {
+                setListing(prevListings => {
+                    return {data: prevListings.data.filter(prevListing => prevListing.id !== propId)};
+                })
+                notify('default', data.message, 'bottom-left', 3000);
+            } else {
+                notify('default', data.message, 'bottom-left', 3000);
+            }
+        }).catch(error => {console.error(error)});
+    }
+
+    const handleRemovePropertyConfirmation = (listing) => {
+        showModal('AgentDelListingConfirmationModal1', {listing, handleRemovePropertyPost});
+    }
+
     const handleListingClick = (listing) => {
-        showModal('AgentListingOptionModal1', { listing });
+        showModal('AgentListingOptionModal1', { listing, handleRemovePropertyConfirmation});
     };
     
     return (
@@ -53,18 +88,10 @@ export default function AgentListing() {
             <div className="d-flex flex-wrap gap1">
                 {listings.data && (
                     listings.data.map(listing => (
-                    <div key={listing.id} className="agent-listing-box" onClick={() => handleListingClick(listing)}>
-                        <div className="agent-listing-pic">
-                            <img src={`/src/assets/media/properties/${listing.photos[0].filename}`} alt={listing.title} />
-                        </div>
-                        <div className="agent-listing-desc">
-                            <div className="agent-listing-name">{listing.name}</div>
-                            <div className="agent-listing-address">{listing.address}</div>
-                        </div>
-                    </div>
+                    <AgentListingBox1 key={listing.id} listing={listing} handleListingClick={handleListingClick} />
                 )))}
 
-                {!listings.data && Array.from({length:10}).map(x =>(
+                {!listings.data && Array.from({length:10}, (_, index) => index).map(x =>(
                     <SkeletonListingBox key={x}/>
                 ))}
             </div>

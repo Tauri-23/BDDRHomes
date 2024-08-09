@@ -7,6 +7,7 @@ import { ViewPropertyShowAllPhotosModal2 } from "../components/Modals/view_prope
 import { useModal } from "../contexts/ModalContext"
 import { ClientAddToWishlistModal1 } from "../components/Modals/client_add_to_wishlist_modal1";
 import { ClientDelWishlistModal1 } from "../components/Modals/client_del_wishlist_modal1";
+import { AgentDelListingConfirmationModal1 } from "../components/Modals/agent_del_listing_confirmation_modal1";
 
 const ModalManager = () => {
     const {modalState, hideModal} = useModal();
@@ -16,8 +17,13 @@ const ModalManager = () => {
             /*
             |   AGENT
             */
+            // Listings
             case 'AgentListingOptionModal1':
                 return <AgentListingOptionModal1 {...modalState.props} onClose={hideModal}/>
+            case 'AgentDelListingConfirmationModal1':
+                return <AgentDelListingConfirmationModal1 {...modalState.props} onClose={hideModal}/>
+            
+            // Edit Listing
             case 'AgentEditListingDelAmenityModal1':
                 return <AgentEditListingDelAmenityModal1 {...modalState.props} onClose={hideModal}/>
             case 'AgentEditListisngDelPhotoModal1':

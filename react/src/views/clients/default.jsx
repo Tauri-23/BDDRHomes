@@ -1,7 +1,7 @@
 import { Link, Navigate, Outlet, useLocation } from "react-router-dom";
 import * as Icon from 'react-bootstrap-icons';
 import { useStateContext } from "../../contexts/ContextProvider";
-import { ClientNavbar1 } from "../../components/client_navbar_1";
+import { ClientNavbar1 } from "../../components/ClientComponents/client_navbar_1";
 import { Footer1 } from "../../components/footer1";
 import { useEffect } from "react";
 import axiosClient from "../../axios-client";
@@ -10,21 +10,21 @@ import ModalManager from "../../Managers/ModalManager";
 import { ToastContainer } from "react-toastify";
 
 export default function ClientDefault() {
-    const { user, token, setUser, setToken } = useStateContext();
+    const { setUserType, userType, user, token, setUser, setToken } = useStateContext();
     const location = useLocation();
 
     useEffect(() => {
         if (token) {
             axiosClient.get('/user')
-                .then(({ data }) => {
-                    setUser(data);
-                })
-                .catch((error) => {
-                    if (error.response && error.response.status === 401) {
-                        setUser({});
-                        setToken(null);
-                    }
-                });
+            .then(({ data }) => {
+                setUser(data);
+            })
+            .catch((error) => {
+                if (error.response && error.response.status === 401) {
+                    setUser({});
+                    setToken(null);
+                }
+            });
         }
     }, [token, setUser, setToken]);
 
@@ -38,7 +38,7 @@ export default function ClientDefault() {
     };
 
     // Handle redirection in the component body
-    if (!token) {
+    if (!token || userType !== 'client') {
         return <Navigate to="/" />;
     }
 

@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
-import { useOutletContext, useParams } from "react-router-dom";
+import { Link, useOutletContext, useParams } from "react-router-dom";
 import { fetchSpecificWishlistById } from "../../../Services/ClientWishlistService";
 import { ClientSkeletonListingBox } from "../../../Skeletons/client-listing-skeletons";
 import { PropertyBox1 } from "../../../components/property_box1";
 import axiosClient from "../../../axios-client";
 import { notify } from "../../../assets/js/utils";
+import * as Icon from 'react-bootstrap-icons';
 
 export default function ClientViewWishlist() {
     const {user} = useOutletContext();
@@ -68,6 +69,10 @@ export default function ClientViewWishlist() {
     
     return(
         <div className="content2">
+            <Link to={'/BDDRClient/Wishlists'} className="d-flex gap3 align-items-center text-l3 color-black1 text-decoration-none mar-bottom-1">
+                <Icon.ChevronLeft/>
+                Back
+            </Link>
             {wishlist && (
                 <>
                     <div className="text-l1 fw-bold mar-bottom-1">{wishlist.name}</div>

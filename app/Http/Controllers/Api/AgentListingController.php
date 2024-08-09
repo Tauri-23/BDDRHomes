@@ -318,4 +318,31 @@ class AgentListingController extends Controller
             'message' => 'Success'
         ]);
     }
+
+    /*
+    | This will delete the property from the database permanently 
+    */
+    public function deleteProperty(Request $request)
+    {
+        $propertyToDel = published_properties::find($request->propId);
+        
+
+        if($propertyToDel)
+        {
+            $propertyName = $propertyToDel->name;
+            $propertyToDel->delete();
+
+            return response()->json([
+                'status' => 200,
+                'message' => "{$propertyName} removed."
+            ]);
+        }
+        else
+        {
+            return response()->json([
+                'status' => 401,
+                'message' => "Property doesn't exist."
+            ]);
+        }
+    }
 }

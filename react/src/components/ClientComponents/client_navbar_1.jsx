@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import * as Icon from 'react-bootstrap-icons';
 import { Link } from "react-router-dom";
-import { NavLink1 } from "./navlink1";
+import { NavLink1 } from "../navlink1";
 
 export const ClientNavbar1 = ({onLogout}) => {
     const [navModal1Visible, setNavModal1Visibility] = useState(false);
