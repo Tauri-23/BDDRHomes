@@ -22,7 +22,7 @@ export default function ClientIndex() {
     |    Get all necessary datas from db
     */
     useEffect(() => {
-        if(user) {
+        if(user.id) {
             const getListedProperties = async() => {
                 try {
                     const data = await fetchAllProperties();
@@ -54,7 +54,7 @@ export default function ClientIndex() {
             getListedProperties();
             getAllClientWishlists();
             getAllPropTypes();
-        }        
+        }
     }, []);
 
 

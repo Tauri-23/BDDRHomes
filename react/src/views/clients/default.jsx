@@ -10,7 +10,7 @@ import ModalManager from "../../Managers/ModalManager";
 import { ToastContainer } from "react-toastify";
 
 export default function ClientDefault() {
-    const { setUserType, userType, user, token, setUser, setToken } = useStateContext();
+    const { user, setUserType, userType, token, setUser, setToken } = useStateContext();
     const location = useLocation();
 
     useEffect(() => {
