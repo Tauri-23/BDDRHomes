@@ -10,14 +10,14 @@ import ModalManager from "../../Managers/ModalManager";
 import { ToastContainer } from "react-toastify";
 
 export default function ClientDefault() {
-    const { user, setUserType, userType, token, setUser, setToken } = useStateContext();
+    const { user, userType, token, setUserType, setUser, setToken } = useStateContext();
     const location = useLocation();
 
     useEffect(() => {
-        if (token) {
+        if (token) {            
             axiosClient.get('/user')
             .then(({ data }) => {
-                setUser(data);
+                setUser(data.user);
             })
             .catch((error) => {
                 if (error.response && error.response.status === 401) {
@@ -26,7 +26,7 @@ export default function ClientDefault() {
                 }
             });
         }
-    }, [token, setUser, setToken]);
+    }, []);
 
     const onLogout = (ev) => {
         axiosClient.post('/logout')
@@ -42,23 +42,25 @@ export default function ClientDefault() {
         return <Navigate to="/" />;
     }
 
-    return (
-        <ModalProvider>
-            <div className="w-100 h-100 position-relative">
-                <ModalManager/>
-                
-                {/* Navbar */}
-                <ClientNavbar1 onLogout={onLogout} />
-
-                {/* Children Contents */}
-                <Outlet context={user}/>
-
-                <ToastContainer/>
-
-                {/* Footer */}
-                <Footer1/>
-            </div>
-        </ModalProvider>
-        
-    );
+    if(user) {
+        return (
+            <ModalProvider>
+                <div className="w-100 h-100 position-relative">
+                    <ModalManager/>
+                    
+                    {/* Navbar */}
+                    <ClientNavbar1 onLogout={onLogout} />
+    
+                    {/* Children Contents */}
+                    <Outlet/>
+    
+                    <ToastContainer/>
+    
+                    {/* Footer */}
+                    <Footer1/>
+                </div>
+            </ModalProvider>
+            
+        );
+    }
 }

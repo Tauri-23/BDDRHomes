@@ -6,9 +6,10 @@ import { PropertyBox1 } from "../../../components/property_box1";
 import axiosClient from "../../../axios-client";
 import { notify } from "../../../assets/js/utils";
 import * as Icon from 'react-bootstrap-icons';
+import { useStateContext } from "../../../contexts/ContextProvider";
 
 export default function ClientViewWishlist() {
-    const {user} = useOutletContext();
+    const {user} = useStateContext();
     const {wishlistId} = useParams();
     const [wishlist, setWishlist] = useState([]);
 
@@ -28,9 +29,9 @@ export default function ClientViewWishlist() {
     /*
     | Debugging
     */
-    useEffect(() => {
-        console.log(wishlist);
-    }, [wishlist])
+    // useEffect(() => {
+    //     console.log(wishlist);
+    // }, [wishlist])
 
 
 

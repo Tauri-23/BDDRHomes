@@ -8,10 +8,11 @@ import { notify } from '../../../assets/js/utils';
 import { useModal } from '../../../contexts/ModalContext';
 import { ClientSkeletonWishlistBox } from '../../../Skeletons/client-wishlist-skeletons';
 import { ClientWishlistBox1 } from '../../../components/client_wishlist_box1';
+import { useStateContext } from '../../../contexts/ContextProvider';
 
 export default function ClientWishLists() {
 
-    const {user} = useOutletContext();
+    const {user} = useStateContext();
     const {showModal} = useModal();
     const [wishlists, setWishlists] = useState([]);
     
@@ -27,9 +28,12 @@ export default function ClientWishLists() {
                 console.error(error);
             }
         };
-
-        getAllWishlists();
-    }, [user]);
+        if(user) {
+            
+    
+            getAllWishlists();
+        }
+    }, []);
 
     /*
     |   Debug

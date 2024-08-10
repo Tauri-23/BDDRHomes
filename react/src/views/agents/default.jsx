@@ -32,7 +32,7 @@ export default function AgentDefault() {
                 }
             });
         }
-    }, [token, setUser, setToken]);
+    }, []);
 
     const onLogout = (ev) => {
         axiosClient.post('/logout')

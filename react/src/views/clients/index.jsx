@@ -9,9 +9,10 @@ import { fetchAllClientWishlists } from "../../Services/ClientWishlistService";
 import { notify } from "../../assets/js/utils";
 import { string } from "prop-types";
 import { fetchPropertyTypes } from "../../Services/AgentCreateListingService";
+import { useStateContext } from "../../contexts/ContextProvider";
 
 export default function ClientIndex() {
-    const {user} = useOutletContext();
+    const {user} = useStateContext();
     const [properties, setProperties] = useState([]);
     const [wishlists, setWishlists] = useState([]);
     const [propTypes, setPropTypes] = useState([]);
@@ -22,37 +23,37 @@ export default function ClientIndex() {
     |    Get all necessary datas from db
     */
     useEffect(() => {
-        if(user.id) {
-            const getListedProperties = async() => {
-                try {
-                    const data = await fetchAllProperties();
-                    setProperties(data);                
-                } catch (error) {
-                    console.error(error);
-                }
+        const getListedProperties = async() => {
+            try {
+                const data = await fetchAllProperties();
+                setProperties(data);                
+            } catch (error) {
+                console.error(error);
             }
-    
-            const getAllClientWishlists = async() => {
-                try {
-                    const data = await fetchAllClientWishlists(user.id);
-                    setWishlists(data);
-                } catch (error) {
-                    console.error(error);
-                }
-    
+        }
+
+        const getAllClientWishlists = async(id) => {
+            try {
+                const data = await fetchAllClientWishlists(id);
+                setWishlists(data);
+            } catch (error) {
+                console.error(error);
             }
-    
-            const getAllPropTypes = async() => {
-                try {
-                    const data = await fetchPropertyTypes();
-                    setPropTypes(data);
-                } catch (error) {
-                    console.error(error);
-                }
+
+        }
+
+        const getAllPropTypes = async() => {
+            try {
+                const data = await fetchPropertyTypes();
+                setPropTypes(data);
+            } catch (error) {
+                console.error(error);
             }
-    
+        }
+        
+        if(user) {
             getListedProperties();
-            getAllClientWishlists();
+            getAllClientWishlists(user.id);
             getAllPropTypes();
         }
     }, []);
@@ -135,7 +136,7 @@ export default function ClientIndex() {
                 notify('error', data.message, 'top-center', 3000);
                 console.error(data.message);
             }
-        }).catch(error => console.error(error));        
+        }).catch(error => console.error(error));      
     };
 
     const handleAddPropToWishlist = (propId, wishlistId, wishlistName) => {
@@ -194,9 +195,9 @@ export default function ClientIndex() {
     //     console.log(properties);
     // }, [properties.data]);
 
-    useEffect(() => {
-        console.log(wishlists);
-    }, [wishlists]);
+    // useEffect(() => {
+    //     console.log(wishlists);
+    // }, [wishlists]);
 
     // useEffect(() => {
     //     console.log(propTypes);
