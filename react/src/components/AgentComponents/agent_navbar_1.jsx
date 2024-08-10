@@ -4,7 +4,7 @@ import * as Icon from "react-bootstrap-icons";
 import { NavLink1 } from "../navlink1";
 import { useEffect, useRef, useState } from "react";
 
-export const AgentNavbar1 = ({onLogout}) => {
+export const AgentNavbar1 = ({agent, onLogout}) => {
     const [navModal1Visible, setNavModal1Visibility] = useState(false);
     const [notifVisible, setNotifVisibility] = useState(false);
     const navModalRef = useRef(null);
@@ -76,8 +76,11 @@ export const AgentNavbar1 = ({onLogout}) => {
                     {/* PFP */}
                     <div className="navbar-3-pfp" onClick={toggleNavModal1Visibility}>
                         {/* If pfp is null use the first letter of fname instead */}
-                        <div className="text-l3 color-white1">M</div>
-                        {/* <img src="/src/assets/media/clients/pfp/airich-pfp.jpg" alt="" /> */}
+                        {agent.pfp
+                        ? (<img src={`/src/assets/media/clients/pfp/${agent.pfp}`} alt="" />)
+                        : (<div className="text-l3 color-white1">{agent.firstname[0]}</div>)}
+                        
+                        
                     </div>
 
                 </div>

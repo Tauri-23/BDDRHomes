@@ -49,7 +49,7 @@ export default function ClientDefault() {
                     <ModalManager/>
                     
                     {/* Navbar */}
-                    <ClientNavbar1 onLogout={onLogout} />
+                    <ClientNavbar1 client={user} onLogout={onLogout} />
     
                     {/* Children Contents */}
                     <Outlet/>

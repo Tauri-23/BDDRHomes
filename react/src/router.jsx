@@ -41,6 +41,7 @@ import ClientWishLists from "./views/clients/Wishlist/wishlists";
 import ClientViewWishlist from "./views/clients/Wishlist/view-wishlist";
 import AdminDefault from "./views/admin/default";
 import AdminIndex from "./views/admin";
+import ViewProperty from "./views/guest/view-property";
 
 const router = createBrowserRouter([
     /*
@@ -59,6 +60,10 @@ const router = createBrowserRouter([
             {
                 path: 'listings',
                 element: <GuestListings/>
+            },
+            {
+                path: 'viewProperty/:id',
+                element: <ViewProperty/>
             },
             {
                 path: 'signin',

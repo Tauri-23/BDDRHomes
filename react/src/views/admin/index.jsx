@@ -4,6 +4,6 @@ export default function AdminIndex() {
     const {user} = useStateContext();
 
     return(
-        <></>
+        <>Admin Page</>
     );
 }

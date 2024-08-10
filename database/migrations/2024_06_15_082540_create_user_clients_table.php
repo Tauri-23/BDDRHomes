@@ -24,6 +24,8 @@ return new class extends Migration
             $table->string('username')->unique();
             $table->string('phone')->unique();
             $table->string('password');
+
+            $table->string('pfp')->nullable();
             
             $table->timestamps();
         });

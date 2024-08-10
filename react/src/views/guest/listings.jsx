@@ -1,407 +1,79 @@
 import * as Icon from 'react-bootstrap-icons';
 import { useStateContext } from "../../contexts/ContextProvider";
+import { useEffect, useState } from 'react';
+import { fetchPropertyTypes } from '../../Services/AgentCreateListingService';
+import { fetchAllProperties } from '../../Services/ClientListingService';
+import { PropertyBox1 } from '../../components/property_box1';
+import { ClientSkeletonListingBox } from '../../Skeletons/client-listing-skeletons';
+import { PropertyBox2 } from '../../components/property_box2';
 
 export default function GuestListings() {
-    // const {user, token} = useStateContext();
+    
+    const [properties, setProperties] = useState([]);
+    const [propTypes, setPropTypes] = useState([]);
 
-    // if(!token) {
-    //     return
-    // }
+
+
+    useEffect(() => {
+        const getAllPropTypes = async() => {
+            try {
+                const data = await fetchPropertyTypes();
+                setPropTypes(data);
+            } catch(error) {console.error(error)}
+        }
+        const getListedProperties = async() => {
+            try {
+                const data = await fetchAllProperties();
+                setProperties(data);
+            } catch(error) {console.error(error)}
+        }
+
+        getAllPropTypes();
+        getListedProperties();
+    }, []);
 
     return (
-        <div className="content1">
-            <div className="text-l2 fw-bold mar-bottom-1">Properties</div>
-
-            {/* Property Types Category-btns */}
-            <div className="d-flex gap3 mar-bottom-1">
-                <div className="category-btn-blue1 color-blue1">
-                    <img src="/src/assets/media/icons/house.svg" className='category-icon1' alt=""/>
-                    House and Lot
+        <>
+            <div className="listing-category-nav">
+                {/* Categories */}
+                <div className="listing-category-cont">
+                    {propTypes.length > 0 && (
+                        <div className="category-btn-blue1 active">
+                            <Icon.Grid className='text-l2'/>
+                            <div className="category-btn-text">All</div>
+                        </div>
+                    )}
+                    {propTypes.length > 0 && propTypes.map(propType => (
+                        <div key={propType.id} className="category-btn-blue1">
+                            <img src={`/src/assets/media/icons/${propType.icon}`} className='category-icon1' alt=""/>
+                            
+                            <div className="category-btn-text">{propType.type_name}</div>
+                        </div>
+                    ))}
                 </div>
-                <div className="category-btn-blue1 color-blue1">
-                    <img src="/src/assets/media/icons/building.svg" className='category-icon1' alt=""/>
-                    Condos
-                </div>
-                <div className="category-btn-blue1 color-blue1">
-                    <img src="/src/assets/media/icons/land.svg" className='category-icon1' alt=""/>
-                    Lot Only
-                </div>
-
-                <div className="category-btn-blue1 color-blue1">
-                    <img src="/src/assets/media/icons/rowhouse.svg" className='category-icon1' alt=""/>
-                    Row House
-                </div>
-
-                <div className="category-btn-blue1 color-blue1">
-                    <img src="/src/assets/media/icons/bungalow.svg" className='category-icon1' alt=""/>
-                    Bungalow
-                </div>
+                <div className="secondary-btn-black2 gap3 d-flex align-items-center"><Icon.Sliders/>Filter</div>
             </div>
 
-            {/* Properties Container */}
-            <div className="properties-cont">
+            <div className="content1">
+                {/* Properties Container */}
+                <div className="properties-cont">
+
+                    {properties.data 
+                    ?
+                    properties.data.map(prop => (
+                        <PropertyBox2
+                            key={prop.id}
+                            property={prop}
+                        />
+                    ))
+                    : Array.from({length:10}, (_, index) => index).map(x => (
+                        <ClientSkeletonListingBox key={x}/>
+                    ))}
 
 
-                {/* Render Property boxes */}
-                <div className="property-box">
-                    <div className="property-box-pic">
-
-                    </div>
-
-                    <div className="property-box-desc">
-                        <div className="text-l3">Property Name</div>
-                        <div className="text-m2 d-flex align-items-center gap4">
-                            <Icon.GeoAlt/>
-                            Address
-                        </div>
-
-                        <div className="text-m2 d-flex gap4 align-items-center mar-top-3">
-                            <div className="property-box-agent-pfp">
-
-                            </div>
-                            Agent Name
-                        </div>
-
-                        {/* Specs Preview */}
-                        <div className="d-flex gap3 mar-top-3">
-                            <div className="listing-box-specs-box">
-                                <img src="/src/assets/media/icons/bed.svg" alt="" />
-                                4
-                            </div>
-
-                            <div className="listing-box-specs-box">
-                                <img src="/src/assets/media/icons/bathtub.svg" alt="" />
-                                2
-                            </div>
-
-                            <div className="listing-box-specs-box">
-                                <img src="/src/assets/media/icons/garages.svg" alt="" />
-                                2
-                            </div>
-
-                            <div className="listing-box-specs-box">
-                                <Icon.House/>
-                                Single Detached
-                            </div>
-                        </div>
-
-                        {/* Price */}
-                        <div className="text-end mar-top-3">
-                            ₱ 12,000,000.00
-                        </div>
-
-                        
-                    </div>
                 </div>
-
-                <div className="property-box">
-                    <div className="property-box-pic">
-
-                    </div>
-
-                    <div className="property-box-desc">
-                        <div className="text-l3">Property Name</div>
-                        <div className="text-m2 d-flex align-items-center gap4">
-                            <Icon.GeoAlt/>
-                            Address
-                        </div>
-
-                        <div className="text-m2 d-flex gap4 align-items-center mar-top-3">
-                            <div className="property-box-agent-pfp">
-
-                            </div>
-                            Agent Name
-                        </div>
-
-                        {/* Specs Preview */}
-                        <div className="d-flex gap3 mar-top-3">
-                            <div className="listing-box-specs-box">
-                                <img src="/src/assets/media/icons/bed.svg" alt="" />
-                                4
-                            </div>
-
-                            <div className="listing-box-specs-box">
-                                <img src="/src/assets/media/icons/bathtub.svg" alt="" />
-                                2
-                            </div>
-
-                            <div className="listing-box-specs-box">
-                                <img src="/src/assets/media/icons/garages.svg" alt="" />
-                                2
-                            </div>
-
-                            <div className="listing-box-specs-box">
-                                <Icon.House/>
-                                Single Detached
-                            </div>
-                        </div>
-
-                        {/* Price */}
-                        <div className="text-end mar-top-3">
-                            ₱ 12,000,000.00
-                        </div>
-
-                        
-                    </div>
-                </div>
-
-                <div className="property-box">
-                    <div className="property-box-pic">
-
-                    </div>
-
-                    <div className="property-box-desc">
-                        <div className="text-l3">Property Name</div>
-                        <div className="text-m2 d-flex align-items-center gap4">
-                            <Icon.GeoAlt/>
-                            Address
-                        </div>
-
-                        <div className="text-m2 d-flex gap4 align-items-center mar-top-3">
-                            <div className="property-box-agent-pfp">
-
-                            </div>
-                            Agent Name
-                        </div>
-
-                        {/* Specs Preview */}
-                        <div className="d-flex gap3 mar-top-3">
-                            <div className="listing-box-specs-box">
-                                <img src="/src/assets/media/icons/bed.svg" alt="" />
-                                4
-                            </div>
-
-                            <div className="listing-box-specs-box">
-                                <img src="/src/assets/media/icons/bathtub.svg" alt="" />
-                                2
-                            </div>
-
-                            <div className="listing-box-specs-box">
-                                <img src="/src/assets/media/icons/garages.svg" alt="" />
-                                2
-                            </div>
-
-                            <div className="listing-box-specs-box">
-                                <Icon.House/>
-                                Single Detached
-                            </div>
-                        </div>
-
-                        {/* Price */}
-                        <div className="text-end mar-top-3">
-                            ₱ 12,000,000.00
-                        </div>
-
-                        
-                    </div>
-                </div>
-
-                <div className="property-box">
-                    <div className="property-box-pic">
-
-                    </div>
-
-                    <div className="property-box-desc">
-                        <div className="text-l3">Property Name</div>
-                        <div className="text-m2 d-flex align-items-center gap4">
-                            <Icon.GeoAlt/>
-                            Address
-                        </div>
-
-                        <div className="text-m2 d-flex gap4 align-items-center mar-top-3">
-                            <div className="property-box-agent-pfp">
-
-                            </div>
-                            Agent Name
-                        </div>
-
-                        {/* Specs Preview */}
-                        <div className="d-flex gap3 mar-top-3">
-                            <div className="listing-box-specs-box">
-                                <img src="/src/assets/media/icons/bed.svg" alt="" />
-                                4
-                            </div>
-
-                            <div className="listing-box-specs-box">
-                                <img src="/src/assets/media/icons/bathtub.svg" alt="" />
-                                2
-                            </div>
-
-                            <div className="listing-box-specs-box">
-                                <img src="/src/assets/media/icons/garages.svg" alt="" />
-                                2
-                            </div>
-
-                            <div className="listing-box-specs-box">
-                                <Icon.House/>
-                                Single Detached
-                            </div>
-                        </div>
-
-                        {/* Price */}
-                        <div className="text-end mar-top-3">
-                            ₱ 12,000,000.00
-                        </div>
-
-                        
-                    </div>
-                </div>
-
-                <div className="property-box">
-                    <div className="property-box-pic">
-
-                    </div>
-
-                    <div className="property-box-desc">
-                        <div className="text-l3">Property Name</div>
-                        <div className="text-m2 d-flex align-items-center gap4">
-                            <Icon.GeoAlt/>
-                            Address
-                        </div>
-
-                        <div className="text-m2 d-flex gap4 align-items-center mar-top-3">
-                            <div className="property-box-agent-pfp">
-
-                            </div>
-                            Agent Name
-                        </div>
-
-                        {/* Specs Preview */}
-                        <div className="d-flex gap3 mar-top-3">
-                            <div className="listing-box-specs-box">
-                                <img src="/src/assets/media/icons/bed.svg" alt="" />
-                                4
-                            </div>
-
-                            <div className="listing-box-specs-box">
-                                <img src="/src/assets/media/icons/bathtub.svg" alt="" />
-                                2
-                            </div>
-
-                            <div className="listing-box-specs-box">
-                                <img src="/src/assets/media/icons/garages.svg" alt="" />
-                                2
-                            </div>
-
-                            <div className="listing-box-specs-box">
-                                <Icon.House/>
-                                Single Detached
-                            </div>
-                        </div>
-
-                        {/* Price */}
-                        <div className="text-end mar-top-3">
-                            ₱ 12,000,000.00
-                        </div>
-
-                        
-                    </div>
-                </div>
-
-                <div className="property-box">
-                    <div className="property-box-pic">
-
-                    </div>
-
-                    <div className="property-box-desc">
-                        <div className="text-l3">Property Name</div>
-                        <div className="text-m2 d-flex align-items-center gap4">
-                            <Icon.GeoAlt/>
-                            Address
-                        </div>
-
-                        <div className="text-m2 d-flex gap4 align-items-center mar-top-3">
-                            <div className="property-box-agent-pfp">
-
-                            </div>
-                            Agent Name
-                        </div>
-
-                        {/* Specs Preview */}
-                        <div className="d-flex gap3 mar-top-3">
-                            <div className="listing-box-specs-box">
-                                <img src="/src/assets/media/icons/bed.svg" alt="" />
-                                4
-                            </div>
-
-                            <div className="listing-box-specs-box">
-                                <img src="/src/assets/media/icons/bathtub.svg" alt="" />
-                                2
-                            </div>
-
-                            <div className="listing-box-specs-box">
-                                <img src="/src/assets/media/icons/garages.svg" alt="" />
-                                2
-                            </div>
-
-                            <div className="listing-box-specs-box">
-                                <Icon.House/>
-                                Single Detached
-                            </div>
-                        </div>
-
-                        {/* Price */}
-                        <div className="text-end mar-top-3">
-                            ₱ 12,000,000.00
-                        </div>
-
-                        
-                    </div>
-                </div>
-
-                <div className="property-box">
-                    <div className="property-box-pic">
-
-                    </div>
-
-                    <div className="property-box-desc">
-                        <div className="text-l3">Property Name</div>
-                        <div className="text-m2 d-flex align-items-center gap4">
-                            <Icon.GeoAlt/>
-                            Address
-                        </div>
-
-                        <div className="text-m2 d-flex gap4 align-items-center mar-top-3">
-                            <div className="property-box-agent-pfp">
-
-                            </div>
-                            Agent Name
-                        </div>
-
-                        {/* Specs Preview */}
-                        <div className="d-flex gap3 mar-top-3">
-                            <div className="listing-box-specs-box">
-                                <img src="/src/assets/media/icons/bed.svg" alt="" />
-                                4
-                            </div>
-
-                            <div className="listing-box-specs-box">
-                                <img src="/src/assets/media/icons/bathtub.svg" alt="" />
-                                2
-                            </div>
-
-                            <div className="listing-box-specs-box">
-                                <img src="/src/assets/media/icons/garages.svg" alt="" />
-                                2
-                            </div>
-
-                            <div className="listing-box-specs-box">
-                                <Icon.House/>
-                                Single Detached
-                            </div>
-                        </div>
-
-                        {/* Price */}
-                        <div className="text-end mar-top-3">
-                            ₱ 12,000,000.00
-                        </div>
-
-                        
-                    </div>
-                </div>
-
-
             </div>
-        </div>
+        </>
+        
     )
 };

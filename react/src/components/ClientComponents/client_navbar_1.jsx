@@ -3,7 +3,7 @@ import * as Icon from 'react-bootstrap-icons';
 import { Link } from "react-router-dom";
 import { NavLink1 } from "../navlink1";
 
-export const ClientNavbar1 = ({onLogout}) => {
+export const ClientNavbar1 = ({client, onLogout}) => {
     const [navModal1Visible, setNavModal1Visibility] = useState(false);
     const navModalRef = useRef(null);
 
@@ -55,7 +55,9 @@ export const ClientNavbar1 = ({onLogout}) => {
                     <Icon.List className="text-l3 color-black1"/>
 
                     <div className="navbar-2-pfp">
-                        <img src="/src/assets/media/clients/pfp/airich-pfp.jpg" alt="" />
+                        {client.pfp
+                        ? (<img src={`/src/assets/media/clients/pfp/${client.pfp}`} alt="" />)
+                        : (<div className="text-l3 color-white1">{client.firstname[0]}</div>)}
                     </div>
                 </div>
             </div>

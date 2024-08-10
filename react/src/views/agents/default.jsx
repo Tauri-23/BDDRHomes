@@ -57,7 +57,7 @@ export default function AgentDefault() {
             <div className="w-100 h-100 position-relative">
                 <ModalManager/>
 
-                <AgentNavbar1 onLogout={onLogout}/>
+                <AgentNavbar1 agent={user} onLogout={onLogout}/>
 
                 <Outlet/>
 
