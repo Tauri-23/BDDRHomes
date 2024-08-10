@@ -23,7 +23,7 @@ export default function AgentDefault() {
         if (token) {
             axiosClient.get('/user')
             .then(({ data }) => {
-                setUser(data);
+                setUser(data.user);
             })
             .catch((error) => {
                 if (error.response && error.response.status === 401) {
@@ -49,26 +49,9 @@ export default function AgentDefault() {
     }
 
 
+
+
     
-    /*
-    |----------------------------------------
-    | Modals 
-    |----------------------------------------
-    */
-    // const openModal = (listing) => {
-    //     setCurrentListing(listing);
-    //     setModalVisible(true);
-    // };
-
-    // const closeModal = () => {
-    //     setModalVisible(false);
-    //     setCurrentListing(null);
-    // };
-
-
-
-
-
     return (
         <ModalProvider>
             <div className="w-100 h-100 position-relative">

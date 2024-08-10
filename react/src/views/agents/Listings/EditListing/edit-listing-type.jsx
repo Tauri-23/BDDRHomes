@@ -81,7 +81,7 @@ export default function AgentEditListingType() {
                             <div className="text-m1">{propType.type_name}</div>
                         </div>
                     ))}
-                    {propertyTypes == null && Array.from({length:8}).map(x =>
+                    {propertyTypes == null && Array.from({length:8}, (_, index) => index).map(x =>
                         <SkeletonListingOptionBox key={x}/>
                     )}
                 </div>

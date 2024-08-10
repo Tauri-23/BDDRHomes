@@ -14,7 +14,7 @@ export default function GuestDefault() {
             axiosClient.get('/user')
                 .then(({ data }) => {
                     setUserType(data.user_type);
-                    setUser(data.user);
+                    setUser(data.user);                    
                 })
                 .catch((error) => {
                     if (error.response && error.response.status === 401) {
@@ -24,15 +24,16 @@ export default function GuestDefault() {
                     }
                 });
         }
-    }, [token, setUserType, setUser, setToken]);
+    }, []);
 
     // Render logic based on userType
     if (token) {
-        
         if (userType === 'client') {
             return <Navigate to="/BDDRClient" />;
         } else if (userType === 'agent') {
             return <Navigate to="/BDDRAgent" />;
+        } else if (userType === 'admin') {
+            return <Navigate to="/BDDRAdmin" />;
         }
     }
     

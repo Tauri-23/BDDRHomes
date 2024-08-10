@@ -39,6 +39,8 @@ import AgentEditListingFinancing from "./views/agents/Listings/EditListing/edit-
 import AgentCreateListingPriceReqIncome from "./views/agents/Listings/CreateListing/create-listing-price-req-income";
 import ClientWishLists from "./views/clients/Wishlist/wishlists";
 import ClientViewWishlist from "./views/clients/Wishlist/view-wishlist";
+import AdminDefault from "./views/admin/default";
+import AdminIndex from "./views/admin";
 
 const router = createBrowserRouter([
     /*
@@ -75,7 +77,7 @@ const router = createBrowserRouter([
 
     /*
     |----------------------------------------
-    | Clients 
+    | Not Found 
     |----------------------------------------
     */
     {
@@ -262,7 +264,27 @@ const router = createBrowserRouter([
                 element: <AgentCreateListingFinal/>
             }
         ]
-    }, 
+    },
+
+
+
+
+
+    /*
+    |----------------------------------------
+    | Admins
+    |----------------------------------------
+    */
+    {
+        path: '/BDDRAdmin',
+        element: <AdminDefault/>,
+        children: [
+            {
+                index: true,
+                element: <AdminIndex/>
+            },
+        ]
+    }
 ]);
 
 

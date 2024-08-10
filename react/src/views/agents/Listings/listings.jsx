@@ -19,7 +19,7 @@ export default function AgentListing() {
     useEffect(() => {
         const getListedProperties = async () => {
             try {
-                const data = await fetchAgentPublishedProperties(user.user.id);
+                const data = await fetchAgentPublishedProperties(user.id);
                 setListing(data);
             } catch (error) {
                 console.error(error);

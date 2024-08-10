@@ -1,7 +1,7 @@
-import { useOutletContext } from "react-router-dom";
+import { useStateContext } from "../../contexts/ContextProvider";
 
 export default function AdminIndex() {
-    const {user} = useOutletContext();
+    const {user} = useStateContext();
 
     return(
         <></>

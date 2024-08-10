@@ -6,6 +6,7 @@ use App\Contracts\IGenerateIdService;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\SignupRequest;
+use App\Models\user_admins;
 use App\Models\user_agents;
 use App\Models\user_clients;
 use Illuminate\Http\Request;
@@ -22,6 +23,14 @@ class AuthController extends Controller
     }
 
 
+
+
+
+    /*
+    |----------------------------------------
+    | Create Account For Client -- this only for usertype client
+    |----------------------------------------
+    */
     public function signupPost(Request $request)
     {
         $isEmailExist = user_clients::where('email', $request->email)->exists();
@@ -79,6 +88,14 @@ class AuthController extends Controller
     }
 
 
+
+
+
+    /*
+    |----------------------------------------
+    | Login -- this will check all the userType Databases and check all your credentials 
+    |----------------------------------------
+    */
     public function login(Request $request) 
     {
         $user = user_clients::where('email', $request->email_uname_phone)
@@ -86,42 +103,61 @@ class AuthController extends Controller
             ->orWhere('phone', $request->email_uname_phone)
             ->first();
 
-        if (!$user || !Hash::check($request->pass, $user->password)) 
+        $agent = user_agents::where('email', $request->email_uname_phone)
+            ->orWhere('username', $request->email_uname_phone)
+            ->orWhere('phone', $request->email_uname_phone)
+            ->first();
+
+        $admin = user_admins::where('email', $request->email_uname_phone)
+            ->orWhere('username', $request->email_uname_phone)
+            ->orWhere('phone', $request->email_uname_phone)
+            ->first();
+
+        if ($user && Hash::check($request->pass, $user->password)) 
         {
-            // If not a client, check if it's an agent
-            $userAgent = user_agents::where('email', $request->email_uname_phone)
-                ->orWhere('username', $request->email_uname_phone)
-                ->orWhere('phone', $request->email_uname_phone)
-                ->first();
+            $token = $user->createToken('main')->plainTextToken;
 
-            if ($userAgent && Hash::check($request->pass, $userAgent->password)) 
-            {
-                $token = $userAgent->createToken('main')->plainTextToken;
+            return response()->json([
+                'status' => 200,
+                'message' => 'Success',
+                'user' => $user,
+                'token' => $token,
+                'user_type' => "client"
+            ]);
+        }
+        elseif ($agent && Hash::check($request->pass, $agent->password))
+        {
+            $token = $agent->createToken('main')->plainTextToken;
 
-                return response()->json([
-                    'status' => 200,
-                    'message' => 'Success',
-                    'user' => $userAgent,
-                    'token' => $token,
-                    'user_type' => "Agent"
-                ]);
-            }
+            return response()->json([
+                'status' => 200,
+                'message' => 'Success',
+                'user' => $agent,
+                'token' => $token,
+                'user_type' => "agent"
+            ]);
+        }
+        elseif ($admin && Hash::check($request->pass, $admin->password))
+        {
+            $token = $admin->createToken('main')->plainTextToken;
 
+            return response()->json([
+                'status' => 200,
+                'message' => 'Success',
+                'user' => $admin,
+                'token' => $token,
+                'user_type' => "admin"
+            ]);
+        }
+        else
+        {
             return response()->json([
                 'status' => 401,
                 'message' => "Credentials don't match"
             ]);
         }
 
-        $token = $user->createToken('main')->plainTextToken;
-
-        return response()->json([
-            'status' => 200,
-            'message' => 'Success',
-            'user' => $user,
-            'token' => $token,
-            'user_type' => "Client"
-        ]);
+        
     }
 
 
