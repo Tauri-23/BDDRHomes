@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import * as Icon from "react-bootstrap-icons";
 import { formatToPhilPeso } from "../assets/js/utils";
 import { useEffect } from "react";
@@ -6,6 +6,7 @@ import { useModal } from "../contexts/ModalContext";
 
 export const PropertyBox1 = ({ wishlists, property, isInWishlist, handleCreateWishlistAndAddPropToIt, handleRemovePropFromWishlist, handleAddPropToWishlist}) => { //TODO::put parameters]
     const {showModal} = useModal();
+    const navigate = useNavigate();
     const propId = property.id;
 
     // useEffect(() => {
@@ -13,7 +14,7 @@ export const PropertyBox1 = ({ wishlists, property, isInWishlist, handleCreateWi
     // }, [])
 
     const handleViewProperty = (event) => {
-        window.location.href = `/BDDRClient/ViewProperty/${property.id}`;
+        navigate(`/BDDRClient/ViewProperty/${property.id}`);
     }
 
     const handleHeartPressed = (event) => {

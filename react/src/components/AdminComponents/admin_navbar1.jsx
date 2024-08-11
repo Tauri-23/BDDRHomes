@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom"
-import { NavLink2 } from "../navlink2"
 import * as Icon from 'react-bootstrap-icons';
+import { AdminNavLink1 } from "./admin_navlink1";
 
 export const AdminNavbar1 = ({onLogout}) => {
     return (
@@ -15,9 +15,9 @@ export const AdminNavbar1 = ({onLogout}) => {
 
                 {/* Nav Links */}
                 <div className="nav3-links">
-                    <NavLink2 to="/BDDRAdmin" label="Dashboard" activeLoc="/BDDRAdmin" />
-                    <NavLink2 to="/BDDRAdmin/Agents" label="Agents" activeLoc="/BDDRAdmin/Agents" />
-                    <NavLink2 to="" label="Listings" activeLoc="/BDDRAdmin/Messages" />
+                    <AdminNavLink1 to="/BDDRAdmin" label="Dashboard" activeLoc={['/home']} />
+                    <AdminNavLink1 to="/BDDRAdmin/Agents" label="Agents" activeLoc={['Agents']} />
+                    <AdminNavLink1 to="" label="Listings" activeLoc={['Messages']} />
 
                 </div>
 

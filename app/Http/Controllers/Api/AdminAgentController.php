@@ -10,6 +10,11 @@ class AdminAgentController extends Controller
 {
     public function getAllAgents()
     {
-        return response() ->json(user_agents::all());
+        return response()->json(user_agents::all());
+    }
+
+    public function getAgentInfo($agentId)
+    {
+        return response()->json(user_agents::find($agentId));
     }
 }

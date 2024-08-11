@@ -99,3 +99,4 @@ Route::Post('/client-del-wishlist', [ClientWishlistController::class, 'deleteWis
 * Agents (ALL)
 */
 Route::get('/get-all-agents', [AdminAgentController::class, 'getAllAgents']);
+Route::get('/get-agent-info/{agentId}', [AdminAgentController::class, 'getAgentInfo']);

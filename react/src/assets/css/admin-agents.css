@@ -20,6 +20,10 @@
     flex-direction: column;
     gap: 20px;
     cursor: pointer;
+    overflow: hidden;
+}
+.agent-box.grid.skeleton {
+    background: var(--grey2);
 }
 .agent-box.list {
     width: 100%;

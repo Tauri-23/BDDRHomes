@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { NavLink2 } from "../navlink2";
+import { BDDRAgentNavLink1 } from "./bddr_agent_navlink1";
 import * as Icon from "react-bootstrap-icons";
 import { NavLink1 } from "../navlink1";
 import { useEffect, useRef, useState } from "react";
@@ -58,10 +58,10 @@ export const AgentNavbar1 = ({agent, onLogout}) => {
 
                 {/* Nav Links */}
                 <div className="nav3-links">
-                    <NavLink2 to="/BDDRAgent" label="Home" activeLoc="/BDDRAgent" />
-                    <NavLink2 to="/BDDRAgent/Listings" label="Listings" activeLoc="/BDDRAgent/Listings" />
-                    <NavLink2 to="/BDDRAgent/Messages" label="Messages" activeLoc="/BDDRAgent/Messages" />
-                    <NavLink2 to="/BDDRAgent/Performance" label="Performance" activeLoc="/BDDRAgent/Performance" />
+                    <BDDRAgentNavLink1 to="/BDDRAgent" label="Home" activeLoc={["/home"]} />
+                    <BDDRAgentNavLink1 to="/BDDRAgent/Listings" label="Listings" activeLoc={["Listings", "Listings/EditListing"]} />
+                    <BDDRAgentNavLink1 to="/BDDRAgent/Messages" label="Messages" activeLoc={["Messages"]} />
+                    <BDDRAgentNavLink1 to="/BDDRAgent/Performance" label="Performance" activeLoc={["Performance"]} />
 
                 </div>
 

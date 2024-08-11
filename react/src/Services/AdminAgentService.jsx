@@ -9,3 +9,20 @@ export const fetchAllAgents = async() => {
         throw error;
     }
 }
+
+
+
+/**
+ * 
+ * @param {String} agentId 
+ * @returns {JSON}
+ */
+export const fetchAgentInfos = async(agentId) => {
+    try {
+        const response = await axiosClient.get(`/get-agent-info/${agentId}`)
+        return response.data;
+    } catch(error) {
+        console.error('Error fetching agent information', error);
+        throw error;
+    }
+}

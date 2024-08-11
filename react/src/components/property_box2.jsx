@@ -1,10 +1,12 @@
 import * as Icon from "react-bootstrap-icons";
 import { formatToPhilPeso } from "../assets/js/utils";
+import { useNavigate } from "react-router-dom";
 
 export const PropertyBox2 = ({ property}) => { //TODO::put parameters]
+    const navigate = useNavigate();
 
     const handleViewProperty = (event) => {
-        window.location.href = `viewProperty/${property.id}`;
+        navigate(`/viewProperty/${property.id}`);
     }
 
 
