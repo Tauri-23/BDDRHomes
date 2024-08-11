@@ -42,3 +42,40 @@
     justify-content: center;
     position: relative;
 }
+
+
+
+
+/* Agent Profile */
+.agent-profile-cont-1 {
+    width: 100%;
+    position: relative;
+    height: 300px;
+    background: var(--white);
+    border-radius: 30px;
+    padding: 50px;
+    display: flex;
+    align-items: center;
+    filter: drop-shadow(0 0 5px var(--grey1));
+    gap: 20px;
+}
+.agent-profile-pfp-cont {
+    width: 200px;
+    height: 200px;
+    display: flex;
+    position: relative;
+    align-items: center;
+    justify-content: center;
+    border-radius: 100%;
+    background: var(--black1);
+    color: var(--white);
+    font-size: 75px;
+}
+.agent-profile-left-box-1 {
+    width: 400px;
+    height: 300px;
+    padding: 30px;
+    background: var(--white);
+    border-radius: 30px;
+    filter: drop-shadow(0 0 1px var(--grey1));
+}

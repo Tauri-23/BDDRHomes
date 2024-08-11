@@ -12,8 +12,8 @@ export const ClientAddToWishlistModal1 = ({ propId, wishlists, handleCreateWishl
     const [isCreateListing, setCreateListing] = useState(wishlists.data.length < 1);
 
     // useEffect(() => {
-    //     console.log(wishlists);
-    // }, [])
+    //     console.log(nameRef.current?.value);
+    // }, [nameRef.current?.value])
     
 
     return(
@@ -64,8 +64,8 @@ export const ClientAddToWishlistModal1 = ({ propId, wishlists, handleCreateWishl
                 <div className={`d-flex flex-direction-y gap3 ${!isCreateListing ? 'd-none' : ''}`}>
                     <button 
                     onClick={() => {handleCreateWishlistAndAddPropToIt(nameRef.current?.value, propId); onClose();}}
-                    disabled={isEmptyOrSpaces(String(nameRef.current?.value || ''))} 
-                    className={`w-100 primary-btn-black1 text-center ${isEmptyOrSpaces(String(nameRef.current?.value || '')) ? 'disabled' : ''}`}
+                    disabled={isEmptyOrSpaces(String(nameRef.current?.value))} 
+                    className={`w-100 primary-btn-black1 text-center ${isEmptyOrSpaces(String(nameRef.current?.value)) ? 'disabled' : ''}`}
                     >
                         Create
                     </button>

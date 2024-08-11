@@ -4,7 +4,7 @@ import { fetchAgentInfos } from "../../../Services/AdminAgentService";
 
 export default function AdminAgentProfile() {
     const {id} = useParams();
-    const [agent, setAgent] = useState([]);
+    const [agent, setAgent] = useState(null);
 
 
 
@@ -21,11 +21,28 @@ export default function AdminAgentProfile() {
 
 
 
+    useEffect(() => {
+        console.log(agent);
+    }, [agent])
+
+
+
     return(
-        <div className="content1">
-            {agent.length > 0 
+        <div className="content4">
+            {agent
             ? (
-                <div></div>
+                <div className="agent-profile-cont-1">
+                    <div className="agent-profile-pfp-cont">
+                        {agent.pfp
+                        ? (<img src={`/src/assets/media/agents/pfp/${agent.pfp}`}/>)
+                        : (<div className="">{agent.firstname[0]}</div>)}
+                    </div>
+
+                    <div className="d-flex flex-direction-y">
+                        <div className="text-xl2">{agent.firstname} {agent.lastname}</div>
+                        <div className="text-l3">Agent</div>
+                    </div>
+                </div>
             )
             : (<div className="text-l3 center-absolute-xy">Loading...</div>)}
         </div>

@@ -12,11 +12,6 @@ export const fetchAllAgents = async() => {
 
 
 
-/**
- * 
- * @param {String} agentId 
- * @returns {JSON}
- */
 export const fetchAgentInfos = async(agentId) => {
     try {
         const response = await axiosClient.get(`/get-agent-info/${agentId}`)
