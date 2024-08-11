@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\AdminAgentController;
 use App\Http\Controllers\Api\AgentListingController;
 use App\Http\Controllers\Api\AgentCreateListingController;
 use App\Http\Controllers\Api\AuthController;
@@ -84,3 +85,17 @@ Route::post('/client-create-wishlist-put-property', [ClientWishlistController::c
 Route::Post('/client-remove-property-from-wishlist', [ClientWishlistController::class, 'removePropertyFromWishlist']);
 Route::Post('/client-add-property-to-wishlist', [ClientWishlistController::class, 'addPropertyToWishlist']);
 Route::Post('/client-del-wishlist', [ClientWishlistController::class, 'deleteWishlist']);
+
+
+
+
+
+/*
+|----------------------------------------
+| Admin 
+|----------------------------------------
+*/
+/*
+* Agents (ALL)
+*/
+Route::get('/get-all-agents', [AdminAgentController::class, 'getAllAgents']);

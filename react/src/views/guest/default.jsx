@@ -6,6 +6,7 @@ import { useEffect } from "react";
 import axiosClient from "../../axios-client";
 import { ModalProvider } from "../../contexts/ModalContext";
 import ModalManager from "../../Managers/ModalManager";
+import { GuestNavbar1 } from "../../components/gues_navbar1";
 
 export default function GuestDefault() {
     const {user, token, setUser, userType, setUserType, setToken} = useStateContext();
@@ -47,24 +48,7 @@ export default function GuestDefault() {
             <ModalManager/>
 
             {/* Navbar */}
-            <div className="navbar1">
-                <div className="navbar-1-logo">
-                    <div className="d-flex align-items-center gap3">
-                        <img src={"/src/assets/media/logos/logo1.png"} className="navbar-1-logo-pic" alt="" />
-                        <div className="text-l3 fw-bold">BDDR <span className="color-blue1 fw-bold">Homes</span></div>
-                    </div>
-                </div>
-
-                <div className="navbar1-links">
-                    <Link to="/" className={`navbar1-link ${location.pathname == '/' ? 'active' : ''}`}><Icon.House/> Home</Link>
-                    <Link to="/listings" className={`navbar1-link ${location.pathname == '/listings' ? 'active' : ''}`}><Icon.Shop/> Listings</Link>
-                    <Link to="/" className={`navbar1-link ${location.pathname == '/about' ? 'active' : ''}`}><Icon.InfoSquare/> About</Link>
-                </div>
-                    
-                <div className="navbar1-links">
-                    <Link to="/signin" className="navbar1-link"><Icon.BoxArrowInRight/> Login</Link>
-                </div>
-            </div>
+            <GuestNavbar1/>
 
             {/* Children Contents */}
             <Outlet/>

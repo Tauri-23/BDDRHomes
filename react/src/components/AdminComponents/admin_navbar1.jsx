@@ -15,9 +15,9 @@ export const AdminNavbar1 = ({onLogout}) => {
 
                 {/* Nav Links */}
                 <div className="nav3-links">
-                    <NavLink2 to="" label="Dashboard" activeLoc="/BDDRAgent" />
-                    <NavLink2 to="" label="Agents" activeLoc="/BDDRAgent/Listings" />
-                    <NavLink2 to="" label="Listings" activeLoc="/BDDRAgent/Messages" />
+                    <NavLink2 to="/BDDRAdmin" label="Dashboard" activeLoc="/BDDRAdmin" />
+                    <NavLink2 to="/BDDRAdmin/Agents" label="Agents" activeLoc="/BDDRAdmin/Agents" />
+                    <NavLink2 to="" label="Listings" activeLoc="/BDDRAdmin/Messages" />
 
                 </div>
 

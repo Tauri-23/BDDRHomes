@@ -42,6 +42,8 @@ import ClientViewWishlist from "./views/clients/Wishlist/view-wishlist";
 import AdminDefault from "./views/admin/default";
 import AdminIndex from "./views/admin";
 import ViewProperty from "./views/guest/view-property";
+import AdminAgentDefault from "./views/admin/Agents/agent_default";
+import AdminAgentIndex from "./views/admin/Agents/agents";
 
 const router = createBrowserRouter([
     /*
@@ -288,6 +290,19 @@ const router = createBrowserRouter([
                 index: true,
                 element: <AdminIndex/>
             },
+
+
+
+            {
+                path: 'Agents',
+                element: <AdminAgentDefault/>,
+                children: [
+                    {
+                        index: true,
+                        element: <AdminAgentIndex/>
+                    },
+                ]
+            }
         ]
     }
 ]);

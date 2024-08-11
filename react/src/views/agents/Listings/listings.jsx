@@ -69,19 +69,19 @@ export default function AgentListing() {
         <div className="content1">
             {/* upper part */}
             <div className="d-flex justify-content-between mar-bottom-l1">
-                    <div className="text-l1 fw-bold">Listings</div>
+                <div className="text-l1 fw-bold">Listings</div>
     
-                    <div className="d-flex align-items-center gap3">
+                <div className="d-flex align-items-center gap3">
+                    <div className="circle-btn-1">
+                        <Icon.Search className='text-m1'/>
+                    </div>
+                    <Link to={'/BDDRAgent/CreateListing'} className='color-black1'>
                         <div className="circle-btn-1">
-                            <Icon.Search className='text-m1'/>
+                            <Icon.PlusLg className='text-m1'/>
                         </div>
-                        <Link to={'/BDDRAgent/CreateListing'} className='color-black1'>
-                            <div className="circle-btn-1">
-                                <Icon.PlusLg className='text-m1'/>
-                            </div>
-                        </Link>
-                        
-                    </div>                
+                    </Link>
+                    
+                </div>                
             </div>
     
             {/* Listings */}

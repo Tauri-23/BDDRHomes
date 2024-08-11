@@ -1,4 +1,4 @@
-import { Link, Outlet, redirect, useLocation } from "react-router-dom";
+import { Link, Navigate, Outlet, redirect, useLocation } from "react-router-dom";
 import * as Icon from 'react-bootstrap-icons';
 import { useEffect, useState } from "react";
 import { fetchPropertyTypes } from "../../../../Services/AgentCreateListingService";
@@ -9,7 +9,7 @@ import { useStateContext } from "../../../../contexts/ContextProvider";
 
 export default function AgentCreateListingDefault() {
     const location = useLocation();
-    const {user} = useStateContext();
+    const {user, userType, token} = useStateContext();
 
     // Links
     const backLinks = {
@@ -55,6 +55,12 @@ export default function AgentCreateListingDefault() {
     const [selectedPropertyFinancing, setSelectedPropertyFinancing] = useState([]);
     const [price, setPrice] = useState(0);
     const [requiredIncome, setRequiredIncome] = useState(0);
+
+    // UserTypeChecker
+    // Handle redirection in the component body
+    if (!token || userType !== 'agent') {
+        return <Navigate to="/" />;
+    }
 
     useEffect(() => {
         // Property Type Script
