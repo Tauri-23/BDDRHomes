@@ -1,17 +1,32 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { fetchAgentInfos } from "../../../Services/AdminAgentService";
 import { fetchAgentPublishedProperties } from "../../../Services/AgentListingService";
-import { PropertyBox3 } from "../../../components/property_box3";
 import * as Icon from 'react-bootstrap-icons';
+import { notify } from "../../../assets/js/utils";
+import axiosClient from "../../../axios-client";
+import { AdminAgentProfileInfoWithEditText1 } from "../../../components/AdminComponents/admin_agent_profile_info_with_edit_text1";
 
 export default function AdminAgentProfile() {
     const {agentId} = useParams();
     const [agent, setAgent] = useState(null);
     const [properties, setProperties] = useState(null);
 
+    // Edit States
+    const [isEditFname, setEditFname] = useState(false);
+    const [isEditMname, setEditMname] = useState(false);
+    const [isEditLname, setEditLname] = useState(false);
+    const [isEditEmail, setEditEmail] = useState(false);
+
+    // New Agent Info Value
+    const [fname, setFname] = useState(null);
+    const [mname, setMname] = useState(null);
+    const [lname, setLname] = useState(null);
+    const [email, setEmail] = useState(null);
 
 
+
+    // Populate Agent and Properties
     useEffect(() => {
         const getAgentInfos = async() => {
             try {
@@ -31,11 +46,60 @@ export default function AdminAgentProfile() {
         getProperties();
     }, []);
 
-
-
+    // Populate REFs' Values
     useEffect(() => {
-        console.log(properties);
-    }, [properties])
+        setFname(agent?.firstname);
+        setMname(agent?.middlename);
+        setLname(agent?.lastname);
+        setEmail(agent?.email);
+    }, [agent]);
+
+    // DEBUG
+    // useEffect(() => {
+    //     console.log(agent);
+    // }, [agent]);
+
+
+
+    // Handlers
+    const handleSaveName = (nameParam, editType) => {
+        const formData = new FormData();
+        formData.append('agentId', agentId);
+        formData.append('Xname', nameParam);
+        formData.append('editType', editType);
+
+        axiosClient.post('/update-agent-name', formData)
+        .then(({data}) => {
+            if(data.status === 200) {
+                setAgent((prevAgent) => {
+                    const updatedAgent = {...prevAgent}
+                    switch(editType){
+                        case "fname":
+                            updatedAgent.firstname = nameParam;
+                            break;
+                        case "mname":
+                            updatedAgent.middlename = nameParam;
+                            break;
+                        case "lname":
+                            updatedAgent.lastname = nameParam;
+                            break;
+                        default:
+                            return updatedAgent;
+                    }
+                    
+                    return updatedAgent;
+                });
+                notify('default', data.message, 'bottom-left', 3000);
+            } else {
+                notify('error', data.message, 'bottom-left', 3000);
+            }
+        }).catch(error => {console.error(error)});
+        
+    }
+
+    const handleSaveContactInfo = (contactParam, editType) => {
+        
+    }
 
 
 
@@ -75,7 +139,11 @@ export default function AdminAgentProfile() {
                         </div>
 
                         <div className="agent-profile-generic-cont1">
-                            <div className="d-flex flex-direction-y gap3">
+                            <div className="d-flex flex-direction-y gap2">
+                                <div className="d-flex align-items-center gap3">
+                                    <Icon.PersonVcard className="text-m1"/>
+                                    <div className="text-m2">{agent.id}</div>
+                                </div>
                                 <div className="d-flex align-items-center gap3">
                                     <Icon.Envelope className="text-m1"/>
                                     <div className="text-m2">{agent.email}</div>
@@ -107,31 +175,42 @@ export default function AdminAgentProfile() {
                         {/* Personal Info */}
                         <div className="agent-profile-generic-cont2 d-flex flex-direction-y gap2">
                             <div className="text-l3 fw-bold mar-bottom-3">Personal Information</div>
-
-                            <div className="d-flex justify-content-between align-items-center">
-                                <div>
-                                    <div className="text-m3">First name</div>
-                                    <div className="text-m1">{agent.firstname}</div>
-                                </div>
-                                <Icon.Pencil className="text-l3"/>
-                            </div>
                             
+                            {/* Fname */}
+                            <AdminAgentProfileInfoWithEditText1
+                            editType={'fname'}
+                            label={'First name'}
+                            information={agent.firstname}
+                            informationNew={fname}
+                            setInformationNew={setFname}
+                            isEditInformation={isEditFname}
+                            setEditInformation={setEditFname}
+                            handleSaveInformation={handleSaveName}
+                            />
 
-                            <div className="d-flex justify-content-between align-items-center">
-                                <div>
-                                    <div className="text-m3">Middle name</div>
-                                    <div className="text-m1">{agent.middlename}</div>
-                                </div>
-                                <Icon.Pencil className="text-l3"/>
-                            </div>
-                            
-                            <div className="d-flex justify-content-between align-items-center">
-                                <div>
-                                    <div className="text-m3">Last name</div>
-                                    <div className="text-m1">{agent.lastname}</div>
-                                </div> 
-                                <Icon.Pencil className="text-l3"/>
-                            </div>
+                            {/* Mname */}
+                            <AdminAgentProfileInfoWithEditText1
+                            editType={'mname'}
+                            label={'Middle name'}
+                            information={agent.middlename}
+                            informationNew={mname}
+                            setInformationNew={setMname}
+                            isEditInformation={isEditMname}
+                            setEditInformation={setEditMname}
+                            handleSaveInformation={handleSaveName}
+                            />
+
+                            {/* Lname */}
+                            <AdminAgentProfileInfoWithEditText1
+                            editType={'lname'}
+                            label={'Last name'}
+                            information={agent.lastname}
+                            informationNew={lname}
+                            setInformationNew={setLname}
+                            isEditInformation={isEditLname}
+                            setEditInformation={setEditLname}
+                            handleSaveInformation={handleSaveName}
+                            />
                                                        
                         </div>
 
@@ -139,13 +218,16 @@ export default function AdminAgentProfile() {
                         <div className="agent-profile-generic-cont2 d-flex flex-direction-y gap2">
                             <div className="text-l3 fw-bold mar-bottom-3">Contact Information</div>
 
-                            <div className="d-flex justify-content-between align-items-center">
-                                <div>
-                                    <div className="text-m3">Email</div>
-                                    <div className="text-m1">{agent.email}</div>
-                                </div>
-                                <Icon.Pencil className="text-l3"/>
-                            </div>
+                            <AdminAgentProfileInfoWithEditText1
+                            editType={'email'}
+                            label={'Email'}
+                            information={agent.email}
+                            informationNew={email}
+                            setInformationNew={setEmail}
+                            isEditInformation={isEditEmail}
+                            setEditInformation={setEditEmail}
+                            handleSaveInformation={handleSaveContactInfo}
+                            />
 
                             <div className="d-flex justify-content-between align-items-center">
                                 <div>
@@ -167,18 +249,6 @@ export default function AdminAgentProfile() {
                                 <div className="primary-btn-red2">Disable Agent Account</div>
                             </div>
                         </div>
-
-                        {/* Listed Properties */}
-                        {/* {properties?.length > 0 && (
-                            <div className="d-flex flex-direction-y gap1 w-100">
-                                <div className="text-l2">{agent.firstname}'s listed properties</div>
-                                <div className="agent-profile-listed-property-cont">
-                                    {properties.map(prop => (
-                                        <PropertyBox3 key={prop.id} property={prop}/>
-                                    ))}
-                                </div>
-                            </div>
-                        )} */}
 
                     </div>
                     

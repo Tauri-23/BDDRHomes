@@ -63,7 +63,6 @@
     border: 1px solid var(--black2);
 }
 
-
 .secondary-btn2-black1 {
     border-radius: var(--radius1);
     border: 1px solid var(--black1);    
@@ -79,6 +78,16 @@
 .secondary-btn2-grey2 {
     border-radius: var(--radius1);
     border: 1px solid var(--grey2);
+}
+
+
+.btn1-no-bg-border {
+    padding: 10px 15px;
+    text-decoration: none;
+    border-radius: var(--radius3);
+    cursor: pointer;
+    border: none;
+    background: transparent;
 }
 
 

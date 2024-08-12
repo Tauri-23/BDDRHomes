@@ -5,6 +5,7 @@ import ModalManager from "../../Managers/ModalManager";
 import axiosClient from "../../axios-client";
 import { useEffect } from "react";
 import { AdminNavbar1 } from "../../components/AdminComponents/admin_navbar1";
+import { ToastContainer } from "react-toastify";
 
 export default function AdminDefault() {
     const { user, setUserType, userType, token, setUser, setToken } = useStateContext();
@@ -55,6 +56,8 @@ export default function AdminDefault() {
 
                 {/* Children */}
                 <Outlet/>
+
+                <ToastContainer/>
                 
             </div>
         </ModalProvider>

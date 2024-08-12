@@ -5,11 +5,15 @@
 |*/
 .edit-text-1 {
     padding: 8px 10px;
-    font-size: var(--text-m2);
     background: var(--white2);
     border: 1px solid var(--white3);
     outline-color: var(--blue1);
     border-radius: var(--radius3);
+}
+.edit-text-1.disabled1 {
+    background: none;
+    outline: none;
+    border: none;
 }
 
 .search-bar-1 {
