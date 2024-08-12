@@ -32,7 +32,7 @@
     width: var(--listing-img-wh);
     height: var(--listing-img-wh);
     border-radius: var(--radius3);
-    background: var(--grey1);
+    background: var(--grey2);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -135,6 +135,7 @@
     cursor: pointer;
     box-sizing: border-box;
     transition: outline 50ms ease;
+    overflow: hidden;
 }
 .create-listing-option-box1.skeleton {
     background: var(--white2);

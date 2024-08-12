@@ -37,6 +37,7 @@
     filter: drop-shadow(0 0 3px var(--grey1));
     padding: 5px;
     cursor: pointer;
+    overflow: hidden;
 }
 .wishlist-box-img-cont.skeleton {
     filter: none;

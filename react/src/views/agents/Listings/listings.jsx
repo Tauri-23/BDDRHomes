@@ -13,7 +13,7 @@ import { notify } from '../../../assets/js/utils';
 export default function AgentListing() {
 
     const {showModal} = useModal();
-    const [listings, setListing] = useState([]);
+    const [listings, setListing] = useState(null);
     const {user} = useStateContext();
     
     useEffect(() => {
@@ -86,12 +86,12 @@ export default function AgentListing() {
     
             {/* Listings */}
             <div className="d-flex flex-wrap gap1">
-                {listings.data && (
-                    listings.data.map(listing => (
+                {listings && (
+                    listings.map(listing => (
                     <AgentListingBox1 key={listing.id} listing={listing} handleListingClick={handleListingClick} />
                 )))}
 
-                {!listings.data && Array.from({length:10}, (_, index) => index).map(x =>(
+                {!listings && Array.from({length:10}, (_, index) => index).map(x =>(
                     <SkeletonListingBox key={x}/>
                 ))}
             </div>

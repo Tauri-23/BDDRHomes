@@ -47,21 +47,57 @@
 
 
 /* Agent Profile */
-.agent-profile-cont-1 {
+.agent-profile-cont {
     width: 100%;
+    display: flex;
+    gap: 80px;
+    /* background: aliceblue; */
+}
+
+
+.agent-profile-left-cont {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    position: sticky;
+    top: 50px;
+}
+.agent-profile-right-cont {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+}
+
+.agent-profile-generic-cont1 {
+    width: 400px;
     position: relative;
-    height: 300px;
     background: var(--white);
     border-radius: 30px;
-    padding: 50px;
+    padding: 30px;
     display: flex;
+    flex-direction: column;
+    justify-content: center;
     align-items: center;
     filter: drop-shadow(0 0 5px var(--grey1));
     gap: 20px;
 }
+.agent-profile-generic-cont2 {
+    position: relative;
+    background: var(--white);
+    border-radius: 30px;
+    padding: 30px;
+    filter: drop-shadow(0 0 5px var(--grey1));
+}
+.agent-profile-generic-cont2.danger {
+    outline: 2px solid var(--red1);
+    color: var(--red1);
+}
+
+
 .agent-profile-pfp-cont {
-    width: 200px;
-    height: 200px;
+    width: 150px;
+    height: 150px;
     display: flex;
     position: relative;
     align-items: center;
@@ -71,11 +107,13 @@
     color: var(--white);
     font-size: 75px;
 }
-.agent-profile-left-box-1 {
-    width: 400px;
-    height: 300px;
-    padding: 30px;
-    background: var(--white);
-    border-radius: 30px;
-    filter: drop-shadow(0 0 1px var(--grey1));
+
+
+.agent-profile-listed-property-cont {
+    width: 100%;
+    /* background: rebeccapurple; */
+    display: flex;
+    gap: 20px;
+    overflow: hidden;
 }
+

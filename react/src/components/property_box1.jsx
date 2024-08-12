@@ -29,7 +29,7 @@ export const PropertyBox1 = ({ wishlists, property, isInWishlist, handleCreateWi
 
 
     return (
-        <div className="text-decoration-none property-box color-black2" onClick={handleViewProperty}>
+        <div className="property-box-4" onClick={handleViewProperty}>
             <div>
                 <div className="property-box-pic">
                     <div className="property-box-pic-icons" onClick={handleHeartPressed}>

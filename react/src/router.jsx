@@ -303,7 +303,7 @@ const router = createBrowserRouter([
                         element: <AdminAgentIndex/>
                     },
                     {
-                        path: 'AgentProfile/:id',
+                        path: 'AgentProfile/:agentId',
                         element: <AdminAgentProfile/>
                     }
                 ]
