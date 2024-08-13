@@ -20,25 +20,33 @@ class AdminAgentController extends Controller
 
 
     // Agent Profile
-    public function agentUpdateName(Request $request)
+    public function agentUpdateInformation(Request $request)
     {
         $agent = user_agents::find($request->agentId);
-        $agentOldXname = '';
+        $agentOldInfo = '';
         if($agent)
         {
             switch($request->editType)
             {
                 case "fname":
-                    $agentOldXname = $agent->firstname;
-                    $agent->firstname = $request->Xname;
+                    $agentOldInfo = $agent->firstname;
+                    $agent->firstname = $request->newInfo;
                     break;
                 case "mname":
-                    $agentOldXname = $agent->middlename;
-                    $agent->middlename = $request->Xname;
+                    $agentOldInfo = $agent->middlename;
+                    $agent->middlename = $request->newInfo;
                     break;
                 case "lname":
-                    $agentOldXname = $agent->lastname;
-                    $agent->lastname = $request->Xname;
+                    $agentOldInfo = $agent->lastname;
+                    $agent->lastname = $request->newInfo;
+                    break;
+                case "email":
+                    $agentOldInfo = $agent->email;
+                    $agent->email = $request->newInfo;
+                    break;
+                case "phone":
+                    $agentOldInfo = $agent->phone;
+                    $agent->phone = $request->newInfo;
                     break;
                 default:
                     return response()->json([
@@ -60,7 +68,7 @@ class AdminAgentController extends Controller
         {
             return response()->json([
                 'status' => 200,
-                'message' => "{$agentOldXname} updated to {$request->Xname}"
+                'message' => "{$agentOldInfo} updated to {$request->newInfo}"
             ]);
         }
         else

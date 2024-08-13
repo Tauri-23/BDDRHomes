@@ -17,12 +17,14 @@ export default function AdminAgentProfile() {
     const [isEditMname, setEditMname] = useState(false);
     const [isEditLname, setEditLname] = useState(false);
     const [isEditEmail, setEditEmail] = useState(false);
+    const [isEditPhone, setEditPhone] = useState(false);
 
     // New Agent Info Value
     const [fname, setFname] = useState(null);
     const [mname, setMname] = useState(null);
     const [lname, setLname] = useState(null);
     const [email, setEmail] = useState(null);
+    const [phone, setPhone] = useState(null);
 
 
 
@@ -52,6 +54,7 @@ export default function AdminAgentProfile() {
         setMname(agent?.middlename);
         setLname(agent?.lastname);
         setEmail(agent?.email);
+        setPhone(agent?.phone);
     }, [agent]);
 
     // DEBUG
@@ -62,26 +65,32 @@ export default function AdminAgentProfile() {
 
 
     // Handlers
-    const handleSaveName = (nameParam, editType) => {
+    const handleSaveInfo = (info, editType) => {
         const formData = new FormData();
         formData.append('agentId', agentId);
-        formData.append('Xname', nameParam);
+        formData.append('newInfo', info);
         formData.append('editType', editType);
 
-        axiosClient.post('/update-agent-name', formData)
+        axiosClient.post('/update-agent-info', formData)
         .then(({data}) => {
             if(data.status === 200) {
                 setAgent((prevAgent) => {
                     const updatedAgent = {...prevAgent}
                     switch(editType){
                         case "fname":
-                            updatedAgent.firstname = nameParam;
+                            updatedAgent.firstname = info;
                             break;
                         case "mname":
-                            updatedAgent.middlename = nameParam;
+                            updatedAgent.middlename = info;
                             break;
                         case "lname":
-                            updatedAgent.lastname = nameParam;
+                            updatedAgent.lastname = info;
+                            break;
+                        case "email":
+                            updatedAgent.email = info;
+                            break;
+                        case "phone":
+                            updatedAgent.phone = info;
                             break;
                         default:
                             return updatedAgent;
@@ -94,10 +103,6 @@ export default function AdminAgentProfile() {
                 notify('error', data.message, 'bottom-left', 3000);
             }
         }).catch(error => {console.error(error)});
-        
-    }
-
-    const handleSaveContactInfo = (contactParam, editType) => {
         
     }
 
@@ -185,7 +190,7 @@ export default function AdminAgentProfile() {
                             setInformationNew={setFname}
                             isEditInformation={isEditFname}
                             setEditInformation={setEditFname}
-                            handleSaveInformation={handleSaveName}
+                            handleSaveInformation={handleSaveInfo}
                             />
 
                             {/* Mname */}
@@ -197,7 +202,7 @@ export default function AdminAgentProfile() {
                             setInformationNew={setMname}
                             isEditInformation={isEditMname}
                             setEditInformation={setEditMname}
-                            handleSaveInformation={handleSaveName}
+                            handleSaveInformation={handleSaveInfo}
                             />
 
                             {/* Lname */}
@@ -209,7 +214,7 @@ export default function AdminAgentProfile() {
                             setInformationNew={setLname}
                             isEditInformation={isEditLname}
                             setEditInformation={setEditLname}
-                            handleSaveInformation={handleSaveName}
+                            handleSaveInformation={handleSaveInfo}
                             />
                                                        
                         </div>
@@ -226,16 +231,19 @@ export default function AdminAgentProfile() {
                             setInformationNew={setEmail}
                             isEditInformation={isEditEmail}
                             setEditInformation={setEditEmail}
-                            handleSaveInformation={handleSaveContactInfo}
+                            handleSaveInformation={handleSaveInfo}
                             />
 
-                            <div className="d-flex justify-content-between align-items-center">
-                                <div>
-                                    <div className="text-m3">Phone</div>
-                                    <div className="text-m1">+63 {agent.phone}</div>
-                                </div> 
-                                <Icon.Pencil className="text-l3"/>
-                            </div>
+                            <AdminAgentProfileInfoWithEditText1
+                            editType={'phone'}
+                            label={'Phone'}
+                            information={agent.phone}
+                            informationNew={phone}
+                            setInformationNew={setPhone}
+                            isEditInformation={isEditPhone}
+                            setEditInformation={setEditPhone}
+                            handleSaveInformation={handleSaveInfo}
+                            />
 
                         </div>
 
