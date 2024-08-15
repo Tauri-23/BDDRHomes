@@ -3,7 +3,7 @@ import { Link, useParams } from "react-router-dom";
 import { fetchAgentInfos } from "../../../Services/AdminAgentService";
 import { fetchAgentPublishedProperties } from "../../../Services/AgentListingService";
 import * as Icon from 'react-bootstrap-icons';
-import { notify } from "../../../assets/js/utils";
+import { formatDate, formatDateTime, notify } from "../../../assets/js/utils";
 import axiosClient from "../../../axios-client";
 import { AdminAgentProfileInfoWithEditText1 } from "../../../components/AdminComponents/admin_agent_profile_info_with_edit_text1";
 
@@ -163,11 +163,11 @@ export default function AdminAgentProfile() {
                                 </div>
                                 <div className="d-flex align-items-center gap3">
                                     <Icon.Cake className="text-m1"/>
-                                    <div className="text-m2">{agent.bdate}</div>
+                                    <div className="text-m2">{formatDate(agent.bdate)}</div>
                                 </div>
                                 <div className="d-flex align-items-center gap3">
                                     <Icon.Calendar3 className="text-m1"/>
-                                    <div className="text-m2">{agent.created_at}</div>
+                                    <div className="text-m2">{formatDateTime(agent.created_at)}</div>
                                 </div>
                             </div>
                         </div>

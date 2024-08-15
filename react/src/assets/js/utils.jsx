@@ -37,7 +37,7 @@ export function isEmail(email) {
 | Format Phone number 
 |----------------------------------------
 */
-export function formatPhoneNumber(inputValue) {
+export const formatPhoneNumber = (inputValue) => {
     let rawPhoneNumber = inputValue.replace(/\D/g, '');
     rawPhoneNumber = rawPhoneNumber.replace(/^0+/, '');
 
@@ -48,6 +48,31 @@ export function formatPhoneNumber(inputValue) {
 
     return inputValue; // If input length is more than 10, return as is
 }
+
+
+
+
+
+/*
+|----------------------------------------
+| Format Date MM dd, YYYY && MM dd, YYYY h:s a
+|----------------------------------------
+*/
+export const formatDate = (date) => {
+    const realDate = new Date(date);
+    const options = {month: 'short', day: '2-digit', year: 'numeric'}
+    return realDate.toLocaleDateString('en-PH', options);
+}
+
+export const formatDateTime = (dateTime) => {
+    const realDateTime = new Date();
+
+    const timeOptions = {hour: 'numeric', minute: 'numeric', hour12: true};
+    const formattedTime = realDateTime.toLocaleTimeString('en-PH', timeOptions);
+
+    return `${formatDate(dateTime)} ${formattedTime}`;
+}
+
 
 
 
