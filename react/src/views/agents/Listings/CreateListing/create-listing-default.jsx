@@ -138,7 +138,7 @@ export default function AgentCreateListingDefault() {
         formData.append('floor_area', floorArea);
         formData.append('required_income', requiredIncome);
         formData.append('price', price);
-        formData.append('agent_id', user.user.id);
+        formData.append('agent_id', user.id);
 
         selectedPropertyAmenities.forEach((amenity, index) => {
             formData.append(`property_amenities[${index}]`, amenity.id);
@@ -184,7 +184,7 @@ export default function AgentCreateListingDefault() {
                 {/* Notif and PFP */}
                 <div className="d-flex align-items-center gap2">
 
-                    <div className="secondary-btn2-grey1 d-flex align-items-center">Save & Exit</div>
+                    {/* <div className="secondary-btn2-grey1 d-flex align-items-center">Save & Exit</div> */}
 
                 </div>
 

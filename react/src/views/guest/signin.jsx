@@ -5,6 +5,7 @@ import * as Icon from 'react-bootstrap-icons';
 import { Link } from 'react-router-dom';
 import axiosClient from '../../axios-client';
 import { useStateContext } from '../../contexts/ContextProvider';
+import PasswordInput from '../../components/password-input';
 
 export default function Signin() {
     const email_uname_phone_ref = useRef();
@@ -53,11 +54,7 @@ export default function Signin() {
                 {/* Password Input */}
                 <div className="d-flex mar-bottom-3">
                     <label htmlFor="pass-in"></label>
-                    <div className="d-flex position-relative align-items-center w-100">
-                        <input ref={passRef} type="text" id="pass-in" name="pass-in" className="edit-text-1 w-100" placeholder="Password" />
-                        <Icon.EyeFill className='position-absolute right3'/>
-                    </div>
-                    
+                    <PasswordInput ref={passRef} id='pass-in' placeholder='Password'/>                    
                 </div>
 
                 {/* Remember me and Forgot Password */}

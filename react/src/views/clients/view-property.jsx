@@ -224,8 +224,12 @@ export default function ClientViewProperty() {
                                     
                                 </div>
                                 <div className="d-flex flex-direction-y gap3">
-                                    <div className="primary-btn-blue1 text-m2 text-center">Contact Agent</div>
-                                    <div className="secondary-btn-blue1 text-m2 text-center color-blue1">Book A Tripping</div>
+                                    
+                                    <div className="primary-btn-black1 text-m2 text-center">Start a deal</div>
+                                    <div className="d-flex gap3 w-100">
+                                        <div className="secondary-btn-black1 text-m1 text-center"><Icon.ChatSquareDots/></div>
+                                        <div className="secondary-btn-black1 text-m2 text-center color-black1 w-100">Book A Tripping</div>
+                                    </div>
                                 </div>
                         </div>
                     </div>

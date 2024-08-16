@@ -48,7 +48,7 @@ export default function AgentListing() {
         .then(({data}) => {
             if(data.status === 200) {
                 setListing(prevListings => {
-                    return {data: prevListings.data.filter(prevListing => prevListing.id !== propId)};
+                    return prevListings.filter(prevListing => prevListing.id !== propId);
                 })
                 notify('default', data.message, 'bottom-left', 3000);
             } else {

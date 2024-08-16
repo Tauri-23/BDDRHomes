@@ -2,7 +2,7 @@ import React, { useImperativeHandle, useRef, forwardRef } from "react";
 import { usePasswordToggle } from "../assets/js/utils";
 import * as Icon from 'react-bootstrap-icons';
 
-const PasswordInput = forwardRef(({ id, label }, ref) => {
+const PasswordInput = forwardRef(({ id, label, placeholder }, ref) => {
     const { visible, togglePasswordVisibility } = usePasswordToggle();
     const inputRef = useRef();
 
@@ -17,9 +17,12 @@ const PasswordInput = forwardRef(({ id, label }, ref) => {
 
     return (
         <div className="d-flex flex-direction-y gap4 w-100">
-            <label htmlFor={id}>{label}</label>
+            {label && (
+                <label htmlFor={id}>{label}</label>
+            )}
+            
             <div className="d-flex position-relative align-items-center w-100">
-                <input ref={inputRef} type={inputType} id={id} name={id} className="edit-text-1 w-100" />
+                <input ref={inputRef} type={inputType} id={id} name={id} className="edit-text-1 w-100" placeholder={`${placeholder || ''}`}/>
                 <div className="position-absolute right3 seePassIcon" onClick={togglePasswordVisibility}>
                     {iconComponent}
                 </div>
