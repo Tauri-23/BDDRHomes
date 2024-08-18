@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import * as Icon from 'react-bootstrap-icons';
-import { Link } from 'react-router-dom';
+import { Link, useOutletContext } from 'react-router-dom';
 import { fetchAllAgents } from '../../../Services/AdminAgentService';
 import { SkeletonAgentBox } from '../../../Skeletons/admin-agent-skeleton';
 import { AdminAgentBox1 } from '../../../components/AdminComponents/admin_agent_box1';
@@ -10,7 +10,7 @@ import { AdminAgentBox1 } from '../../../components/AdminComponents/admin_agent_
 export default function AdminAgentIndex() {
     const [agentDisplayType, setAgentDisplayType] = useState('Grid');
     const [agents, setAgents] = useState([]);
-
+    const {isSidenavOpen} = useOutletContext();
 
 
     useEffect(() => {
@@ -33,7 +33,7 @@ export default function AdminAgentIndex() {
 
 
     return(
-        <div className="content1">
+        <div className={`content1-admin ${isSidenavOpen ? 'compressed' : ''}`}>
 
             {/* Option Bar */}
             <div className="admin-agent-nav mar-bottom-l1">
@@ -54,7 +54,7 @@ export default function AdminAgentIndex() {
                         }
                     </div>
                     
-                    <Link to={'/BDDRAgent/CreateListing'} className='color-black1'>
+                    <Link to={'AddAgent'} className='color-black1'>
                         <div className="circle-btn-1">
                             <Icon.PlusLg className='text-m1'/>
                         </div>

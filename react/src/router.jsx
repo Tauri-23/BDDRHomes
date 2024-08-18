@@ -45,6 +45,7 @@ import ViewProperty from "./views/guest/view-property";
 import AdminAgentDefault from "./views/admin/Agents/agent_default";
 import AdminAgentIndex from "./views/admin/Agents/agents";
 import AdminAgentProfile from "./views/admin/Agents/agent_profile";
+import AdminAgentAddAgent from "./views/admin/Agents/agent_add_agent";
 
 const router = createBrowserRouter([
     /*
@@ -305,6 +306,10 @@ const router = createBrowserRouter([
                     {
                         path: 'AgentProfile/:agentId',
                         element: <AdminAgentProfile/>
+                    },
+                    {
+                        path: 'AddAgent',
+                        element: <AdminAgentAddAgent/>
                     }
                 ]
             }

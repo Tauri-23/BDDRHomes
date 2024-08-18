@@ -3,12 +3,14 @@ import { useStateContext } from "../../contexts/ContextProvider";
 import { ModalProvider } from "../../contexts/ModalContext";
 import ModalManager from "../../Managers/ModalManager";
 import axiosClient from "../../axios-client";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { AdminNavbar1 } from "../../components/AdminComponents/admin_navbar1";
 import { ToastContainer } from "react-toastify";
+import { AdminSidenav1 } from "../../components/AdminComponents/admin_sidenav1";
 
 export default function AdminDefault() {
     const { user, setUserType, userType, token, setUser, setToken } = useStateContext();
+    const [isSidenavOpen, setSidenavOpen] = useState(false);
 
 
 
@@ -52,10 +54,12 @@ export default function AdminDefault() {
                 <ModalManager/>
 
                 {/* Navbar */}
-                <AdminNavbar1 onLogout={onLogout}/>
+                <AdminSidenav1 isSidenavOpen={isSidenavOpen} setSidenavOpen={setSidenavOpen}/>
+                <AdminNavbar1 isSidenavOpen={isSidenavOpen} onLogout={onLogout}/>
+                
 
                 {/* Children */}
-                <Outlet/>
+                <Outlet context={{isSidenavOpen}}/>
 
                 <ToastContainer/>
                 

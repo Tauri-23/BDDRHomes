@@ -26,6 +26,10 @@ return new class extends Migration
             $table->string('password');
 
             $table->string('pfp')->nullable();
+
+            $table->string('Position')->nullable();
+
+            $table->string('account_status')->default('Active');
             
             $table->timestamps();
         });

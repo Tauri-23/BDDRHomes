@@ -4,7 +4,7 @@ import { AdminNavLink1 } from "./admin_navlink1";
 import { useEffect, useRef, useState } from "react";
 import { NavLink1 } from "../navlink1";
 
-export const AdminNavbar1 = ({onLogout}) => {
+export const AdminNavbar1 = ({isSidenavOpen, onLogout}) => {
     const [displayNavModal, setDisplayNavModal] = useState(false);
     const [displayNotifBox, setDisplayNotifBox] = useState(false);
 
@@ -45,21 +45,16 @@ export const AdminNavbar1 = ({onLogout}) => {
 
     return (
         <>
-            <div className="navbar3">
-                <Link to={'/BDDRAgent'} className="text-decoration-none color-black2">
-                        <div className="d-flex align-items-center gap3">
-                            <img src="/src/assets/media/logos/logo1.png" className="navbar-1-logo-pic" alt="" />
-                            {/* <div className="text-l3 fw-bold">BDDR <span className="color-blue1 fw-bold">Homes</span></div> */}
-                        </div>
-                </Link>
+            <div className={`navbar1-admin ${isSidenavOpen ? 'compressed' : ''}`}>
+                <div>asdasd</div>
 
                 {/* Nav Links */}
-                <div className="nav3-links">
+                {/* <div className="nav3-links">
                     <AdminNavLink1 to="/BDDRAdmin" label="Dashboard" activeLoc={['/home']} />
                     <AdminNavLink1 to="/BDDRAdmin/Agents" label="Agents" activeLoc={['Agents']} />
                     <AdminNavLink1 to="" label="Listings" activeLoc={['Messages']} />
 
-                </div>
+                </div> */}
 
                 {/* Notif and PFP */}
                 <div className="d-flex align-items-center gap2">

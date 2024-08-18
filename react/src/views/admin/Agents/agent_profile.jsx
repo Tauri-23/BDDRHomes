@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useOutletContext, useParams } from "react-router-dom";
 import { fetchAgentInfos } from "../../../Services/AdminAgentService";
 import { fetchAgentPublishedProperties } from "../../../Services/AgentListingService";
 import * as Icon from 'react-bootstrap-icons';
@@ -9,8 +9,10 @@ import { AdminAgentProfileInfoWithEditText1 } from "../../../components/AdminCom
 
 export default function AdminAgentProfile() {
     const {agentId} = useParams();
+    const {isSidenavOpen} = useOutletContext();
     const [agent, setAgent] = useState(null);
     const [properties, setProperties] = useState(null);
+    const navigate = useNavigate();
 
     // Edit States
     const [isEditFname, setEditFname] = useState(false);
@@ -106,10 +108,26 @@ export default function AdminAgentProfile() {
         
     }
 
+    const handleDeleteAgent = () => {        
+        const formData = new FormData();
+        formData.append('id', agentId);
+
+        axiosClient.post('/del-agent', formData)
+        .then(({data}) => {
+            if(data.status === 200) {
+                notify('default', data.message, 'bottom-left', 3000);
+                navigate('/BDDRAdmin/Agents');
+            }
+            else {
+                notify('error', data.message, 'bottom-left', 3000);
+            }
+        })
+    }
+
 
 
     return(
-        <div className="content4">
+        <div className={`content1-admin ${isSidenavOpen ? 'compressed' : ''}`}>
             {agent && properties && (
                 <div className="d-flex mar-bottom-1">
                     <Link to={'/BDDRAdmin/Agents'} className="d-flex gap3 align-items-center text-l3 color-black1 text-decoration-none cursor-pointer">
@@ -252,7 +270,7 @@ export default function AdminAgentProfile() {
                             <div className="text-l3 fw-bold mar-bottom-3 d-flex align-items-center gap3"><Icon.ExclamationTriangleFill/>Danger Zone</div>
 
                             <div className="d-flex flex-direction-y gap3 align-items-start">
-                                <div className="primary-btn-red2">Delete Agent</div>
+                                <button className="primary-btn-red2" onClick={handleDeleteAgent}>Delete Agent</button>
                                 <div className="primary-btn-red2">Suspend Agent</div>
                                 <div className="primary-btn-red2">Disable Agent Account</div>
                             </div>

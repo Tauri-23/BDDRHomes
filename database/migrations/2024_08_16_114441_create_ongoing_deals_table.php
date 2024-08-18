@@ -12,8 +12,33 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('ongoing_deals', function (Blueprint $table) {
-            $table->id();
+            $table->string('id', 12)->primary();
+            $table->string('agent', 6)->nullable();
+            $table->string('client', 6)->nullable();
+            $table->string('property', 12)->nullable();
+
             $table->timestamps();
+
+            /**
+             * Foreign Keys
+             */
+            $table->foreign('client')
+                ->references('id')
+                ->on('user_clients')
+                ->nullOnDelete()
+                ->cascadeOnUpdate();
+
+            $table->foreign('agent')
+                ->references('id')
+                ->on('user_agents')
+                ->nullOnDelete()
+                ->cascadeOnUpdate();
+            
+            $table->foreign('property')
+                ->references('id')
+                ->on('published_properties')
+                ->nullOnDelete()
+                ->cascadeOnUpdate();
         });
     }
 

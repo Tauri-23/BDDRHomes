@@ -102,3 +102,5 @@ Route::get('/get-all-agents', [AdminAgentController::class, 'getAllAgents']);
 Route::get('/get-agent-info/{agentId}', [AdminAgentController::class, 'getAgentInfo']);
 
 Route::post('/update-agent-info', [AdminAgentController::class, 'agentUpdateInformation']);
+Route::post('/add-agent', [AdminAgentController::class, 'addAgent']);
+Route::post('/del-agent', [AdminAgentController::class, 'delAgent']);
