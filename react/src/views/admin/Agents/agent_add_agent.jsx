@@ -2,7 +2,7 @@ import { Link, useOutletContext } from "react-router-dom";
 import * as Icon from 'react-bootstrap-icons';
 import { useRef, useState } from "react";
 import axiosClient from "../../../axios-client";
-import { notify } from "../../../assets/js/utils";
+import { formatPhoneNumber, isEmptyOrSpaces, notify } from "../../../assets/js/utils";
 
 export default function AdminAgentAddAgent() {
     const {isSidenavOpen} = useOutletContext();
@@ -27,13 +27,10 @@ export default function AdminAgentAddAgent() {
 
 
     const handleAddAgent = () => {
-        console.log(`fname: ${fname}`);
-        console.log(`mname: ${mname}`);
-        console.log(`lname: ${lname}`);
-        console.log(`email: ${email}`);
-        console.log(`phone: ${phone}`);
-        console.log(`gender: ${gender}`);
-        console.log(`bdate: ${bdate}`);
+        // if(isEmptyOrSpaces(String(fname)) || isEmptyOrSpaces(String(lname)) || isEmptyOrSpaces(String(email)) || isEmptyOrSpaces(String(phone)) || isEmptyOrSpaces(String(gender)) || isEmptyOrSpaces(String(bdate))) {
+        //     notify('error', 'please fill up all the fields', 'bottom-left', 3000);
+        //     return;
+        // }
 
         const formData = new FormData();
         formData.append('fname', fname);
@@ -56,6 +53,12 @@ export default function AdminAgentAddAgent() {
         })
     }
 
+    const handleFormatNumber = (event) => {
+        const formattedPhoneNumber = formatPhoneNumber(event.target.value);
+        event.target.value = formattedPhoneNumber;
+        setPhone(formattedPhoneNumber);
+    }
+
 
     return(
         <div className={`content1-admin ${isSidenavOpen ? 'compressed' : ''}`}>
@@ -69,6 +72,7 @@ export default function AdminAgentAddAgent() {
             <div className="text-l1 fw-bold mar-bottom-1">Add Agent</div>
 
             <div className="d-flex flex-direction-y align-items-start gap2">
+                <div className="text-m1 color-black3 fst-italic mar-bottom-1">Note: <br/> Username and Password will be automatically created and will be sent to the email.</div>
                 
                 {/* Name */}
                 <div className="d-flex flex-direction-y gap3">
@@ -101,7 +105,7 @@ export default function AdminAgentAddAgent() {
 
                         <div className="d-flex flex-direction-y gap4">
                             <label htmlFor="phone" className="text-m2">phone</label>
-                            <input ref={phoneRef} onInput={() => setPhone(phoneRef.current.value)} type="text" id="phone" className="edit-text-1" />
+                            <input ref={phoneRef} onInput={(event) => handleFormatNumber(event)} type="text" id="phone" className="edit-text-1" maxLength={10} />
                         </div>
                     </div>                    
                 </div>
