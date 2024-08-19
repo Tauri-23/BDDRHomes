@@ -46,6 +46,20 @@ import AdminAgentDefault from "./views/admin/Agents/agent_default";
 import AdminAgentIndex from "./views/admin/Agents/agents";
 import AdminAgentProfile from "./views/admin/Agents/agent_profile";
 import AdminAgentAddAgent from "./views/admin/Agents/agent_add_agent";
+import AdminPropertyDefault from "./views/admin/Properties/property_default";
+import AdminPropertyIndex from "./views/admin/Properties/property_index";
+import AdminAddPropertyDefault from "./views/admin/Properties/AddProperty/add_property_default";
+import AdminAddPropertyIndex from "./views/admin/Properties/AddProperty/add_property_index";
+import AdminAddPropertyType from "./views/admin/Properties/AddProperty/add_property_type";
+import AdminAddPropertyNameloc from "./views/admin/Properties/AddProperty/add_property_nameloc";
+import AdminAddPropertyFloorplan from "./views/admin/Properties/AddProperty/add_property_floorplan";
+import AdminAddPropertyStep2 from "./views/admin/Properties/AddProperty/add_property_step2";
+import AdminAddPropertyAmenities from "./views/admin/Properties/AddProperty/add_property_amenities";
+import AdminAddPropertyPhotos from "./views/admin/Properties/AddProperty/add_property_photos";
+import AdminAddPropertyFinancing from "./views/admin/Properties/AddProperty/add_property_financing";
+import AdminAddPropertyStep3 from "./views/admin/Properties/AddProperty/add_property_step3";
+import AdminAddPropertyPriceReqIncome from "./views/admin/Properties/AddProperty/add_property_price_req_income";
+import AdminAddPropertyFinal from "./views/admin/Properties/AddProperty/add_property_final";
 
 const router = createBrowserRouter([
     /*
@@ -294,7 +308,6 @@ const router = createBrowserRouter([
             },
 
 
-
             {
                 path: 'Agents',
                 element: <AdminAgentDefault/>,
@@ -310,6 +323,72 @@ const router = createBrowserRouter([
                     {
                         path: 'AddAgent',
                         element: <AdminAgentAddAgent/>
+                    }
+                ]
+            },
+
+
+            {
+                path: 'Properties',
+                element: <AdminPropertyDefault/>,
+                children: [
+                    {
+                        index: true,
+                        element: <AdminPropertyIndex/>
+                    },
+
+                    
+                    // Add Property
+                    {
+                        path: 'AddProperty',
+                        element: <AdminAddPropertyDefault/>,
+                        children: [
+                            {
+                                index: true,
+                                element: <AdminAddPropertyIndex/>
+                            },
+                            {
+                                path: 'PropertyType',
+                                element: <AdminAddPropertyType/>
+                            },
+                            {
+                                path: 'NameAndLoc',
+                                element: <AdminAddPropertyNameloc/>
+                            },
+                            {
+                                path: 'Floorplan',
+                                element: <AdminAddPropertyFloorplan/>
+                            },
+                            {
+                                path: 'Step2',
+                                element: <AdminAddPropertyStep2/>
+                            },
+                            {
+                                path: 'Amenities',
+                                element: <AdminAddPropertyAmenities/>
+                            },
+                            {
+                                path: 'Photos',
+                                element: <AdminAddPropertyPhotos/>
+                            },
+                            {
+                                path: 'Step3',
+                                element: <AdminAddPropertyStep3/>
+                            },
+                            {
+                                path: 'Financing',
+                                element: <AdminAddPropertyFinancing/>
+                            },
+                            {
+                                path: 'Price',
+                                element: <AdminAddPropertyPriceReqIncome/>
+                            }
+                            ,
+                            {
+                                path: 'Finalize',
+                                element: <AdminAddPropertyFinal/>
+                            }
+                        ]
                     }
                 ]
             }

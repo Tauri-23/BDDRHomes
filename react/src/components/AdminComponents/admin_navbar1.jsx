@@ -46,7 +46,7 @@ export const AdminNavbar1 = ({isSidenavOpen, onLogout}) => {
     return (
         <>
             <div className={`navbar1-admin ${isSidenavOpen ? 'compressed' : ''}`}>
-                <div>asdasd</div>
+                <div></div>
 
                 {/* Nav Links */}
                 {/* <div className="nav3-links">
