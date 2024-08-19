@@ -5,19 +5,24 @@ namespace App\Http\Controllers\Api;
 use App\Contracts\IGenerateAgentPasswordService;
 use App\Contracts\IGenerateAgentUsernameService;
 use App\Contracts\IGenerateIdService;
+use App\Contracts\ISendEmailService;
 use App\Http\Controllers\Controller;
+use App\Mail\AdminAddAgent;
 use App\Models\user_agents;
 use Illuminate\Http\Request;
 
 class AdminAgentController extends Controller
 {
-    protected $generateId, $generatePassword, $generateUsername;
+    protected $generateId, $generatePassword, $generateUsername, $sendEmail;
 
-    public function __construct(IGenerateIdService $generateId, IGenerateAgentPasswordService $generatePassword, IGenerateAgentUsernameService $generateUsername)
+    public function __construct(IGenerateIdService $generateId, 
+    IGenerateAgentPasswordService $generatePassword, IGenerateAgentUsernameService $generateUsername,
+    ISendEmailService $sendEmail)
     {
         $this->generateId = $generateId;
         $this->generatePassword = $generatePassword;
         $this->generateUsername = $generateUsername;
+        $this->sendEmail = $sendEmail;
     }
 
 
@@ -102,17 +107,19 @@ class AdminAgentController extends Controller
         $agent = new user_agents();
         $agent->id = $agentId;
         $agent->firstname = $request->fname;
-        $agent->middlename = $request->mname;
+        $agent->middlename = $request->mname == "null" ? null : $request->mname;
         $agent->lastname = $request->lname;
         $agent->gender = $request->gender;
         $agent->bdate = $request->bdate;
         $agent->email = $request->email;
         $agent->username = $agentUsername;
         $agent->phone = $request->phone;
-        $agent->password = $agentPassword;
+        $agent->password = bcrypt($agentPassword);
 
         if($agent->save())
         {
+            $this->sendEmail->send(new AdminAddAgent($agentUsername, $agentPassword), $request->email);
+
             return response()->json([
                 'status' => 200,
                 'message' => "Agent added {$request->fname} {$request->lname}"

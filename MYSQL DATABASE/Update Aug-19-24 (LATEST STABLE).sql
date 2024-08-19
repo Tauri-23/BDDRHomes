@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 18, 2024 at 06:34 PM
+-- Generation Time: Aug 19, 2024 at 11:25 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -51,6 +51,46 @@ CREATE TABLE `admin_properties` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `cache`
+--
+
+CREATE TABLE `cache` (
+  `key` varchar(255) NOT NULL,
+  `value` mediumtext NOT NULL,
+  `expiration` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `cache_locks`
+--
+
+CREATE TABLE `cache_locks` (
+  `key` varchar(255) NOT NULL,
+  `owner` varchar(255) NOT NULL,
+  `expiration` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `jobs`
+--
+
+CREATE TABLE `jobs` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `queue` varchar(255) NOT NULL,
+  `payload` longtext NOT NULL,
+  `attempts` tinyint(3) UNSIGNED NOT NULL,
+  `reserved_at` int(10) UNSIGNED DEFAULT NULL,
+  `available_at` int(10) UNSIGNED NOT NULL,
+  `created_at` int(10) UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `migrations`
 --
 
@@ -79,7 +119,9 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (27, '2024_06_15_082540_create_user_clients_table', 16),
 (29, '2024_08_16_114441_create_ongoing_deals_table', 17),
 (30, '2024_08_18_085324_create_admin_properties_table', 18),
-(31, '2024_06_30_143220_create_user_agents_table', 19);
+(31, '2024_06_30_143220_create_user_agents_table', 19),
+(32, '2024_08_19_090931_create_jobs_table', 20),
+(33, '2024_08_19_091159_create_cache_table', 21);
 
 -- --------------------------------------------------------
 
@@ -121,7 +163,7 @@ CREATE TABLE `personal_access_tokens` (
 
 INSERT INTO `personal_access_tokens` (`id`, `tokenable_type`, `tokenable_id`, `name`, `token`, `abilities`, `last_used_at`, `expires_at`, `created_at`, `updated_at`) VALUES
 (10, 'App\\Models\\user_clients', 0, 'main', 'f3d3706a7eb95ac63098d49f68a9ace84198fc7d3323634feea448d59f0763ae', '[\"*\"]', NULL, NULL, '2024-06-23 18:41:41', '2024-06-23 18:41:41'),
-(274, 'App\\Models\\user_admins', 100000, 'main', '744a05b80172ddbc4c10ad6d02f062ff21b51c644f22fd16f07cf8f6e4c5767c', '[\"*\"]', '2024-08-18 05:38:39', NULL, '2024-08-18 01:56:03', '2024-08-18 05:38:39');
+(276, 'App\\Models\\user_admins', 100000, 'main', '927d63ced42eaf80f457eeca6af05eacd812ff1077f3152aeaa94ef123ec8244', '[\"*\"]', '2024-08-19 01:00:18', NULL, '2024-08-19 00:56:57', '2024-08-19 01:00:18');
 
 -- --------------------------------------------------------
 
@@ -430,7 +472,8 @@ CREATE TABLE `user_agents` (
 --
 
 INSERT INTO `user_agents` (`id`, `firstname`, `middlename`, `lastname`, `gender`, `bdate`, `email`, `username`, `phone`, `password`, `pfp`, `Position`, `account_status`, `created_at`, `updated_at`) VALUES
-('243780', 'Melissa', 'Sevilla', 'Diawan', 'Female', '1973-06-03', 'melissadiawan.bddrealty@gmail.com', 'melissa123', '936 691 5861', '$2y$12$0yvf43PEvEq.Xc7/F/s3ouzn1t8yyfI9wOR/zk4.tGAs120GjGQai', NULL, NULL, 'Active', '2024-06-30 06:34:31', '2024-06-30 06:53:09');
+('243780', 'Melissa', 'Sevilla', 'Diawan', 'Female', '1973-06-03', 'melissadiawan.bddrealty@gmail.com', 'melissa123', '936 691 5861', '$2y$12$0yvf43PEvEq.Xc7/F/s3ouzn1t8yyfI9wOR/zk4.tGAs120GjGQai', NULL, NULL, 'Active', '2024-06-30 06:34:31', '2024-06-30 06:53:09'),
+('627626', 'Faith Enn', NULL, 'Deliman', 'Female', '2001-04-11', 'airichjaydiawan@gmail.com', 'faithd666', '967 764 4695', '$2y$12$E4HJed2mmVnyt/3TYGcpGOO6fshzt89LTC17XAso2BDgiqnA.OFd.', NULL, NULL, 'Active', '2024-08-19 01:21:35', '2024-08-19 01:21:35');
 
 -- --------------------------------------------------------
 
@@ -498,6 +541,25 @@ CREATE TABLE `wishlist_properties` (
 --
 ALTER TABLE `admin_properties`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `cache`
+--
+ALTER TABLE `cache`
+  ADD PRIMARY KEY (`key`);
+
+--
+-- Indexes for table `cache_locks`
+--
+ALTER TABLE `cache_locks`
+  ADD PRIMARY KEY (`key`);
+
+--
+-- Indexes for table `jobs`
+--
+ALTER TABLE `jobs`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `jobs_queue_index` (`queue`);
 
 --
 -- Indexes for table `migrations`
@@ -618,16 +680,22 @@ ALTER TABLE `wishlist_properties`
 --
 
 --
+-- AUTO_INCREMENT for table `jobs`
+--
+ALTER TABLE `jobs`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT for table `personal_access_tokens`
 --
 ALTER TABLE `personal_access_tokens`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=275;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=277;
 
 --
 -- Constraints for dumped tables

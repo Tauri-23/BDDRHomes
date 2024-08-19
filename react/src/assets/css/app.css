@@ -87,6 +87,12 @@ body, html {
 .color-blue1 {
     color: var(--blue1);
 }
+.color-red1 {
+    color: var(--red1);
+}
+.color-red2 {
+    color: var(--red2);
+}
 
 
 

@@ -1,10 +1,11 @@
-import { Link, useOutletContext } from "react-router-dom";
+import { Link, useNavigate, useOutletContext } from "react-router-dom";
 import * as Icon from 'react-bootstrap-icons';
 import { useRef, useState } from "react";
 import axiosClient from "../../../axios-client";
 import { formatPhoneNumber, isEmptyOrSpaces, notify } from "../../../assets/js/utils";
 
 export default function AdminAgentAddAgent() {
+    const navigate = useNavigate();
     const {isSidenavOpen} = useOutletContext();
 
     const [fname, setFname] = useState();
@@ -34,7 +35,7 @@ export default function AdminAgentAddAgent() {
 
         const formData = new FormData();
         formData.append('fname', fname);
-        formData.append('mname', mname);
+        formData.append('mname', mname || null);
         formData.append('lname', lname);
         formData.append('email', email);
         formData.append('phone', phone);
@@ -45,6 +46,7 @@ export default function AdminAgentAddAgent() {
         .then(({data}) => {
             if(data.status === 200) {
                 notify('default', data.message, 'bottom-left', 3000);
+                navigate('/BDDRAdmin/Agents')
             }
             else
             {

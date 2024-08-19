@@ -6,10 +6,12 @@ use App\Contracts\IGenerateAgentPasswordService;
 use App\Contracts\IGenerateAgentUsernameService;
 use App\Contracts\IGenerateFilenameService;
 use App\Contracts\IGenerateIdService;
+use App\Contracts\ISendEmailService;
 use App\Services\GenerateAgentPasswordService;
 use App\Services\GenerateAgentUsernameService;
 use App\Services\GenerateFilenameService;
 use App\Services\GenerateIdService;
+use App\Services\SendEmailService;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -32,5 +34,6 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(IGenerateFilenameService::class, GenerateFilenameService::class);
         $this->app->bind(IGenerateAgentPasswordService::class, GenerateAgentPasswordService::class);
         $this->app->bind(IGenerateAgentUsernameService::class, GenerateAgentUsernameService::class);
+        $this->app->bind(ISendEmailService::class, SendEmailService::class);
     }
 }

@@ -8,6 +8,7 @@ import { useModal } from "../contexts/ModalContext"
 import { ClientAddToWishlistModal1 } from "../components/Modals/client_add_to_wishlist_modal1";
 import { ClientDelWishlistModal1 } from "../components/Modals/client_del_wishlist_modal1";
 import { AgentDelListingConfirmationModal1 } from "../components/Modals/agent_del_listing_confirmation_modal1";
+import { AdminDelAgentConfirmation } from "../components/Modals/admin_del_agent_confirmation";
 
 const ModalManager = () => {
     const {modalState, hideModal} = useModal();
@@ -45,6 +46,17 @@ const ModalManager = () => {
                 return <ClientAddToWishlistModal1 {...modalState.props} onClose={hideModal}/>
             case 'ClientDelWishlistModal1' :
                 return <ClientDelWishlistModal1 {...modalState.props} onClose={hideModal}/>
+
+
+
+
+
+            /*
+            |   CLIENT
+            */
+            // Agents
+            case 'AdminDelAgentConfirmationModal1' :
+                return <AdminDelAgentConfirmation {...modalState.props} onClose={hideModal}/>
             
 
 

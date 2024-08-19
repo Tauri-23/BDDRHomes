@@ -1,4 +1,3 @@
-# BDDRHomes
 LIBRARIES TO INSTALL
 npm install @dnd-kit/core @dnd-kist/utilities @dnd-kit/sortable
 
@@ -11,4 +10,3 @@ npm run dev
 for php:
 php artisan serve
 php artisan queue:work
-

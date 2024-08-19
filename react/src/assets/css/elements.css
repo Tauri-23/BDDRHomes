@@ -37,7 +37,7 @@
     background: var(--red2);
 }
 
-.primary-btn-black1.disabled {
+.primary-btn-black1.disabled, .primary-btn-red1.disabled, .primary-btn-red2.disabled {
     opacity: .5;
     cursor: not-allowed;
 }

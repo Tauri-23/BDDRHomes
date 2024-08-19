@@ -1,1 +1,0 @@
-npm install @dnd-kit/core @dnd-kist/utilities @dnd-kit/sortable

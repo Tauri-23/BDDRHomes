@@ -3,12 +3,15 @@
 | Inputs 
 |----------------------------------------
 |*/
-.edit-text-1 {
+.edit-text-1, .edit-text-2 {
     padding: 8px 10px;
     background: var(--white2);
     border: 1px solid var(--white3);
     outline-color: var(--blue1);
     border-radius: var(--radius3);
+}
+.edit-text-2 {
+    outline-color: var(--red1);
 }
 .edit-text-1.disabled1 {
     background: none;

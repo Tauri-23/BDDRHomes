@@ -6,8 +6,10 @@ import * as Icon from 'react-bootstrap-icons';
 import { formatDate, formatDateTime, notify } from "../../../assets/js/utils";
 import axiosClient from "../../../axios-client";
 import { AdminAgentProfileInfoWithEditText1 } from "../../../components/AdminComponents/admin_agent_profile_info_with_edit_text1";
+import { useModal } from "../../../contexts/ModalContext";
 
 export default function AdminAgentProfile() {
+    const {showModal} = useModal();
     const {agentId} = useParams();
     const {isSidenavOpen} = useOutletContext();
     const [agent, setAgent] = useState(null);
@@ -108,7 +110,7 @@ export default function AdminAgentProfile() {
         
     }
 
-    const handleDeleteAgent = () => {        
+    const handleDeleteAgentPost = () => {
         const formData = new FormData();
         formData.append('id', agentId);
 
@@ -122,6 +124,10 @@ export default function AdminAgentProfile() {
                 notify('error', data.message, 'bottom-left', 3000);
             }
         })
+    }
+
+    const handleDeleteAgent = () => {
+        showModal('AdminDelAgentConfirmationModal1', {agent, handleDeleteAgentPost});
     }
 
 
