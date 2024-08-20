@@ -1,7 +1,7 @@
 # BDDRHomes
 LIBRARIES TO INSTALL
-npm install @dnd-kit/core @dnd-kist/utilities @dnd-kit/sortable
 
+npm install @dnd-kit/core @dnd-kist/utilities @dnd-kit/sortable
 
 TO RUN THIS APP:
 
