@@ -8,7 +8,6 @@ import { ClientSkeletonListingBox } from "../../Skeletons/client-listing-skeleto
 import { fetchAllClientWishlists } from "../../Services/ClientWishlistService";
 import { notify } from "../../assets/js/utils";
 import { string } from "prop-types";
-import { fetchPropertyTypes } from "../../Services/AgentCreateListingService";
 import { useStateContext } from "../../contexts/ContextProvider";
 
 export default function ClientIndex() {
@@ -25,8 +24,8 @@ export default function ClientIndex() {
     useEffect(() => {
         const getListedProperties = async() => {
             try {
-                const data = await fetchAllProperties();
-                setProperties(data);                
+                //const data = await fetchAllProperties();
+                //setProperties(data);                
             } catch (error) {
                 console.error(error);
             }

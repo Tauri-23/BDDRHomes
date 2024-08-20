@@ -1,11 +1,10 @@
 import * as Icon from 'react-bootstrap-icons';
 import { useStateContext } from "../../contexts/ContextProvider";
 import { useEffect, useState } from 'react';
-import { fetchPropertyTypes } from '../../Services/AgentCreateListingService';
-import { fetchAllProperties } from '../../Services/ClientListingService';
 import { PropertyBox1 } from '../../components/property_box1';
 import { ClientSkeletonListingBox } from '../../Skeletons/client-listing-skeletons';
 import { PropertyBox2 } from '../../components/property_box2';
+import { fetchPropertyTypes } from '../../Services/GeneralPropertiesService';
 
 export default function GuestListings() {
     
@@ -23,8 +22,8 @@ export default function GuestListings() {
         }
         const getListedProperties = async() => {
             try {
-                const data = await fetchAllProperties();
-                setProperties(data);
+                // const data = await fetchAllProperties();
+                // setProperties(data);
             } catch(error) {console.error(error)}
         }
 

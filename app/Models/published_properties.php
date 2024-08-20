@@ -29,8 +29,8 @@ class published_properties extends Model
         return $this->hasMany(published_properties_financing::class, 'property', 'id')->with('financing');
     }
 
-    public function agent()
-    {
-        return $this->belongsTo(user_agents::class, 'agent', 'id');
-    }
+    // public function agent()
+    // {
+    //     return $this->belongsTo(user_agents::class, 'agent', 'id');
+    // }
 }

@@ -1,0 +1,62 @@
+.edit-property-content {
+    width: calc(100% - 100px);
+    margin-left: 100px;
+    height: calc(100vh - 70px);
+    overflow: hidden;
+    transition: all .2s ease;
+}
+
+.edit-property-content.compressed {
+    width: calc(100% - 300px);
+    margin-left: 300px;
+}
+
+
+.edit-property-sidenav {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 500px;
+    padding: 50px 30px 50px 50px;
+    height: calc(100vh - 70px);
+    overflow-y: scroll;
+    transition: margin ease-in-out .5s;
+}
+.edit-property-sidenav.hidden {
+    margin-left: -600px;
+}
+
+.edit-property-content-2 {
+    width: calc(100% - 450px);
+    height: calc(100vh - 70px);
+    padding: 50px 180px 0 180px;
+    overflow-y: auto;
+    transition: width ease-in-out .5s;
+}
+.edit-property-content-2.compressed {
+    width: calc(100% - 700px);
+}
+
+
+
+
+
+/* Photos */
+.edit-property-photo {
+    position: relative;
+    width: calc(100% / 3 - 20px);
+    height: 200px;
+    border-radius: var(--radius2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    background: var(--grey1);
+    filter: drop-shadow(0 0 1px var(--grey1));
+    cursor: pointer;
+    user-select: none;
+}
+.edit-property-photo img {
+    position: absolute;
+    height: 100%;
+}

@@ -3,7 +3,7 @@ import propTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { useEffect, useRef, useState } from 'react';
 
-const AgentEditListingAddPhotoModal1 = ({ addPhotoHandler, addPhotos, setAddPhotos, onClose }) => {
+const AdminEditPropertyAddPhotoModal1 = ({ addPhotoHandler, addPhotos, setAddPhotos, onClose }) => {
     const divPhotoInputRef = useRef();
     const [internalPhotos, setInternalPhotos] = useState(addPhotos);
     const [isAddBtnDisabled, setAddBtnDisabled] = useState(true);
@@ -157,9 +157,9 @@ const AgentEditListingAddPhotoModal1 = ({ addPhotoHandler, addPhotos, setAddPhot
     );
 };
 
-AgentEditListingAddPhotoModal1.propTypes = {
+AdminEditPropertyAddPhotoModal1.propTypes = {
     onClose: propTypes.func.isRequired,
     addPhotoHandler: propTypes.func.isRequired
 };
 
-export default AgentEditListingAddPhotoModal1;
+export default AdminEditPropertyAddPhotoModal1;

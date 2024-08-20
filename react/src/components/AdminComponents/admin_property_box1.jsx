@@ -1,4 +1,4 @@
-export const AgentListingBox1 = ({property, handleListingClick}) => {
+export const AdminPropertyBox1 = ({property, handleListingClick}) => {
     return(
         <div className="agent-listing-box" onClick={() => handleListingClick(property)}>
             <div className="agent-listing-pic">

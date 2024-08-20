@@ -17,16 +17,7 @@ import AgentIndex from "./views/agents";
 import AgentMessages from "./views/agents/messages";
 import AgentPerformance from "./views/agents/performance";
 import AgentCreateListingDefault from "./views/agents/Listings/CreateListing/create-listing-default";
-import AgentCreateListingType from "./views/agents/Listings/CreateListing/create-listings-type";
 import AgentCreateListingIndex from "./views/agents/Listings/CreateListing/create-listing-index";
-import AgentCreateListingNameLoc from "./views/agents/Listings/CreateListing/create-listing-nameloc";
-import AgentCreateListingFloorPlan from "./views/agents/Listings/CreateListing/create-listing-floorplan";
-import AgentCreateListingStep2 from "./views/agents/Listings/CreateListing/create-listing-step2";
-import AgentCreateListingAmenities from "./views/agents/Listings/CreateListing/create-listing-amenities";
-import AgentCreateListingPhotos from "./views/agents/Listings/CreateListing/create-listing-photos";
-import AgentCreateListingStep3 from "./views/agents/Listings/CreateListing/create-listing-step3";
-import AgentCreateListingFinancing from "./views/agents/Listings/CreateListing/create-listing-financing";
-import AgentCreateListingFinal from "./views/agents/Listings/CreateListing/create-listing-final";
 import AgentEditListingDefault from "./views/agents/Listings/EditListing/edit-listing-default";
 import AgentListingDefault from "./views/agents/Listings/listings-default";
 import AgentEditListingPhotos from "./views/agents/Listings/EditListing/edit-listing-photos";
@@ -36,7 +27,6 @@ import AgentEditListingDescription from "./views/agents/Listings/EditListing/edi
 import AgentEditListingFloorplan from "./views/agents/Listings/EditListing/edit-listing-floorplan";
 import AgentEditListingAmenities from "./views/agents/Listings/EditListing/edit-listing-amenities";
 import AgentEditListingFinancing from "./views/agents/Listings/EditListing/edit-listing-financing";
-import AgentCreateListingPriceReqIncome from "./views/agents/Listings/CreateListing/create-listing-price-req-income";
 import ClientWishLists from "./views/clients/Wishlist/wishlists";
 import ClientViewWishlist from "./views/clients/Wishlist/view-wishlist";
 import AdminDefault from "./views/admin/default";
@@ -60,6 +50,15 @@ import AdminAddPropertyFinancing from "./views/admin/Properties/AddProperty/add_
 import AdminAddPropertyStep3 from "./views/admin/Properties/AddProperty/add_property_step3";
 import AdminAddPropertyPriceReqIncome from "./views/admin/Properties/AddProperty/add_property_price_req_income";
 import AdminAddPropertyFinal from "./views/admin/Properties/AddProperty/add_property_final";
+import AdminEditPropertyDefault from "./views/admin/Properties/EditProperty/edit_property_default";
+import AdminEditPropertyPhotos from "./views/admin/Properties/EditProperty/edit_property_photos";
+import AdminEditPropertyName from "./views/admin/Properties/EditProperty/edit_property_name";
+import AdminEditPropertyType from "./views/admin/Properties/EditProperty/edit_property_type";
+import AdminEditPropertyDescription from "./views/admin/Properties/EditProperty/edit_property_description";
+import AdminEditPropertyFloorplan from "./views/admin/Properties/EditProperty/edit_property_floorplan";
+import AdminEditPropertyAmenities from "./views/admin/Properties/EditProperty/edit_property_amenities";
+import AdminEditPropertyFinancings from "./views/admin/Properties/EditProperty/edit_property_financings";
+import AgentCreatePropertyListingProperty from "./views/agents/Listings/CreateListing/create_property_listing_property";
 
 const router = createBrowserRouter([
     /*
@@ -247,44 +246,8 @@ const router = createBrowserRouter([
                 element: <AgentCreateListingIndex/>
             },
             {
-                path: 'PropertyType',
-                element: <AgentCreateListingType/>
-            },
-            {
-                path: 'NameAndLoc',
-                element: <AgentCreateListingNameLoc/>
-            },
-            {
-                path: 'Floorplan',
-                element: <AgentCreateListingFloorPlan/>
-            },
-            {
-                path: 'Step2',
-                element: <AgentCreateListingStep2/>
-            },
-            {
-                path: 'Amenities',
-                element: <AgentCreateListingAmenities/>
-            },
-            {
-                path: 'Photos',
-                element: <AgentCreateListingPhotos/>
-            },
-            {
-                path: 'Step3',
-                element: <AgentCreateListingStep3/>
-            },
-            {
-                path: 'Financing',
-                element: <AgentCreateListingFinancing/>
-            },
-            {
-                path: 'Price',
-                element: <AgentCreateListingPriceReqIncome/>
-            },
-            {
-                path: 'Finalize',
-                element: <AgentCreateListingFinal/>
+                path: 'Property',
+                element: <AgentCreatePropertyListingProperty/>
             }
         ]
     },
@@ -336,7 +299,6 @@ const router = createBrowserRouter([
                         index: true,
                         element: <AdminPropertyIndex/>
                     },
-
                     
                     // Add Property
                     {
@@ -387,6 +349,42 @@ const router = createBrowserRouter([
                             {
                                 path: 'Finalize',
                                 element: <AdminAddPropertyFinal/>
+                            }
+                        ]
+                    },
+
+                    // Edit Property
+                    {
+                        path: 'EditProperty/:id/',
+                        element: <AdminEditPropertyDefault/>,
+                        children: [
+                            {
+                                path: 'Photos',
+                                element: <AdminEditPropertyPhotos/>
+                            },
+                            {
+                                path: 'Name',
+                                element: <AdminEditPropertyName/>
+                            },
+                            {
+                                path: 'Type',
+                                element: <AdminEditPropertyType/>
+                            },
+                            {
+                                path: 'Description',
+                                element: <AdminEditPropertyDescription/>
+                            },
+                            {
+                                path: 'Floorplan',
+                                element: <AdminEditPropertyFloorplan/>
+                            },
+                            {
+                                path: 'Amenities',
+                                element: <AdminEditPropertyAmenities/>
+                            },
+                            {
+                                path: 'Financing',
+                                element: <AdminEditPropertyFinancings/>
                             }
                         ]
                     }

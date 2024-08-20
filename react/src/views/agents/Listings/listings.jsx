@@ -58,11 +58,11 @@ export default function AgentListing() {
     }
 
     const handleRemovePropertyConfirmation = (listing) => {
-        showModal('AgentDelListingConfirmationModal1', {listing, handleRemovePropertyPost});
+        // showModal('AgentDelListingConfirmationModal1', {listing, handleRemovePropertyPost});
     }
 
     const handleListingClick = (listing) => {
-        showModal('AgentListingOptionModal1', { listing, handleRemovePropertyConfirmation});
+        // showModal('AgentListingOptionModal1', { listing, handleRemovePropertyConfirmation});
     };
     
     return (

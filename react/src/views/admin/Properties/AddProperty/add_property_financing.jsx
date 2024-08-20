@@ -1,6 +1,6 @@
 import { useOutletContext } from "react-router-dom";
-import { fetchPropertyFinancing } from "../../../../Services/AgentCreateListingService";
 import { useEffect, useState } from "react";
+import { fetchPropertyFinancing } from "../../../../Services/GeneralPropertiesService";
 
 export default function AdminAddPropertyFinancing() {
 

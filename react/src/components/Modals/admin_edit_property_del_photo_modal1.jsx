@@ -3,7 +3,7 @@ import propTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { useEffect } from 'react';
 
-export const AgentEditListingDelPhotoModal1 = ({photo, removePhotoHandler, onClose }) => {
+export const AdminEditPropertyDelPhotoModal1 = ({photo, removePhotoHandler, onClose }) => {
 
     useEffect(() => {console.log(photo);}, photo);
     
@@ -45,7 +45,7 @@ export const AgentEditListingDelPhotoModal1 = ({photo, removePhotoHandler, onClo
     );
 };
 
-AgentEditListingDelPhotoModal1.propTypes = {
+AdminEditPropertyDelPhotoModal1.propTypes = {
     onClose: propTypes.func.isRequired,
     removePhotoHandler: propTypes.func.isRequired,
     photo: propTypes.array.isRequired

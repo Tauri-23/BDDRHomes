@@ -1,7 +1,6 @@
 import { Link, Navigate, Outlet, redirect, useLocation } from "react-router-dom";
 import * as Icon from 'react-bootstrap-icons';
 import { useEffect, useState } from "react";
-import { fetchPropertyTypes } from "../../../../Services/AgentCreateListingService";
 import { isEmptyOrSpaces, notify } from "../../../../assets/js/utils";
 import axiosClient from "../../../../axios-client";
 import { ToastContainer } from "react-toastify";
@@ -11,50 +10,19 @@ export default function AgentCreateListingDefault() {
     const location = useLocation();
     const {user, userType, token} = useStateContext();
 
+    // 
+    const [selectedProperty, setSelectedProperty] = useState(null);
+
     // Links
     const backLinks = {
         '/BDDRAgent/CreateListing': '/BDDRAgent/Listings',
-        '/BDDRAgent/CreateListing/PropertyType': '/BDDRAgent/CreateListing',
-        '/BDDRAgent/CreateListing/NameAndLoc': 'PropertyType',
-        '/BDDRAgent/CreateListing/Floorplan': 'NameAndLoc',
-        '/BDDRAgent/CreateListing/Step2': 'Floorplan',
-        '/BDDRAgent/CreateListing/Amenities': 'Step2',
-        '/BDDRAgent/CreateListing/Photos': 'Amenities',
-        '/BDDRAgent/CreateListing/Step3': 'Photos',
-        '/BDDRAgent/CreateListing/Financing': 'Step3',
-        '/BDDRAgent/CreateListing/Price': 'Financing',
-        '/BDDRAgent/CreateListing/Finalize': 'Price',
+        '/BDDRAgent/CreateListing/Property': '/BDDRAgent/CreateListing',
     };
     const nextLinks = {
-        '/BDDRAgent/CreateListing': 'PropertyType',
-        '/BDDRAgent/CreateListing/PropertyType': 'NameAndLoc',
-        '/BDDRAgent/CreateListing/NameAndLoc': 'Floorplan',
-        '/BDDRAgent/CreateListing/Floorplan': 'Step2',
-        '/BDDRAgent/CreateListing/Step2': 'Amenities',
-        '/BDDRAgent/CreateListing/Amenities': 'Photos',
-        '/BDDRAgent/CreateListing/Photos': 'Step3',
-        '/BDDRAgent/CreateListing/Step3': 'Financing',
-        '/BDDRAgent/CreateListing/Financing': 'Price',
-        '/BDDRAgent/CreateListing/Price': 'Finalize',
+        '/BDDRAgent/CreateListing': 'Property',
     };
 
     const [nextBtnState, setNextBtnState] = useState(false);
-
-    // Property Attributes
-    const [selectedTypes, setSelectedTypes] = useState(null);
-    const [propertyName, setPropertyName] = useState(null);
-    const [propertyAddress, setPropertyAddress] = useState(null);
-    const [propertyDesc, setPropertyDesc] = useState(null);
-    const [bedroom, setBedroom] = useState(1);
-    const [bathroom, setBathroom] = useState(1);
-    const [carport, setCarport] = useState(0);
-    const [lotArea, setLotArea] = useState(null);
-    const [floorArea, setFloorArea] = useState(null);
-    const [selectedPropertyAmenities, setSelectedPropertyAmenities] = useState([]);
-    const [photos, setPhotos] = useState([]);
-    const [selectedPropertyFinancing, setSelectedPropertyFinancing] = useState([]);
-    const [price, setPrice] = useState(0);
-    const [requiredIncome, setRequiredIncome] = useState(0);
 
     // UserTypeChecker
     // Handle redirection in the component body
@@ -67,61 +35,8 @@ export default function AgentCreateListingDefault() {
         if(location.pathname === '/BDDRAgent/CreateListing' || location.pathname === '/BDDRAgent/CreateListing/Step2') {
             setNextBtnState(false);
         }
-
-        // Property Type Inputs
-        if(location.pathname === '/BDDRAgent/CreateListing/PropertyType' && selectedTypes === null) {
-            setNextBtnState(true);
-            return;
-        }
-        else {
-            setNextBtnState(false);
-        }
-
-        // Property Name and Location Input
-        if(location.pathname === '/BDDRAgent/CreateListing/NameAndLoc'
-            && (isEmptyOrSpaces(propertyName) || isEmptyOrSpaces(propertyAddress) || isEmptyOrSpaces(propertyDesc))
-        ) {
-            setNextBtnState(true);
-            return;
-        }
-        else {
-            setNextBtnState(false);
-        }
-
-        // Property Floor plan inputs
-        if(location.pathname === '/BDDRAgent/CreateListing/Floorplan'
-            && ((isEmptyOrSpaces(lotArea) || lotArea < 1) || (isEmptyOrSpaces(floorArea) || floorArea < 1))
-        ) {
-            setNextBtnState(true);
-            return;
-        }
-        else {
-            setNextBtnState(false);
-        }
-
-        // Amenities Inputs
-        if(location.pathname === '/BDDRAgent/CreateListing/Amenities'
-            && (selectedPropertyAmenities.length < 1)
-        ) {
-            setNextBtnState(true);
-            return;
-        }
-        else {
-            setNextBtnState(false);
-        }
-
-        // Photos Input
-        if(location.pathname === '/BDDRAgent/CreateListing/Photos'
-            && (photos.length < 1 || photos.length < 5)
-        ) {
-            setNextBtnState(true);
-            return;
-        }
-        else {
-            setNextBtnState(false);
-        }
         
-    }, [location.pathname, selectedTypes, propertyName, propertyAddress, propertyDesc, floorArea, lotArea, selectedPropertyAmenities, photos]);
+    }, [location.pathname]);
 
 
     const handlePublishProperty = (event) => {
@@ -193,25 +108,7 @@ export default function AgentCreateListingDefault() {
             <Outlet 
                 context={
                     { 
-                        selectedTypes, setSelectedTypes,
-                        propertyName, setPropertyName, 
-                        propertyAddress, setPropertyAddress, 
-                        propertyDesc, setPropertyDesc,
-                        bedroom, setBedroom,
-                        bathroom, setBathroom,
-                        carport, setCarport,
-                        lotArea, setLotArea,
-                        floorArea, setFloorArea,
-                        selectedPropertyAmenities, 
-                        setSelectedPropertyAmenities,
-                        selectedPropertyFinancing, 
-                        setSelectedPropertyFinancing,
-                        photos, 
-                        setPhotos,
-                        price,
-                        setPrice,
-                        requiredIncome,
-                        setRequiredIncome
+                        selectedProperty
                     }
                 }/>
 

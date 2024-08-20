@@ -2,12 +2,10 @@
 
 use App\Http\Controllers\Api\AdminAgentController;
 use App\Http\Controllers\Api\AgentListingController;
-use App\Http\Controllers\Api\AgentCreateListingController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\ClientListingController;
 use App\Http\Controllers\Api\ClientWishlistController;
-use App\Models\user_clients;
-use Illuminate\Http\Request;
+use App\Http\Controllers\Api\PropertiesController;
 use Illuminate\Support\Facades\Route;
 
 // Route::get('/user', function (Request $request) {
@@ -40,25 +38,17 @@ Route::post('/login', [AuthController::class, 'login']);
 /*
 * LISTING (ALL)
 */
-Route::get('/get-property-types', [AgentCreateListingController::class, 'getPropertyTypes']);
-Route::get('/get-property-amenities', [AgentCreateListingController::class, 'getPropertyAmenities']);
-Route::get('/get-property-financing', [AgentCreateListingController::class, 'getPropertyFinancing']);
-Route::post('/publish-property', [AgentCreateListingController::class, 'publishPropertyPost']);
 
 Route::get('/get-property-agent/{agentId}', [AgentListingController::class, 'getPropertiesAgent']);
 Route::get('/get-full-property/{propId}', [AgentListingController::class, 'getFullPropertyViaPropId']);
 
-Route::post('/remove-published-prop-amenity', [AgentListingController::class, 'removeAmenityInProperty']);
-Route::post('/add-published-prop-amenity', [AgentListingController::class, 'addAmenityInProperty']);
-Route::post('/change-published-prop-type', [AgentListingController::class, 'updatePropertyTypeInProperty']);
-Route::post('/remove-published-prop-financing', [AgentListingController::class, 'removeFinancingInProperty']);
-Route::post('/add-published-prop-financing', [AgentListingController::class, 'addFinancingInProperty']);
-Route::post('/update-published-prop-floorplan', [AgentListingController::class, 'updatePropertyFloorplan']);
-Route::post('/update-published-prop-name', [AgentListingController::class, 'updatePropertyName']);
-Route::post('/update-published-prop-desc', [AgentListingController::class, 'updatePropertyDesc']);
-Route::post('/add-published-prop-photo', [AgentListingController::class, 'addPropertyPhoto']);
-Route::post('/remove-published-prop-photo', [AgentListingController::class, 'removePropertyPhoto']);
-Route::post('/update-prop-photo-sequence', [AgentListingController::class, 'updatePhotosSequence']);
+
+
+
+
+
+
+
 Route::post('/delete-property-permanently', [AgentListingController::class, 'deleteProperty']);
 
 
@@ -104,3 +94,39 @@ Route::get('/get-agent-info/{agentId}', [AdminAgentController::class, 'getAgentI
 Route::post('/update-agent-info', [AdminAgentController::class, 'agentUpdateInformation']);
 Route::post('/add-agent', [AdminAgentController::class, 'addAgent']);
 Route::post('/del-agent', [AdminAgentController::class, 'delAgent']);
+
+
+
+
+
+/*
+|----------------------------------------
+| GENERAL 
+|----------------------------------------
+*/
+/*
+* Published Properties
+*/
+Route::get('/general-get-property-types', [PropertiesController::class, 'getPropertyTypes']);
+Route::get('/general-get-property-amenities', [PropertiesController::class, 'getPropertyAmenities']);
+Route::get('/general-get-property-financing', [PropertiesController::class, 'getPropertyFinancing']);
+Route::get('/get-published-property', [PropertiesController::class, 'getAllPublishedProperties']);
+Route::get('/get-published-property-by-id/{propId}', [PropertiesController::class, 'getFullPropertyViaId']);
+
+Route::post('/general-publish-property-post', [PropertiesController::class, 'publishPropertyPost']);
+Route::post('/general-remove-published-property-photo', [PropertiesController::class, 'removePropertyPhoto']);
+Route::post('/general-add-published-property-photo', [PropertiesController::class, 'addPropertyPhoto']);
+Route::post('/general-update-published-property-photo-sequence', [PropertiesController::class, 'updatePhotosSequence']);
+Route::post('/general-update-published-property-name', [PropertiesController::class, 'updatePropertyName']);
+Route::post('/general-update-published-property-type', [PropertiesController::class, 'updatePropertyTypeInProperty']);
+Route::post('/general-update-published-property-desc', [PropertiesController::class, 'updatePropertyDesc']);
+Route::post('/general-update-published-property-floorplan', [PropertiesController::class, 'updatePropertyFloorplan']);
+Route::post('/general-add-published-property-amenity', [PropertiesController::class, 'addAmenityInProperty']);
+Route::post('/general-remove-published-property-amenity', [PropertiesController::class, 'removeAmenityInProperty']);
+Route::post('/general-remove-published-property-financing', [PropertiesController::class, 'removeFinancingInProperty']);
+Route::post('/general-add-published-property-financing', [PropertiesController::class, 'addFinancingInProperty']);
+
+
+/*
+* Property Listings
+*/

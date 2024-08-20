@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate, useOutletContext, useParams } from "react-router-dom";
 import { fetchAgentInfos } from "../../../Services/AdminAgentService";
-import { fetchAgentPublishedProperties } from "../../../Services/AgentListingService";
 import * as Icon from 'react-bootstrap-icons';
 import { formatDate, formatDateTime, notify } from "../../../assets/js/utils";
 import axiosClient from "../../../axios-client";
@@ -41,15 +40,7 @@ export default function AdminAgentProfile() {
             } catch (error) {console.log(error)}
         }
 
-        const getProperties = async() => {
-            try {
-                const data = await fetchAgentPublishedProperties(agentId);
-                setProperties(data);
-            } catch (error) {console.error(error);}
-        }
-
         getAgentInfos();
-        getProperties();
     }, []);
 
     // Populate REFs' Values
@@ -144,7 +135,7 @@ export default function AdminAgentProfile() {
             )}
             
 
-            {agent && properties
+            {agent
             ? (
                 <div className="agent-profile-cont">
 

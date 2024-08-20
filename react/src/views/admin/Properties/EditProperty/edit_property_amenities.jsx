@@ -6,7 +6,7 @@ import { useModal } from "../../../../contexts/ModalContext";
 import axiosClient from "../../../../axios-client";
 import { notify } from "../../../../assets/js/utils";
 
-export default function AgentEditListingAmenities() {
+export default function AdminEditPropertyAmenities() {
 
     const {showModal} = useModal();
     const {
@@ -28,7 +28,7 @@ export default function AgentEditListingAmenities() {
         const formData = new FormData();
         formData.append('id', amenityId);
 
-        axiosClient.post('/remove-published-prop-amenity', formData)
+        axiosClient.post('/general-remove-published-property-amenity', formData)
         .then(({data}) => {
             if(data.status === 200) {
                 notify('success', data.message, 'top-center', 3000);
@@ -50,7 +50,7 @@ export default function AgentEditListingAmenities() {
 
     const handleRemoveAmenity = (amenityId) => {
         const amenity = propertyAmenities.filter(amenity => amenity.id === amenityId)
-        showModal('AgentEditListingDelAmenityModal1', {
+        showModal('AdminEditPropertyDelAmenityModal1', {
             amenity, 
             removeAmenityHandler: () => removeAmenityHandler(amenityId)
         });

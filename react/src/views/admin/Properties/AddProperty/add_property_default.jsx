@@ -1,9 +1,12 @@
-import { Link, Outlet, useLocation, useOutletContext } from "react-router-dom";
+import { Link, Outlet, useLocation, useNavigate, useOutletContext } from "react-router-dom";
 import * as Icon from 'react-bootstrap-icons';
 import { useEffect, useState } from "react";
+import { isEmptyOrSpaces } from "../../../../assets/js/utils";
+import axiosClient from "../../../../axios-client";
 
 export default function AdminAddPropertyDefault() {
     const location = useLocation();
+    const navigate = useNavigate();
     const {isSidenavOpen} = useOutletContext();
     const [nextBtnState, setNextBtnState] = useState(false);
 
@@ -54,12 +57,12 @@ export default function AdminAddPropertyDefault() {
 
     useEffect(() => {
         // Property Type Script
-        if(location.pathname === '/BDDRAgent/CreateListing' || location.pathname === '/BDDRAgent/CreateListing/Step2') {
+        if(location.pathname === '/BDDRAdmin/Properties/AddProperty' || location.pathname === '/BDDRAgent/CreateListing/Step2') {
             setNextBtnState(false);
         }
 
         // Property Type Inputs
-        if(location.pathname === '/BDDRAgent/CreateListing/PropertyType' && selectedTypes === null) {
+        if(location.pathname === '/BDDRAdmin/Properties/AddProperty/PropertyType' && selectedTypes === null) {
             setNextBtnState(true);
             return;
         }
@@ -68,7 +71,7 @@ export default function AdminAddPropertyDefault() {
         }
 
         // Property Name and Location Input
-        if(location.pathname === '/BDDRAgent/CreateListing/NameAndLoc'
+        if(location.pathname === '/BDDRAdmin/Properties/AddProperty/NameAndLoc'
             && (isEmptyOrSpaces(propertyName) || isEmptyOrSpaces(propertyAddress) || isEmptyOrSpaces(propertyDesc))
         ) {
             setNextBtnState(true);
@@ -79,7 +82,7 @@ export default function AdminAddPropertyDefault() {
         }
 
         // Property Floor plan inputs
-        if(location.pathname === '/BDDRAgent/CreateListing/Floorplan'
+        if(location.pathname === '/BDDRAdmin/Properties/AddProperty/Floorplan'
             && ((isEmptyOrSpaces(lotArea) || lotArea < 1) || (isEmptyOrSpaces(floorArea) || floorArea < 1))
         ) {
             setNextBtnState(true);
@@ -90,7 +93,7 @@ export default function AdminAddPropertyDefault() {
         }
 
         // Amenities Inputs
-        if(location.pathname === '/BDDRAgent/CreateListing/Amenities'
+        if(location.pathname === '/BDDRAdmin/Properties/AddProperty/Amenities'
             && (selectedPropertyAmenities.length < 1)
         ) {
             setNextBtnState(true);
@@ -101,7 +104,7 @@ export default function AdminAddPropertyDefault() {
         }
 
         // Photos Input
-        if(location.pathname === '/BDDRAgent/CreateListing/Photos'
+        if(location.pathname === '/BDDRAdmin/Properties/AddProperty/Photos'
             && (photos.length < 1 || photos.length < 5)
         ) {
             setNextBtnState(true);
@@ -128,7 +131,6 @@ export default function AdminAddPropertyDefault() {
         formData.append('floor_area', floorArea);
         formData.append('required_income', requiredIncome);
         formData.append('price', price);
-        formData.append('agent_id', user.id);
 
         selectedPropertyAmenities.forEach((amenity, index) => {
             formData.append(`property_amenities[${index}]`, amenity.id);
@@ -142,10 +144,10 @@ export default function AdminAddPropertyDefault() {
             formData.append(`photo[${index}]`, photo);
         });
 
-        axiosClient.post('/publish-property', formData)
+        axiosClient.post('/general-publish-property-post', formData)
         .then(({data}) => {
             if(data.status === 200) {
-                window.location.href = '/BDDRAgent/Listings';
+                navigate()
             }
             else {
                 notify('error', data.message, 'top-center', 3000);
@@ -205,7 +207,7 @@ export default function AdminAddPropertyDefault() {
                 {/* Publish Btn */}
                 <button 
                     disabled={nextBtnState} 
-                    className={`primary-btn-black1 ${nextBtnState ? 'disabled' : ''} d-flex gap4 align-items-center ${location.pathname === "/BDDRAgent/CreateListing/Finalize" ? '' : 'd-none'}`}
+                    className={`primary-btn-black1 ${nextBtnState ? 'disabled' : ''} d-flex gap4 align-items-center ${location.pathname === "/BDDRAdmin/Properties/AddProperty/Finalize" ? '' : 'd-none'}`}
                     onClick={handlePublishProperty}
                 >
                     Publish                      
@@ -213,7 +215,7 @@ export default function AdminAddPropertyDefault() {
                 </button>
                 
                 {/* Next Btn */}
-                <Link to={nextLinks[location.pathname]} className={`text-decoration-none color-black1 ${location.pathname === "/BDDRAgent/CreateListing/Finalize" ? 'd-none' : ''}`}>
+                <Link to={nextLinks[location.pathname]} className={`text-decoration-none color-black1 ${location.pathname === "/BDDRAdmin/Properties/AddProperty/Finalize" ? 'd-none' : ''}`}>
                     <button 
                         disabled={nextBtnState} 
                         className={`primary-btn-black1 ${nextBtnState ? 'disabled' : ''} d-flex gap4 align-items-center`}

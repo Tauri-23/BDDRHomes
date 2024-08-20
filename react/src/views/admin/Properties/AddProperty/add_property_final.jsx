@@ -1,7 +1,5 @@
 import { useOutletContext } from "react-router-dom";
 import '/src/assets/css/view-listing.css';
-import { useEffect, useState } from "react";
-import { fetchPropertyAmenities } from "../../../../Services/AgentCreateListingService";
 import { formatToPhilPeso } from "../../../../assets/js/utils";
 
 export default function AdminAddPropertyFinal() {

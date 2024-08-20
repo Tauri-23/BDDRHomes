@@ -6,7 +6,6 @@ import axiosClient from "../../axios-client";
 import { AgentNavbar1 } from "../../components/AgentComponents/agent_navbar_1";
 
 import '/src/assets/css/agent-listings.css';
-import { AgentListingOptionModal1 } from "../../components/Modals/agent_listing_option_modal1";
 import { ModalProvider } from "../../contexts/ModalContext";
 import ModalManager from "../../Managers/ModalManager";
 

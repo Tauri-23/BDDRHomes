@@ -2,7 +2,7 @@ import * as Icon from 'react-bootstrap-icons';
 import propTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
-export const AgentEditListingDelAmenityModal1 = ({amenity, removeAmenityHandler, onClose }) => {
+export const AdminEditPropertyDelAmenityModal1 = ({amenity, removeAmenityHandler, onClose }) => {
     return(
         <div className= {`modal1`}>
             <div className="modal-box3" key={amenity.id}>
@@ -36,7 +36,7 @@ export const AgentEditListingDelAmenityModal1 = ({amenity, removeAmenityHandler,
     );
 };
 
-AgentEditListingDelAmenityModal1.propTypes = {
+AdminEditPropertyDelAmenityModal1.propTypes = {
     onClose: propTypes.func.isRequired,
     removeAmenityHandler: propTypes.func.isRequired,
     amenity: propTypes.array.isRequired

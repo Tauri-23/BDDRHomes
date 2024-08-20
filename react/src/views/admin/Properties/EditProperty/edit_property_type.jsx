@@ -6,7 +6,7 @@ import axiosClient from "../../../../axios-client";
 import { notify } from "../../../../assets/js/utils";
 import { fetchPropertyTypes } from "../../../../Services/GeneralPropertiesService";
 
-export default function AgentEditListingType() {
+export default function AdminEditPropertyType() {
     const {type, setListing, id} = useOutletContext();
 
     const [propertyTypes, setPropertyTypes] = useState(null);
@@ -44,15 +44,15 @@ export default function AgentEditListingType() {
         formData.append('propertyId', id);
         formData.append('propertyType', propertyTypeId);
 
-        axiosClient.post('/change-published-prop-type', formData)
+        axiosClient.post('/general-update-published-property-type', formData)
         .then(({data}) => {
             if(data.status === 200) {
                 notify('success', data.message, 'top-center', 3000);
 
                 setListing((propType) => {
                     const updatedPropType = {...propType};
-                    updatedPropType.data[0].property_type.id = propertyTypeId;
-                    updatedPropType.data[0].property_type.type_name = propertyTypeName;
+                    updatedPropType[0].property_type.id = propertyTypeId;
+                    updatedPropType[0].property_type.type_name = propertyTypeName;
                     return updatedPropType;
                 });
             }

@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { Link, Outlet, useLocation, useParams } from "react-router-dom";
-import '/src/assets/css/agent-edit-listing.css';
-import { fetchAgentSpecificPropertyFull } from "../../../../Services/AgentListingService";
+import { Link, Outlet, useLocation, useOutletContext, useParams } from "react-router-dom";
+import '/src/assets/css/admin_edit_published_property.css';
 import * as Icon from 'react-bootstrap-icons';
-import { ToastContainer } from "react-toastify";
 import axiosClient from "../../../../axios-client";
 import { formatToPhilPeso, notify } from "../../../../assets/js/utils";
+import { fetchPropertyAmenities, fetchPropertyFinancing, fetchSpecificPublishedPropertyFull } from "../../../../Services/GeneralPropertiesService";
 
-export default function AgentEditListingDefault() {
+export default function AdminEditPropertyDefault() {
     const {id} = useParams(); // Property Id
+    const {isSidenavOpen} = useOutletContext();
     const [listing, setListing] = useState([]); // General Listing Object from Database
     const [amenities, setAmenities] = useState([]); //Amenities that is set to the Property, hiniwalay ko para decouple sya sa listing object para kapag niremove hindi na naka base sa listing object
     const [financings, setFinancings] = useState([]); // Same concept as amenities
@@ -28,7 +28,7 @@ export default function AgentEditListingDefault() {
     useEffect(() => {
         const getListingFull = async() => {
             try {
-                const data = await fetchAgentSpecificPropertyFull(id);
+                const data = await fetchSpecificPublishedPropertyFull(id);
                 setListing(data);
             } catch (error) {
                 console.error(error);
@@ -65,11 +65,12 @@ export default function AgentEditListingDefault() {
      This Will Populate the Amenities 
     */
     useEffect(() => {
-        if (listing && listing.data && listing.data[0]) {
-            setAmenities(listing.data[0].amenities);
-            setFinancings(listing.data[0].financings);
-            setPhotos(listing.data[0].photos);
+        if (listing && listing[0]) {
+            setAmenities(listing[0].amenities);
+            setFinancings(listing[0].financings);
+            setPhotos(listing[0].photos);
         }
+        
     }, [listing]);
 
 
@@ -85,7 +86,7 @@ export default function AgentEditListingDefault() {
         console.log(amenities);
         console.log(amenityId);
 
-        axiosClient.post('/add-published-prop-amenity', formData)
+        axiosClient.post('/general-add-published-property-amenity', formData)
         .then(({data}) => {
             if(data.status === 200) {
                 notify('success', data.message, 'top-center', 3000);
@@ -103,7 +104,7 @@ export default function AgentEditListingDefault() {
         formData.append('propertyId', id);
         formData.append('financingId', financingId);
 
-        axiosClient.post('/add-published-prop-financing', formData)
+        axiosClient.post('/general-add-published-property-financing', formData)
         .then(({data}) => {
             if(data.status === 200) {
                 notify('success', data.message, 'top-center', 3000);
@@ -120,15 +121,15 @@ export default function AgentEditListingDefault() {
 
 
     return (
-        <div className="edit-listing-content">                
+        <div className={`edit-property-content ${isSidenavOpen ? 'compressed' : ''}`}>                
 
-            {listing.data && (
+            {listing[0] && (
                 <div className="d-flex w-100">
 
                     {/* Sidenav */}
-                    <div className={`edit-listing-sidenav ${isSidenavHidden ? 'hidden' : ''}`}>
+                    <div className={`edit-property-sidenav ${isSidenavHidden ? 'hidden' : ''}`}>
                         <div className="text-l1 fw-bold d-flex gap1 mar-bottom-1">
-                            <Link to={'/BDDRAgent/Listings'} className="text-decoration-none color-black1">
+                            <Link to={'/BDDRAdmin/Properties'} className="text-decoration-none color-black1">
                                 <div className="circle-btn-1">
                                     <Icon.ArrowLeft className='text-m1'/>
                                 </div>
@@ -137,7 +138,7 @@ export default function AgentEditListingDefault() {
                         </div>
 
                         <Link to={'Photos'} className="text-decoration-none color-black1">
-                            <div className={`edit-listing-sidenav-box ${location.pathname === '/BDDRAgent/Listings/EditListing/'+ id +'/Photos' ? 'active' : ''}`}>
+                            <div className={`edit-listing-sidenav-box ${location.pathname === '/BDDRAdmin/Properties/EditProperty/'+ id +'/Photos' ? 'active' : ''}`}>
                                 <div className="text-m2 fw-bold mar-bottom-3">Photos</div>
                                 <div className="edit-listing-sidenav-box-prop-pic-cont">
                                     {photos.slice(0,5).map(photo =>
@@ -151,39 +152,39 @@ export default function AgentEditListingDefault() {
                         </Link>
 
                         <Link to={'Name'} className="text-decoration-none color-black1">
-                            <div className={`edit-listing-sidenav-box ${location.pathname === '/BDDRAgent/Listings/EditListing/'+ id +'/Name' ? 'active' : ''}`}>
+                            <div className={`edit-listing-sidenav-box ${location.pathname === '/BDDRAdmin/Properties/EditProperty/'+ id +'/Name' ? 'active' : ''}`}>
                                 <div className="text-m2 fw-bold">Name</div>
-                                <div className="text-l3">{listing.data[0].name}</div>
+                                <div className="text-l3">{listing[0].name}</div>
                             </div>
                         </Link>
 
                         <Link to={'Type'} className="text-decoration-none color-black1">
-                            <div className={`edit-listing-sidenav-box ${location.pathname === '/BDDRAgent/Listings/EditListing/'+ id +'/Type' ? 'active' : ''}`}>
+                            <div className={`edit-listing-sidenav-box ${location.pathname === '/BDDRAdmin/Properties/EditProperty/'+ id +'/Type' ? 'active' : ''}`}>
                                 <div className="text-m2 fw-bold">Property Type</div>
-                                <div className="text-l3" id="property-type-sidenav">{listing.data ? listing.data[0].property_type.type_name : 'Loading...'}</div>
+                                <div className="text-l3" id="property-type-sidenav">{listing ? listing[0].property_type.type_name : 'Loading...'}</div>
                             </div>
                         </Link>                        
 
                         <Link to={'Description'} className="text-decoration-none color-black1">
-                            <div className={`edit-listing-sidenav-box ${location.pathname === '/BDDRAgent/Listings/EditListing/'+ id +'/Description' ? 'active' : ''}`}>
+                            <div className={`edit-listing-sidenav-box ${location.pathname === '/BDDRAdmin/Properties/EditProperty/'+ id +'/Description' ? 'active' : ''}`}>
                                 <div className="text-m2 fw-bold">Description</div>
-                                <div className="line-clamp-3">{listing.data[0].description}</div>
+                                <div className="line-clamp-3">{listing[0].description}</div>
                             </div>
                         </Link>
 
                         <Link to={'Address'} className="text-decoration-none color-black1">
-                            <div className={`edit-listing-sidenav-box ${location.pathname === '/BDDRAgent/Listings/EditListing/'+ id +'/Address' ? 'active' : ''}`}>
+                            <div className={`edit-listing-sidenav-box ${location.pathname === '/BDDRAdmin/Properties/EditProperty/'+ id +'/Address' ? 'active' : ''}`}>
                                 <div className="text-m2 fw-bold">Address</div>
-                                <div className="text-l3">{listing.data[0].address}</div>
+                                <div className="text-l3">{listing[0].address}</div>
                             </div>
                         </Link>
 
                         <Link to={'Floorplan'} className="text-decoration-none color-black1">
-                            <div className={`edit-listing-sidenav-box ${location.pathname === '/BDDRAgent/Listings/EditListing/'+ id +'/Floorplan' ? 'active' : ''}`}>
+                            <div className={`edit-listing-sidenav-box ${location.pathname === '/BDDRAdmin/Properties/EditProperty/'+ id +'/Floorplan' ? 'active' : ''}`}>
                                 <div className="text-m2 fw-bold mar-bottom-3">Floorplan</div>
-                                <div className="listing-spec-box3"><img src="/src/assets/media/icons/bed.svg" className="listing-spec-box-icon"/>Bedroom: {listing.data[0].bedroom}</div>
-                                <div className="listing-spec-box3"><img src="/src/assets/media/icons/bathtub.svg" className="listing-spec-box-icon"/>Bath: {listing.data[0].bath}</div>
-                                <div className="listing-spec-box3"><img src="/src/assets/media/icons/garages.svg" className="listing-spec-box-icon"/>Carport: {listing.data[0].carport}</div>
+                                <div className="listing-spec-box3"><img src="/src/assets/media/icons/bed.svg" className="listing-spec-box-icon"/>Bedroom: {listing[0].bedroom}</div>
+                                <div className="listing-spec-box3"><img src="/src/assets/media/icons/bathtub.svg" className="listing-spec-box-icon"/>Bath: {listing[0].bath}</div>
+                                <div className="listing-spec-box3"><img src="/src/assets/media/icons/garages.svg" className="listing-spec-box-icon"/>Carport: {listing[0].carport}</div>
                                 <div className="text-m2 mar-top-3 text-decoration-underline">See more...</div>
                             </div>
                         </Link>
@@ -211,14 +212,14 @@ export default function AgentEditListingDefault() {
                         <Link to={'Price'} className="text-decoration-none color-black1">
                             <div className={`edit-listing-sidenav-box ${location.pathname === '/BDDRAgent/Listings/EditListing/'+ id +'/Price' ? 'active' : ''}`}>
                                 <div className="text-m2 fw-bold mar-bottom-3">Price and Required Income</div>
-                                <div className="text-l3">{formatToPhilPeso(listing.data[0].price)}</div>
+                                <div className="text-l3">{formatToPhilPeso(listing[0].price)}</div>
 
                             </div>
                         </Link>
                     </div>
 
                     {/* Outlet Content (CHildren) */}
-                    <div className={`edit-listing-content-2 ${isAddAmenity ? 'compressed' : ''}`}>
+                    <div className={`edit-property-content-2 ${isAddAmenity ? 'compressed' : ''}`}>
                         <Outlet 
                             context={{
                                 // General use
@@ -226,20 +227,20 @@ export default function AgentEditListingDefault() {
                                 isSidenavHidden: isSidenavHidden,                                
                                 setListing: setListing,
                                 listing: listing,
-                                id: listing.data[0].id,
+                                id: listing[0].id,
 
                                 // Photos
                                 photos: photos,
                                 setPhotos: setPhotos,
 
                                 // Name
-                                name: listing.data[0].name,
+                                name: listing[0].name,
 
                                 // Property Type
-                                type: listing.data[0].property_type.id,
+                                type: listing[0].property_type.id,
 
                                 // Description
-                                description: listing.data[0].description,
+                                description: listing[0].description,
 
                                 // Amenities
                                 propertyAmenities: amenities,
@@ -247,11 +248,11 @@ export default function AgentEditListingDefault() {
                                 setAddAmenity: setAddAmenity,
 
                                 // Floorplan
-                                bedroom: listing.data[0].bedroom,
-                                bath: listing.data[0].bath,
-                                carport: listing.data[0].carport,
-                                lotArea: listing.data[0].lot_area,
-                                floorArea: listing.data[0].floor_area,                                
+                                bedroom: listing[0].bedroom,
+                                bath: listing[0].bath,
+                                carport: listing[0].carport,
+                                lotArea: listing[0].lot_area,
+                                floorArea: listing[0].floor_area,                                
 
                                 // Financing
                                 propertyFinancings: financings,
@@ -326,7 +327,7 @@ export default function AgentEditListingDefault() {
                 </div>
             )}
 
-            {!listing.data && (
+            {!listing[0] && (
                 <div className="text-l3 center-absolute-xy">Loading...</div>
             )}
                     

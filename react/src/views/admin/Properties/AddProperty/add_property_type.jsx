@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useOutletContext } from "react-router-dom";
-import { fetchPropertyTypes } from "../../../../Services/AgentCreateListingService";
+import { fetchPropertyTypes } from "../../../../Services/GeneralPropertiesService";
 
 export default function AdminAddPropertyType() {
     const {selectedTypes, setSelectedTypes} = useOutletContext();
