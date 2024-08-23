@@ -1,13 +1,15 @@
-import { Link, Navigate, Outlet, redirect, useLocation } from "react-router-dom";
+import { Link, Navigate, Outlet, redirect, useLocation, useNavigate } from "react-router-dom";
 import * as Icon from 'react-bootstrap-icons';
 import { useEffect, useState } from "react";
 import { isEmptyOrSpaces, notify } from "../../../../assets/js/utils";
 import axiosClient from "../../../../axios-client";
 import { ToastContainer } from "react-toastify";
 import { useStateContext } from "../../../../contexts/ContextProvider";
+import '../../../../assets/css/agent-add-property-listing.css';
 
-export default function AgentCreateListingDefault() {
+export default function AgentCreatePropertyListingDefault() {
     const location = useLocation();
+    const navigate = useNavigate();
     const {user, userType, token} = useStateContext();
 
     // 
@@ -17,9 +19,11 @@ export default function AgentCreateListingDefault() {
     const backLinks = {
         '/BDDRAgent/CreateListing': '/BDDRAgent/Listings',
         '/BDDRAgent/CreateListing/Property': '/BDDRAgent/CreateListing',
+        '/BDDRAgent/CreateListing/Finalize': '/BDDRAgent/CreateListing/Property',
     };
     const nextLinks = {
         '/BDDRAgent/CreateListing': 'Property',
+        '/BDDRAgent/CreateListing/Property': 'Finalize',
     };
 
     const [nextBtnState, setNextBtnState] = useState(false);
@@ -35,45 +39,33 @@ export default function AgentCreateListingDefault() {
         if(location.pathname === '/BDDRAgent/CreateListing' || location.pathname === '/BDDRAgent/CreateListing/Step2') {
             setNextBtnState(false);
         }
-        
-    }, [location.pathname]);
+
+        if(location.pathname === '/BDDRAgent/CreateListing/Property' && selectedProperty === null) {
+            setNextBtnState(true);
+            return
+        }
+        else {
+            setNextBtnState(false);
+        }
+    }, [location.pathname, selectedProperty]);
 
 
     const handlePublishProperty = (event) => {
         //event.preventDefault();
         const formData = new FormData();
-        formData.append('property_type', selectedTypes.id);
-        formData.append('property_name', propertyName);
-        formData.append('property_address', propertyAddress);
-        formData.append('property_desc', propertyDesc);
-        formData.append('bedroom', bedroom);
-        formData.append('bathroom', bathroom);
-        formData.append('carport', carport);
-        formData.append('lot_area', lotArea);
-        formData.append('floor_area', floorArea);
-        formData.append('required_income', requiredIncome);
-        formData.append('price', price);
+        formData.append('property', selectedProperty.id);
         formData.append('agent_id', user.id);
 
-        selectedPropertyAmenities.forEach((amenity, index) => {
-            formData.append(`property_amenities[${index}]`, amenity.id);
-        });
+        console.log(`property: ${selectedProperty.id}, agent: ${user.id}`);
 
-        selectedPropertyFinancing.forEach((financing, index) => {
-            formData.append(`property_financing[${index}]`, financing.id);
-        });
-
-        photos.forEach((photo, index) => {
-            formData.append(`photo[${index}]`, photo);
-        });
-
-        axiosClient.post('/publish-property', formData)
+        axiosClient.post('/publish-property-listing', formData)
         .then(({data}) => {
             if(data.status === 200) {
-                window.location.href = '/BDDRAgent/Listings';
+                notify('default', data.message, 'bottom-left', 3000);
+                navigate('/BDDRAgent/Listings');
             }
             else {
-                notify('error', data.message, 'top-center', 3000);
+                notify('error', data.message, 'bottom-left', 3000);
             }
         })
         .catch(error => {
@@ -108,7 +100,7 @@ export default function AgentCreateListingDefault() {
             <Outlet 
                 context={
                     { 
-                        selectedProperty
+                        selectedProperty, setSelectedProperty
                     }
                 }/>
 

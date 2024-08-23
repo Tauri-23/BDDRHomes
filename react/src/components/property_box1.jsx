@@ -4,17 +4,16 @@ import { formatToPhilPeso } from "../assets/js/utils";
 import { useEffect } from "react";
 import { useModal } from "../contexts/ModalContext";
 
-export const PropertyBox1 = ({ wishlists, property, isInWishlist, handleCreateWishlistAndAddPropToIt, handleRemovePropFromWishlist, handleAddPropToWishlist}) => { //TODO::put parameters]
+export const PropertyBox1 = ({ wishlists, listingId, property, agent, isInWishlist, handleCreateWishlistAndAddPropToIt, handleRemovePropFromWishlist, handleAddPropToWishlist}) => { //TODO::put parameters]
     const {showModal} = useModal();
     const navigate = useNavigate();
-    const propId = property.id;
 
     // useEffect(() => {
-    //     console.log(`${property.name}: ${isInWishlist}`);
+    //     console.log(`${property}`);
     // }, [])
 
     const handleViewProperty = (event) => {
-        navigate(`/BDDRClient/ViewProperty/${property.id}`);
+        navigate(`/BDDRClient/ViewProperty/${listingId}`);
     }
 
     const handleHeartPressed = (event) => {
@@ -51,12 +50,12 @@ export const PropertyBox1 = ({ wishlists, property, isInWishlist, handleCreateWi
 
                         <div className="text-m2 d-flex gap4 align-items-center mar-top-3">
                             <div className="property-box-agent-pfp">
-                                {property.agent.pfp 
+                                {agent.pfp 
                                 ? (<img src={`/src/assets/media/agents/pfp/${property.agent.pfp}`} alt="" />)
-                                : property.agent.firstname[0]}
+                                : agent.firstname[0]}
                                 
                             </div>
-                            {property.agent.firstname} {property.agent.lastname}
+                            {agent.firstname} {agent.lastname}
                         </div>
 
                         {/* Specs Preview */}

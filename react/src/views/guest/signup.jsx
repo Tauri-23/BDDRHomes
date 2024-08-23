@@ -24,7 +24,7 @@ export default function Signup() {
     const passRef = useRef();
     const conpassRef = useRef();
 
-    const {setUser, setToken} = useStateContext();
+    const {setUser, setToken, setUserType} = useStateContext();
 
 
     const signupHandler = (ev) => {
@@ -65,6 +65,7 @@ export default function Signup() {
         .then(({data}) => {
             setUser(data.user);
             setToken(data.token);
+            setUserType(data.user_type);
             if(data.status === 200) {
                 notify('success', data.message, 'top-center', 3000);
             }

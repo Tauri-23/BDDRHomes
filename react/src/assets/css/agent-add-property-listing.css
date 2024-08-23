@@ -1,0 +1,17 @@
+/* Properties */
+.properties-outer-cont {
+    width: 1000px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    padding: 50px 0;
+}
+
+.properties-container {
+    width: 100%;
+    height: 600px;
+    overflow-y: auto;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}

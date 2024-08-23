@@ -8,14 +8,5 @@ use Illuminate\Http\Request;
 
 class ClientListingController extends Controller
 {
-    public function getAllProperties()
-    {
-        $properties = published_properties::
-        with(['photos', 'amenities', 'propertyType', 'financings', 'agent'])->
-        get();
-
-        return response()->json([
-            'data' => $properties
-        ]);
-    }
+    
 }

@@ -9,18 +9,19 @@ import { SkeletonListingBox } from '../../../Skeletons/agent-listing-skeletons';
 import { AgentListingBox1 } from '../../../components/AgentComponents/agent_listing_box1';
 import axiosClient from '../../../axios-client';
 import { notify } from '../../../assets/js/utils';
+import { SkeletonPropertyBox } from '../../../Skeletons/property_skeletons';
 
 export default function AgentListing() {
 
     const {showModal} = useModal();
-    const [listings, setListing] = useState(null);
+    const [propertyListings, setPropertyListings] = useState(null);
     const {user} = useStateContext();
     
     useEffect(() => {
         const getListedProperties = async () => {
             try {
                 const data = await fetchAgentPublishedProperties(user.id);
-                setListing(data);
+                setPropertyListings(data);
             } catch (error) {
                 console.error(error);
             }
@@ -34,9 +35,9 @@ export default function AgentListing() {
     /*
     |   Debugging
     */
-    // useEffect(() => {
-    //     console.log(listings);
-    // }, [listings]);
+    useEffect(() => {
+        console.log(propertyListings);
+    }, [propertyListings]);
 
     
 
@@ -58,18 +59,18 @@ export default function AgentListing() {
     }
 
     const handleRemovePropertyConfirmation = (listing) => {
-        // showModal('AgentDelListingConfirmationModal1', {listing, handleRemovePropertyPost});
+        showModal('AgentDelListingConfirmationModal1', {listing, handleRemovePropertyPost});
     }
 
     const handleListingClick = (listing) => {
-        // showModal('AgentListingOptionModal1', { listing, handleRemovePropertyConfirmation});
+        showModal('AgentListingOptionModal1', { listing, handleRemovePropertyConfirmation});
     };
     
     return (
         <div className="content1">
             {/* upper part */}
-            <div className="d-flex justify-content-between mar-bottom-l1">
-                <div className="text-l1 fw-bold">Listings</div>
+            <div className={`d-flex justify-content-between mar-bottom-l1 ${propertyListings?.length > 0 ? '' : 'd-none'}`}>
+                <div className="text-l1 fw-bold">Properties Listed</div>
     
                 <div className="d-flex align-items-center gap3">
                     <div className="circle-btn-1">
@@ -86,15 +87,24 @@ export default function AgentListing() {
     
             {/* Listings */}
             <div className="d-flex flex-wrap gap1">
-                {listings && (
-                    listings.map(listing => (
-                    <AgentListingBox1 key={listing.id} listing={listing} handleListingClick={handleListingClick} />
+                {propertyListings && (
+                    propertyListings.map(property => (
+                    <AgentListingBox1 key={property.id} property={property.property} handleListingClick={handleListingClick} />
                 )))}
 
-                {!listings && Array.from({length:10}, (_, index) => index).map(x =>(
-                    <SkeletonListingBox key={x}/>
-                ))}
+                {!propertyListings && Array.from({length:10}, (_, index) => index).map(x =>(
+                    <SkeletonPropertyBox key={x}/>
+                ))}                
             </div>
+
+            {propertyListings?.length < 1 && (
+                <div className="d-flex flex-direction-y gap3 align-items-start w-100">
+                    <div className="text-l1 fw-bold">Properties Listed</div>
+                    <div className="hr-line1 mar-y-2"></div>
+                    <div className="text-l3">There are no property listed yet.</div>
+                    <Link to={'/BDDRAgent/CreateListing'} className="secondary-btn-black1 color-black1">Add Property Listing</Link>
+                </div>
+            )}
             
         </div>        
     )

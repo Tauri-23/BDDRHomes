@@ -17,6 +17,10 @@ import '././assets/css/listings.css';
 
 import '././assets/css/modals.css';
 
+import '././assets/css/property-box.css';
+
+import '././assets/css/view-property-listing.css';
+
 
 // BOOTSTRAP
 import "bootstrap/dist/css/bootstrap.min.css";

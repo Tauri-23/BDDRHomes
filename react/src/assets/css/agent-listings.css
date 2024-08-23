@@ -21,14 +21,14 @@
 | Listing Box
 |----------------------------------------
 */
-.agent-listing-box {
+/* .agent-listing-box {
     width: var(--listing-img-wh);
     display: flex;
     flex-direction: column;
     cursor: pointer;
-}
+} */
 /* Listing pic */
-.agent-listing-pic {
+/* .agent-listing-pic {
     width: var(--listing-img-wh);
     height: var(--listing-img-wh);
     border-radius: var(--radius3);
@@ -38,26 +38,26 @@
     align-items: center;
     position: relative;
     overflow: hidden;
-}
-.agent-listing-pic img {
+} */
+/* .agent-listing-pic img {
     position: absolute;
     height: 100%;
-}
+} */
 .agent-listing-pic.skeleton {
     background: var(--grey2);
 }
 
 /* Listing Description */
-.agent-listing-desc {
+/* .agent-listing-desc {
     padding: 5px 0;
     width: 100%;
-}
+} */
 
 /* Listing Name */
-.agent-listing-name {
+/* .agent-listing-name {
     font-weight: bold;
     font-size: var(--text-m2);
-}
+} */
 .agent-listing-name.skeleton {
     width: 50%;
     height: 30px;
@@ -65,13 +65,13 @@
 }
 
 /* Listing Address */
-.agent-listing-address {
+/* .agent-listing-address {
     white-space: nowrap; 
     width: 100%; 
     overflow: hidden;
     text-overflow: ellipsis;
     font-size: var(--text-m3);
-}
+} */
 .agent-listing-address.skeleton {
     width: 100%;
     height: 20px;

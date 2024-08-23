@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\ClientListingController;
 use App\Http\Controllers\Api\ClientWishlistController;
 use App\Http\Controllers\Api\PropertiesController;
+use App\Http\Controllers\Api\PropertyListingsController;
 use Illuminate\Support\Facades\Route;
 
 // Route::get('/user', function (Request $request) {
@@ -38,17 +39,6 @@ Route::post('/login', [AuthController::class, 'login']);
 /*
 * LISTING (ALL)
 */
-
-Route::get('/get-property-agent/{agentId}', [AgentListingController::class, 'getPropertiesAgent']);
-Route::get('/get-full-property/{propId}', [AgentListingController::class, 'getFullPropertyViaPropId']);
-
-
-
-
-
-
-
-
 Route::post('/delete-property-permanently', [AgentListingController::class, 'deleteProperty']);
 
 
@@ -63,7 +53,6 @@ Route::post('/delete-property-permanently', [AgentListingController::class, 'del
 /*
 * LISTINGS (ALL)
 */
-Route::get('/client-get-all-props', [ClientListingController::class, 'getAllProperties']);
 
 /*
 * Wishlists (ALL)
@@ -130,3 +119,8 @@ Route::post('/general-add-published-property-financing', [PropertiesController::
 /*
 * Property Listings
 */
+Route::get('/get-all-property-listed', [PropertyListingsController::class, 'getAllProperties']);
+Route::get('/get-property-agent/{agentId}', [PropertyListingsController::class, 'getPropertiesAgent']);
+Route::get('/get-full-property-listed-info/{propId}', [PropertyListingsController::class, 'getFullPropertyViaPropId']);
+
+Route::post('/publish-property-listing', [PropertyListingsController::class, 'PublishPropertyListingPost']);

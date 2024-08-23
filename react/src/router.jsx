@@ -16,8 +16,6 @@ import AgentListing from "./views/agents/Listings/listings";
 import AgentIndex from "./views/agents";
 import AgentMessages from "./views/agents/messages";
 import AgentPerformance from "./views/agents/performance";
-import AgentCreateListingDefault from "./views/agents/Listings/CreateListing/create-listing-default";
-import AgentCreateListingIndex from "./views/agents/Listings/CreateListing/create-listing-index";
 import AgentEditListingDefault from "./views/agents/Listings/EditListing/edit-listing-default";
 import AgentListingDefault from "./views/agents/Listings/listings-default";
 import AgentEditListingPhotos from "./views/agents/Listings/EditListing/edit-listing-photos";
@@ -59,6 +57,9 @@ import AdminEditPropertyFloorplan from "./views/admin/Properties/EditProperty/ed
 import AdminEditPropertyAmenities from "./views/admin/Properties/EditProperty/edit_property_amenities";
 import AdminEditPropertyFinancings from "./views/admin/Properties/EditProperty/edit_property_financings";
 import AgentCreatePropertyListingProperty from "./views/agents/Listings/CreateListing/create_property_listing_property";
+import AgentCreatePropertyListingDefault from "./views/agents/Listings/CreateListing/create-property-listing-default";
+import AgentCreatePropertyListingIndex from "./views/agents/Listings/CreateListing/create-property-listing-index";
+import AgentCreatePropertyListingFinal from "./views/agents/Listings/CreateListing/create_property_listing_final";
 
 const router = createBrowserRouter([
     /*
@@ -239,15 +240,19 @@ const router = createBrowserRouter([
     },
     {
         path: '/BDDRAgent/CreateListing',
-        element: <AgentCreateListingDefault/>,
+        element: <AgentCreatePropertyListingDefault/>,
         children: [
             {
                 index: true,
-                element: <AgentCreateListingIndex/>
+                element: <AgentCreatePropertyListingIndex/>
             },
             {
                 path: 'Property',
                 element: <AgentCreatePropertyListingProperty/>
+            },
+            {
+                path: 'Finalize',
+                element: <AgentCreatePropertyListingFinal/>
             }
         ]
     },

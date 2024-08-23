@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { Link, Outlet, useLocation, useParams } from "react-router-dom";
 import '/src/assets/css/agent-edit-listing.css';
-import { fetchAgentSpecificPropertyFull } from "../../../../Services/AgentListingService";
 import * as Icon from 'react-bootstrap-icons';
 import { ToastContainer } from "react-toastify";
 import axiosClient from "../../../../axios-client";
 import { formatToPhilPeso, notify } from "../../../../assets/js/utils";
+import { fetchPropertyListedFullById } from "../../../../Services/GeneralPropertyListingService";
 
 export default function AgentEditListingDefault() {
     const {id} = useParams(); // Property Id
@@ -28,7 +28,7 @@ export default function AgentEditListingDefault() {
     useEffect(() => {
         const getListingFull = async() => {
             try {
-                const data = await fetchAgentSpecificPropertyFull(id);
+                const data = await fetchPropertyListedFullById(id);
                 setListing(data);
             } catch (error) {
                 console.error(error);

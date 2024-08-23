@@ -3,12 +3,13 @@ import * as Icon from 'react-bootstrap-icons';
 import { PropertyBox1 } from "../../components/property_box1";
 import { useEffect, useState } from "react";
 import axiosClient from "../../axios-client";
-import { fetchAllProperties } from "../../Services/ClientListingService";
 import { ClientSkeletonListingBox } from "../../Skeletons/client-listing-skeletons";
 import { fetchAllClientWishlists } from "../../Services/ClientWishlistService";
 import { notify } from "../../assets/js/utils";
 import { string } from "prop-types";
 import { useStateContext } from "../../contexts/ContextProvider";
+import { fetchAllProperties } from "../../Services/GeneralPropertyListingService";
+import { fetchPropertyTypes } from "../../Services/GeneralPropertiesService";
 
 export default function ClientIndex() {
     const {user} = useStateContext();
@@ -24,8 +25,8 @@ export default function ClientIndex() {
     useEffect(() => {
         const getListedProperties = async() => {
             try {
-                //const data = await fetchAllProperties();
-                //setProperties(data);                
+                const data = await fetchAllProperties();
+                setProperties(data);                
             } catch (error) {
                 console.error(error);
             }
@@ -190,9 +191,12 @@ export default function ClientIndex() {
     
     
     
-    // useEffect(() => {
-    //     console.log(properties);
-    // }, [properties.data]);
+    /* 
+    |   For Debugging
+    */
+    useEffect(() => {
+        console.log(properties);
+    }, [properties]);
 
     // useEffect(() => {
     //     console.log(wishlists);
@@ -232,16 +236,18 @@ export default function ClientIndex() {
 
 
                     {/* Render Property boxes */}
-                    {properties.data && wishlists.data
+                    {properties && wishlists
                     ?
                     
-                    properties.data.map(prop => {
+                    properties.map(prop => {
                         const inWishlist = isInWishlist(prop.id);
                         return (
                             <PropertyBox1
                                 key={prop.id}
                                 wishlists={wishlists}
-                                property={prop}
+                                property={prop.property}
+                                agent={prop.agent}
+                                listingId={prop.id}
                                 isInWishlist={inWishlist}
                                 handleCreateWishlistAndAddPropToIt={handleCreateWishlistAndAddPropToIt}
                                 handleRemovePropFromWishlist={handleRemovePropFromWishlist}

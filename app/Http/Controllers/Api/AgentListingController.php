@@ -24,24 +24,9 @@ class AgentListingController extends Controller
         $this->generateFilename = $generateFilename;
     }
 
-    public function getPropertiesAgent($agentId)
-    {
-        $properties = published_properties::where('agent', $agentId)
-            ->with('photos')
-            ->get();
-        return response()->json($properties);
-    }
+    
 
-    public function getFullPropertyViaPropId($propId)
-    {
-        $property = published_properties::where('id', $propId)
-            ->with(['photos', 'amenities', 'propertyType', 'financings', 'agent'])
-            ->get();
-
-        return response()->json([
-            'data' => $property
-        ]);
-    }
+    
 
     /*
     | This will delete the property from the database permanently 

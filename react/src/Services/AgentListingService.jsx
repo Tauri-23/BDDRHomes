@@ -10,12 +10,3 @@ export const fetchAgentPublishedProperties = async(id) => {
     }
 }
 
-export const fetchAgentSpecificPropertyFull = async(propId) => {
-    try {
-        const response = await axiosClient.get(`/get-full-property/${propId}`);
-        return response.data;
-    } catch(error) {
-        console.error('Error fetching property', error);
-        throw error;
-    }
-}

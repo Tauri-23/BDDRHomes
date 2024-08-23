@@ -2,13 +2,13 @@ import Shimmer from "./shimmer"
 
 export const SkeletonPropertyBox = () => {
     return(
-        <div className="agent-listing-box position-relative">
-            <div className="agent-listing-pic skeleton position-relative">
+        <div className="property-box-1 position-relative">
+            <div className="property-box-1-pic skeleton position-relative">
                 <Shimmer/>
             </div>
-            <div className="agent-listing-desc">
-                <div className="agent-listing-name skeleton position-relative"><Shimmer/></div>
-                <div className="agent-listing-address skeleton position-relative"><Shimmer/></div>
+            <div className="property-box-1-desc d-flex flex-direction-y gap4">
+                <div className="text-skeleton-sm w-50 position-relative"><Shimmer/></div>
+                <div className="text-skeleton-sm w-25 position-relative"><Shimmer/></div>
             </div>
             {/* <Shimmer/> */}
         </div>

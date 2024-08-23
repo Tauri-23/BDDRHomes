@@ -42,7 +42,7 @@ class PropertiesController extends Controller
 
     public function getAllPublishedProperties()
     {
-        $properties = published_properties::with('photos')->get();
+        $properties = published_properties::with(['photos', 'amenities', 'financings'])->get();
         return response()->json($properties);
     }
 

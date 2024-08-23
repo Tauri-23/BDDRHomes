@@ -1,0 +1,49 @@
+:root {
+    --property-img-wh: 400px;
+}
+
+
+
+.property-box-1 {
+    width: var(--property-img-wh);
+    display: flex;
+    flex-direction: column;
+    border-radius: var(--radius3);
+    cursor: pointer;
+}
+
+.property-box-1.active {
+    outline: 2px solid var(--black1);
+    /* transform: scale(1.05); */
+}
+
+.property-box-1-pic {
+    width: var(--property-img-wh);
+    height: var(--property-img-wh);
+    border-radius: var(--radius3);
+    background: var(--grey2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+}
+.property-box-1-pic img {
+    position: absolute;
+    height: 100%;
+}
+.property-box-1-desc {
+    padding: 5px 0;
+    width: 100%;
+}
+.property-box-1-name {
+    font-weight: bold;
+    font-size: var(--text-m2);
+}
+.property-box-1-address {
+    white-space: nowrap; 
+    width: 100%; 
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: var(--text-m3);
+}

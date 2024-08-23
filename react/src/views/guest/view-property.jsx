@@ -1,10 +1,9 @@
 import * as Icon from 'react-bootstrap-icons';
-import '/src/assets/css/view-listing.css';
 import { Link, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { fetchAgentSpecificPropertyFull } from '../../Services/AgentListingService';
 import { formatToPhilPeso } from '../../assets/js/utils';
 import { useModal } from '../../contexts/ModalContext';
+import { fetchPropertyListedFullById } from '../../Services/GeneralPropertyListingService';
 
 export default function ViewProperty() {
     const {showModal} = useModal();
@@ -24,7 +23,7 @@ export default function ViewProperty() {
     useEffect(() => {
         const getListingFull = async() => {
             try {
-                const data = await fetchAgentSpecificPropertyFull(id);
+                const data = await fetchPropertyListedFullById(id);
                 setListing(data);
             } catch (error) {
                 console.error(error);

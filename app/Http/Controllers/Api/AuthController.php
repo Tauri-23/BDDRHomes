@@ -53,7 +53,8 @@ class AuthController extends Controller
         }
 
         $user = new user_clients();
-        $user->id = $this->generateId->generate(user_clients::class, 6);
+        $userId = $this->generateId->generate(user_clients::class, 6);
+        $user->id = $userId;
         $user->firstname = $request->fname;
         $user->middlename = $request->mname;
         $user->lastname = $request->lname;
@@ -67,6 +68,7 @@ class AuthController extends Controller
 
         if($user->save()) 
         {
+            $user = user_clients::find($userId);
             $token = $user->createToken('main')->plainTextToken;
 
             return response()->json([
@@ -74,6 +76,7 @@ class AuthController extends Controller
                 'message' => 'Success',
                 'user' => $user,
                 'token' => $token,
+                'user_type' => 'client'
             ]);
         }
         else
@@ -185,7 +188,8 @@ class AuthController extends Controller
 
 
 
-    public function getUser(Request $request) {
+    public function getUser(Request $request) 
+    {
         $user = $request->user();
         $userType = $user instanceof user_clients ? 'client' : ($user instanceof user_agents ? 'agent' : 'admin'); //This is for now
         return response()->json([
