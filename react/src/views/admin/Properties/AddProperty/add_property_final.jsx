@@ -26,7 +26,7 @@ export default function AdminAddPropertyFinal() {
     const secondHalfAmenities = selectedPropertyAmenities.slice(middleIndex);
 
     return(
-        <div className="d-flex justify-content-center"> sa
+        <div className="d-flex justify-content-center">
             <div className="create-listing-cont d-flex flex-direction-y gapl1 padding-y-1">
                 <div className="d-flex flex-direction-y gap2">
                     <div className="text-m1 fw-bold">Final Step</div>

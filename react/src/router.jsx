@@ -60,6 +60,11 @@ import AgentCreatePropertyListingProperty from "./views/agents/Listings/CreateLi
 import AgentCreatePropertyListingDefault from "./views/agents/Listings/CreateListing/create-property-listing-default";
 import AgentCreatePropertyListingIndex from "./views/agents/Listings/CreateListing/create-property-listing-index";
 import AgentCreatePropertyListingFinal from "./views/agents/Listings/CreateListing/create_property_listing_final";
+import AdminSettingsDefault from "./views/admin/Settings/default";
+import AdminSettingsIndex from "./views/admin/Settings";
+import AdminSettingsAmenities from "./views/admin/Settings/amenities_settings";
+import AdminSettingsPropertyTypes from "./views/admin/Settings/property_types_settings";
+import AdminSettingsFinancings from "./views/admin/Settings/financings_settings";
 
 const router = createBrowserRouter([
     /*
@@ -275,7 +280,7 @@ const router = createBrowserRouter([
                 element: <AdminIndex/>
             },
 
-
+            // Agents
             {
                 path: 'Agents',
                 element: <AdminAgentDefault/>,
@@ -295,7 +300,7 @@ const router = createBrowserRouter([
                 ]
             },
 
-
+            // Properties
             {
                 path: 'Properties',
                 element: <AdminPropertyDefault/>,
@@ -392,6 +397,32 @@ const router = createBrowserRouter([
                                 element: <AdminEditPropertyFinancings/>
                             }
                         ]
+                    }
+                ]
+            },
+
+            // Settings
+            {
+                path: 'Settings',
+                element: <AdminSettingsDefault/>,
+                children: [
+                    {
+                        index: true,
+                        element: <AdminSettingsIndex/>
+                    },
+
+
+                    {
+                        path: 'PropertyTypes',
+                        element: <AdminSettingsPropertyTypes/>
+                    },
+                    {
+                        path: 'Amenities',
+                        element: <AdminSettingsAmenities/>
+                    },
+                    {
+                        path: 'Financings',
+                        element: <AdminSettingsFinancings/>
                     }
                 ]
             }

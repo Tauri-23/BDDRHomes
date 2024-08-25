@@ -94,6 +94,13 @@ body, html {
     color: var(--red2);
 }
 
+.bg-grey1 {
+    background: var(--grey1);
+}
+.bg-grey2 {
+    background: var(--grey2);
+}
+
 
 
 
@@ -619,3 +626,15 @@ body, html {
     overflow: hidden;
 }
 
+
+
+
+
+/*
+|----------------------------------------
+| Radius
+|----------------------------------------
+*/
+.b-radius-100 {
+    border-radius: 100%;
+}
