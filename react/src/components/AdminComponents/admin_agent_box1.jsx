@@ -17,7 +17,7 @@ export const AdminAgentBox1 = ({agent, agentDisplayType}) => {
 
             <div className="d-flex flex-direction-y text-center">
                 <div className="text-l3 fw-bold">{agent.firstname} {agent.lastname}</div>
-                <div className="text-m2">Agent</div>
+                <div className="text-m2">{agent.position}</div>
             </div>
         </div>
     );

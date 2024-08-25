@@ -27,7 +27,8 @@ return new class extends Migration
 
             $table->string('pfp')->nullable();
 
-            $table->string('Position')->nullable();
+            $table->string('team')->nullable();
+            $table->string('position')->nullable();
 
             $table->string('account_status')->default('Active');
             

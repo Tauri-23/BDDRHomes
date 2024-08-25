@@ -125,7 +125,7 @@ export default function AdminAgentProfile() {
 
     return(
         <div className={`content1-admin ${isSidenavOpen ? 'compressed' : ''}`}>
-            {agent && properties && (
+            {agent && (
                 <div className="d-flex mar-bottom-1">
                     <Link to={'/BDDRAdmin/Agents'} className="d-flex gap3 align-items-center text-l3 color-black1 text-decoration-none cursor-pointer">
                         <Icon.ChevronLeft/>

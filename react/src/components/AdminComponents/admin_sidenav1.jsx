@@ -13,6 +13,7 @@ export const AdminSidenav1 = ({isSidenavOpen, setSidenavOpen}) => {
             </div>
             <div className="sidenav1-links">
                 <AdminSidenavLink1 isSidenavOpen={isSidenavOpen} label={'Dashboard'} path={'/BDDRAdmin'} activeLoc={['/home']}/>
+                <AdminSidenavLink1 isSidenavOpen={isSidenavOpen} label={'Teams'} path={'/BDDRAdmin/Teams'} activeLoc={['Teams']}/>
                 <AdminSidenavLink1 isSidenavOpen={isSidenavOpen} label={'Agents'} path={'/BDDRAdmin/Agents'} activeLoc={['Agents']}/>
                 <AdminSidenavLink1 isSidenavOpen={isSidenavOpen} label={'Properties'} path={'/BDDRAdmin/Properties'} activeLoc={['Properties']}/>
                 <AdminSidenavLink1 isSidenavOpen={isSidenavOpen} label={'Deals'} path={'/'} activeLoc={['Deals']}/>

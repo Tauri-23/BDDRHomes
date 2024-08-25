@@ -1,0 +1,8 @@
+.admin-team-nav {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: calc(70px + 10px);
+}
