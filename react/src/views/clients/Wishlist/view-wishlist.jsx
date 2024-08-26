@@ -29,9 +29,9 @@ export default function ClientViewWishlist() {
     /*
     | Debugging
     */
-    // useEffect(() => {
-    //     console.log(wishlist);
-    // }, [wishlist])
+    useEffect(() => {
+        console.log(wishlist);
+    }, [wishlist])
 
 
 
@@ -45,7 +45,7 @@ export default function ClientViewWishlist() {
 
         setWishlist(prevWishlist => {
             const updatedProperties = prevWishlist.wishlist_properties.filter(
-                wishlistProp => String(wishlistProp.property.id) !== String(propId)
+                wishlistProp => String(wishlistProp.property_listing.id) !== String(propId)
             );
 
             return {
@@ -92,7 +92,9 @@ export default function ClientViewWishlist() {
                         <PropertyBox1
                             key={prop.id}
                             wishlists={wishlist}
-                            property={prop.property}
+                            property={prop.property_listing.property}
+                            listingId={prop.property_listing.id}
+                            agent={prop.property_listing.agent}
                             isInWishlist={true}
                             handleRemovePropFromWishlist={handleRemovePropFromWishlist}
                         />

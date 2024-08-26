@@ -6,13 +6,16 @@ import { formatDate, formatDateTime, notify } from "../../../assets/js/utils";
 import axiosClient from "../../../axios-client";
 import { AdminAgentProfileInfoWithEditText1 } from "../../../components/AdminComponents/admin_agent_profile_info_with_edit_text1";
 import { useModal } from "../../../contexts/ModalContext";
+import { fetchAllTeams } from "../../../Services/GeneralTeamsService";
 
 export default function AdminAgentProfile() {
     const {showModal} = useModal();
     const {agentId} = useParams();
     const {isSidenavOpen} = useOutletContext();
     const [agent, setAgent] = useState(null);
-    const [properties, setProperties] = useState(null);
+    const [teamsDb, setTeamsDb] = useState(null);
+
+
     const navigate = useNavigate();
 
     // Edit States
@@ -21,6 +24,8 @@ export default function AdminAgentProfile() {
     const [isEditLname, setEditLname] = useState(false);
     const [isEditEmail, setEditEmail] = useState(false);
     const [isEditPhone, setEditPhone] = useState(false);
+    const [isEditTeam, setEditTeam] = useState(false);
+    const [isEditPostion, setEditPosition] = useState(false);
 
     // New Agent Info Value
     const [fname, setFname] = useState(null);
@@ -28,6 +33,8 @@ export default function AdminAgentProfile() {
     const [lname, setLname] = useState(null);
     const [email, setEmail] = useState(null);
     const [phone, setPhone] = useState(null);
+    const [team, setTeam] = useState(null);
+    const [position, setPosition] = useState(null);
 
 
 
@@ -39,6 +46,14 @@ export default function AdminAgentProfile() {
                 setAgent(data);
             } catch (error) {console.log(error)}
         }
+        const getAllTeams = async() => {
+            try {
+                const data = await fetchAllTeams();
+                setTeamsDb(data);
+            } catch(error) {console.error(error);}
+        }
+
+        getAllTeams();
 
         getAgentInfos();
     }, []);
@@ -50,12 +65,13 @@ export default function AdminAgentProfile() {
         setLname(agent?.lastname);
         setEmail(agent?.email);
         setPhone(agent?.phone);
+        setTeam(agent?.team);
     }, [agent]);
 
     // DEBUG
     // useEffect(() => {
-    //     console.log(agent);
-    // }, [agent]);
+    //     console.log(team);
+    // }, [setTeam]);
 
 
 
@@ -63,7 +79,7 @@ export default function AdminAgentProfile() {
     const handleSaveInfo = (info, editType) => {
         const formData = new FormData();
         formData.append('agentId', agentId);
-        formData.append('newInfo', info);
+        formData.append('newInfo', info.id);
         formData.append('editType', editType);
 
         axiosClient.post('/update-agent-info', formData)
@@ -86,6 +102,9 @@ export default function AdminAgentProfile() {
                             break;
                         case "phone":
                             updatedAgent.phone = info;
+                            break;
+                        case "team":
+                            updatedAgent.team = info;
                             break;
                         default:
                             return updatedAgent;
@@ -150,7 +169,7 @@ export default function AdminAgentProfile() {
 
                             <div className="d-flex flex-direction-y text-center">
                                 <div className="text-m1">{agent.firstname} {agent.middlename || ''} {agent.lastname}</div>
-                                <div className="text-m2">Agent</div>
+                                <div className="text-m2">{agent.position}</div>
                             </div>
 
                             <div className="d-flex flex-direction-y gap3 w-100">
@@ -205,6 +224,7 @@ export default function AdminAgentProfile() {
                             setInformationNew={setFname}
                             isEditInformation={isEditFname}
                             setEditInformation={setEditFname}
+                            teamsDb={teamsDb}
                             handleSaveInformation={handleSaveInfo}
                             />
 
@@ -217,6 +237,7 @@ export default function AdminAgentProfile() {
                             setInformationNew={setMname}
                             isEditInformation={isEditMname}
                             setEditInformation={setEditMname}
+                            teamsDb={teamsDb}
                             handleSaveInformation={handleSaveInfo}
                             />
 
@@ -229,6 +250,7 @@ export default function AdminAgentProfile() {
                             setInformationNew={setLname}
                             isEditInformation={isEditLname}
                             setEditInformation={setEditLname}
+                            teamsDb={teamsDb}
                             handleSaveInformation={handleSaveInfo}
                             />
                                                        
@@ -246,6 +268,7 @@ export default function AdminAgentProfile() {
                             setInformationNew={setEmail}
                             isEditInformation={isEditEmail}
                             setEditInformation={setEditEmail}
+                            teamsDb={teamsDb}
                             handleSaveInformation={handleSaveInfo}
                             />
 
@@ -257,6 +280,36 @@ export default function AdminAgentProfile() {
                             setInformationNew={setPhone}
                             isEditInformation={isEditPhone}
                             setEditInformation={setEditPhone}
+                            teamsDb={teamsDb}
+                            handleSaveInformation={handleSaveInfo}
+                            />
+
+                        </div>
+
+                        {/* Team */}
+                        <div className="agent-profile-generic-cont2 d-flex flex-direction-y gap2">
+                            <div className="text-l3 fw-bold mar-bottom-3">Team and Position</div>
+
+                            <AdminAgentProfileInfoWithEditText1
+                            editType={'team'}
+                            label={'Team'}
+                            information={agent.team}
+                            informationNew={team}
+                            setInformationNew={setTeam}
+                            isEditInformation={isEditTeam}
+                            setEditInformation={setEditTeam}
+                            teamsDb={teamsDb}
+                            handleSaveInformation={handleSaveInfo}
+                            />
+
+                            <AdminAgentProfileInfoWithEditText1
+                            editType={'position'}
+                            label={'Position'}
+                            information={agent.position}
+                            informationNew={position}
+                            setInformationNew={setPosition}
+                            isEditInformation={isEditPostion}
+                            setEditInformation={setEditPosition}
                             handleSaveInformation={handleSaveInfo}
                             />
 

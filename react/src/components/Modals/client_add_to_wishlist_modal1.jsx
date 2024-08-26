@@ -5,11 +5,12 @@ import { useEffect, useRef, useState } from 'react';
 import axiosClient from '../../axios-client';
 import { isEmptyOrSpaces, notify } from '../../assets/js/utils';
 
-export const ClientAddToWishlistModal1 = ({ propId, wishlists, handleCreateWishlistAndAddPropToIt, handleAddPropToWishlist, onClose }) => {   
+export const ClientAddToWishlistModal1 = ({ listingId, wishlists, handleCreateWishlistAndAddPropToIt, handleAddPropToWishlist, onClose }) => {   
 
     const nameRef = useRef();
 
-    const [isCreateListing, setCreateListing] = useState(wishlists.data.length < 1);
+    const [isCreateListing, setCreateListing] = useState(wishlists.length < 1);
+    const [name, setName] = useState('');
 
     // useEffect(() => {
     //     console.log(nameRef.current?.value);
@@ -36,17 +37,17 @@ export const ClientAddToWishlistModal1 = ({ propId, wishlists, handleCreateWishl
                 // Create Wishlist
                 (<div className="d-flex flex-direction-y gap4 mar-bottom-l3">
                     <label htmlFor="wishlist_name">Name</label>
-                    <input ref={nameRef} type='text' className="edit-text-1" id='wishlist_name'/>
+                    <input ref={nameRef} onInput={() => setName(nameRef.current.value)} type='text' className="edit-text-1" id='wishlist_name'/>
                 </div>)
                 :
 
                 // Select
                 (<div className="wishlists-cont-modal mar-bottom-l1">
-                    {wishlists.data.map(wishlist => (
+                    {wishlists.map(wishlist => (
                         <div
                         key={wishlist.id} 
                         className="wishlist-box"
-                        onClick={() => {handleAddPropToWishlist(propId, wishlist.id, wishlist.name); onClose()}}>
+                        onClick={() => {handleAddPropToWishlist(listingId, wishlist.id, wishlist.name); onClose()}}>
                             <div className='wishlist-box-img-cont-modal'>
                                 <div className={`wishlist-box-img`}>
                                     {wishlist.wishlist_properties.length > 0 ? (<img src="/src/assets/media/properties/anyana-paris-test.jpeg" alt="" />) : ''}
@@ -63,9 +64,9 @@ export const ClientAddToWishlistModal1 = ({ propId, wishlists, handleCreateWishl
                 {/* Btns */}
                 <div className={`d-flex flex-direction-y gap3 ${!isCreateListing ? 'd-none' : ''}`}>
                     <button 
-                    onClick={() => {handleCreateWishlistAndAddPropToIt(nameRef.current?.value, propId); onClose();}}
-                    disabled={isEmptyOrSpaces(String(nameRef.current?.value))} 
-                    className={`w-100 primary-btn-black1 text-center ${isEmptyOrSpaces(String(nameRef.current?.value)) ? 'disabled' : ''}`}
+                    onClick={() => {handleCreateWishlistAndAddPropToIt(name, listingId); onClose();}}
+                    disabled={isEmptyOrSpaces(String(name))} 
+                    className={`w-100 primary-btn-black1 text-center ${isEmptyOrSpaces(String(name)) ? 'disabled' : ''}`}
                     >
                         Create
                     </button>

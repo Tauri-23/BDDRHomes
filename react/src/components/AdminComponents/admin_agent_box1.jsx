@@ -1,6 +1,6 @@
 import { Navigate, useNavigate } from "react-router-dom";
 
-export const AdminAgentBox1 = ({agent, agentDisplayType}) => {
+const AdminAgentBox1 = ({agent, agentDisplayType}) => {
     const navigate = useNavigate();
 
     const handleRedirect = () => {
@@ -22,3 +22,5 @@ export const AdminAgentBox1 = ({agent, agentDisplayType}) => {
         </div>
     );
 }
+
+export default AdminAgentBox1;

@@ -13,7 +13,7 @@ import { fetchPropertyTypes } from "../../Services/GeneralPropertiesService";
 
 export default function ClientIndex() {
     const {user} = useStateContext();
-    const [properties, setProperties] = useState([]);
+    const [properties, setProperties] = useState(null);
     const [wishlists, setWishlists] = useState([]);
     const [propTypes, setPropTypes] = useState([]);
 
@@ -64,15 +64,15 @@ export default function ClientIndex() {
     |   Checkers
     */
     const isInWishlist = (propId) => {
-        if (wishlists.data && Array.isArray(wishlists.data)) {
+        if (wishlists && Array.isArray(wishlists)) {
             // Ensure propId is treated as a string for comparison
             const propIdStr = String(propId);
     
             // Check if any wishlist contains the propertyId
-            return wishlists.data.some(wishlist =>
+            return wishlists.some(wishlist =>
                 wishlist.wishlist_properties &&
                 wishlist.wishlist_properties.some(wishlistProp => 
-                    String(wishlistProp.property.id) === propIdStr
+                    String(wishlistProp.property_listing.id) === propIdStr
                 )
             );
         }
@@ -93,9 +93,9 @@ export default function ClientIndex() {
         axiosClient.post('/client-create-wishlist-put-property', formData)
         .then(({data}) => {
             if(data.status === 200) {
-                setWishlists(prevWishlists => ({
-                    data: [...prevWishlists.data, data.wishlist]
-                }));
+                setWishlists(prevWishlists => (
+                   [...prevWishlists, data.wishlist]
+                ));
                 notify('default', data.message, 'bottom-left', 3000);
             } else {
                 notify('error', data.message, 'top-center', 3000);
@@ -110,9 +110,9 @@ export default function ClientIndex() {
         formData.append('propId', propId);
 
         setWishlists(prevWishlists => {
-            const updatedWishlists = prevWishlists.data.map(prevWishlist => {
+            const updatedWishlists = prevWishlists.map(prevWishlist => {
                 const updatedProperties = prevWishlist.wishlist_properties.filter(
-                    wishlistProp => String(wishlistProp.property.id) !== String(propId)
+                    wishlistProp => String(wishlistProp.property_listing.id) !== String(propId)
                 );
     
                 return {
@@ -122,9 +122,7 @@ export default function ClientIndex() {
             });
     
             // Return the updated state object
-            return {
-                data: updatedWishlists
-            };
+            return updatedWishlists;
         });
 
         axiosClient.post('/client-remove-property-from-wishlist', formData)
@@ -166,21 +164,24 @@ export default function ClientIndex() {
         .then(({data}) => {
             if(data.status === 200) {
                 notify('default', data.message, 'bottom-left', 3000);
-                setWishlists(prevWishlist => {
-                    const updatedWishlists = prevWishlist.data.map(prevWishlist => {                            
+                setWishlists(prevWishlists => {
+                    const updatedWishlists = prevWishlists.map(prevWishlist => {                            
                         if(String(prevWishlist.id) === String(wishlistId)) {
                             return {
                                 ...prevWishlist,
                                 wishlist_properties: [
                                     ...prevWishlist.wishlist_properties,
-                                    {id: data.id, wishlist: String(wishlistId), property: {id: String(propId)}}
+                                    {id: data.id, 
+                                    wishlist: String(wishlistId), 
+                                    property: String(propId),
+                                    property_listing: {id: String(propId)}}
                                 ]
                             };
                         }
                         return prevWishlist;
                     });
         
-                    return {data: updatedWishlists};
+                    return updatedWishlists;
                 })                
             }
             else {
@@ -194,9 +195,9 @@ export default function ClientIndex() {
     /* 
     |   For Debugging
     */
-    useEffect(() => {
-        console.log(properties);
-    }, [properties]);
+    // useEffect(() => {
+    //     console.log(properties);
+    // }, [properties]);
 
     // useEffect(() => {
     //     console.log(wishlists);

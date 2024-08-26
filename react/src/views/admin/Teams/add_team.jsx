@@ -1,24 +1,45 @@
-import { Link, useOutletContext } from "react-router-dom";
+import { Link, useNavigate, useOutletContext } from "react-router-dom";
 import * as Icon from "react-bootstrap-icons";
-import { useRef } from "react";
+import { useRef, useState } from "react";
+import axiosClient from "../../../axios-client";
+import { isEmptyOrSpaces, notify } from "../../../assets/js/utils";
 
 export default function AdminAddTeam() {
+    const navigate = useNavigate();
     const {isSidenavOpen} = useOutletContext();
 
     // Refs
     const teamNameRef = useRef(null);
     const teamTagRef = useRef(null);
-    const teamColorRef = useRef(null);
     const teamLogoRef = useRef(null);
 
     const handleAddBtn = () => {
-        console.log(teamColorRef.current.value);
+        if(isEmptyOrSpaces(teamNameRef.current.value) || isEmptyOrSpaces(teamTagRef.current.value) || isEmptyOrSpaces(teamLogoRef.current.value)) {
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append("name", teamNameRef.current.value);
+        formData.append("tag", teamTagRef.current.value.toUpperCase());
+        formData.append("logo", teamLogoRef.current.files[0]);
+
+        axiosClient.post('/create-team', formData)
+        .then(({data}) => {
+            if(data.status === 200) {
+                notify('default', data.message, 'bottom-left', 3000);
+                navigate('/BDDRAdmin/Teams');
+            } else {
+                notify('error', data.message, 'bottom-left', 3000);
+                console.log(data.message);
+            }
+        })
+        .catch(error => console.error(error));
     }
 
     return(
         <div className={`content1-admin ${isSidenavOpen ? 'compressed' : ''}`}>
             <div className="d-flex mar-bottom-1">
-                <Link to={'/BDDRAdmin/Agents'} className="d-flex gap3 align-items-center text-l3 color-black1 text-decoration-none cursor-pointer">
+                <Link to={'/BDDRAdmin/Teams'} className="d-flex gap3 align-items-center text-l3 color-black1 text-decoration-none cursor-pointer">
                     <Icon.ChevronLeft/>
                     Back
                 </Link>
@@ -35,18 +56,13 @@ export default function AdminAddTeam() {
 
                     <div className="d-flex flex-direction-y gap4">
                         <label htmlFor="team_tag" className="text-m2">Team tag</label>
-                        <input ref={teamTagRef} type="text" id="team_tag" maxLength={2} className="edit-text-1" placeholder="e.g. TA"/>
+                        <input ref={teamTagRef} type="text" id="team_tag" maxLength={2} className="edit-text-1" placeholder="e.g. TA" style={{textTransform: "uppercase"}}/>
                     </div>
                 </div>
 
                 <div className="d-flex gap1">
                     <div className="d-flex flex-direction-y gap4">
-                        <label htmlFor="team_bg" className="text-m2">Team background color</label>
-                        <input ref={teamColorRef} type="color" id="team_bg" className="edit-text-1"/>
-                    </div>
-
-                    <div className="d-flex flex-direction-y gap4">
-                        <label htmlFor="team_logo" className="text-m2">Team logo <span className="text-m3 fst-italic color-black3">(optional: it can be add later)</span></label>
+                        <label htmlFor="team_logo" className="text-m2">Team logo</label>
                         <input ref={teamLogoRef} type="file" id="team_logo" className="edit-text-1"/>
                     </div>
                 </div>

@@ -20,16 +20,12 @@ class ClientWishlistController extends Controller
 
     public function getAllClientWishlist($clientId)
     {
-        $wishlists = wishlist::where('client', $clientId)->with('wishlistProperties')->get();
-
-        return response()->json([
-            'data' => $wishlists
-        ]);
+        return response()->json(wishlist::where('client', $clientId)->with('wishlistProperties')->get());
     }
 
     public function getWishlistViaId($wishlistId)
     {
-        return wishlist::where('id', $wishlistId)->with('wishlistProperties')->first();
+        return wishlist::where('id', $wishlistId)->with(['wishlistProperties'])->first();
     }
 
     public function createClientWishlist(Request $request)
@@ -74,7 +70,7 @@ class ClientWishlistController extends Controller
             if($wishlistProperty->save()) 
             {
 
-                $wishlistPropInWishlist = wishlist_properties::where('wishlist', $wishlistId)->with('property')->get();
+                $wishlistPropInWishlist = wishlist_properties::where('wishlist', $wishlistId)->with(['property_listing'])->get();
                 
                 return response()->json([
                     'status' => 200,

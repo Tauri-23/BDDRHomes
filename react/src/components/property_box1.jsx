@@ -19,10 +19,10 @@ export const PropertyBox1 = ({ wishlists, listingId, property, agent, isInWishli
     const handleHeartPressed = (event) => {
         event.stopPropagation();
         if(isInWishlist) {
-            handleRemovePropFromWishlist(propId);
+            handleRemovePropFromWishlist(listingId);
         }
         else {
-            showModal('ClientAddToWishlistModal1', { propId, wishlists, handleCreateWishlistAndAddPropToIt, handleAddPropToWishlist});
+            showModal('ClientAddToWishlistModal1', { listingId, wishlists, handleCreateWishlistAndAddPropToIt, handleAddPropToWishlist});
         }        
     }
 

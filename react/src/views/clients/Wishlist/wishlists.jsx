@@ -14,7 +14,7 @@ export default function ClientWishLists() {
 
     const {user} = useStateContext();
     const {showModal} = useModal();
-    const [wishlists, setWishlists] = useState([]);
+    const [wishlists, setWishlists] = useState(null);
     
 
 
@@ -28,9 +28,7 @@ export default function ClientWishLists() {
                 console.error(error);
             }
         };
-        if(user) {
-            
-    
+        if(user) {    
             getAllWishlists();
         }
     }, []);
@@ -38,9 +36,9 @@ export default function ClientWishLists() {
     /*
     |   Debug
     */
-    // useEffect(() => {
-    //     console.log(wishlists);
-    // }, [wishlists]);
+    useEffect(() => {
+        console.log(wishlists);
+    }, [wishlists]);
 
 
 
@@ -71,7 +69,7 @@ export default function ClientWishLists() {
             <div className="text-l1 fw-bold">Wishlists</div>
 
             <div className="wishlist-cont">
-                {wishlists.data && (
+                {wishlists && (
                     <div className="wishlist-box">
                         <div className="wishlist-box-img-cont">
                             <div className="wishlist-box-img">
@@ -88,13 +86,13 @@ export default function ClientWishLists() {
                 )}
                 
                 {/* Render Wishlists */}
-                {wishlists.data?.length > 0 && wishlists.data.map(wishlist => (
+                {wishlists?.length > 0 && wishlists.map(wishlist => (
                     <ClientWishlistBox1 key={wishlist.id} wishlist={wishlist} handleRemoveWishlist={handleRemoveWishlist}/>
                 ))}
 
 
                 {/* Wishlists Skeleton */}
-                {!wishlists.data && Array.from({length: 10}, (_, index) => index).map(x => (
+                {!wishlists && Array.from({length: 10}, (_, index) => index).map(x => (
                     <ClientSkeletonWishlistBox key={x}/>
                 ))}
                 

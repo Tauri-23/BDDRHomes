@@ -33,6 +33,15 @@ return new class extends Migration
             $table->string('account_status')->default('Active');
             
             $table->timestamps();
+
+            /**
+             * Foreign Keys
+             */
+            $table->foreign('team')
+                ->references('id')
+                ->on('teams')
+                ->nullOnDelete()
+                ->cascadeOnUpdate();
         });
     }
 

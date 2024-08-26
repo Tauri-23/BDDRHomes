@@ -1,5 +1,5 @@
 import { Outlet, useOutletContext } from "react-router-dom";
-import '../../../assets/css/admin-teams.css';
+import '../../../assets/css/admin_teams.css';
 
 export default function AdminTeamsDefault() {
     const {isSidenavOpen} = useOutletContext();

@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\ClientListingController;
 use App\Http\Controllers\Api\ClientWishlistController;
 use App\Http\Controllers\Api\PropertiesController;
 use App\Http\Controllers\Api\PropertyListingsController;
+use App\Http\Controllers\Api\TeamsController;
 use Illuminate\Support\Facades\Route;
 
 // Route::get('/user', function (Request $request) {
@@ -124,3 +125,11 @@ Route::get('/get-property-agent/{agentId}', [PropertyListingsController::class, 
 Route::get('/get-full-property-listed-info/{propId}', [PropertyListingsController::class, 'getFullPropertyViaPropId']);
 
 Route::post('/publish-property-listing', [PropertyListingsController::class, 'PublishPropertyListingPost']);
+
+
+/*
+* Teams
+*/
+Route::get('/get-all-teams', [TeamsController::class, 'GetTeams']);
+
+Route::post('/create-team', [TeamsController::class, 'CreateTeamPost']);

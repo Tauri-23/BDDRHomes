@@ -33,7 +33,7 @@ class AdminAgentController extends Controller
 
     public function getAgentInfo($agentId)
     {
-        return response()->json(user_agents::find($agentId));
+        return response()->json(user_agents::where('id', $agentId)->with(['team'])->first());
     }
 
 
@@ -66,6 +66,10 @@ class AdminAgentController extends Controller
                     $agentOldInfo = $agent->phone;
                     $agent->phone = $request->newInfo;
                     break;
+                case "team":
+                        $agentOldInfo = $agent->team;
+                        $agent->team = $request->newInfo;
+                        break;
                 default:
                     return response()->json([
                         'status' => 401,

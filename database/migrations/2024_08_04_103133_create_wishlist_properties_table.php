@@ -28,7 +28,7 @@ return new class extends Migration
 
             $table->foreign('property')
                 ->references('id')
-                ->on('published_properties')
+                ->on('property_listings')
                 ->nullOnDelete()
                 ->cascadeOnUpdate();
         });

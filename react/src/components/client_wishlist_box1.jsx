@@ -24,7 +24,7 @@ export const ClientWishlistBox1 = ({wishlist, handleRemoveWishlist}) => {
             <div className="wishlist-box-img-cont">
                 <div className="wishlist-box-img">
                     {wishlist.wishlist_properties?.length > 0 
-                    ? (<img src={`/src/assets/media/properties/${wishlist.wishlist_properties[0].property.photos[0].filename}`} alt="" />)
+                    ? (<img src={`/src/assets/media/properties/${wishlist.wishlist_properties[0].property_listing.property.photos[0].filename}`} alt="" />)
                     : ''}
                 </div>
             </div>

@@ -1,11 +1,25 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useOutletContext } from "react-router-dom";
 import * as Icon from "react-bootstrap-icons";
+import AdminTeamBox1 from "../../../components/AdminComponents/admin_team_box1";
+import { SkeletonAgentBox } from "../../../Skeletons/admin-agent-skeleton";
+import { fetchAllTeams } from "../../../Services/GeneralTeamsService";
 
 export default function AdminTeamsIndex() {
     const {isSidenavOpen} = useOutletContext();
     const [teamDisplayType, setTeamDisplayType] = useState('Grid');
     const [teams, setTeams] = useState(null);
+
+    useEffect(() => {
+        const getAllTeams = async() => {
+            try {
+                const data = await fetchAllTeams();
+                setTeams(data);
+            } catch(error) {console.error(error)}
+        }
+
+        getAllTeams();
+    }, []);
 
     return(
         <div className={`content1-admin ${isSidenavOpen ? 'compressed' : ''}`}>
@@ -33,8 +47,20 @@ export default function AdminTeamsIndex() {
                         </div>
                     </Link>
                     
-                </div>  
+                </div>
             </div>
+
+            {/* Render */}
+            <div className={`d-flex ${teamDisplayType === 'Grid' ? "flex-wrap" : "flex-direction-y"} gap2`}>
+                    {teams?.length > 0 && teams.map(team => (
+                        <AdminTeamBox1 key={team.id} team={team}/>
+                    ))}
+
+                    {!teams && 
+                    Array.from({length: 10}, (_, index) => index).map(x => (
+                        <SkeletonAgentBox key={x}/>
+                    ))}
+                </div>
         </div>
     );
 }

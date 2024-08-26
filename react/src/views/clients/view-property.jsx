@@ -45,6 +45,13 @@ export default function ClientViewProperty() {
         }
     }, [propertyListed]);
 
+    /*
+    | Debugging
+    */
+    useEffect(() => {
+        console.log(propertyListed);
+    }, [propertyListed]);
+
 
 
     const handleShowAllPhotos = (photos) => {
@@ -215,7 +222,7 @@ export default function ClientViewProperty() {
                                         </div>
                                         <div className="">
                                             <div className="text-l3">{propertyListed.agent.firstname} {propertyListed.agent.lastname}</div>
-                                            <div className="text-m3">Agent / Team Leader</div>
+                                            <div className="text-m3">{propertyListed.agent.position} / {propertyListed.agent.team.name}</div>
                                         </div>
                                     </div>
                                     
