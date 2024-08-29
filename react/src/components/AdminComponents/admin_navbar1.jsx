@@ -3,10 +3,13 @@ import * as Icon from 'react-bootstrap-icons';
 import { AdminNavLink1 } from "./admin_navlink1";
 import { useEffect, useRef, useState } from "react";
 import { NavLink1 } from "../navlink1";
+import { useStateContext } from "../../contexts/ContextProvider";
 
 export const AdminNavbar1 = ({isSidenavOpen, onLogout}) => {
     const [displayNavModal, setDisplayNavModal] = useState(false);
     const [displayNotifBox, setDisplayNotifBox] = useState(false);
+
+    const {user} = useStateContext();
 
     const navModalRef = useRef(null);
     const notifModalRef = useRef(null);
@@ -73,8 +76,10 @@ export const AdminNavbar1 = ({isSidenavOpen, onLogout}) => {
                     onClick={toggleNavModal1Visibility}
                     >
                         {/* If pfp is null use the first letter of fname instead */}
-                        <div className="text-l3 color-white1">M</div>
-                        {/* <img src="/src/assets/media/clients/pfp/airich-pfp.jpg" alt="" /> */}
+                        {user?.pfp 
+                        ? (<img src={`/src/assets/media/clients/pfp/${user.pfp}`} alt="" />)
+                        : (<div className="text-l3 color-white1">{user.firstname[0]}</div>)}                      
+                        
                     </div>
 
                 </div>
@@ -84,7 +89,7 @@ export const AdminNavbar1 = ({isSidenavOpen, onLogout}) => {
             {/* Nav Modal */}
             <div ref={navModalRef} className={`nav-modal1 ${displayNavModal ? '' : 'd-none'}`}>
                 <div className="nav-modal1-links text-m3">
-                    <NavLink1 to="/BDDRAdmin" label="Profile" onClick={toggleNavModal1Visibility} />
+                    <NavLink1 to="/BDDRAdmin/Profile" label="Profile" onClick={toggleNavModal1Visibility} />
                     <NavLink1 to="/BDDRAdmin" label="Account" onClick={toggleNavModal1Visibility} />
 
                     <NavLink1 to="/BDDRAdmin" label="Help Center" onClick={toggleNavModal1Visibility} />
