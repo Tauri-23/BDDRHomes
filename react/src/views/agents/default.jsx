@@ -8,6 +8,8 @@ import { AgentNavbar1 } from "../../components/AgentComponents/agent_navbar_1";
 import '/src/assets/css/agent-listings.css';
 import { ModalProvider } from "../../contexts/ModalContext";
 import ModalManager from "../../Managers/ModalManager";
+import { signOut } from "firebase/auth";
+import { auth } from "../../firebase-cofig";
 
 export default function AgentDefault() {
     const { userType, setUserType, user, token, setUser, setToken } = useStateContext();
@@ -36,6 +38,7 @@ export default function AgentDefault() {
     const onLogout = (ev) => {
         axiosClient.post('/logout')
             .then(() => {
+                signOut(auth);
                 setUser({});
                 setToken(null);
                 setUserType(null);

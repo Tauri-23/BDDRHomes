@@ -7,6 +7,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import axiosClient from '../../axios-client';
 import { useStateContext } from '../../contexts/ContextProvider';
 import PasswordInput from '../../components/password-input';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '../../firebase-cofig';
 
 
 
@@ -63,6 +65,7 @@ export default function Signup() {
     
         axiosClient.post('/signup', payload)
         .then(({data}) => {
+            createUserWithEmailAndPassword(auth, data.user.email, data.user.password);
             setUser(data.user);
             setToken(data.token);
             setUserType(data.user_type);

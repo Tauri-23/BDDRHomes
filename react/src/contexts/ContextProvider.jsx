@@ -1,4 +1,6 @@
 import { createContext, useContext, useState, useEffect } from "react";
+import { auth, googleProvider } from "../firebase-cofig.js";
+import { signOut } from "firebase/auth";
 
 const StateContext = createContext({
     user: null,
@@ -48,6 +50,7 @@ export const ContextProvider = ({ children }) => {
             localStorage.setItem('ACCESS_TOKEN', newToken);
         } else {
             localStorage.removeItem('ACCESS_TOKEN');
+            signOut(auth);
         }
     };
 

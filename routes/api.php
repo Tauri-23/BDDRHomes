@@ -1,8 +1,10 @@
 <?php
 
 use App\Http\Controllers\Api\AdminAgentController;
+use App\Http\Controllers\Api\AdminController;
 use App\Http\Controllers\Api\AgentListingController;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\ClientController;
 use App\Http\Controllers\Api\ClientListingController;
 use App\Http\Controllers\Api\ClientWishlistController;
 use App\Http\Controllers\Api\PropertiesController;
@@ -133,3 +135,16 @@ Route::post('/publish-property-listing', [PropertyListingsController::class, 'Pu
 Route::get('/get-all-teams', [TeamsController::class, 'GetTeams']);
 
 Route::post('/create-team', [TeamsController::class, 'CreateTeamPost']);
+
+
+/*
+* Clients
+*/
+Route::get('/get-all-clients', [ClientController::class, 'GetAllClients']);
+Route::get('/get-clients-info/{clientId}', [ClientController::class, 'GetClientsInfo']);
+
+
+/*
+* Admin Profile
+*/
+Route::get('/get-admin-info/{adminId}', [AdminController::class, 'FetchAdminInfo']);

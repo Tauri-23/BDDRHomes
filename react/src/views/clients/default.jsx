@@ -8,6 +8,8 @@ import axiosClient from "../../axios-client";
 import { ModalProvider } from "../../contexts/ModalContext";
 import ModalManager from "../../Managers/ModalManager";
 import { ToastContainer } from "react-toastify";
+import { auth } from "../../firebase-cofig";
+import { signOut } from "firebase/auth";
 
 export default function ClientDefault() {
     const { user, userType, token, setUserType, setUser, setToken } = useStateContext();
@@ -34,6 +36,7 @@ export default function ClientDefault() {
                 setUser({});
                 setToken(null);
                 setUserType(null);
+                signOut(auth);
             });
     };
 

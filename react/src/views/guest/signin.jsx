@@ -6,6 +6,8 @@ import { Link } from 'react-router-dom';
 import axiosClient from '../../axios-client';
 import { useStateContext } from '../../contexts/ContextProvider';
 import PasswordInput from '../../components/password-input';
+import { auth } from '../../firebase-cofig';
+import { signInWithEmailAndPassword } from 'firebase/auth';
 
 export default function Signin() {
     const email_uname_phone_ref = useRef();
@@ -22,6 +24,7 @@ export default function Signin() {
         axiosClient.post('/login', payload)
         .then(({data}) => {
             if(data.status === 200) {
+                signInWithEmailAndPassword(auth, data.user.email, data.user.password);
                 setUser(data.user);
                 setToken(data.token);
                 setUserType(data.user_type);

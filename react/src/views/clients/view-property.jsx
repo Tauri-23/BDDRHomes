@@ -1,14 +1,19 @@
 import * as Icon from 'react-bootstrap-icons';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { formatToPhilPeso } from '../../assets/js/utils';
 import { useModal } from '../../contexts/ModalContext';
 import { fetchPropertyListedFullById } from '../../Services/GeneralPropertyListingService';
+import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
+import { useStateContext } from '../../contexts/ContextProvider';
+import { db } from '../../firebase-cofig';
 
 export default function ClientViewProperty() {
     const {showModal} = useModal();
     const {id} = useParams(); // Property Id
     const [propertyListed, setPropertyListed] = useState(null);
+    const {user} = useStateContext();
+    const navigate = useNavigate();
 
     const [middleIndexAmenities, setMiddleIndexAmenities] = useState(null);
     const [firstHalfAmenities, setFirstHalfAmenities] = useState(null);
@@ -18,7 +23,7 @@ export default function ClientViewProperty() {
     const [firstHalfFinancings, setFirstHalfFinancings] = useState(null);
     const [secondHalfFinancings, setSecondHalfFinancings] = useState(null);
 
-
+    const messageAgentRef = collection(db, "conversation");
 
     useEffect(() => {
         const getListingFull = async() => {
@@ -48,9 +53,19 @@ export default function ClientViewProperty() {
     /*
     | Debugging
     */
-    useEffect(() => {
-        console.log(propertyListed);
-    }, [propertyListed]);
+    // useEffect(() => {
+    //     console.log(propertyListed);
+    // }, [propertyListed]);
+
+    const handleMessageAgent = () => {
+        addDoc(messageAgentRef, {
+            client: user.id,
+            agent: propertyListed.agent.id,
+            createdAt: serverTimestamp()
+        });
+
+        navigate("/BDDRClient/Messages");
+    }
 
 
 
@@ -231,7 +246,7 @@ export default function ClientViewProperty() {
                                     
                                     <div className="primary-btn-black1 text-m2 text-center">Start a deal</div>
                                     <div className="d-flex gap3 w-100">
-                                        <div className="secondary-btn-black1 text-m1 text-center"><Icon.ChatSquareDots/></div>
+                                        <div className="secondary-btn-black1 text-m1 text-center" onClick={handleMessageAgent}><Icon.ChatSquareDots/></div>
                                         <div className="secondary-btn-black1 d-flex align-items-center justify-content-center text-m2 color-black1 w-100">Book A Tripping</div>
                                     </div>
                                 </div>

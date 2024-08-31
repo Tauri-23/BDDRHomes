@@ -1,0 +1,40 @@
+.admin_profle_cont {
+    width: 100%;
+    display: flex;
+    gap: 80px;
+    /* background: aliceblue; */
+}
+
+.admin_profile_left_container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    position: sticky;
+    top: 50px;
+}
+
+.admin_profile_cont1 {
+    width: 400px;
+    background: var(--white);
+    filter: drop-shadow(0 0 5px var(--grey1));
+    border-radius: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 30px;
+    align-items: center;
+}
+.admin_profile_pfp {
+    width: 150px;
+    height: 150px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: var(--black1);
+    border-radius: 100%;
+}
+.admin_profile_pfp img {
+    position: absolute;
+    height: 100%;
+}
