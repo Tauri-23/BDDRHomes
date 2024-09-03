@@ -65,9 +65,9 @@ import AdminSettingsIndex from "./views/admin/Settings";
 import AdminSettingsAmenities from "./views/admin/Settings/amenities_settings";
 import AdminSettingsPropertyTypes from "./views/admin/Settings/property_types_settings";
 import AdminSettingsFinancings from "./views/admin/Settings/financings_settings";
-import AdminTeamsDefault from "./views/admin/Teams/default";
-import AdminTeamsIndex from "./views/admin/Teams";
-import AdminAddTeam from "./views/admin/Teams/add_team";
+import AdminTeamsDefault from "./views/admin/Teams_Agents/default";
+import AdminTeamsIndex from "./views/admin/Teams_Agents";
+import AdminAddTeam from "./views/admin/Teams_Agents/add_team";
 import AdminProfileDefault from "./views/admin/Profile/admin_profile_default";
 import AdminProfileIndex from "./views/admin/Profile/admin_profile_index";
 
@@ -287,7 +287,7 @@ const router = createBrowserRouter([
 
             // Teams
             {
-                path: 'Teams',
+                path: 'Teams&Agents',
                 element: <AdminTeamsDefault/>,
                 children: [
                     {

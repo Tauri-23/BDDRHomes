@@ -21,7 +21,7 @@ class TeamsController extends Controller
     // GET
     public function GetTeams()
     {
-        return response()->json(teams::all());
+        return response()->json(teams::with("agents")->get());
     }
 
 
