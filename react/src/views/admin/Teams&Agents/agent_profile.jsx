@@ -79,7 +79,7 @@ export default function AdminAgentProfile() {
     const handleSaveInfo = (info, editType) => {
         const formData = new FormData();
         formData.append('agentId', agentId);
-        formData.append('newInfo', info.id);
+        formData.append('newInfo', info);
         formData.append('editType', editType);
 
         axiosClient.post('/update-agent-info', formData)
@@ -128,7 +128,7 @@ export default function AdminAgentProfile() {
         .then(({data}) => {
             if(data.status === 200) {
                 notify('default', data.message, 'bottom-left', 3000);
-                navigate('/BDDRAdmin/Agents');
+                navigate('/BDDRAdmin/Teams&Agents');
             }
             else {
                 notify('error', data.message, 'bottom-left', 3000);
@@ -146,7 +146,7 @@ export default function AdminAgentProfile() {
         <div className={`content1-admin ${isSidenavOpen ? 'compressed' : ''}`}>
             {agent && (
                 <div className="d-flex mar-bottom-1">
-                    <Link to={'/BDDRAdmin/Agents'} className="d-flex gap3 align-items-center text-l3 color-black1 text-decoration-none cursor-pointer">
+                    <Link to={'/BDDRAdmin/Teams&Agents'} className="d-flex gap3 align-items-center text-l3 color-black1 text-decoration-none cursor-pointer">
                         <Icon.ChevronLeft/>
                         Back
                     </Link>

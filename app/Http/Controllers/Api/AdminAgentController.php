@@ -115,6 +115,8 @@ class AdminAgentController extends Controller
         $agent->lastname = $request->lname;
         $agent->gender = $request->gender;
         $agent->bdate = $request->bdate;
+        $agent->team = $request->team;
+        $agent->position = $request->position;
         $agent->email = $request->email;
         $agent->username = $agentUsername;
         $agent->phone = $request->phone;

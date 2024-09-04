@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import * as Icon from 'react-bootstrap-icons';
 import { Link, useOutletContext } from 'react-router-dom';
 import { fetchAllAgents } from '../../../Services/AdminAgentService';
-import { SkeletonAgentBox } from '../../../Skeletons/admin-agent-skeleton';
+import { SkeletonAgentBox } from '../../../Skeletons/admin-team-agent-skeleton';
 import AdminAgentBox1 from '../../../components/AdminComponents/admin_agent_box1';
 
 

@@ -57,8 +57,8 @@
 }
 .team-box-2-head {
     display: flex;
+    justify-content: space-between;
     align-items: center;
-    gap: 15px;
     width: 100%;
     font-size: var(--text-l3);
     font-weight: bold;
@@ -81,6 +81,9 @@
     font-size: var(--text-m1);
     padding: 10px 30px;
 }
+.team-box2-member {
+    cursor: pointer;
+}
 .team-box2-member td {
     padding: 10px 30px;
 }
@@ -101,4 +104,25 @@
 }
 .team-box2-member:nth-child(even) {
     background: var(--grey2);
+}
+
+.add-team-agent-popupbox1 {
+    width: 250px;
+    padding: 10px 0;
+    background: var(--white);
+    filter: drop-shadow(0 0 3px var(--grey1));
+    position: absolute;
+    right: 0;
+    top: 50px;
+    z-index: 20;
+    border-radius: 10px;
+}
+
+.team-group-skeleton {
+    width: 100%;
+    height: 250px;
+    background: var(--grey2);
+    border-radius: 20px;
+    overflow: hidden;
+    position: relative;
 }

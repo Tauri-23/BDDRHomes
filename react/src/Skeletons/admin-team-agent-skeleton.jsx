@@ -7,3 +7,11 @@ export const SkeletonAgentBox = () => {
         </div>
     )
 }
+
+export const SkeletonTeamGroupBox = () => {
+    return(
+        <div className="team-group-skeleton">
+            <Shimmer/>
+        </div>
+    )
+}

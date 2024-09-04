@@ -27,7 +27,7 @@ export default function AdminAddTeam() {
         .then(({data}) => {
             if(data.status === 200) {
                 notify('default', data.message, 'bottom-left', 3000);
-                navigate('/BDDRAdmin/Teams');
+                navigate('/BDDRAdmin/Teams&Agents');
             } else {
                 notify('error', data.message, 'bottom-left', 3000);
                 console.log(data.message);
@@ -39,7 +39,7 @@ export default function AdminAddTeam() {
     return(
         <div className={`content1-admin ${isSidenavOpen ? 'compressed' : ''}`}>
             <div className="d-flex mar-bottom-1">
-                <Link to={'/BDDRAdmin/Teams'} className="d-flex gap3 align-items-center text-l3 color-black1 text-decoration-none cursor-pointer">
+                <Link to={'/BDDRAdmin/Teams&Agents'} className="d-flex gap3 align-items-center text-l3 color-black1 text-decoration-none cursor-pointer">
                     <Icon.ChevronLeft/>
                     Back
                 </Link>

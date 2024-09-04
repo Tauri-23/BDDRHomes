@@ -32,8 +32,6 @@ import AdminIndex from "./views/admin";
 import ViewProperty from "./views/guest/view-property";
 import AdminAgentDefault from "./views/admin/Agents/agent_default";
 import AdminAgentIndex from "./views/admin/Agents/agents";
-import AdminAgentProfile from "./views/admin/Agents/agent_profile";
-import AdminAgentAddAgent from "./views/admin/Agents/agent_add_agent";
 import AdminPropertyDefault from "./views/admin/Properties/property_default";
 import AdminPropertyIndex from "./views/admin/Properties/property_index";
 import AdminAddPropertyDefault from "./views/admin/Properties/AddProperty/add_property_default";
@@ -65,11 +63,13 @@ import AdminSettingsIndex from "./views/admin/Settings";
 import AdminSettingsAmenities from "./views/admin/Settings/amenities_settings";
 import AdminSettingsPropertyTypes from "./views/admin/Settings/property_types_settings";
 import AdminSettingsFinancings from "./views/admin/Settings/financings_settings";
-import AdminTeamsDefault from "./views/admin/Teams_Agents/default";
-import AdminTeamsIndex from "./views/admin/Teams_Agents";
-import AdminAddTeam from "./views/admin/Teams_Agents/add_team";
+import AdminTeamsDefault from "./views/admin/Teams&Agents/default";
+import AdminTeamsIndex from "./views/admin/Teams&Agents";
+import AdminAddTeam from "./views/admin/Teams&Agents/add_team";
 import AdminProfileDefault from "./views/admin/Profile/admin_profile_default";
 import AdminProfileIndex from "./views/admin/Profile/admin_profile_index";
+import AdminAgentProfile from "./views/admin/Teams&Agents/agent_profile";
+import AdminAddAgent from "./views/admin/Teams&Agents/add_agent";
 
 const router = createBrowserRouter([
     /*
@@ -295,8 +295,16 @@ const router = createBrowserRouter([
                         element: <AdminTeamsIndex/>
                     },
                     {
+                        path: 'AgentProfile/:agentId',
+                        element: <AdminAgentProfile/>
+                    },
+                    {
                         path: 'AddTeam',
                         element: <AdminAddTeam/>
+                    },
+                    {
+                        path: 'AddAgent',
+                        element: <AdminAddAgent/>
                     },
                     {
                         path: 'Edit/:teamId',
@@ -313,14 +321,6 @@ const router = createBrowserRouter([
                     {
                         index: true,
                         element: <AdminAgentIndex/>
-                    },
-                    {
-                        path: 'AgentProfile/:agentId',
-                        element: <AdminAgentProfile/>
-                    },
-                    {
-                        path: 'AddAgent',
-                        element: <AdminAgentAddAgent/>
                     }
                 ]
             },

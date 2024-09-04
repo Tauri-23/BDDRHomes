@@ -1,20 +1,26 @@
 import { Link, useNavigate, useOutletContext } from "react-router-dom";
 import * as Icon from 'react-bootstrap-icons';
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import axiosClient from "../../../axios-client";
 import { formatPhoneNumber, isEmptyOrSpaces, notify } from "../../../assets/js/utils";
+import { fetchAllTeams } from "../../../Services/GeneralTeamsService";
 
-export default function AdminAgentAddAgent() {
+export default function AdminAddAgent() {
     const navigate = useNavigate();
     const {isSidenavOpen} = useOutletContext();
 
-    const [fname, setFname] = useState();
-    const [mname, setMname] = useState();
-    const [lname, setLname] = useState();
-    const [email, setEmail] = useState();
-    const [phone, setPhone] = useState();
+    const [fname, setFname] = useState(null);
+    const [mname, setMname] = useState(null);
+    const [lname, setLname] = useState(null);
+    const [email, setEmail] = useState(null);
+    const [phone, setPhone] = useState(null);
     const [gender, setGender] = useState('Male');
-    const [bdate, setBdate] = useState();
+    const [selectedTeam, setSelectedTeam] = useState('');
+    const [selectedPosition, setSelectedPosition] = useState('');
+    const [bdate, setBdate] = useState(null);
+
+
+    const [teams, setTeams] = useState(null);
 
     // REFS
     const fnameRef = useRef(null);
@@ -25,13 +31,26 @@ export default function AdminAgentAddAgent() {
     const genderRef = useRef(null);
     const bdateRef = useRef(null);
 
+    
+
+    useEffect(() => {
+        const getAllTeams = async() => {
+            const data = await fetchAllTeams();
+            setTeams(data);
+        }
+
+        getAllTeams();
+    }, [])
+
 
 
     const handleAddAgent = () => {
-        // if(isEmptyOrSpaces(String(fname)) || isEmptyOrSpaces(String(lname)) || isEmptyOrSpaces(String(email)) || isEmptyOrSpaces(String(phone)) || isEmptyOrSpaces(String(gender)) || isEmptyOrSpaces(String(bdate))) {
-        //     notify('error', 'please fill up all the fields', 'bottom-left', 3000);
-        //     return;
-        // }
+        if(isEmptyOrSpaces(fname) || isEmptyOrSpaces(lname) || isEmptyOrSpaces(email) || isEmptyOrSpaces(phone)
+            || isEmptyOrSpaces(selectedTeam) || isEmptyOrSpaces(selectedPosition) || isEmptyOrSpaces(bdate)
+        ) {
+            notify('error', 'please fill up all the fields', 'bottom-left', 3000);
+            return;
+        }
 
         const formData = new FormData();
         formData.append('fname', fname);
@@ -39,6 +58,8 @@ export default function AdminAgentAddAgent() {
         formData.append('lname', lname);
         formData.append('email', email);
         formData.append('phone', phone);
+        formData.append('team', selectedTeam);
+        formData.append('position', selectedPosition);
         formData.append('gender', gender);
         formData.append('bdate', bdate);
 
@@ -46,7 +67,7 @@ export default function AdminAgentAddAgent() {
         .then(({data}) => {
             if(data.status === 200) {
                 notify('default', data.message, 'bottom-left', 3000);
-                navigate('/BDDRAdmin/Agents')
+                navigate('/BDDRAdmin/Teams&Agents')
             }
             else
             {
@@ -65,7 +86,7 @@ export default function AdminAgentAddAgent() {
     return(
         <div className={`content1-admin ${isSidenavOpen ? 'compressed' : ''}`}>
             <div className="d-flex mar-bottom-1">
-                <Link to={'/BDDRAdmin/Agents'} className="d-flex gap3 align-items-center text-l3 color-black1 text-decoration-none cursor-pointer">
+                <Link to={'/BDDRAdmin/Teams&Agents'} className="d-flex gap3 align-items-center text-l3 color-black1 text-decoration-none cursor-pointer">
                     <Icon.ChevronLeft/>
                     Back
                 </Link>
@@ -108,6 +129,30 @@ export default function AdminAgentAddAgent() {
                         <div className="d-flex flex-direction-y gap4">
                             <label htmlFor="phone" className="text-m2">phone</label>
                             <input ref={phoneRef} onInput={(event) => handleFormatNumber(event)} type="text" id="phone" className="edit-text-1" maxLength={10} />
+                        </div>
+                    </div>                    
+                </div>
+
+                {/* Teams And Position */}
+                <div className="d-flex flex-direction-y gap3">
+                    <div className="d-flex gap1">
+                        <div className="d-flex flex-direction-y gap4">
+                            <label htmlFor="team-select" className="text-m2">Team</label>
+                            <select name="team" id="team-select" className="edit-text-1" onChange={(e) => setSelectedTeam(e.target.value)} value={selectedTeam}>
+                                <option value={''}>Select Team</option>
+                                {teams && teams.map(team => (
+                                    <option key={team.id} value={team.id}>{team.name}</option>
+                                ))}
+                            </select>
+                        </div>
+
+                        <div className="d-flex flex-direction-y gap4">
+                            <label htmlFor="position-select" className="text-m2">Position</label>
+                            <select name="position" id="position-select" className="edit-text-1" onChange={(e) => setSelectedPosition(e.target.value)} value={selectedPosition}>
+                                <option value={''}>Select Position</option>
+                                <option value={'Team Leader'}>Team Leader</option>
+                                <option value={'Agent'}>Agent</option>
+                            </select>
                         </div>
                     </div>                    
                 </div>
