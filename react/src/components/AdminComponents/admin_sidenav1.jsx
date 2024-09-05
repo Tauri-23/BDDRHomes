@@ -15,7 +15,7 @@ export const AdminSidenav1 = ({isSidenavOpen, setSidenavOpen}) => {
                 <AdminSidenavLink1 isSidenavOpen={isSidenavOpen} label={'Dashboard'} path={'/BDDRAdmin'} activeLoc={['/home']}/>
                 <AdminSidenavLink1 isSidenavOpen={isSidenavOpen} label={'Teams & Agents'} path={'/BDDRAdmin/Teams&Agents'} activeLoc={['Teams']}/>
                 {/* <AdminSidenavLink1 isSidenavOpen={isSidenavOpen} label={'Agents'} path={'/BDDRAdmin/Agents'} activeLoc={['Agents']}/> */}
-                <AdminSidenavLink1 isSidenavOpen={isSidenavOpen} label={'Properties & Developers'} path={'/BDDRAdmin/Properties'} activeLoc={['Properties']}/>
+                <AdminSidenavLink1 isSidenavOpen={isSidenavOpen} label={'Properties & Developers'} path={'/BDDRAdmin/Properties&Developers'} activeLoc={['Properties']}/>
                 <AdminSidenavLink1 isSidenavOpen={isSidenavOpen} label={'Deals'} path={'/'} activeLoc={['Deals']}/>
                 <AdminSidenavLink1 isSidenavOpen={isSidenavOpen} label={'Settings'} path={'/BDDRAdmin/Settings'} activeLoc={['Settings']}/>
             </div>

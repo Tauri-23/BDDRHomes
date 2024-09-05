@@ -16,6 +16,7 @@ return new class extends Migration
             $table->text('name');
             $table->text('address');
             $table->longText('description');
+            $table->string('developer', 12)->nullable();
 
             $table->text('bedroom');
             $table->text('bath');
@@ -39,6 +40,12 @@ return new class extends Migration
             $table->foreign('property_type')
                 ->references('id')
                 ->on('property_types')
+                ->nullOnDelete()
+                ->cascadeOnUpdate();
+
+            $table->foreign('developer')
+                ->references('id')
+                ->on('property_developers')
                 ->nullOnDelete()
                 ->cascadeOnUpdate();
 

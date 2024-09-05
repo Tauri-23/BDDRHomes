@@ -29,7 +29,7 @@ export default function AdminAddPropertyDefault() {
 
     // Links
     const backLinks = {
-        '/BDDRAdmin/Properties/AddProperty': '/BDDRAdmin/Properties/',
+        '/BDDRAdmin/Properties/AddProperty': '/BDDRAdmin/Properties&Developers',
         '/BDDRAdmin/Properties/AddProperty/PropertyType': '/BDDRAdmin/Properties/AddProperty',
         '/BDDRAdmin/Properties/AddProperty/NameAndLoc': 'PropertyType',
         '/BDDRAdmin/Properties/AddProperty/Floorplan': 'NameAndLoc',
@@ -164,7 +164,7 @@ export default function AdminAddPropertyDefault() {
     return(
         <div className={`content1-admin ${isSidenavOpen ? 'compressed' : ''} d-flex flex-direction-y justify-content-between position-relative`}>
             <div className="d-flex">
-                <Link to={'/BDDRAdmin/Properties'} className="d-flex gap3 align-items-center text-l3 color-black1 text-decoration-none cursor-pointer">
+                <Link to={'/BDDRAdmin/Properties&Developers'} className="d-flex gap3 align-items-center text-l3 color-black1 text-decoration-none cursor-pointer">
                     <Icon.ChevronLeft/>
                     Back
                 </Link>  

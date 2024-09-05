@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\ClientController;
 use App\Http\Controllers\Api\ClientListingController;
 use App\Http\Controllers\Api\ClientWishlistController;
+use App\Http\Controllers\Api\DevelopersController;
 use App\Http\Controllers\Api\PropertiesController;
 use App\Http\Controllers\Api\PropertyListingsController;
 use App\Http\Controllers\Api\TeamsController;
@@ -88,6 +89,28 @@ Route::post('/add-agent', [AdminAgentController::class, 'addAgent']);
 Route::post('/del-agent', [AdminAgentController::class, 'delAgent']);
 
 
+/*
+* Teams
+*/
+Route::get('/get-all-teams', [TeamsController::class, 'GetTeams']);
+
+Route::post('/create-team', [TeamsController::class, 'CreateTeamPost']);
+
+
+/*
+* Admin Profile
+*/
+Route::get('/get-admin-info/{adminId}', [AdminController::class, 'FetchAdminInfo']);
+
+
+/*
+* Developers
+*/
+Route::get('/get-all-developers', [DevelopersController::class, 'GetAllDevelopers']);
+
+Route::post('/create-developer', [DevelopersController::class, 'CreateDeveloper']);
+
+
 
 
 
@@ -129,12 +152,7 @@ Route::get('/get-full-property-listed-info/{propId}', [PropertyListingsControlle
 Route::post('/publish-property-listing', [PropertyListingsController::class, 'PublishPropertyListingPost']);
 
 
-/*
-* Teams
-*/
-Route::get('/get-all-teams', [TeamsController::class, 'GetTeams']);
 
-Route::post('/create-team', [TeamsController::class, 'CreateTeamPost']);
 
 
 /*
@@ -144,7 +162,3 @@ Route::get('/get-all-clients', [ClientController::class, 'GetAllClients']);
 Route::get('/get-clients-info/{clientId}', [ClientController::class, 'GetClientsInfo']);
 
 
-/*
-* Admin Profile
-*/
-Route::get('/get-admin-info/{adminId}', [AdminController::class, 'FetchAdminInfo']);

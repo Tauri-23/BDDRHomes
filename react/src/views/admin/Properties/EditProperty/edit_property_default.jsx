@@ -129,7 +129,7 @@ export default function AdminEditPropertyDefault() {
                     {/* Sidenav */}
                     <div className={`edit-property-sidenav ${isSidenavHidden ? 'hidden' : ''}`}>
                         <div className="text-l1 fw-bold d-flex gap1 mar-bottom-1">
-                            <Link to={'/BDDRAdmin/Properties'} className="text-decoration-none color-black1">
+                            <Link to={'/BDDRAdmin/Properties&Developers'} className="text-decoration-none color-black1">
                                 <div className="circle-btn-1">
                                     <Icon.ArrowLeft className='text-m1'/>
                                 </div>

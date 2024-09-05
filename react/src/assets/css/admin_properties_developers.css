@@ -1,0 +1,51 @@
+.admin-properties-developers-nav {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    top: calc(70px + 10px);
+}
+.add-properties-developers-popupbox1 {
+    width: 250px;
+    padding: 10px 0;
+    background: var(--white);
+    filter: drop-shadow(0 0 3px var(--grey1));
+    position: absolute;
+    right: 0;
+    top: 50px;
+    z-index: 20;
+    border-radius: 10px;
+}
+
+.developer-box-2 {
+    width: 100%;
+    border-radius: 20px;
+    background: var(--white);
+    filter: drop-shadow(0 0 3px var(--grey1));
+    overflow-y: hidden;
+    overflow-x: auto;
+}
+.developer-box-2-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    font-size: var(--text-l3);
+    font-weight: bold;
+    padding: 20px;
+    background: var(--white);
+    border-bottom: 1px solid var(--grey1);
+}
+.developer-box2-logo {
+    height: 50px;
+    border-radius: 100%;
+    overflow: hidden;
+}
+
+.developer-box-properties-container {
+    width: 100%;
+    padding: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}

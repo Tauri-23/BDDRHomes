@@ -5,11 +5,21 @@ import { useEffect, useState } from "react";
 import { useModal } from "../../../contexts/ModalContext";
 import { AdminPropertyBox1 } from "../../../components/AdminComponents/admin_property_box1";
 import { SkeletonPropertyBox } from "../../../Skeletons/property_skeletons";
+import AdminPropertiesDevelopersNavbar from "../../../components/AdminComponents/admin_properties_developers_navbar";
+import { fetchAllDevsWithProperties } from "../../../Services/GeneralDeveloperPropertiesService";
+import AdminPropertiesDevelopersBox1 from "../../../components/AdminComponents/admin_properties_developers_box1";
 
 export default function AdminPropertyIndex() {
     const {showModal} = useModal();
     const {isSidenavOpen} = useOutletContext();
     const [properties, setProperties] = useState(null);
+    const [developers, setDevelopers] = useState(null);
+
+    /**
+     * 1 - Developers with Properties
+     * 2 - Developers
+     */
+    const {viewAs, setViewAs} = useOutletContext();
 
 
 
@@ -23,8 +33,25 @@ export default function AdminPropertyIndex() {
             }
         };
 
-        getPublishedProperties();        
+        const getDevelopersWithProperties = async() => {
+            try {
+                const data = await fetchAllDevsWithProperties();
+                setDevelopers(data);
+            } catch (error) {
+                console.error(error);
+            }
+        }
+        getDevelopersWithProperties();
+        getPublishedProperties();    
     }, []);
+
+
+    /* 
+    | Debugging
+    */
+    useEffect(() => {
+        console.log(developers);
+    }, [developers])
 
 
 
@@ -41,33 +68,23 @@ export default function AdminPropertyIndex() {
     return(
         <div className={`content1-admin ${isSidenavOpen ? 'compressed' : ''}`}>
             {/* Option Bar */}
-            <div className="admin-agent-nav mar-bottom-l1">
-                <div className="text-l1 fw-bold">Properties</div>
-
-                <div className="d-flex align-items-center gap3">
-                    <div className="circle-btn-1">
-                        <Icon.Search className='text-m1'/>
-                    </div>
-                    
-                    <Link to={'AddProperty'} className='color-black1'>
-                        <div className="circle-btn-1">
-                            <Icon.PlusLg className='text-m1'/>
-                        </div>
-                    </Link>
-                    
-                </div>  
-            </div>
+            <AdminPropertiesDevelopersNavbar viewAs={viewAs} setViewAS={setViewAs}/>
 
             {/* Listings */}
-            <div className="d-flex flex-wrap gap1">
-                {properties && (
+            <div className={`d-flex ${viewAs === 1 ? "flex-direction-y" : "flex-wrap"} gap1`}>
+
+                {viewAs === 1 && developers && developers.map(developer => (
+                    <AdminPropertiesDevelopersBox1 key={developer.id} developer={developer}/>
+                ))}
+
+                {/* {properties && (
                     properties.map(property => (
                     <AdminPropertyBox1 key={property.id} property={property} handleListingClick={handleListingClick} />
                 )))}
 
                 {!properties && Array.from({length:10}, (_, index) => index).map(x =>(
                     <SkeletonPropertyBox key={x}/>
-                ))}
+                ))} */}
             </div>
         </div>
     );

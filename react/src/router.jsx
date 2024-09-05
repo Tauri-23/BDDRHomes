@@ -32,8 +32,8 @@ import AdminIndex from "./views/admin";
 import ViewProperty from "./views/guest/view-property";
 import AdminAgentDefault from "./views/admin/Agents/agent_default";
 import AdminAgentIndex from "./views/admin/Agents/agents";
-import AdminPropertyDefault from "./views/admin/Properties/property_default";
-import AdminPropertyIndex from "./views/admin/Properties/property_index";
+import AdminPropertyDefault from "./views/admin/Properties/default";
+import AdminPropertyIndex from "./views/admin/Properties";
 import AdminAddPropertyDefault from "./views/admin/Properties/AddProperty/add_property_default";
 import AdminAddPropertyIndex from "./views/admin/Properties/AddProperty/add_property_index";
 import AdminAddPropertyType from "./views/admin/Properties/AddProperty/add_property_type";
@@ -70,6 +70,7 @@ import AdminProfileDefault from "./views/admin/Profile/admin_profile_default";
 import AdminProfileIndex from "./views/admin/Profile/admin_profile_index";
 import AdminAgentProfile from "./views/admin/Teams&Agents/agent_profile";
 import AdminAddAgent from "./views/admin/Teams&Agents/add_agent";
+import AdminAddDeveloper from "./views/admin/Properties/add_developer";
 
 const router = createBrowserRouter([
     /*
@@ -327,7 +328,7 @@ const router = createBrowserRouter([
 
             // Properties
             {
-                path: 'Properties',
+                path: 'Properties&Developers',
                 element: <AdminPropertyDefault/>,
                 children: [
                     {
@@ -422,6 +423,12 @@ const router = createBrowserRouter([
                                 element: <AdminEditPropertyFinancings/>
                             }
                         ]
+                    },
+
+                    // Add Developer
+                    {
+                        path: "AddDeveloper",
+                        element: <AdminAddDeveloper/>
                     }
                 ]
             },

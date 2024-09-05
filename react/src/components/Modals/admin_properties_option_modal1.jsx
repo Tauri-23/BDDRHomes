@@ -23,7 +23,7 @@ export const AdminPropertiesOptionModal1 = ({property, handleRemovePropertyConfi
 
                 {/* Btns */}
                 <div className="d-flex flex-direction-y gap3">
-                    <Link to={`Properties/EditProperty/${property.id}/Photos`} className='text-decoration-none' onClick={onClose}>
+                    <Link to={`Properties&Developers/EditProperty/${property.id}/Photos`} className='text-decoration-none' onClick={onClose}>
                         <div className="primary-btn-black1 text-center">Edit Property</div>
                     </Link>
                     
