@@ -74,7 +74,7 @@ export default function AdminPropertyIndex() {
             <div className={`d-flex ${viewAs === 1 ? "flex-direction-y" : "flex-wrap"} gap1`}>
 
                 {viewAs === 1 && developers && developers.map(developer => (
-                    <AdminPropertiesDevelopersBox1 key={developer.id} developer={developer}/>
+                    <AdminPropertiesDevelopersBox1 key={developer.id} developer={developer} setDevelopers={setDevelopers}/>
                 ))}
 
                 {/* {properties && (

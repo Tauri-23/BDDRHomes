@@ -4,9 +4,7 @@ import { useOutletContext } from 'react-router-dom';
 
 export default function AdminAddPropertyPriceReqIncome() {
 
-    const {price, setPrice, requiredIncome, setRequiredIncome} = useOutletContext();
-    const priceRef = useRef();
-    const reqIncomeRef = useRef();
+    const {monthlyAmortization, setMonthlyAmortization, requiredIncome, setRequiredIncome} = useOutletContext();
 
 
     return(
@@ -20,28 +18,26 @@ export default function AdminAddPropertyPriceReqIncome() {
                         <div className="d-flex flex-direction-y gap1">
                             <div className="d-flex flex-direction-y gap2">
                                 <div className='d-flex flex-direction-y gap3'>
-                                    <label htmlFor="lot-area-in" className='text-m1'>Price</label>
+                                    <label htmlFor="lot-area-in" className='text-m1'>Monthly Amortization</label>
                                     <input 
-                                        ref={priceRef} 
                                         type="number"
                                         id='lot-area-in'
-                                        onInput={() => setPrice(priceRef.current.value)}
+                                        onInput={(e) => setMonthlyAmortization(e.target.value)}
                                         className='edit-text-1 w-100' 
-                                        placeholder='Price' 
-                                        value={price ? price : ''}
+                                        placeholder='Monthly Amortization' 
+                                        value={monthlyAmortization || ''}
                                         min={0}
                                     />
                                 </div>
                                 <div className="d-flex flex-direction-y gap3">
                                     <label htmlFor="floor-area-in" className='text-m1'>Required income</label>
                                     <input 
-                                        ref={reqIncomeRef} 
                                         type="number" 
                                         id='floor-area-in'
-                                        onInput={() => setRequiredIncome(reqIncomeRef.current.value)}
+                                        onInput={(e) => setRequiredIncome(e.target.value)}
                                         className='edit-text-1 w-100' 
                                         placeholder='Required Income' 
-                                        value={requiredIncome ? requiredIncome : ''}
+                                        value={requiredIncome || ''}
                                         min={0}
                                     />
                                 </div>

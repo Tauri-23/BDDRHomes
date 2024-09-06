@@ -6,9 +6,12 @@ export default function AdminAddPropertyFinal() {
     const {
         selectedTypes,
         photos, 
-        propertyName, 
-        propertyAddress, 
-        propertyDesc, 
+
+        projectName,
+        projectModel,
+        propertyProvince,
+        propertyCity,
+
         bedroom,
         bathroom,
         carport,
@@ -16,7 +19,7 @@ export default function AdminAddPropertyFinal() {
         floorArea,
         selectedPropertyAmenities,
         selectedPropertyFinancing,
-        price,
+        monthlyAmortization,
         requiredIncome
     } = useOutletContext();
 
@@ -40,18 +43,23 @@ export default function AdminAddPropertyFinal() {
                 <div className="d-flex flex-direction-y gap1">
                     <div className="d-flex flex-direction-y gap4">
                         <div className="text-m1">Property Name: </div>
-                        <div className="text-l3 fw-bold">{propertyName}</div>
+                        <div className="text-l3 fw-bold">{projectName}</div>
+                    </div>
+
+                    <div className="d-flex flex-direction-y gap4">
+                        <div className="text-m1">Property Model: </div>
+                        <div className="text-l3 fw-bold">{projectModel}</div>
                     </div>
 
                     <div className="d-flex flex-direction-y gap4">
                         <div className="text-m1">Property Address: </div>
-                        <div className="text-l3 fw-bold">{propertyAddress}</div>
+                        <div className="text-l3 fw-bold">{propertyCity} {propertyProvince}</div>
                     </div>
 
-                    <div className="d-flex flex-direction-y gap4">
+                    {/* <div className="d-flex flex-direction-y gap4">
                         <div className="text-m1">Property Description: </div>
                         <div className="text-l3 about-content">{propertyDesc}</div>
-                    </div>
+                    </div> */}
 
                     <div className="d-flex flex-direction-y gap3 mar-top-1">
                         <div className="text-l3 fw-bold mar-bottom-3">Basic Specs: </div>
@@ -151,8 +159,8 @@ export default function AdminAddPropertyFinal() {
                         <div className="text-l3 about-content">{propertyDesc}</div>
                     </div> */}
                     <div className="d-flex flex-direction-y gap4">
-                        <div className="text-m1">Price: </div>
-                        <div className="text-l3 fw-bold">{formatToPhilPeso(price)}</div>
+                        <div className="text-m1">Monthly Amortization: </div>
+                        <div className="text-l3 fw-bold">{formatToPhilPeso(monthlyAmortization)}</div>
                     </div>
 
                     <div className="d-flex flex-direction-y gap4">

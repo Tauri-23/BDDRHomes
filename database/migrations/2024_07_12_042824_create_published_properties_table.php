@@ -13,25 +13,38 @@ return new class extends Migration
     {
         Schema::create('published_properties', function (Blueprint $table) {
             $table->string('id', 12)->primary();
-            $table->text('name');
-            $table->text('address');
-            $table->longText('description');
+            $table->text('project_name');
+            $table->text('project_model');
+
+            // Project Address
+            $table->text('province');
+            $table->text('city');
+            // $table->longText('description');
+
+            // Developer
             $table->string('developer', 12)->nullable();
 
+            // Specs
             $table->text('bedroom');
             $table->text('bath');
             $table->text('carport');
             $table->float('lot_area');
             $table->float('floor_area');
             $table->string('property_type', 6)->nullable();
+            $table->integer('storey');
 
-            // $table->string('agent', 6)->nullable();
-
+            // Finances
             $table->double('required_income');
-            $table->string('status')->default('active');
+            $table->double('monthly_amortization');
+            $table->float('price')->default(0);
 
-            $table->float('price');
+            
+            $table->string('turnover');
+            
+            // active, sold out
+            $table->string('status')->default('active');            
 
+            // timestamps
             $table->timestamps();
 
             /**

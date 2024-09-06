@@ -2,9 +2,13 @@ import { useRef } from "react";
 import { useOutletContext } from "react-router-dom";
 
 export default function AdminAddPropertyNameloc() {
-    const {propertyName, setPropertyName, propertyAddress, setPropertyAddress, propertyDesc, setPropertyDesc} = useOutletContext();
+    const {
+        projectName, setProjectName, 
+        projectModel, setProjectModel,
+        propertyProvince, setPropertyProvince,
+        propertyCity, setPropertyCity
+    } = useOutletContext();
 
-    const propNameRef = useRef();
     const propAddressRef = useRef();
     const propDescRef = useRef();
 
@@ -18,31 +22,52 @@ export default function AdminAddPropertyNameloc() {
                         
                         <div className="d-flex flex-direction-y gap1">
                             <div className='d-flex flex-direction-y gap3'>
-                                <div className="text-l2">Name</div>
+                                <div className="text-l2">Project name</div>
                                 <input 
-                                    ref={propNameRef}
-                                    onInput={() => setPropertyName(propNameRef.current.value)}
+                                    onInput={(e) => setProjectName(e.target.value)}
                                     type='text' 
                                     className="edit-text-1 w-100" 
                                     placeholder='Property Name'
-                                    value={propertyName ? propertyName : ''}
+                                    value={projectName || ''}
+                                />  
+                            </div>
+
+                            <div className='d-flex flex-direction-y gap3'>
+                                <div className="text-l2">Project model</div>
+                                <input 
+                                    onInput={(e) => setProjectModel(e.target.value)}
+                                    type='text' 
+                                    className="edit-text-1 w-100" 
+                                    placeholder='Property Name'
+                                    value={projectModel || ''}
                                 />  
                             </div>
 
                             <div className='d-flex flex-direction-y gap3'>
                                 <div className="text-l2">Address</div>
-                                <input 
-                                    ref={propAddressRef}
-                                    onInput={() => setPropertyAddress(propAddressRef.current.value)}
-                                    type='text' 
-                                    className="edit-text-1 w-100" 
-                                    placeholder='Property Address'
-                                    value={propertyAddress ? propertyAddress : ''}
-                                />  
+                                <div className="d-flex gap3">
+                                    <input 
+                                        ref={propAddressRef}
+                                        onInput={(e) => setPropertyProvince(e.target.value)}
+                                        type='text' 
+                                        className="edit-text-1 w-100" 
+                                        placeholder='Province'
+                                        value={propertyProvince || ''}
+                                    />  
+
+                                    <input 
+                                        ref={propAddressRef}
+                                        onInput={(e) => setPropertyCity(e.target.value)}
+                                        type='text' 
+                                        className="edit-text-1 w-100" 
+                                        placeholder='City'
+                                        value={propertyCity || ''}
+                                    /> 
+                                </div>
                             </div>     
 
 
-                            <div className='d-flex flex-direction-y gap3'>
+                            {/* <div className='d-flex flex-direction-y gap3'>
                                 <div className="text-l2">Tell us about the property</div>
                                 <textarea 
                                     ref={propDescRef}
@@ -53,7 +78,7 @@ export default function AdminAddPropertyNameloc() {
                                 >
 
                                 </textarea>
-                            </div>       
+                            </div> */}
                         </div>                     
                     </div>           
                 </div>

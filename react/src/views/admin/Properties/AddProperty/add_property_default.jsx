@@ -11,47 +11,60 @@ export default function AdminAddPropertyDefault() {
     const [nextBtnState, setNextBtnState] = useState(false);
 
     // Property Attributes
+    // 1st (add_property_type)
     const [selectedTypes, setSelectedTypes] = useState(null);
-    const [propertyName, setPropertyName] = useState(null);
-    const [propertyAddress, setPropertyAddress] = useState(null);
-    const [propertyDesc, setPropertyDesc] = useState(null);
+
+    // 2nd (add_property_nameloc)
+    const [projectName, setProjectName] = useState(null);
+    const [projectModel, setProjectModel] = useState(null);
+    const [propertyProvince, setPropertyProvince] = useState(null);
+    const [propertyCity, setPropertyCity] = useState(null);
+
+    // 3rd (add_property_floorplan)
     const [bedroom, setBedroom] = useState(1);
     const [bathroom, setBathroom] = useState(1);
     const [carport, setCarport] = useState(0);
+    const [storey, setStorey] = useState(1);
     const [lotArea, setLotArea] = useState(null);
     const [floorArea, setFloorArea] = useState(null);
+
+    // 4th (add_property_amenities)
     const [selectedPropertyAmenities, setSelectedPropertyAmenities] = useState([]);
+
+    // 
     const [photos, setPhotos] = useState([]);
+
+    // 
     const [selectedPropertyFinancing, setSelectedPropertyFinancing] = useState([]);
-    const [price, setPrice] = useState(0);
+    const [monthlyAmortization, setMonthlyAmortization] = useState(0);
     const [requiredIncome, setRequiredIncome] = useState(0);
 
 
     // Links
     const backLinks = {
-        '/BDDRAdmin/Properties/AddProperty': '/BDDRAdmin/Properties&Developers',
-        '/BDDRAdmin/Properties/AddProperty/PropertyType': '/BDDRAdmin/Properties/AddProperty',
-        '/BDDRAdmin/Properties/AddProperty/NameAndLoc': 'PropertyType',
-        '/BDDRAdmin/Properties/AddProperty/Floorplan': 'NameAndLoc',
-        '/BDDRAdmin/Properties/AddProperty/Step2': 'Floorplan',
-        '/BDDRAdmin/Properties/AddProperty/Amenities': 'Step2',
-        '/BDDRAdmin/Properties/AddProperty/Photos': 'Amenities',
-        '/BDDRAdmin/Properties/AddProperty/Step3': 'Photos',
-        '/BDDRAdmin/Properties/AddProperty/Financing': 'Step3',
-        '/BDDRAdmin/Properties/AddProperty/Price': 'Financing',
-        '/BDDRAdmin/Properties/AddProperty/Finalize': 'Price',
+        '/BDDRAdmin/Properties&Developers/AddProperty': '/BDDRAdmin/Properties&Developers',
+        '/BDDRAdmin/Properties&Developers/AddProperty/PropertyType': '/BDDRAdmin/Properties&Developers/AddProperty',
+        '/BDDRAdmin/Properties&Developers/AddProperty/NameAndLoc': 'PropertyType',
+        '/BDDRAdmin/Properties&Developers/AddProperty/Floorplan': 'NameAndLoc',
+        '/BDDRAdmin/Properties&Developers/AddProperty/Step2': 'Floorplan',
+        '/BDDRAdmin/Properties&Developers/AddProperty/Amenities': 'Step2',
+        '/BDDRAdmin/Properties&Developers/AddProperty/Photos': 'Amenities',
+        '/BDDRAdmin/Properties&Developers/AddProperty/Step3': 'Photos',
+        '/BDDRAdmin/Properties&Developers/AddProperty/Financing': 'Step3',
+        '/BDDRAdmin/Properties&Developers/AddProperty/Price': 'Financing',
+        '/BDDRAdmin/Properties&Developers/AddProperty/Finalize': 'Price',
     };
     const nextLinks = {
-        '/BDDRAdmin/Properties/AddProperty': 'PropertyType',
-        '/BDDRAdmin/Properties/AddProperty/PropertyType': '/BDDRAdmin/Properties/AddProperty/NameAndLoc',
-        '/BDDRAdmin/Properties/AddProperty/NameAndLoc': 'Floorplan',
-        '/BDDRAdmin/Properties/AddProperty/Floorplan': 'Step2',
-        '/BDDRAdmin/Properties/AddProperty/Step2': 'Amenities',
-        '/BDDRAdmin/Properties/AddProperty/Amenities': 'Photos',
-        '/BDDRAdmin/Properties/AddProperty/Photos': 'Step3',
-        '/BDDRAdmin/Properties/AddProperty/Step3': 'Financing',
-        '/BDDRAdmin/Properties/AddProperty/Financing': 'Price',
-        '/BDDRAdmin/Properties/AddProperty/Price': 'Finalize',
+        '/BDDRAdmin/Properties&Developers/AddProperty': 'PropertyType',
+        '/BDDRAdmin/Properties&Developers/AddProperty/PropertyType': '/BDDRAdmin/Properties&Developers/AddProperty/NameAndLoc',
+        '/BDDRAdmin/Properties&Developers/AddProperty/NameAndLoc': 'Floorplan',
+        '/BDDRAdmin/Properties&Developers/AddProperty/Floorplan': 'Step2',
+        '/BDDRAdmin/Properties&Developers/AddProperty/Step2': 'Amenities',
+        '/BDDRAdmin/Properties&Developers/AddProperty/Amenities': 'Photos',
+        '/BDDRAdmin/Properties&Developers/AddProperty/Photos': 'Step3',
+        '/BDDRAdmin/Properties&Developers/AddProperty/Step3': 'Financing',
+        '/BDDRAdmin/Properties&Developers/AddProperty/Financing': 'Price',
+        '/BDDRAdmin/Properties&Developers/AddProperty/Price': 'Finalize',
     };
 
 
@@ -61,7 +74,7 @@ export default function AdminAddPropertyDefault() {
             setNextBtnState(false);
         }
 
-        // Property Type Inputs
+        // 1st (add_property_type)
         if(location.pathname === '/BDDRAdmin/Properties/AddProperty/PropertyType' && selectedTypes === null) {
             setNextBtnState(true);
             return;
@@ -70,9 +83,9 @@ export default function AdminAddPropertyDefault() {
             setNextBtnState(false);
         }
 
-        // Property Name and Location Input
+        // 2nd (add_property_nameloc)
         if(location.pathname === '/BDDRAdmin/Properties/AddProperty/NameAndLoc'
-            && (isEmptyOrSpaces(propertyName) || isEmptyOrSpaces(propertyAddress) || isEmptyOrSpaces(propertyDesc))
+            && (isEmptyOrSpaces(projectName) || isEmptyOrSpaces(propertyProvince) || isEmptyOrSpaces(propertyCity))
         ) {
             setNextBtnState(true);
             return;
@@ -81,7 +94,7 @@ export default function AdminAddPropertyDefault() {
             setNextBtnState(false);
         }
 
-        // Property Floor plan inputs
+        // 3rd (add_property_floorplan)
         if(location.pathname === '/BDDRAdmin/Properties/AddProperty/Floorplan'
             && ((isEmptyOrSpaces(lotArea) || lotArea < 1) || (isEmptyOrSpaces(floorArea) || floorArea < 1))
         ) {
@@ -92,7 +105,7 @@ export default function AdminAddPropertyDefault() {
             setNextBtnState(false);
         }
 
-        // Amenities Inputs
+        // 4th (add_property_amenities)
         if(location.pathname === '/BDDRAdmin/Properties/AddProperty/Amenities'
             && (selectedPropertyAmenities.length < 1)
         ) {
@@ -114,23 +127,39 @@ export default function AdminAddPropertyDefault() {
             setNextBtnState(false);
         }
         
-    }, [location.pathname, selectedTypes, propertyName, propertyAddress, propertyDesc, floorArea, lotArea, selectedPropertyAmenities, photos]);
+    }, [
+        location.pathname, 
+
+        // 1st (add_property_type)
+        selectedTypes, 
+
+        // 2nd (add_property_nameloc)
+        projectName, propertyProvince, propertyCity,
+
+        // 3rd (add_property_floorplan)
+        floorArea, lotArea, 
+
+        // 4th (add_property_amenities)
+        selectedPropertyAmenities, 
+
+        photos
+    ]);
 
 
+    // TODO::update it
     const handlePublishProperty = (event) => {
         //event.preventDefault();
         const formData = new FormData();
         formData.append('property_type', selectedTypes.id);
-        formData.append('property_name', propertyName);
-        formData.append('property_address', propertyAddress);
-        formData.append('property_desc', propertyDesc);
+        formData.append('property_name', projectName);
+        formData.append('property_address', propertyProvince);
         formData.append('bedroom', bedroom);
         formData.append('bathroom', bathroom);
         formData.append('carport', carport);
         formData.append('lot_area', lotArea);
         formData.append('floor_area', floorArea);
         formData.append('required_income', requiredIncome);
-        formData.append('price', price);
+        formData.append('price', monthlyAmortization);
 
         selectedPropertyAmenities.forEach((amenity, index) => {
             formData.append(`property_amenities[${index}]`, amenity.id);
@@ -172,23 +201,38 @@ export default function AdminAddPropertyDefault() {
             <Outlet context={
                 {
                     isSidenavOpen,
+                    // 1st (add_property_type)
                     selectedTypes, setSelectedTypes,
-                    propertyName, setPropertyName, 
-                    propertyAddress, setPropertyAddress, 
-                    propertyDesc, setPropertyDesc,
+
+                    // 2nd (add_property_nameloc)
+                    projectName, setProjectName,
+                    projectModel, setProjectModel,
+                    propertyProvince, setPropertyProvince,
+                    propertyCity, setPropertyCity,
+
+                    // 3rd (add_property_floorplan)
                     bedroom, setBedroom,
                     bathroom, setBathroom,
                     carport, setCarport,
+                    storey, setStorey,
                     lotArea, setLotArea,
                     floorArea, setFloorArea,
+
+                    // 4th (add_property_amenities)
                     selectedPropertyAmenities, 
                     setSelectedPropertyAmenities,
-                    selectedPropertyFinancing, 
-                    setSelectedPropertyFinancing,
+
+                    // 5th
                     photos, 
                     setPhotos,
-                    price,
-                    setPrice,
+
+                    // 6th
+                    selectedPropertyFinancing, 
+                    setSelectedPropertyFinancing,
+                    
+                    // 7th (add_property_price_req_income)
+                    monthlyAmortization,
+                    setMonthlyAmortization,
                     requiredIncome,
                     setRequiredIncome
                 }     
