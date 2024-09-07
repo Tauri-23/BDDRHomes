@@ -1,5 +1,6 @@
 import { useOutletContext } from "react-router-dom";
 import { formatToPhilPeso } from "../../../../assets/js/utils";
+import { useEffect } from "react";
 
 export default function AdminAddPropertyFinal() {
 
@@ -9,8 +10,10 @@ export default function AdminAddPropertyFinal() {
 
         projectName,
         projectModel,
+        projectDeveloper,
         propertyProvince,
         propertyCity,
+        propertyTurnover,
 
         bedroom,
         bathroom,
@@ -50,10 +53,20 @@ export default function AdminAddPropertyFinal() {
                         <div className="text-m1">Property Model: </div>
                         <div className="text-l3 fw-bold">{projectModel}</div>
                     </div>
+                    
+                    <div className="d-flex flex-direction-y gap4">
+                        <div className="text-m1">Property Developer: </div>
+                        <div className="text-l3 fw-bold">{projectDeveloper.name}</div>
+                    </div>
 
                     <div className="d-flex flex-direction-y gap4">
                         <div className="text-m1">Property Address: </div>
                         <div className="text-l3 fw-bold">{propertyCity} {propertyProvince}</div>
+                    </div>
+
+                    <div className="d-flex flex-direction-y gap4">
+                        <div className="text-m1">Property Turnover: </div>
+                        <div className="text-l3 fw-bold">{propertyTurnover}</div>
                     </div>
 
                     {/* <div className="d-flex flex-direction-y gap4">
@@ -105,7 +118,7 @@ export default function AdminAddPropertyFinal() {
                         <div className="d-flex justify-content-between">
                             <div className="d-flex flex-direction-y gap3">
                                 {firstHalfAmenities.map((amenity) => (
-                                    <div className="listing-spec-box2">
+                                    <div key={amenity.id} className="listing-spec-box2">
                                         <img src={`/src/assets/media/icons/${amenity.icon}`} className="icon-s" alt="Bedroom"/>
                                         <div className="text-m1">{amenity.amenity_name}</div>
                                     </div>
@@ -113,7 +126,7 @@ export default function AdminAddPropertyFinal() {
                             </div>
                             <div className="d-flex flex-direction-y gap3">
                                 {secondHalfAmenities.map((amenity) => (
-                                    <div className="listing-spec-box2">
+                                    <div key={amenity.id} className="listing-spec-box2">
                                         <img src={`/src/assets/media/icons/${amenity.icon}`} className="icon-s" alt="Bedroom"/>
                                         <div className="text-m1">{amenity.amenity_name}</div>
                                     </div>
@@ -127,7 +140,7 @@ export default function AdminAddPropertyFinal() {
                         
                         <div className="d-flex w-100 flex-wrap gap3">
                             {photos.map((photo, index) => (
-                                <div className="photos-preview-box">
+                                <div key={index} className="photos-preview-box">
                                     <img 
                                     key={index} 
                                     src={URL.createObjectURL(photo)} 
@@ -145,7 +158,7 @@ export default function AdminAddPropertyFinal() {
                         <div className="d-flex justify-content-between">
                             <div className="d-flex flex-direction-y gap3">
                                 {selectedPropertyFinancing.map((financing) => (
-                                    <div className="listing-spec-box2">
+                                    <div key={financing.id} className="listing-spec-box2">
                                         <img src={`/src/assets/media/icons/${financing.icon}`} className="icon-s" alt="Bedroom"/>
                                         <div className="text-m1">{financing.financing_type}</div>
                                     </div>

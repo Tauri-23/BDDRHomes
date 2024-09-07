@@ -49,21 +49,11 @@ export default function AdminPropertyIndex() {
     /* 
     | Debugging
     */
-    useEffect(() => {
-        console.log(developers);
-    }, [developers])
+    // useEffect(() => {
+    //     console.log(developers);
+    // }, [developers]);
 
-
-
-    const handleRemovePropertyConfirmation = (listing) => {
-        showModal('AgentDelListingConfirmationModal1', {listing, handleRemovePropertyPost});
-    }
-
-    const handleListingClick = (property) => {
-        showModal('AdminPropertiesOptionModal1', { property, handleRemovePropertyConfirmation});
-    };
-
-
+    
     
     return(
         <div className={`content1-admin ${isSidenavOpen ? 'compressed' : ''}`}>

@@ -2,10 +2,8 @@
 
 use App\Http\Controllers\Api\AdminAgentController;
 use App\Http\Controllers\Api\AdminController;
-use App\Http\Controllers\Api\AgentListingController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\ClientController;
-use App\Http\Controllers\Api\ClientListingController;
 use App\Http\Controllers\Api\ClientWishlistController;
 use App\Http\Controllers\Api\DevelopersController;
 use App\Http\Controllers\Api\PropertiesController;
@@ -40,10 +38,7 @@ Route::post('/login', [AuthController::class, 'login']);
 | Agent 
 |----------------------------------------
 */
-/*
-* LISTING (ALL)
-*/
-Route::post('/delete-property-permanently', [AgentListingController::class, 'deleteProperty']);
+
 
 
 
@@ -106,6 +101,7 @@ Route::get('/get-admin-info/{adminId}', [AdminController::class, 'FetchAdminInfo
 /*
 * Developers
 */
+Route::get('/get-all-developers-with-properties', [DevelopersController::class, 'GetAllDevelopersWithProperties']);
 Route::get('/get-all-developers', [DevelopersController::class, 'GetAllDevelopers']);
 
 Route::post('/create-developer', [DevelopersController::class, 'CreateDeveloper']);
@@ -129,6 +125,8 @@ Route::get('/get-published-property', [PropertiesController::class, 'getAllPubli
 Route::get('/get-published-property-by-id/{propId}', [PropertiesController::class, 'getFullPropertyViaId']);
 
 Route::post('/general-publish-property-post', [PropertiesController::class, 'publishPropertyPost']);
+Route::post('/general-delete-property-permanently', [PropertiesController::class, 'deletePropertyPermanentlyPost']);
+
 Route::post('/general-remove-published-property-photo', [PropertiesController::class, 'removePropertyPhoto']);
 Route::post('/general-add-published-property-photo', [PropertiesController::class, 'addPropertyPhoto']);
 Route::post('/general-update-published-property-photo-sequence', [PropertiesController::class, 'updatePhotosSequence']);

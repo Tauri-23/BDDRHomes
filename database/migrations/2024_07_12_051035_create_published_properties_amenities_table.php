@@ -23,7 +23,7 @@ return new class extends Migration
             $table->foreign('property')
                 ->references('id')
                 ->on('published_properties')
-                ->nullOnDelete()
+                ->cascadeOnDelete()
                 ->cascadeOnUpdate();
 
             $table->foreign('amenity')

@@ -20,10 +20,15 @@ class DevelopersController extends Controller
 
 
     // GET
-    public function GetAllDevelopers()
+    public function GetAllDevelopersWithProperties()
     {
         $developers = property_developers::with(["properties"])->get();
         return response()->json($developers);
+    }
+
+    public function GetAllDevelopers()
+    {
+        return response()->json(property_developers::all());
     }
 
 

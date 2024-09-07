@@ -71,6 +71,7 @@ import AdminProfileIndex from "./views/admin/Profile/admin_profile_index";
 import AdminAgentProfile from "./views/admin/Teams&Agents/agent_profile";
 import AdminAddAgent from "./views/admin/Teams&Agents/add_agent";
 import AdminAddDeveloper from "./views/admin/Properties/add_developer";
+import AdminEditPropertyModel from "./views/admin/Properties/EditProperty/edit_property_model";
 
 const router = createBrowserRouter([
     /*
@@ -401,6 +402,10 @@ const router = createBrowserRouter([
                             {
                                 path: 'Name',
                                 element: <AdminEditPropertyName/>
+                            },
+                            {
+                                path: 'Model',
+                                element: <AdminEditPropertyModel/>
                             },
                             {
                                 path: 'Type',

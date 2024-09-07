@@ -154,7 +154,14 @@ export default function AdminEditPropertyDefault() {
                         <Link to={'Name'} className="text-decoration-none color-black1">
                             <div className={`edit-listing-sidenav-box ${location.pathname === '/BDDRAdmin/Properties/EditProperty/'+ id +'/Name' ? 'active' : ''}`}>
                                 <div className="text-m2 fw-bold">Name</div>
-                                <div className="text-l3">{listing[0].name}</div>
+                                <div className="text-l3">{listing[0].project_name}</div>
+                            </div>
+                        </Link>
+
+                        <Link to={'Model'} className="text-decoration-none color-black1">
+                            <div className={`edit-listing-sidenav-box ${location.pathname === '/BDDRAdmin/Properties/EditProperty/'+ id +'/Name' ? 'active' : ''}`}>
+                                <div className="text-m2 fw-bold">Model</div>
+                                <div className="text-l3">{listing[0].project_model}</div>
                             </div>
                         </Link>
 
@@ -234,7 +241,7 @@ export default function AdminEditPropertyDefault() {
                                 setPhotos: setPhotos,
 
                                 // Name
-                                name: listing[0].name,
+                                name: listing[0].project_name,
 
                                 // Property Type
                                 type: listing[0].property_type.id,

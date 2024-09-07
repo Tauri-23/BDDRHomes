@@ -8,8 +8,6 @@ export default function AdminEditPropertyName() {
     const [_name, _setName] = useState(name);
     const [isSaveBtnDisabled, setSaveBtnDisabled] = useState(true);
 
-    const nameRef = useRef();
-
 
 
     useEffect(() => {
@@ -51,7 +49,7 @@ export default function AdminEditPropertyName() {
     
     return(
         <div className="d-flex w-100 h-100 flex-direction-y justify-content-between">
-            <div ref={nameRef} className="edit-listing-text-div text-xl2" contentEditable="true" onInput={() => _setName(nameRef.current.innerText)} suppressContentEditableWarning={true}>
+            <div className="edit-listing-text-div text-xl2" contentEditable="true" onInput={(e) => _setName(e.target.innerText)} suppressContentEditableWarning={true}>
                 {name}
             </div>
 

@@ -64,17 +64,26 @@ class PropertiesController extends Controller
         $propertyId = $this->generateId->generate(published_properties::class, 12);
         $publishedProperty = new published_properties();
         $publishedProperty->id = $propertyId;
-        $publishedProperty->name = $request->property_name;
-        $publishedProperty->address = $request->property_address;
-        $publishedProperty->description = $request->property_desc;
+        
+        $publishedProperty->property_type = $request->property_type;
+
+        $publishedProperty->project_name = $request->project_name;
+        $publishedProperty->project_model = $request->project_model;
+        $publishedProperty->developer = $request->project_developer;
+        $publishedProperty->city = $request->property_city;
+        $publishedProperty->province = $request->property_province;
+        $publishedProperty->turnover = $request->property_turnover;
+        
         $publishedProperty->bedroom = $request->bedroom;
         $publishedProperty->bath = $request->bathroom;
         $publishedProperty->carport = $request->carport;
+        $publishedProperty->storey = $request->storey;
         $publishedProperty->lot_area = $request->lot_area;
         $publishedProperty->floor_area = $request->floor_area;
-        $publishedProperty->property_type = $request->property_type;
+
+        
         $publishedProperty->required_income = $request->required_income;
-        $publishedProperty->price = $request->price;
+        $publishedProperty->monthly_amortization = $request->monthly_amortization;
 
         if(!$publishedProperty->save()) 
         {
@@ -84,7 +93,7 @@ class PropertiesController extends Controller
             ]);
         }
 
-        
+        // Add property amenities
         foreach($request->property_amenities as $amenity) 
         {
             $amenities = new published_properties_amenities();
@@ -101,7 +110,7 @@ class PropertiesController extends Controller
             }
         }
 
-
+        // Add property_financing
         foreach($request->property_financing as $financing) 
         {
             $financings = new published_properties_financing();
@@ -117,7 +126,6 @@ class PropertiesController extends Controller
                 ]);
             }
         }
-
 
         // Upload photos to storage and database
         $position = 1;
@@ -147,15 +155,49 @@ class PropertiesController extends Controller
                     'message' =>'Failed to upload file: ' . $ex->getMessage()
                 ]);
             }
-        }
-        
-        
+        }       
 
         return response()->json([
             'status' => 200,
-            'message' =>'Success'
+            'message' =>"$request->project_name $request->project_model added."
         ]);
     }
+
+    public function deletePropertyPermanentlyPost(Request $request)
+    {
+        $propertyToDel = published_properties::where('id', $request->propId)->with('photos')->first();
+        
+
+        if($propertyToDel)
+        {
+            $propertyName = "$propertyToDel->project_name $propertyToDel->project_model";
+            $propertyToDel->delete();
+
+            $targetDirectory = base_path('react/src/assets/media/properties');
+            foreach($propertyToDel->photos as $prop)
+            {
+                $filepath = "$targetDirectory/$prop->filename";
+                if(file_exists($filepath))
+                {
+                    unlink($filepath);
+                }
+            }
+            
+
+            return response()->json([
+                'status' => 200,
+                'message' => "{$propertyName} removed."
+            ]);
+        }
+        else
+        {
+            return response()->json([
+                'status' => 401,
+                'message' => "Property doesn't exist."
+            ]);
+        }
+    }
+
 
 
     // Editing
@@ -258,7 +300,7 @@ class PropertiesController extends Controller
     public function updatePropertyName(Request $request)
     {
         $property = published_properties::find($request->id);
-        $property->name = $request->name;
+        $property->project_name = $request->name;
 
         if($property->save())
         {

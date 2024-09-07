@@ -54,7 +54,7 @@ export default function AdminAddPropertyPhotos() {
                     <div className="photos-preview-cont">
                         
                         {photos.map((photo, index) => (
-                            <div className="photos-preview-box">
+                            <div key={index} className="photos-preview-box">
                                 <div className="photos-preview-box-option-btn" onClick={() => deletePhoto(index)}>
                                     <Icon.XLg/>
                                 </div>

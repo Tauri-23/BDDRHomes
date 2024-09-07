@@ -14,16 +14,16 @@ const AdminPropertiesDevelopersBox1 = ({developer}) => {
     /* 
     | Debugging
     */
-    useEffect(() => {
+    // useEffect(() => {
 
-    }, [_developer]);
+    // }, [_developer]);
 
     const handleRemovePropertyPost = (propId) => {
         const formData = new FormData();
         formData.append('propId', propId);        
         
 
-        axiosClient.post('/delete-property-permanently', formData)
+        axiosClient.post('/general-delete-property-permanently', formData)
         .then(({data}) => {
             if(data.status === 200) {
                 _setDeveloper(prevDev => {
