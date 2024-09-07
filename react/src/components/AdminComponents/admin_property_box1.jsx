@@ -6,7 +6,7 @@ export const AdminPropertyBox1 = ({property, handleListingClick}) => {
             </div>
             <div className="property-box-1-desc">
                 <div className="property-box-1-name">{property.project_name}</div>
-                <div className="property-box-1-address">{property.province} {property.city}</div>
+                <div className="property-box-1-address">{property.city} {property.province}</div>
             </div>
         </div>
     )
