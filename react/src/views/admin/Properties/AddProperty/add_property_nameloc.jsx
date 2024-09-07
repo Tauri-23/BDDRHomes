@@ -107,6 +107,7 @@ export default function AdminAddPropertyNameloc() {
                                     <select name="turnover" onChange={(e) => setPropertyTurnover(e.target.value)} className="edit-text-1 w-100" value={propertyTurnover}>
                                         <option value="RFO">RFO</option>
                                         <option value="Pre-selling">Pre-selling</option>
+                                        <option value="RFO, Pre-selling">RFO, Pre-selling</option>
                                     </select>
                                 </div>
     

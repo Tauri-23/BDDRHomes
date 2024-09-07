@@ -6,6 +6,7 @@
 
 .property-box-1 {
     width: var(--property-img-wh);
+    height: auto;
     display: flex;
     flex-direction: column;
     border-radius: var(--radius3);
