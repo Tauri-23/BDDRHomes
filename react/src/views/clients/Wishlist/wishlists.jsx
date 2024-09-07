@@ -57,7 +57,7 @@ export default function ClientWishLists() {
             if(data.status === 200) {
                 notify('default', data.message, 'bottom-left', 3000);
                 setWishlists(prevWislist => {
-                    return {data: prevWislist.data.filter(wishlist => String(wishlist.id) !== String(wishlistId))};
+                    return prevWislist.filter(wishlist => String(wishlist.id) !== String(wishlistId));
                 });
             }
         })

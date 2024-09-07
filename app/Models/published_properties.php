@@ -29,5 +29,10 @@ class published_properties extends Model
         return $this->hasMany(published_properties_financing::class, 'property', 'id')->with('financing');
     }
 
+    public function developer()
+    {
+        return $this->belongsTo(property_developers::class, 'developer', 'id');
+    }
+
     
 }

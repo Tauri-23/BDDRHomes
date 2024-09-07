@@ -18,6 +18,9 @@ class ClientWishlistController extends Controller
         $this->generateId = $generateId;
     }
 
+
+
+    // GET
     public function getAllClientWishlist($clientId)
     {
         return response()->json(wishlist::where('client', $clientId)->with('wishlistProperties')->get());
@@ -28,6 +31,9 @@ class ClientWishlistController extends Controller
         return wishlist::where('id', $wishlistId)->with(['wishlistProperties'])->first();
     }
 
+
+
+    // POST
     public function createClientWishlist(Request $request)
     {
         $wishlist = new wishlist();
@@ -70,7 +76,7 @@ class ClientWishlistController extends Controller
             if($wishlistProperty->save()) 
             {
 
-                $wishlistPropInWishlist = wishlist_properties::where('wishlist', $wishlistId)->with(['property_listing'])->get();
+                $wishlistPropInWishlist = wishlist_properties::where('wishlist', $wishlistId)->with(['property'])->get();
                 
                 return response()->json([
                     'status' => 200,

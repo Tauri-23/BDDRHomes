@@ -14,8 +14,8 @@ class wishlist_properties extends Model
         return $this->belongsTo(wishlist::class, 'wishlist', 'id');
     }
 
-    public function property_listing()
+    public function property()
     {
-        return $this->belongsTo(property_listings::class, 'property', 'id')->with(['property', 'agent']);
+        return $this->belongsTo(published_properties::class, "property", "id")->with(["photos", "developer"]);
     }
 }

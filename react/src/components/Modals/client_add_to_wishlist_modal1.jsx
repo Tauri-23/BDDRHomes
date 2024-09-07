@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from 'react';
 import axiosClient from '../../axios-client';
 import { isEmptyOrSpaces, notify } from '../../assets/js/utils';
 
-export const ClientAddToWishlistModal1 = ({ listingId, wishlists, handleCreateWishlistAndAddPropToIt, handleAddPropToWishlist, onClose }) => {   
+export const ClientAddToWishlistModal1 = ({ propId, wishlists, handleCreateWishlistAndAddPropToIt, handleAddPropToWishlist, onClose }) => {   
 
     const nameRef = useRef();
 
@@ -47,12 +47,12 @@ export const ClientAddToWishlistModal1 = ({ listingId, wishlists, handleCreateWi
                         <div
                         key={wishlist.id} 
                         className="wishlist-box"
-                        onClick={() => {handleAddPropToWishlist(listingId, wishlist.id, wishlist.name); onClose()}}>
+                        onClick={() => {handleAddPropToWishlist(propId, wishlist.id, wishlist.name); onClose()}}>
                             <div className='wishlist-box-img-cont-modal'>
                                 <div className={`wishlist-box-img`}>
                                     {wishlist.wishlist_properties.length > 0 ? (<img src="/src/assets/media/properties/anyana-paris-test.jpeg" alt="" />) : ''}
                                     
-                                </div>                                
+                                </div>
                             </div> 
                             {wishlist.name}
                         </div>                        
@@ -64,7 +64,7 @@ export const ClientAddToWishlistModal1 = ({ listingId, wishlists, handleCreateWi
                 {/* Btns */}
                 <div className={`d-flex flex-direction-y gap3 ${!isCreateListing ? 'd-none' : ''}`}>
                     <button 
-                    onClick={() => {handleCreateWishlistAndAddPropToIt(name, listingId); onClose();}}
+                    onClick={() => {handleCreateWishlistAndAddPropToIt(name, propId); onClose();}}
                     disabled={isEmptyOrSpaces(String(name))} 
                     className={`w-100 primary-btn-black1 text-center ${isEmptyOrSpaces(String(name)) ? 'disabled' : ''}`}
                     >

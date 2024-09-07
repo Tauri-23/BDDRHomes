@@ -42,15 +42,15 @@ class PropertiesController extends Controller
 
     public function getAllPublishedProperties()
     {
-        $properties = published_properties::with(['photos', 'amenities', 'financings'])->get();
+        $properties = published_properties::with(['photos', 'amenities', 'financings', 'developer', 'propertyType'])->inRandomOrder()->get();
         return response()->json($properties);
     }
 
     public function getFullPropertyViaId($propId)
     {
         $property = published_properties::where('id', $propId)
-            ->with(['photos', 'amenities', 'propertyType', 'financings'])
-            ->get();
+            ->with(['photos', 'amenities', 'propertyType', 'financings', 'developer'])
+            ->first();
 
         return response()->json($property);
     }

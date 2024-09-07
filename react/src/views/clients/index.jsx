@@ -8,8 +8,7 @@ import { fetchAllClientWishlists } from "../../Services/ClientWishlistService";
 import { notify } from "../../assets/js/utils";
 import { string } from "prop-types";
 import { useStateContext } from "../../contexts/ContextProvider";
-import { fetchAllProperties } from "../../Services/GeneralPropertyListingService";
-import { fetchPropertyTypes } from "../../Services/GeneralPropertiesService";
+import { fetchPropertyTypes, fetchPublishedProperties } from "../../Services/GeneralPropertiesService";
 
 export default function ClientIndex() {
     const {user} = useStateContext();
@@ -23,9 +22,9 @@ export default function ClientIndex() {
     |    Get all necessary datas from db
     */
     useEffect(() => {
-        const getListedProperties = async() => {
+        const getPublishedProperties = async() => {
             try {
-                const data = await fetchAllProperties();
+                const data = await fetchPublishedProperties();
                 setProperties(data);                
             } catch (error) {
                 console.error(error);
@@ -52,7 +51,7 @@ export default function ClientIndex() {
         }
         
         if(user) {
-            getListedProperties();
+            getPublishedProperties();
             getAllClientWishlists(user.id);
             getAllPropTypes();
         }
@@ -72,7 +71,7 @@ export default function ClientIndex() {
             return wishlists.some(wishlist =>
                 wishlist.wishlist_properties &&
                 wishlist.wishlist_properties.some(wishlistProp => 
-                    String(wishlistProp.property_listing.id) === propIdStr
+                    String(wishlistProp.property.id) === propIdStr
                 )
             );
         }
@@ -111,8 +110,8 @@ export default function ClientIndex() {
 
         setWishlists(prevWishlists => {
             const updatedWishlists = prevWishlists.map(prevWishlist => {
-                const updatedProperties = prevWishlist.wishlist_properties.filter(
-                    wishlistProp => String(wishlistProp.property_listing.id) !== String(propId)
+                const updatedProperties = prevWishlist.wishlist_properties.filter(wishlistProp => 
+                    String(wishlistProp.property.id) !== String(propId)
                 );
     
                 return {
@@ -138,23 +137,6 @@ export default function ClientIndex() {
     };
 
     const handleAddPropToWishlist = (propId, wishlistId, wishlistName) => {
-        // setWishlists(prevWishlist => {
-        //     const updatedWishlists = prevWishlist.data.map(prevWishlist => {                            
-        //         if(String(prevWishlist.id) === String(wishlistId)) {
-        //             return {
-        //                 ...prevWishlist,
-        //                 wishlist_properties: [
-        //                     ...prevWishlist.wishlist_properties,
-        //                     {id: 123, wishlist: String(wishlistId), property: String(propId)}
-        //                 ]
-        //             };
-        //         }
-        //         return prevWishlist;
-        //     });
-
-        //     return {data: updatedWishlists};
-        // })
-
         const formData = new FormData();
         formData.append('wishlistId', wishlistId);
         formData.append('wishlistName', wishlistName);
@@ -173,8 +155,7 @@ export default function ClientIndex() {
                                     ...prevWishlist.wishlist_properties,
                                     {id: data.id, 
                                     wishlist: String(wishlistId), 
-                                    property: String(propId),
-                                    property_listing: {id: String(propId)}}
+                                    property: {id: String(propId)},}
                                 ]
                             };
                         }
@@ -199,9 +180,9 @@ export default function ClientIndex() {
     //     console.log(properties);
     // }, [properties]);
 
-    // useEffect(() => {
-    //     console.log(wishlists);
-    // }, [wishlists]);
+    useEffect(() => {
+        console.log(wishlists);
+    }, [wishlists]);
 
     // useEffect(() => {
     //     console.log(propTypes);
@@ -246,9 +227,9 @@ export default function ClientIndex() {
                             <PropertyBox1
                                 key={prop.id}
                                 wishlists={wishlists}
-                                property={prop.property}
+                                property={prop}
                                 agent={prop.agent}
-                                listingId={prop.id}
+                                propId={prop.id}
                                 isInWishlist={inWishlist}
                                 handleCreateWishlistAndAddPropToIt={handleCreateWishlistAndAddPropToIt}
                                 handleRemovePropFromWishlist={handleRemovePropFromWishlist}

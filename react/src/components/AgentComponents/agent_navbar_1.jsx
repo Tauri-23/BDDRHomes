@@ -59,7 +59,7 @@ export const AgentNavbar1 = ({agent, onLogout}) => {
                 {/* Nav Links */}
                 <div className="nav3-links">
                     <BDDRAgentNavLink1 to="/BDDRAgent" label="Home" activeLoc={["/home"]} />
-                    <BDDRAgentNavLink1 to="/BDDRAgent/Listings" label="Listings" activeLoc={["Listings", "Listings/EditListing"]} />
+                    {/* <BDDRAgentNavLink1 to="/BDDRAgent/Listings" label="Listings" activeLoc={["Listings", "Listings/EditListing"]} /> */}
                     <BDDRAgentNavLink1 to="/BDDRAgent/Messages" label="Messages" activeLoc={["Messages"]} />
                     <BDDRAgentNavLink1 to="/BDDRAgent/Performance" label="Performance" activeLoc={["Performance"]} />
 

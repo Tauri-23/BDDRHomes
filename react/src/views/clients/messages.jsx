@@ -6,17 +6,27 @@ import { useEffect, useState } from 'react';
 import { isEmptyOrSpaces } from '../../assets/js/utils';
 import { useStateContext } from '../../contexts/ContextProvider';
 import { fetchAgentInfos, fetchAllAgents } from '../../Services/AdminAgentService';
+import { fetchSpecificPublishedPropertyFull } from '../../Services/GeneralPropertiesService';
 
 export default function ClientMessages () {
     const [message, setMessage] = useState(null);
     const [messagesFromDb, setMessagesFromDb] = useState(null);
     const [conversationDb, setConversationDb] = useState(null);
-    const [agentsInConvos, setAgentsInConvos] = useState(null);
+    const [propertiesInConvos, setPropertiesInConvos] = useState(null);
     const [selectedConvo, setSelectedConvo] = useState(null);
     const {user} = useStateContext();
 
     const messagesRef = collection(db, "messages");
     const conversationref = collection(db, "conversation");
+
+
+    /*
+    | Debugging
+    */
+    useEffect(() => {
+        console.log(propertiesInConvos);
+    }, [propertiesInConvos])
+
 
     /* 
     | Retrieve convos
@@ -34,10 +44,10 @@ export default function ClientMessages () {
             }));
     
             // Fetch agent info for each conversation
-            const agentPromises = conversations.map(convo => fetchAgentInfos(convo.agent));
-            const agentData = await Promise.all(agentPromises);
+            const propertyPromises = conversations.map(convo => fetchSpecificPublishedPropertyFull(convo.property));
+            const propertyData = await Promise.all(propertyPromises);
     
-            setAgentsInConvos(agentData);
+            setPropertiesInConvos(propertyData);
             setConversationDb(conversations);
         });
     
@@ -135,16 +145,18 @@ export default function ClientMessages () {
 
                     {/* Messages List Body */}
                     <div className='mar-top-l1 d-flex flex-direction-y gap3'>
-                        {conversationDb?.length > 0 && agentsInConvos
+                        {conversationDb?.length > 0 && propertiesInConvos
                         ? conversationDb.map((conversation, index) => (
                             <div 
                             key={conversation.id} 
                             className={`conversation-component ${selectedConvo === conversation.id ? 'selected' : ''}`}
                             onClick={() => setSelectedConvo(conversation.id)}
                             >
-                                <div className="conversation-component-pfp"></div>
+                                <div className="conversation-component-pfp">
+                                    <img src={`/src/assets/media/properties/${propertiesInConvos[index].photos[0].filename}`}/>
+                                </div>
                                 <div className="text-l3">
-                                    {agentsInConvos[index].firstname} {agentsInConvos[index].lastname}
+                                    {propertiesInConvos[index].project_name}
                                 </div>
                             </div>
                         ))

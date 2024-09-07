@@ -7,6 +7,7 @@ import { fetchPropertyListedFullById } from '../../Services/GeneralPropertyListi
 import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
 import { useStateContext } from '../../contexts/ContextProvider';
 import { db } from '../../firebase-cofig';
+import { fetchSpecificPublishedPropertyFull } from '../../Services/GeneralPropertiesService';
 
 export default function ClientViewProperty() {
     const {showModal} = useModal();
@@ -24,48 +25,65 @@ export default function ClientViewProperty() {
     const [secondHalfFinancings, setSecondHalfFinancings] = useState(null);
 
     const messageAgentRef = collection(db, "conversation");
+    const messagesRef = collection(db, "messages");
 
     useEffect(() => {
-        const getListingFull = async() => {
+        const getPropertyFull = async() => {
             try {
-                const data = await fetchPropertyListedFullById(id);
+                const data = await fetchSpecificPublishedPropertyFull(id);
                 setPropertyListed(data);
             } catch (error) {
                 console.error(error);
             }
         };        
 
-        getListingFull();
+        getPropertyFull();
     }, []);
 
     useEffect(() => {
         if(propertyListed) {
-            setMiddleIndexAmenities(Math.ceil(propertyListed.property.amenities.length / 2));
-            setFirstHalfAmenities(propertyListed.property.amenities.slice(0, middleIndexAmenities));
-            setSecondHalfAmenities(propertyListed.property.amenities.slice(middleIndexAmenities));
+            setMiddleIndexAmenities(Math.ceil(propertyListed.amenities.length / 2));
+            setFirstHalfAmenities(propertyListed.amenities.slice(0, middleIndexAmenities));
+            setSecondHalfAmenities(propertyListed.amenities.slice(middleIndexAmenities));
 
-            setMiddleIndexFinancings(Math.ceil(propertyListed.property.financings.length / 2));
-            setFirstHalfFinancings(propertyListed.property.financings.slice(0, middleIndexFinancings));
-            setSecondHalfFinancings(propertyListed.property.financings.slice(middleIndexFinancings));
+            setMiddleIndexFinancings(Math.ceil(propertyListed.financings.length / 2));
+            setFirstHalfFinancings(propertyListed.financings.slice(0, middleIndexFinancings));
+            setSecondHalfFinancings(propertyListed.financings.slice(middleIndexFinancings));
         }
     }, [propertyListed]);
 
     /*
     | Debugging
     */
-    // useEffect(() => {
-    //     console.log(propertyListed);
-    // }, [propertyListed]);
+    useEffect(() => {
+        console.log(propertyListed);
+    }, [propertyListed]);
 
-    const handleMessageAgent = () => {
-        addDoc(messageAgentRef, {
-            client: user.id,
-            agent: propertyListed.agent.id,
-            createdAt: serverTimestamp()
-        });
-
-        navigate("/BDDRClient/Messages");
-    }
+    const handleMessageAgent = async () => {
+        try {
+            // Create the conversation document and wait for it to complete
+            const convoRef = await addDoc(messageAgentRef, {
+                property: id,
+                client: user.id,
+                agent: null,
+                createdAt: serverTimestamp()
+            });
+    
+            // Create the message document, using the ID of the newly created conversation
+            await addDoc(messagesRef, {
+                text: "Hello, Thank you for your interest in this property. An agent will get in touch soon.",
+                createdAt: serverTimestamp(),
+                conversation: convoRef.id, // Use convoRef.id to reference the conversation
+                sender: "agent"
+            });
+    
+            // Navigate to messages page
+            navigate("/BDDRClient/Messages");
+        } catch (error) {
+            console.error("Error creating conversation or message: ", error);
+        }
+    };
+    
 
 
 
@@ -93,34 +111,35 @@ export default function ClientViewProperty() {
                             </div>
                         </div>
                     </div>
+
                     {/* Property Pics */}
                     <div className="property-pictures">
                         <div onClick={() => handleShowAllPhotos(propertyListed.property.photos)} className="property-picture large">
-                            <img src={`/src/assets/media/properties/${propertyListed.property.photos[0].filename}`} alt={propertyListed.property.photos.filename} />
+                            <img src={`/src/assets/media/properties/${propertyListed.photos[0].filename}`} alt={propertyListed.photos.filename} />
                         </div>
 
                         
                         <div className="d-flex flex-wrap gap3 h-100 flex-grow-1">
-                            <div onClick={() => handleShowAllPhotos(propertyListed.property.photos)} className="property-picture small">
-                                <img src={`/src/assets/media/properties/${propertyListed.property.photos[1].filename}`} alt={propertyListed.property.photos[1].filename} />
+                            <div onClick={() => handleShowAllPhotos(propertyListed.photos)} className="property-picture small">
+                                <img src={`/src/assets/media/properties/${propertyListed.photos[1].filename}`} alt={propertyListed.photos[1].filename} />
                             </div>
 
-                            <div onClick={() => handleShowAllPhotos(propertyListed.property.photos)} className="property-picture small">
-                                <img src={`/src/assets/media/properties/${propertyListed.property.photos[2].filename}`} alt={propertyListed.property.photos[2].filename} />
+                            <div onClick={() => handleShowAllPhotos(propertyListed.photos)} className="property-picture small">
+                                <img src={`/src/assets/media/properties/${propertyListed.photos[2].filename}`} alt={propertyListed.photos[2].filename} />
                             </div>
 
-                            <div onClick={() => handleShowAllPhotos(propertyListed.property.photos)} className="property-picture small">
-                                <img src={`/src/assets/media/properties/${propertyListed.property.photos[3].filename}`} alt={propertyListed.property.photos[3].filename} />
+                            <div onClick={() => handleShowAllPhotos(propertyListed.photos)} className="property-picture small">
+                                <img src={`/src/assets/media/properties/${propertyListed.photos[3].filename}`} alt={propertyListed.photos[3].filename} />
                             </div>
 
-                            <div onClick={() => handleShowAllPhotos(propertyListed.property.photos)} className="property-picture small">
+                            <div onClick={() => handleShowAllPhotos(propertyListed.photos)} className="property-picture small">
                                 <div className="property-picture-overlay">
                                     <div className="d-flex gap3 align-items-center">
                                         <Icon.Grid3x3Gap className='text-l1'/>
                                         Show All
                                     </div>
                                 </div>
-                                <img src={`/src/assets/media/properties/${propertyListed.property.photos[4].filename}`} alt={propertyListed.property.photos[4].filename} />
+                                <img src={`/src/assets/media/properties/${propertyListed.photos[4].filename}`} alt={propertyListed.photos[4].filename} />
                             </div>
                         </div>
                     </div>
@@ -129,11 +148,11 @@ export default function ClientViewProperty() {
                     <div className="property-infos mar-top-1">
                         <div className="property-infos-texts">
                                 {/* Property Name */}
-                                <div className="text-l1 fw-bold">{propertyListed.property.name}</div>
+                                <div className="text-l1 fw-bold">{propertyListed.project_name} {propertyListed.project_model}</div>
                                 {/* Property Location */}
                                 <div className="d-flex text-l3 gap3 align-items-center mar-top-3">
                                     <Icon.GeoAlt/>
-                                    {propertyListed.property.address}
+                                    {propertyListed.city} {propertyListed.province}
                                 </div>
 
 
@@ -141,12 +160,17 @@ export default function ClientViewProperty() {
 
 
                                 {/* About this Listing */}
-                                <div className="mar-top-l1 d-flex flex-direction-y gap2">
+                                {/* <div className="mar-top-l1 d-flex flex-direction-y gap2">
                                     <div className="text-l2 fw-bold">About this Property</div>
                                     <div className="about-content">
                                         {propertyListed.property.description}
                                     </div>
                                     <div className="d-flex align-items-center gap4 fw-bold cursor-pointer">See More <Icon.ChevronRight/></div>
+                                </div> */}
+
+                                <div className="mar-top-l1 d-flex flex-direction-y gap2">
+                                    <div className="text-l2 fw-bold">Turn over</div>
+                                    <div className="text-m1">{propertyListed.turnover}</div>
                                 </div>
 
 
@@ -159,15 +183,15 @@ export default function ClientViewProperty() {
 
                                     <div className="d-flex gap1">
                                         <div className="w-50 d-flex flex-direction-y gap3">
-                                            <div className="listing-spec-box2"><img src="/src/assets/media/icons/bed.svg" className="listing-spec-box-icon"/>Bedrooms: {propertyListed.property.bedroom}</div>
-                                            <div className="listing-spec-box2"><img src="/src/assets/media/icons/bathtub.svg" className="listing-spec-box-icon"/>Bathrooms: {propertyListed.property.bath}</div>
-                                            <div className="listing-spec-box2"><img src="/src/assets/media/icons/garages.svg" className="listing-spec-box-icon"/>Car port: {propertyListed.property.carport}</div>
+                                            <div className="listing-spec-box2"><img src="/src/assets/media/icons/bed.svg" className="listing-spec-box-icon"/><b>Bedrooms:</b> {propertyListed.bedroom}</div>
+                                            <div className="listing-spec-box2"><img src="/src/assets/media/icons/bathtub.svg" className="listing-spec-box-icon"/><b>Bathrooms:</b> {propertyListed.bath}</div>
+                                            <div className="listing-spec-box2"><img src="/src/assets/media/icons/garages.svg" className="listing-spec-box-icon"/><b>Car port:</b> {propertyListed.carport}</div>
                                         </div>
                                         
                                         <div className="w-50 d-flex flex-direction-y gap3">
-                                            <div className="listing-spec-box2"><img src="/src/assets/media/icons/area.svg" className="listing-spec-box-icon"/>Lot area: {propertyListed.property.lot_area}sqm</div>
-                                            <div className="listing-spec-box2"><img src="/src/assets/media/icons/area.svg" className="listing-spec-box-icon"/>Floor area: {propertyListed.property.floor_area}sqm</div>
-                                            <div className="listing-spec-box2"><img src="/src/assets/media/icons/house.svg" className="listing-spec-box-icon"/>House Type: {propertyListed.property.property_type.type_name}</div>
+                                            <div className="listing-spec-box2"><img src="/src/assets/media/icons/area.svg" className="listing-spec-box-icon"/><b>Lot area:</b> {propertyListed.lot_area}sqm</div>
+                                            <div className="listing-spec-box2"><img src="/src/assets/media/icons/area.svg" className="listing-spec-box-icon"/><b>Floor area:</b> {propertyListed.floor_area}sqm</div>
+                                            <div className="listing-spec-box2"><img src="/src/assets/media/icons/house.svg" className="listing-spec-box-icon"/><b>House Type:</b> {propertyListed.storey} storey - {propertyListed.property_type.type_name}</div>
                                         </div>                                
                                     </div>
                                 </div>
@@ -224,20 +248,19 @@ export default function ClientViewProperty() {
                         {/* Actions */}
                         <div className="action-box d-flex gap1 flex-direction-y">
                                 {/* Price */}
-                                <div className="text-l2">{formatToPhilPeso(propertyListed.property.price)}</div>
+                                <div className="text-l2">{formatToPhilPeso(propertyListed.monthly_amortization)} <div className="text-m3 color-grey1">monthly amortization</div></div>
                                 <div className="d-flex flex-direction-y gap3">
-                                    <div className="text-l3">Listed By:</div>
+                                    <div className="text-l3">Developer:</div>
                                     <div className="d-flex gap3 align-items-center">
                                         <div className="listed-by-pfp">
-                                            {propertyListed.agent.pfp 
-                                            ? (<img src="/src/assets/media/agents/pfp/melissa-pfp.jpeg" alt="" />)
-                                            : (<div className='text-l1'>{propertyListed.agent.firstname[0]}</div>)
+                                            {propertyListed.developer.logo 
+                                            ? (<img src={`/src/assets/media/developers/${propertyListed.developer.logo}`} alt="" />)
+                                            : (<div className='text-l1'>{propertyListed.developer.name[0]}</div>)
                                             }
                                             
                                         </div>
                                         <div className="">
-                                            <div className="text-l3">{propertyListed.agent.firstname} {propertyListed.agent.lastname}</div>
-                                            <div className="text-m3">{propertyListed.agent.position} / {propertyListed.agent.team.name}</div>
+                                            <div className="text-l3">{propertyListed.developer.name}</div>
                                         </div>
                                     </div>
                                     

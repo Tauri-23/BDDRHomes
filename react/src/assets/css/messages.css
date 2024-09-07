@@ -36,11 +36,22 @@
     gap: 20px;
 }
 .conversation-component-pfp {
-    width: 50px;
-    height: 50px;
-    border-radius: 100%;
+    width: 80px;
+    height: 80px;
+    border-radius: 10px;
     background: var(--black1);
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
 }
+
+.conversation-component-pfp img {
+    position: absolute;
+    height: 100%;
+}
+
 
 .conversation-component.selected {
     border: 1px solid var(--black1);

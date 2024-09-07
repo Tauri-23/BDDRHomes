@@ -12,6 +12,6 @@ class wishlist extends Model
 
     public function wishlistProperties()
     {
-        return $this->hasMany(wishlist_properties::class, 'wishlist', 'id')->with(['property_listing'])->whereNot('property', null);
+        return $this->hasMany(wishlist_properties::class, 'wishlist', 'id')->with(['property'])->whereNot('property', null);
     }
 }
