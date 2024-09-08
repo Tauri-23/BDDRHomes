@@ -8,7 +8,7 @@ import { useStateContext } from '../../contexts/ContextProvider';
 import { fetchAgentInfos } from '../../Services/AdminAgentService';
 import { fetchClientInfos } from '../../Services/ClientsServices';
 
-export default function ClientMessages () {
+export default function AgentMessages () {
     const [message, setMessage] = useState(null);
     const [messagesFromDb, setMessagesFromDb] = useState(null);
     const [conversationDb, setConversationDb] = useState(null);

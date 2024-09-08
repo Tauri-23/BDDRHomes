@@ -60,19 +60,26 @@ export default function ClientViewProperty() {
     }, [propertyListed]);
 
     const handleMessageAgent = async () => {
+        const ChatBotIntroText = "Hello, Thank you for your interest in this property. An agent will get in touch soon.";
         try {
             // Create the conversation document and wait for it to complete
             const convoRef = await addDoc(messageAgentRef, {
                 property: id,
                 client: user.id,
                 agent: null,
-                createdAt: serverTimestamp()
+                finalText: {
+                    text: ChatBotIntroText,
+                    sender: "agent"
+                },
+                createdAt: serverTimestamp(),
+                updatedAt: serverTimestamp()
             });
     
             // Create the message document, using the ID of the newly created conversation
             await addDoc(messagesRef, {
-                text: "Hello, Thank you for your interest in this property. An agent will get in touch soon.",
+                text: ChatBotIntroText,
                 createdAt: serverTimestamp(),
+                updatedAt: serverTimestamp(),
                 conversation: convoRef.id, // Use convoRef.id to reference the conversation
                 sender: "agent"
             });
@@ -267,7 +274,7 @@ export default function ClientViewProperty() {
                                 </div>
                                 <div className="d-flex flex-direction-y gap3">
                                     
-                                    <div className="primary-btn-black1 text-m2 text-center">Start a deal</div>
+                                    <div className="primary-btn-black1 text-m2 text-center">Start a transaction</div>
                                     <div className="d-flex gap3 w-100">
                                         <div className="secondary-btn-black1 text-m1 text-center" onClick={handleMessageAgent}><Icon.ChatSquareDots/></div>
                                         <div className="secondary-btn-black1 d-flex align-items-center justify-content-center text-m2 color-black1 w-100">Book A Tripping</div>

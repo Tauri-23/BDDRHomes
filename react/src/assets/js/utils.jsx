@@ -73,6 +73,30 @@ export const formatDateTime = (dateTime) => {
     return `${formatDate(dateTime)} ${formattedTime}`;
 }
 
+export const getTimeAgo = (timestamp) => {
+    // Convert Firestore Timestamp to JavaScript Date object
+    const date = new Date(timestamp.seconds * 1000 + timestamp.nanoseconds / 1000000);
+
+    // Calculate the time difference between now and the given timestamp
+    const now = new Date();
+    const timeDifference = now - date; // Time difference in milliseconds
+
+    const seconds = Math.floor(timeDifference / 1000);
+    const minutes = Math.floor(seconds / 60);
+    const hours = Math.floor(minutes / 60);
+
+    if (minutes < 1) {
+        return "Just now";
+    } else if (minutes < 60) {
+        return `${minutes}m`;
+    } else if (hours < 24) {
+        return `${hours}h`;
+    } else {
+        const days = Math.floor(hours / 24);
+        return `${days}d`;
+    }
+}
+
 
 
 
