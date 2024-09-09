@@ -1,0 +1,54 @@
+.inquiries-table {
+    width: 100%;
+}
+.inquiries-table-thead {
+    padding: 30px;
+    width: 100%;
+}
+.inquiries-table-thead th {
+    font-size: var(--text-m1);
+    padding: 30px 10px;
+}
+
+.inquiry-table-tbody {
+    width: 100%;
+    padding: 30px;
+}
+.inquiry-table-tbody td {
+    padding: 20px 10px;
+}
+
+.inquiry-box {
+    background: var(--white);
+    filter: drop-shadow(0 0 1px var(--grey1));
+    width: 100%;
+}
+.inquiry-box-prop-pic {
+    width: 100px;
+    height: 100px;
+    position: relative;
+    border-radius: 10px;
+    overflow: hidden;
+}
+.inquiry-box-prop-pic img {
+    height: 100%;
+    width: 100%;
+}
+.inquiry-box-client-pfp {
+    width: 50px;
+    height: 50px;
+    background: var(--black1);
+    overflow: hidden;
+    border-radius: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    color: var(--white);
+    font-size: var(--text-l3);
+}
+.inquiry-box-client-pfp img {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+}

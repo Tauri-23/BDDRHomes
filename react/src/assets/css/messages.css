@@ -41,18 +41,26 @@
 }
 .messages-container {
     width: 100%;
+    height: 50vh;
+    overflow: auto;
     flex-grow: 1;
     display: flex;
-    flex-direction: column;
+    flex-direction: column-reverse;
     overflow-y: auto;
     padding: 30px;
     gap: 5px;
 }
 .messages-controls {
     display: flex;
+    align-items: flex-end;
     gap: 20px;
     width: 100%;
     padding: 20px;
+}
+.messages-input {
+    max-height: 100px;
+    resize: none;
+    overflow: auto;
 }
 
 

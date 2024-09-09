@@ -1,6 +1,6 @@
 import * as Icon from 'react-bootstrap-icons';
 import '../../assets/css/messages.css'
-import { addDoc, collection, doc, getDocs, limit, onSnapshot, orderBy, query, serverTimestamp, updateDoc, where } from 'firebase/firestore';
+import { addDoc, collection, doc, getDocs, limit, onSnapshot, orderBy, query, serverTimestamp, Timestamp, updateDoc, where } from 'firebase/firestore';
 import { auth, db } from '../../firebase-cofig';
 import { useEffect, useState } from 'react';
 import { getTimeAgo, isEmptyOrSpaces } from '../../assets/js/utils';
@@ -80,7 +80,7 @@ export default function ClientMessages () {
         const queryMessages = query(
             messagesRef,
             where("conversation", "==", selectedConvo),
-            orderBy("createdAt", "asc")
+            orderBy("createdAt", "desc")
         );
     
         const unsubscribe = onSnapshot(queryMessages, (snapshot) => {
@@ -109,13 +109,15 @@ export default function ClientMessages () {
     /* 
     | Handlers
     */
-    const handleSendMessage = async() => {
-        if (isEmptyOrSpaces(message) || isEmptyOrSpaces(selectedConvo)) {
+    const handleSendMessage = async(messageParam) => {
+        if (isEmptyOrSpaces(messageParam) || isEmptyOrSpaces(selectedConvo)) {
             return;
         }
+            
+        setMessage(""); // Clear the message input
     
         await addDoc(messagesRef, {
-            text: message,
+            text: messageParam,
             createdAt: serverTimestamp(),
             conversation: selectedConvo,
             sender: user.id,
@@ -124,13 +126,11 @@ export default function ClientMessages () {
         const convoRef = doc(db, "conversation", selectedConvo);
         await updateDoc(convoRef, {
             finalText: {
-                text: message,
+                text: messageParam,
                 sender: user.id
             },
             updatedAt: serverTimestamp()
         })
-    
-        setMessage(""); // Clear the message input
     }
 
 
@@ -160,8 +160,7 @@ export default function ClientMessages () {
 
                     {/* Conversation List Body */}
                     <div className='mar-top-l1 d-flex flex-direction-y'>
-                        {conversationDb
-                        && conversationDb.map((conversation, index) => (
+                        {conversationDb && conversationDb.map((conversation, index) => (
                             <div 
                             key={conversation.id} 
                             className={`conversation-component ${selectedConvo === conversation.id ? 'selected' : ''}`}
@@ -177,7 +176,7 @@ export default function ClientMessages () {
                                     </div>
                                     <div className="text-m2 color-grey1 d-flex gap3">
                                         <div className='conversation-component-text'>{conversation.finalText.sender == user.id ? "You: " : ""}{conversation.finalText.text}</div>
-                                        {/* <div>{getTimeAgo(conversation.updatedAt)}</div> */}
+                                        <div>{conversation.updatedAt ? getTimeAgo(conversation.updatedAt) : getTimeAgo(serverTimestamp())}</div>
                                     </div>
                                 </div>
                                 
@@ -197,26 +196,31 @@ export default function ClientMessages () {
 
                 {/* Messages */}
                 <div className="messages-content">
-                    <div className="messages-content-header">
-                        <div className="d-flex align-items-center gap3">
-                            <div className="messages-content-header-pfp">
-                                {conversationDb?.length > 0 && conversationDb.map((conversation, index) => (
-                                    conversation.id === selectedConvo 
-                                    && (<img key={conversation.id} src={`/src/assets/media/properties/${conversation.property.photos[0].filename}`} alt="" />)
-                                ))}
-                            </div>
-                            <div className="d-flex flex-direction-y gap4">
-                                <div className="messages-content-header-title">
+                    {/* Header */}
+                    {conversationDb?.length > 0 && (
+                        <div className="messages-content-header">
+                            <div className="d-flex align-items-center gap3">
+                                <div className="messages-content-header-pfp">
                                     {conversationDb?.length > 0 && conversationDb.map((conversation, index) => (
                                         conversation.id === selectedConvo 
-                                        && (`${conversation.property.project_name} ${conversation.property.project_model} ${conversation.property.city} ${conversation.property.province}`)
+                                        && (<img key={conversation.id} src={`/src/assets/media/properties/${conversation.property.photos[0].filename}`} alt="" />)
                                     ))}
                                 </div>
-                                <div className="messages-content-header-text">Active Now</div>
-                            </div>
-                        </div>
-                        
-                    </div>
+                                <div className="d-flex flex-direction-y gap4">
+                                    <div className="messages-content-header-title">
+                                        {conversationDb?.length > 0 && conversationDb.map((conversation, index) => (
+                                            conversation.id === selectedConvo 
+                                            && (`${conversation.property.project_name} ${conversation.property.project_model} ${conversation.property.city} ${conversation.property.province}`)
+                                        ))}
+                                    </div>
+                                    <div className="messages-content-header-text">Typically replies instantly</div>
+                                </div>
+                            </div>        
+                        </div>    
+                    )} 
+                    
+
+                    {/* Messages Container */}
                     <div className="messages-container">
                         {messagesFromDb && messagesFromDb.map(message => (
                             <div 
@@ -227,10 +231,15 @@ export default function ClientMessages () {
                             </div>
                         ))}
                     </div>
-                    <div className="messages-controls">
-                        <input type="text" className="edit-text-1 w-100" onInput={(e) => setMessage(e.target.value)} placeholder='Type a message...' value={message || ''}/>
-                        <button onClick={handleSendMessage} className='primary-btn-black1 d-flex gap3 align-items-center'><Icon.Send/> Send </button>
-                    </div>
+
+                    {/* Message Controllers */}
+                    {conversationDb?.length > 0 && (
+                        <div className="messages-controls">
+                            <textarea className="edit-text-1 w-100 messages-input" onInput={(e) => setMessage(e.target.value)} placeholder='Aa' value={message || ''}></textarea>
+                            <button onClick={() => handleSendMessage(message)} className={`primary-btn-black1 d-flex gap3 align-items-center ${isEmptyOrSpaces(message) ? 'd-none' : ''}`}><Icon.Send/> Send </button>
+                            <div className={`text-l1 cursor-pointer ${isEmptyOrSpaces(message) ? '' : 'd-none'}`} onClick={() => handleSendMessage("👍🏼")}>👍🏼</div>
+                        </div>
+                    )}
                 </div>
 
                 {/* Message Info */}

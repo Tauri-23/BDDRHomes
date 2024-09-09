@@ -1,23 +1,34 @@
 import * as Icon from 'react-bootstrap-icons';
 import '../../assets/css/messages.css'
-import { addDoc, collection, onSnapshot, orderBy, query, serverTimestamp, where } from 'firebase/firestore';
+import { addDoc, collection, doc, onSnapshot, orderBy, query, serverTimestamp, updateDoc, where } from 'firebase/firestore';
 import { auth, db } from '../../firebase-cofig';
 import { useEffect, useState } from 'react';
-import { isEmptyOrSpaces } from '../../assets/js/utils';
+import { getTimeAgo, isEmptyOrSpaces } from '../../assets/js/utils';
 import { useStateContext } from '../../contexts/ContextProvider';
 import { fetchAgentInfos } from '../../Services/AdminAgentService';
 import { fetchClientInfos } from '../../Services/ClientsServices';
+import { fetchSpecificPublishedPropertyFull } from '../../Services/GeneralPropertiesService';
 
 export default function AgentMessages () {
-    const [message, setMessage] = useState(null);
+    const [message, setMessage] = useState("");
     const [messagesFromDb, setMessagesFromDb] = useState(null);
     const [conversationDb, setConversationDb] = useState(null);
-    const [clientsInConvos, setClientsInConvos] = useState(null);
+    const [propertiesInConvos, setPropertiesInConvos] = useState(null);
+    // const [typesMessage]
     const [selectedConvo, setSelectedConvo] = useState(null);
     const {user} = useStateContext();
 
     const messagesRef = collection(db, "messages");
     const conversationref = collection(db, "conversation");
+
+
+    /*
+    | Debugging
+    */
+    useEffect(() => {
+        console.log(propertiesInConvos);
+    }, [propertiesInConvos])
+
 
     /* 
     | Retrieve convos
@@ -25,7 +36,8 @@ export default function AgentMessages () {
     useEffect(() => {
         const queryConversations = query(
             conversationref,
-            where("agent", "==", user.id)
+            where("agent", "==", user.id),
+            orderBy("updatedAt", "desc")
         );
     
         const unsubscribe = onSnapshot(queryConversations, async (snapshot) => {
@@ -34,12 +46,21 @@ export default function AgentMessages () {
                 id: doc.id
             }));
     
-            // Fetch agent info for each conversation
-            const agentPromises = conversations.map(convo => fetchClientInfos(convo.client));
-            const clientData = await Promise.all(agentPromises);
+            // Fetch property info for each conversation
+            const propertyPromises = conversations.map(convo => fetchSpecificPublishedPropertyFull(convo.property));
+            const propertyData = await Promise.all(propertyPromises);
+
+            const clientPromises = conversations.map(convo => fetchClientInfos(convo.client));
+            const clientData = await Promise.all(clientPromises);
+
+            const conversationsWithData = conversations.map((convo, index) => ({
+                ...convo,
+                property: propertyData[index],
+                client: clientData[index]
+            }));
     
-            setClientsInConvos(clientData);
-            setConversationDb(conversations);
+            //setPropertiesInConvos(propertyData);
+            setConversationDb(conversationsWithData);
         });
     
         return () => unsubscribe(); // Clean up the snapshot listener
@@ -65,7 +86,7 @@ export default function AgentMessages () {
         const queryMessages = query(
             messagesRef,
             where("conversation", "==", selectedConvo),
-            orderBy("createdAt", "asc")
+            orderBy("createdAt", "desc")
         );
     
         const unsubscribe = onSnapshot(queryMessages, (snapshot) => {
@@ -84,8 +105,8 @@ export default function AgentMessages () {
     | Debug
     */
     useEffect(() => {
-        console.log(messagesFromDb);
-    }, [messagesFromDb])
+        console.log(conversationDb);
+    }, [conversationDb])
 
 
 
@@ -94,19 +115,28 @@ export default function AgentMessages () {
     /* 
     | Handlers
     */
-    const handleSendMessage = async() => {
-        if (isEmptyOrSpaces(message) || isEmptyOrSpaces(selectedConvo)) {
+    const handleSendMessage = async(messageParam) => {
+        if (isEmptyOrSpaces(messageParam) || isEmptyOrSpaces(selectedConvo)) {
             return;
         }
+
+        setMessage(""); // Clear the message input
     
         await addDoc(messagesRef, {
-            text: message,
+            text: messageParam,
             createdAt: serverTimestamp(),
             conversation: selectedConvo,
-            sender: user.id
+            sender: "agent",
+            updatedAt: serverTimestamp()
         });
-    
-        setMessage(""); // Clear the message input
+        const convoRef = doc(db, "conversation", selectedConvo);
+        await updateDoc(convoRef, {
+            finalText: {
+                text: messageParam,
+                sender: "agent"
+            },
+            updatedAt: serverTimestamp()
+        })
     }
 
 
@@ -134,22 +164,33 @@ export default function AgentMessages () {
                         </div>                    
                     </div>
 
-                    {/* Messages List Body */}
-                    <div className='mar-top-l1 d-flex flex-direction-y gap3'>
-                        {conversationDb?.length > 0 && clientsInConvos
-                        ? conversationDb.map((conversation, index) => (
+                    {/* Conversation List Body */}
+                    <div className='mar-top-l1 d-flex flex-direction-y'>
+                        {conversationDb
+                        && conversationDb.map((conversation, index) => (
                             <div 
                             key={conversation.id} 
                             className={`conversation-component ${selectedConvo === conversation.id ? 'selected' : ''}`}
                             onClick={() => setSelectedConvo(conversation.id)}
                             >
-                                <div className="conversation-component-pfp"></div>
-                                <div className="text-l3">
-                                    {clientsInConvos[index].firstname} {clientsInConvos[index].lastname}
+                                <div className="conversation-component-pfp">
+                                    <img src={`/src/assets/media/properties/${conversation.property.photos[0].filename}`}/>
                                 </div>
+
+                                <div className="d-flex flex-direction-y gap4">
+                                    <div className="conversation-component-title">
+                                        {conversation.property.project_name} {conversation.property.project_model} {conversation.property.city} {conversation.property.province}
+                                    </div>
+                                    <div className="text-m2 color-grey1 d-flex gap3">
+                                        <div className='conversation-component-text'>{conversation.finalText.sender == "agent" ? "You: " : ""}{conversation.finalText.text}</div>
+                                        <div>{conversation.updatedAt ? getTimeAgo(conversation.updatedAt) : getTimeAgo(serverTimestamp())}</div>
+                                    </div>
+                                </div>
+                                
                             </div>
-                        ))
-                        :(
+                        ))}
+
+                        {conversationDb?.length < 1 && (
                             <div className="d-flex w-100 align-items-center flex-direction-y gap3">
                                 <img src="/src/assets/media/icons/chat1.svg" alt="" className='icon1' />
                                 <div className="text-m2 fw-bold">You don't have any messages yet.</div>
@@ -162,20 +203,53 @@ export default function AgentMessages () {
 
                 {/* Messages */}
                 <div className="messages-content">
+                    {/* Header */}
+                    {conversationDb?.length > 0 && (
+                        <div className="messages-content-header">
+                            <div className="d-flex align-items-center gap3">
+                                <div className="messages-content-header-pfp">
+                                    {conversationDb?.length > 0 && conversationDb.map((conversation, index) => (
+                                        conversation.id === selectedConvo 
+                                        && (<img key={conversation.id} src={`/src/assets/media/properties/${conversation.property.photos[0].filename}`} alt="" />)
+                                    ))}
+                                </div>
+                                
+                                {conversationDb?.length > 0 && conversationDb.map((conversation, index) => (
+                                    conversation.id === selectedConvo 
+                                    && (
+                                        <div key={conversation.id} className="d-flex flex-direction-y gap4">
+                                            <div className="messages-content-header-title">
+                                                {conversation.property.project_name} {conversation.property.project_model} {conversation.property.city} {conversation.property.province}
+                                            </div>
+                                            <div className="messages-content-header-text">Client: {conversation.client.firstname} {conversation.client.lastname}</div>
+                                        </div>
+                                        )
+                                ))}
+                            </div>        
+                        </div>    
+                    )} 
+                    
+
+                    {/* Messages Container */}
                     <div className="messages-container">
                         {messagesFromDb && messagesFromDb.map(message => (
                             <div 
                             key={message.id} 
-                            className={`message-component ${message.sender === user.id ? 'self': ''}`}
+                            className={`message-component ${message.sender === "agent" ? 'self': ''}`}
                             >
                                 {message.text}
                             </div>
                         ))}
                     </div>
-                    <div className="messages-controls">
-                        <input type="text" className="edit-text-1 w-100" onInput={(e) => setMessage(e.target.value)} placeholder='Type a message...' value={message || ''}/>
-                        <button onClick={handleSendMessage} className='primary-btn-black1 d-flex gap3 align-items-center'><Icon.Send/> Send </button>
-                    </div>
+
+                    {/* Message Controllers */}
+                    {conversationDb?.length > 0 && (
+                        <div className="messages-controls">
+                            <textarea className="edit-text-1 w-100 messages-input" onInput={(e) => setMessage(e.target.value)} placeholder='Aa' value={message || ''}></textarea>
+                            <button onClick={() => handleSendMessage(message)} className={`primary-btn-black1 d-flex gap3 align-items-center ${isEmptyOrSpaces(message) ? 'd-none' : ''}`}><Icon.Send/> Send </button>
+                            <div className={`text-l1 cursor-pointer ${isEmptyOrSpaces(message) ? '' : 'd-none'}`} onClick={() => handleSendMessage("👍🏼")}>👍🏼</div>
+                        </div>
+                    )}
                 </div>
 
                 {/* Message Info */}

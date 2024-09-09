@@ -12,19 +12,9 @@ import ClientMessages from "./views/clients/messages";
 import ClientTrippings from "./views/clients/trippings";
 import ClientProfile from "./views/clients/profile";
 import AgentDefault from "./views/agents/default";
-import AgentListing from "./views/agents/Listings/listings";
 import AgentIndex from "./views/agents";
 import AgentMessages from "./views/agents/messages";
 import AgentPerformance from "./views/agents/performance";
-import AgentEditListingDefault from "./views/agents/Listings/EditListing/edit-listing-default";
-import AgentListingDefault from "./views/agents/Listings/listings-default";
-import AgentEditListingPhotos from "./views/agents/Listings/EditListing/edit-listing-photos";
-import AgentEditListingName from "./views/agents/Listings/EditListing/edit-listing-name";
-import AgentEditListingType from "./views/agents/Listings/EditListing/edit-listing-type";
-import AgentEditListingDescription from "./views/agents/Listings/EditListing/edit-listing-description";
-import AgentEditListingFloorplan from "./views/agents/Listings/EditListing/edit-listing-floorplan";
-import AgentEditListingAmenities from "./views/agents/Listings/EditListing/edit-listing-amenities";
-import AgentEditListingFinancing from "./views/agents/Listings/EditListing/edit-listing-financing";
 import ClientWishLists from "./views/clients/Wishlist/wishlists";
 import ClientViewWishlist from "./views/clients/Wishlist/view-wishlist";
 import AdminDefault from "./views/admin/default";
@@ -54,10 +44,6 @@ import AdminEditPropertyDescription from "./views/admin/Properties/EditProperty/
 import AdminEditPropertyFloorplan from "./views/admin/Properties/EditProperty/edit_property_floorplan";
 import AdminEditPropertyAmenities from "./views/admin/Properties/EditProperty/edit_property_amenities";
 import AdminEditPropertyFinancings from "./views/admin/Properties/EditProperty/edit_property_financings";
-import AgentCreatePropertyListingProperty from "./views/agents/Listings/CreateListing/create_property_listing_property";
-import AgentCreatePropertyListingDefault from "./views/agents/Listings/CreateListing/create-property-listing-default";
-import AgentCreatePropertyListingIndex from "./views/agents/Listings/CreateListing/create-property-listing-index";
-import AgentCreatePropertyListingFinal from "./views/agents/Listings/CreateListing/create_property_listing_final";
 import AdminSettingsDefault from "./views/admin/Settings/default";
 import AdminSettingsIndex from "./views/admin/Settings";
 import AdminSettingsAmenities from "./views/admin/Settings/amenities_settings";
@@ -72,6 +58,7 @@ import AdminAgentProfile from "./views/admin/Teams&Agents/agent_profile";
 import AdminAddAgent from "./views/admin/Teams&Agents/add_agent";
 import AdminAddDeveloper from "./views/admin/Properties/add_developer";
 import AdminEditPropertyModel from "./views/admin/Properties/EditProperty/edit_property_model";
+import AgentInquiries from "./views/agents/inquiries";
 
 const router = createBrowserRouter([
     /*
@@ -192,54 +179,55 @@ const router = createBrowserRouter([
 
 
 
+            // {
+            //     path: 'Listings',
+            //     element: <AgentListingDefault/>,
+            //     children: [
+            //         {
+            //             index: true,
+            //             element: <AgentListing/>
+            //         },
+            //         {
+            //             path: 'EditListing/:id/',
+            //             element: <AgentEditListingDefault/>,
+            //             children: [
+            //                 {
+            //                     path: 'Photos',
+            //                     element: <AgentEditListingPhotos/>
+            //                 },
+            //                 {
+            //                     path: 'Name',
+            //                     element: <AgentEditListingName/>
+            //                 },
+            //                 {
+            //                     path: 'Type',
+            //                     element: <AgentEditListingType/>
+            //                 },
+            //                 {
+            //                     path: 'Description',
+            //                     element: <AgentEditListingDescription/>
+            //                 },
+            //                 {
+            //                     path: 'Floorplan',
+            //                     element: <AgentEditListingFloorplan/>
+            //                 },
+            //                 {
+            //                     path: 'Amenities',
+            //                     element: <AgentEditListingAmenities/>
+            //                 },
+            //                 {
+            //                     path: 'Financing',
+            //                     element: <AgentEditListingFinancing/>
+            //                 }
+            //             ]
+            //         },
+            //     ]
+            // },
+
             {
-                path: 'Listings',
-                element: <AgentListingDefault/>,
-                children: [
-                    {
-                        index: true,
-                        element: <AgentListing/>
-                    },
-                    {
-                        path: 'EditListing/:id/',
-                        element: <AgentEditListingDefault/>,
-                        children: [
-                            {
-                                path: 'Photos',
-                                element: <AgentEditListingPhotos/>
-                            },
-                            {
-                                path: 'Name',
-                                element: <AgentEditListingName/>
-                            },
-                            {
-                                path: 'Type',
-                                element: <AgentEditListingType/>
-                            },
-                            {
-                                path: 'Description',
-                                element: <AgentEditListingDescription/>
-                            },
-                            {
-                                path: 'Floorplan',
-                                element: <AgentEditListingFloorplan/>
-                            },
-                            {
-                                path: 'Amenities',
-                                element: <AgentEditListingAmenities/>
-                            },
-                            {
-                                path: 'Financing',
-                                element: <AgentEditListingFinancing/>
-                            }
-                        ]
-                    },
-                ]
-            },
-            
-
-
-                    
+                path: 'Unquiries',
+                element: <AgentInquiries/>
+            },  
             {
                 path: 'Messages',
                 element: <AgentMessages/>
@@ -247,24 +235,6 @@ const router = createBrowserRouter([
             {
                 path: 'Performance',
                 element: <AgentPerformance/>
-            }
-        ]
-    },
-    {
-        path: '/BDDRAgent/CreateListing',
-        element: <AgentCreatePropertyListingDefault/>,
-        children: [
-            {
-                index: true,
-                element: <AgentCreatePropertyListingIndex/>
-            },
-            {
-                path: 'Property',
-                element: <AgentCreatePropertyListingProperty/>
-            },
-            {
-                path: 'Finalize',
-                element: <AgentCreatePropertyListingFinal/>
             }
         ]
     },
