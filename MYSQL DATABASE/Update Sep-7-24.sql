@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 06, 2024 at 07:43 PM
+-- Generation Time: Sep 07, 2024 at 12:50 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -84,9 +84,6 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (10, '2024_07_08_072128_create_property_types_table', 3),
 (11, '2024_07_08_084111_create_property_amenities_table', 4),
 (12, '2024_07_11_091308_create_property_financings_table', 5),
-(15, '2024_07_12_051035_create_published_properties_amenities_table', 7),
-(16, '2024_07_12_051953_create_published_properties_financings_table', 8),
-(22, '2024_07_12_134824_create_published_properties_photos_table', 12),
 (24, '2024_08_04_102927_create_wishlists_table', 13),
 (26, '2024_08_10_082416_create_user_admins_table', 15),
 (27, '2024_06_15_082540_create_user_clients_table', 16),
@@ -99,7 +96,9 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (42, '2024_06_30_143220_create_user_agents_table', 27),
 (43, '2024_08_04_103133_create_wishlist_properties_table', 28),
 (44, '2024_09_04_043247_create_property_developers_table', 29),
-(47, '2024_07_12_042824_create_published_properties_table', 30);
+(48, '2024_07_12_134824_create_published_properties_photos_table', 30),
+(49, '2024_07_12_051953_create_published_properties_financings_table', 31),
+(50, '2024_07_12_051035_create_published_properties_amenities_table', 32);
 
 -- --------------------------------------------------------
 
@@ -142,7 +141,7 @@ CREATE TABLE `personal_access_tokens` (
 INSERT INTO `personal_access_tokens` (`id`, `tokenable_type`, `tokenable_id`, `name`, `token`, `abilities`, `last_used_at`, `expires_at`, `created_at`, `updated_at`) VALUES
 (10, 'App\\Models\\user_clients', 0, 'main', 'f3d3706a7eb95ac63098d49f68a9ace84198fc7d3323634feea448d59f0763ae', '[\"*\"]', NULL, NULL, '2024-06-23 18:41:41', '2024-06-23 18:41:41'),
 (288, 'App\\Models\\user_clients', 824907, 'main', '49972365497108fac93459f4291f233c8a03a7c7a9681c561779df0da7b335f4', '[\"*\"]', '2024-08-26 02:48:33', NULL, '2024-08-26 00:03:19', '2024-08-26 02:48:33'),
-(289, 'App\\Models\\user_admins', 100000, 'main', '7516ebef3289a50da27069430169de19786e605e85058de1c1b2ca5169529ad8', '[\"*\"]', '2024-09-06 09:38:53', NULL, '2024-09-04 22:08:44', '2024-09-06 09:38:53');
+(289, 'App\\Models\\user_admins', 100000, 'main', '7516ebef3289a50da27069430169de19786e605e85058de1c1b2ca5169529ad8', '[\"*\"]', '2024-09-07 02:41:23', NULL, '2024-09-04 22:08:44', '2024-09-07 02:41:23');
 
 -- --------------------------------------------------------
 
@@ -301,6 +300,13 @@ CREATE TABLE `published_properties` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Dumping data for table `published_properties`
+--
+
+INSERT INTO `published_properties` (`id`, `project_name`, `project_model`, `province`, `city`, `developer`, `bedroom`, `bath`, `carport`, `lot_area`, `floor_area`, `property_type`, `storey`, `required_income`, `monthly_amortization`, `price`, `turnover`, `status`, `created_at`, `updated_at`) VALUES
+('876148182644', 'Anyana Bel Air', 'Paris', 'Cavite', 'Tanza', '219448016814', '4', '3', '2', 151, 187.32, '537186', 2, 307216, 93096, 0, 'RFO', 'active', '2024-09-07 02:28:16', '2024-09-07 02:28:16');
+
 -- --------------------------------------------------------
 
 --
@@ -312,7 +318,7 @@ CREATE TABLE `published_properties_amenities` (
   `property` varchar(12) DEFAULT NULL,
   `amenity` varchar(6) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp()
+  `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -320,47 +326,8 @@ CREATE TABLE `published_properties_amenities` (
 --
 
 INSERT INTO `published_properties_amenities` (`id`, `property`, `amenity`, `created_at`, `updated_at`) VALUES
-('117450', NULL, '118656', '2024-08-08 01:15:49', '2024-08-08 01:15:49'),
-('135178', NULL, '229549', '2024-08-01 23:47:28', '2024-08-01 23:47:28'),
-('158781', NULL, '289134', '2024-07-13 03:56:18', '2024-07-13 03:56:18'),
-('168499', NULL, '310725', '2024-08-20 22:18:20', '2024-08-20 22:18:20'),
-('203717', NULL, '933276', '2024-07-13 03:56:17', '2024-07-13 03:56:17'),
-('20422', NULL, '240956', '2024-08-19 20:23:02', '2024-08-19 20:23:02'),
-('227712', NULL, '118656', '2024-08-15 08:51:09', '2024-08-15 08:51:09'),
-('254836', NULL, '475724', '2024-07-13 03:56:17', '2024-07-13 03:56:17'),
-('270758', NULL, '805271', '2024-08-08 01:15:49', '2024-08-08 01:15:49'),
-('292442', NULL, '411393', '2024-08-20 22:18:20', '2024-08-20 22:18:20'),
-('312027', NULL, '289134', '2024-08-01 23:47:28', '2024-08-01 23:47:28'),
-('371639', NULL, '310725', '2024-08-02 08:36:19', '2024-08-02 08:36:19'),
-('374120', NULL, '475724', '2024-08-08 01:19:40', '2024-08-08 01:19:40'),
-('408703', NULL, '475724', '2024-08-19 20:23:02', '2024-08-19 20:23:02'),
-('420921', NULL, '368978', '2024-07-13 03:56:17', '2024-07-13 03:56:17'),
-('426811', NULL, '638047', '2024-07-23 07:55:00', '2024-07-23 07:55:00'),
-('450120', NULL, '240956', '2024-08-01 23:47:28', '2024-08-01 23:47:28'),
-('490090', NULL, '310725', '2024-08-15 08:51:09', '2024-08-15 08:51:09'),
-('57092', NULL, '411393', '2024-08-02 08:36:19', '2024-08-02 08:36:19'),
-('586644', NULL, '870756', '2024-08-08 01:15:49', '2024-08-08 01:15:49'),
-('668939', NULL, '475724', '2024-08-15 08:51:09', '2024-08-15 08:51:09'),
-('694173', NULL, '229549', '2024-08-20 06:46:51', '2024-08-20 06:46:51'),
-('723314', NULL, '310725', '2024-08-01 23:47:28', '2024-08-01 23:47:28'),
-('738886', NULL, '411393', '2024-08-08 01:15:49', '2024-08-08 01:15:49'),
-('741688', NULL, '870756', '2024-08-20 22:18:20', '2024-08-20 22:18:20'),
-('768379', NULL, '411393', '2024-08-15 08:51:09', '2024-08-15 08:51:09'),
-('786090', NULL, '118656', '2024-08-02 08:36:19', '2024-08-02 08:36:19'),
-('794077', NULL, '805271', '2024-08-15 08:51:09', '2024-08-15 08:51:09'),
-('796885', NULL, '310725', '2024-07-23 07:54:30', '2024-07-23 07:54:30'),
-('798941', NULL, '310725', '2024-08-08 01:19:34', '2024-08-08 01:19:34'),
-('826281', NULL, '289134', '2024-08-15 08:51:09', '2024-08-15 08:51:09'),
-('827571', NULL, '118656', '2024-07-23 07:57:52', '2024-07-23 07:57:52'),
-('838140', NULL, '229549', '2024-08-15 08:51:09', '2024-08-15 08:51:09'),
-('845321', NULL, '475724', '2024-08-20 22:18:20', '2024-08-20 22:18:20'),
-('859769', NULL, '240956', '2024-07-13 03:56:18', '2024-07-13 03:56:18'),
-('861065', NULL, '933276', '2024-08-20 22:18:20', '2024-08-20 22:18:20'),
-('866033', NULL, '870756', '2024-07-13 03:56:17', '2024-07-13 03:56:17'),
-('88528', NULL, '368978', '2024-08-08 01:15:49', '2024-08-08 01:15:49'),
-('912925', NULL, '411393', '2024-07-13 03:56:17', '2024-07-13 03:56:17'),
-('930891', NULL, '118656', '2024-08-01 23:47:28', '2024-08-01 23:47:28'),
-('934375', NULL, '870756', '2024-08-15 08:51:09', '2024-08-15 08:51:09');
+('446026', '876148182644', '475724', '2024-09-07 02:28:16', '2024-09-07 02:28:16'),
+('778954', '876148182644', '411393', '2024-09-07 02:28:16', '2024-09-07 02:28:16');
 
 -- --------------------------------------------------------
 
@@ -373,7 +340,7 @@ CREATE TABLE `published_properties_financings` (
   `property` varchar(12) DEFAULT NULL,
   `financing` varchar(6) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp()
+  `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -381,29 +348,8 @@ CREATE TABLE `published_properties_financings` (
 --
 
 INSERT INTO `published_properties_financings` (`id`, `property`, `financing`, `created_at`, `updated_at`) VALUES
-('100098', NULL, '952734', '2024-08-02 08:36:19', '2024-08-02 08:36:19'),
-('335744', NULL, '381064', '2024-08-15 08:57:30', '2024-08-15 08:57:30'),
-('364361', NULL, '293791', '2024-08-02 08:36:19', '2024-08-02 08:36:19'),
-('389193', NULL, '952734', '2024-08-19 20:23:02', '2024-08-19 20:23:02'),
-('431121', NULL, '952734', '2024-07-26 02:01:47', '2024-07-26 02:01:47'),
-('442057', NULL, '381064', '2024-08-08 01:15:49', '2024-08-08 01:15:49'),
-('455702', NULL, '952734', '2024-08-01 23:47:28', '2024-08-01 23:47:28'),
-('494365', NULL, '723404', '2024-08-15 08:57:27', '2024-08-15 08:57:27'),
-('510702', NULL, '293791', '2024-08-15 08:57:28', '2024-08-15 08:57:28'),
-('523847', NULL, '674687', '2024-08-20 06:57:30', '2024-08-20 06:57:30'),
-('563752', NULL, '674687', '2024-07-13 03:56:18', '2024-07-13 03:56:18'),
-('566122', NULL, '952734', '2024-08-20 22:18:20', '2024-08-20 22:18:20'),
-('615485', NULL, '381064', '2024-08-15 08:57:27', '2024-08-15 08:57:27'),
-('615965', NULL, '723404', '2024-08-08 01:15:49', '2024-08-08 01:15:49'),
-('729260', NULL, '674687', '2024-08-15 08:51:09', '2024-08-15 08:51:09'),
-('763864', NULL, '952734', '2024-08-08 01:15:49', '2024-08-08 01:15:49'),
-('766942', NULL, '674687', '2024-08-01 23:47:28', '2024-08-01 23:47:28'),
-('7946', NULL, '293791', '2024-08-15 08:57:26', '2024-08-15 08:57:26'),
-('898375', NULL, '723404', '2024-08-02 08:36:19', '2024-08-02 08:36:19'),
-('907739', NULL, '674687', '2024-08-02 08:36:19', '2024-08-02 08:36:19'),
-('923594', NULL, '952734', '2024-08-15 08:51:09', '2024-08-15 08:51:09'),
-('929072', NULL, '381064', '2024-08-02 08:36:19', '2024-08-02 08:36:19'),
-('996500', NULL, '381064', '2024-08-15 08:51:09', '2024-08-15 08:51:09');
+('257295', '876148182644', '723404', '2024-09-07 02:28:16', '2024-09-07 02:28:16'),
+('636357', '876148182644', '952734', '2024-09-07 02:28:16', '2024-09-07 02:28:16');
 
 -- --------------------------------------------------------
 
@@ -417,7 +363,7 @@ CREATE TABLE `published_properties_photos` (
   `property` varchar(12) DEFAULT NULL,
   `position` int(11) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp()
+  `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -425,44 +371,16 @@ CREATE TABLE `published_properties_photos` (
 --
 
 INSERT INTO `published_properties_photos` (`id`, `filename`, `property`, `position`, `created_at`, `updated_at`) VALUES
-('127345', '30IIZVsLB5eRBg5tN7oZWXoY.jpeg', NULL, 6, '2024-08-15 08:51:09', '2024-08-15 08:51:09'),
-('141144', 'FI383GTY5OLF1hug125APk2i.jpg', NULL, 3, '2024-08-02 08:36:19', '2024-08-02 08:36:19'),
-('171897', 'MIJ9CELB1QiFfuK32FZqRthb.png', NULL, 4, '2024-08-02 08:37:27', '2024-08-07 07:03:13'),
-('228807', 'Wq2EoluBgMc5Xf6MlKrFC0l7.jpg', NULL, 2, '2024-08-19 20:23:02', '2024-08-20 06:13:37'),
-('260643', '41rbXkOCuAmmB94fZ4u5DqY9.png', NULL, 2, '2024-08-08 01:15:49', '2024-08-08 01:17:56'),
-('287399', 'FEYrxWUaa0jGVDI4VeTdbuZs.png', NULL, 3, '2024-08-02 08:37:27', '2024-08-07 07:03:13'),
-('304012', 'x3IJW3lERAHAj7RAsUjA5sqQ.jpg', NULL, 2, '2024-08-02 08:36:19', '2024-08-02 08:36:19'),
-('391258', '6EFelpS3c9b4FYv7s7x1e3oJ.jpg', NULL, 1, '2024-07-12 19:56:18', '2024-08-02 08:33:12'),
-('39498', 'pRRhWDRVQxySQY0ppDWtbGeg.png', NULL, 1, '2024-08-02 08:37:27', '2024-08-09 01:16:21'),
-('406879', 'HxDac0b16U255M2INg1aEbKK.jpg', NULL, 4, '2024-07-12 19:56:18', '2024-08-01 22:42:21'),
-('422722', '6b5yyZxtWcEeCWUBbuhEBM6J.jpg', NULL, 4, '2024-08-19 20:23:02', '2024-08-20 06:16:29'),
-('465208', 'ze4d4ZfsCQ9XXGeFgpU70f2x.png', NULL, 7, '2024-08-08 01:25:21', '2024-08-08 01:25:21'),
-('474163', '3LSIMwreAm8yFwzq3Rhmpkze.jpg', NULL, 5, '2024-07-30 22:24:03', '2024-08-01 22:42:21'),
-('632914', 'fHJOhBxA5L2bgEwP9Wmtu014.png', NULL, 2, '2024-08-02 08:37:27', '2024-08-09 01:16:21'),
-('652516', '9re1fT8cXpuHE1iy8cxapvky.jpeg', NULL, 5, '2024-08-15 08:51:09', '2024-08-15 08:51:09'),
-('688837', 'V5royezZWsho0TgGQRRhxDUC.png', NULL, 5, '2024-08-08 01:15:49', '2024-08-08 01:17:40'),
-('696498', 'LWDjF3NUWalL1JdSjDWKU8Ab.webp', NULL, 2, '2024-07-12 19:56:18', '2024-08-02 08:33:12'),
-('700449', 'IpOK4va3C6xFVqhqG23pF4oe.jpeg', NULL, 2, '2024-08-15 08:51:09', '2024-08-15 08:51:09'),
-('71742', 'WcSyahxXniy7uWaYuwcGN6IU.jpg', NULL, 2, '2024-08-20 22:18:20', '2024-08-20 22:18:20'),
-('739156', 'Os8V89P0RiB1A1gwyP5mnhDb.png', NULL, 4, '2024-08-08 01:15:49', '2024-08-08 01:17:40'),
-('743611', '4tFSsl2yV3e82c0cLH9hYx2X.png', NULL, 5, '2024-08-20 22:18:20', '2024-08-20 22:18:36'),
-('745704', 'hC9gYHcnvid8YWxcYXqOdlhF.jpg', NULL, 1, '2024-08-19 20:23:02', '2024-08-20 06:13:37'),
-('75434', 'ykK2atNcxTn4ZHHNHYBBpmFL.png', NULL, 4, '2024-08-15 08:51:09', '2024-08-15 08:51:09'),
-('757810', 'MYPOKdVosUOE8yv0D96wkeid.png', NULL, 1, '2024-08-08 01:15:49', '2024-08-08 01:17:56'),
-('762530', 'rSkDrhnAyib8L8ltxnZxdPZW.png', NULL, 3, '2024-08-08 01:15:49', '2024-08-08 01:17:56'),
-('769876', 'Ctu2I7Mm6MHJN3O7g2HFV69m.jpg', NULL, 3, '2024-08-20 22:18:20', '2024-08-20 22:18:20'),
-('787012', 'PSBQfy6du9Vn94UVm7VqG1Bn.jpg', NULL, 3, '2024-07-12 19:56:18', '2024-08-02 08:30:44'),
-('787191', '9QdjgLowowXfothDlK0tGlWH.jpg', NULL, 5, '2024-08-02 08:36:19', '2024-08-02 08:36:19'),
-('803900', 'tPncZqJOPmHzzt1i1opbT5e0.jpeg', NULL, 3, '2024-08-15 08:51:09', '2024-08-15 08:51:09'),
-('83684', 'zHOdGRjDJDTFPylZPZE5ivV6.png', NULL, 5, '2024-08-02 08:37:27', '2024-08-07 07:03:13'),
-('855395', 'Iz6jBCsMnGCqpPvgOVAiFrAx.png', NULL, 6, '2024-08-08 01:25:21', '2024-08-08 01:25:21'),
-('888786', 'E5fIl8ajCnLbFPGjOtf9Zi8M.png', NULL, 6, '2024-08-02 08:36:35', '2024-08-02 08:36:39'),
-('918996', '8wK1NntTAT4TkccUFbzGEBGW.png', NULL, 6, '2024-08-20 04:20:18', '2024-08-20 06:16:55'),
-('923867', 'WxWwHyxhfFegTZTN6UHihtTr.jpg', NULL, 5, '2024-08-19 20:23:02', '2024-08-20 06:16:55'),
-('95737', 'GBnO4IMmYoRTq2PFyL5e9ePW.jpg', NULL, 1, '2024-08-20 22:18:20', '2024-08-20 22:18:36'),
-('972561', 'ED8PmIsjkmRTZCBjCI9wXiqc.png', NULL, 4, '2024-08-20 22:18:20', '2024-08-20 22:18:36'),
-('980242', 'h7xHwGCaKS13VXu7zjDoO9Ou.png', NULL, 1, '2024-08-02 08:36:19', '2024-08-02 08:36:39'),
-('981721', 'EhyICdh4il5IPojNf4p1CyQ1.webp', NULL, 3, '2024-08-19 20:23:02', '2024-08-20 06:13:37');
+('187353', 'MTLvdY7U0GUYnceDPAqdUKSC.JPG', '876148182644', 10, '2024-09-07 02:28:16', '2024-09-07 02:28:42'),
+('194639', 'M1NtynXEj73ajbG7qfSSMn08.JPG', '876148182644', 7, '2024-09-07 02:28:16', '2024-09-07 02:28:42'),
+('27405', 'ms4yULZ4NrIdA1foRbGpjBgN.JPG', '876148182644', 4, '2024-09-07 02:28:16', '2024-09-07 02:28:53'),
+('282329', 'oQ6R0Mkaca9XNXBR9Us6vy2B.jpg', '876148182644', 8, '2024-09-07 02:28:16', '2024-09-07 02:28:42'),
+('367166', 'Wyjcbj2iAlfwzJVyGzwsKenV.JPG', '876148182644', 5, '2024-09-07 02:28:16', '2024-09-07 02:28:16'),
+('548257', 'iYKfjGce2kKjpUGu0thZc75z.jpg', '876148182644', 6, '2024-09-07 02:28:16', '2024-09-07 02:28:16'),
+('636513', 'kT7G0zagJcm30DSWRgAZitEz.jpg', '876148182644', 3, '2024-09-07 02:28:16', '2024-09-07 02:28:53'),
+('64272', 'MhUs3b2BEGsTUzLfr6LZGT8r.jpg', '876148182644', 2, '2024-09-07 02:28:16', '2024-09-07 02:28:52'),
+('709976', 'eNnicFtzYG35p8pL9AaXaDFS.png', '876148182644', 1, '2024-09-07 02:28:16', '2024-09-07 02:28:51'),
+('995989', '6XKrxbCLwSx1GoYpWS8pMFTd.JPG', '876148182644', 9, '2024-09-07 02:28:16', '2024-09-07 02:28:42');
 
 -- --------------------------------------------------------
 
@@ -793,7 +711,7 @@ ALTER TABLE `jobs`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
 
 --
 -- AUTO_INCREMENT for table `personal_access_tokens`
@@ -825,20 +743,20 @@ ALTER TABLE `published_properties`
 --
 ALTER TABLE `published_properties_amenities`
   ADD CONSTRAINT `published_properties_amenities_amenity_foreign` FOREIGN KEY (`amenity`) REFERENCES `property_amenities` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
-  ADD CONSTRAINT `published_properties_amenities_property_foreign` FOREIGN KEY (`property`) REFERENCES `published_properties` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+  ADD CONSTRAINT `published_properties_amenities_property_foreign` FOREIGN KEY (`property`) REFERENCES `published_properties` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `published_properties_financings`
 --
 ALTER TABLE `published_properties_financings`
   ADD CONSTRAINT `published_properties_financings_financing_foreign` FOREIGN KEY (`financing`) REFERENCES `property_financings` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
-  ADD CONSTRAINT `published_properties_financings_property_foreign` FOREIGN KEY (`property`) REFERENCES `published_properties` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+  ADD CONSTRAINT `published_properties_financings_property_foreign` FOREIGN KEY (`property`) REFERENCES `published_properties` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `published_properties_photos`
 --
 ALTER TABLE `published_properties_photos`
-  ADD CONSTRAINT `published_properties_photos_property_foreign` FOREIGN KEY (`property`) REFERENCES `published_properties` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+  ADD CONSTRAINT `published_properties_photos_property_foreign` FOREIGN KEY (`property`) REFERENCES `published_properties` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `user_agents`
