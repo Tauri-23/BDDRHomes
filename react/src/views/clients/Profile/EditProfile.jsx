@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useModal } from "../../../contexts/ModalContext";
 import axiosClient from "../../../axios-client";
 import { notify } from "../../../assets/js/utils";
+import { ToastContainer } from "react-toastify";
 
 export default function ClientEditProfile() {
     const {user, setUser} = useStateContext();
@@ -49,32 +50,35 @@ export default function ClientEditProfile() {
 
 
     return(
-        <div className="content2">
-            <div className="client-profile-outer-cont">
-                <div className="client-profile-left-container">
+        <>
+            <div className="content2">
+                <div className="client-profile-outer-cont">
+                    <div className="client-profile-left-container">
 
-                    <div className="position-relative d-flex">
-                        <div className="client-edit-profile-pfp">
-                            {user.pfp
-                            ? (<img src={`/src/assets/media/clients/pfp/${user.pfp}`} alt="" />)
-                            : (<div>{user.firstname[0]}</div>)}
+                        <div className="position-relative d-flex">
+                            <div className="client-edit-profile-pfp">
+                                {user.pfp
+                                ? (<img src={`/src/assets/media/clients/pfp/${user.pfp}`} alt="" />)
+                                : (<div>{user.firstname[0]}</div>)}
+                            </div>
+                            <div className="client-edit-profile-edit-pfp-btn" onClick={handleUploadClick}>
+                                <Icon.CameraFill/> Edit
+                                <input 
+                                    type="file" 
+                                    id="fileInput"
+                                    className='d-none'
+                                    multiple 
+                                    accept="image/*"
+                                    onChange={handleFileChange}
+                                />
+                            </div>
                         </div>
-                        <div className="client-edit-profile-edit-pfp-btn" onClick={handleUploadClick}>
-                            <Icon.CameraFill/> Edit
-                            <input 
-                                type="file" 
-                                id="fileInput"
-                                className='d-none'
-                                multiple 
-                                accept="image/*"
-                                onChange={handleFileChange}
-                            />
-                        </div>
+
                     </div>
-
+                    <div className="client-profile-right-container bg-info"></div>
                 </div>
-                <div className="client-profile-right-container bg-info"></div>
             </div>
-        </div>
+            <ToastContainer/>
+        </>
     );
 }
