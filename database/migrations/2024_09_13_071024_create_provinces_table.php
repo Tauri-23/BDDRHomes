@@ -11,10 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('property_listings', function (Blueprint $table) {
-            $table->string('id', 12)->primary();
-            $table->string('property', 12)->nullable();
-            $table->string('agent', 6)->nullable();
+        Schema::create('provinces', function (Blueprint $table) {
+            $table->id();
+            $table->string('province');
             $table->timestamps();
         });
     }
@@ -24,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('property_listings');
+        Schema::dropIfExists('provinces');
     }
 };

@@ -29,21 +29,21 @@ export default function AgentInquiries () {
                 id: doc.id
             }));
 
-            // Fetch property info for each conversation
-            const propertyPromises = conversations.map(convo => fetchSpecificPublishedPropertyFull(convo.property));
-            const propertyData = await Promise.all(propertyPromises);
+            // // Fetch property info for each conversation
+            // const propertyPromises = conversations.map(convo => fetchSpecificPublishedPropertyFull(convo.property));
+            // const propertyData = await Promise.all(propertyPromises);
 
-            // Fetch Client info for each conversation
-            const clientPromises = conversations.map(convo => fetchClientInfos(convo.client));
-            const clientData = await Promise.all(clientPromises);
+            // // Fetch Client info for each conversation
+            // const clientPromises = conversations.map(convo => fetchClientInfos(convo.client));
+            // const clientData = await Promise.all(clientPromises);
 
-            const conversationsWithData = conversations.map((convo, index) => ({
-                ...convo,
-                property: propertyData[index],
-                client: clientData[index]
-            }));
+            // const conversationsWithData = conversations.map((convo, index) => ({
+            //     ...convo,
+            //     property: propertyData[index],
+            //     client: clientData[index]
+            // }));
 
-            setConversationDb(conversationsWithData);
+            setConversationDb(conversations);
         });
 
         return () => unsubscribe();
@@ -66,7 +66,13 @@ export default function AgentInquiries () {
         
         const convoRef = doc(db, "conversation", convoId);
         await updateDoc(convoRef, {
-            agent: user.id,
+            agent: {
+                id: user.id,
+                firstname: user.firstname,
+                middlename: user.middlename,
+                lastname: user.lastname,
+                pfp: user.pfp
+            },
             finalText: {
                 text: responseMessage,
                 sender: "agent"
@@ -120,10 +126,10 @@ export default function AgentInquiries () {
                         <tr key={convo.id} className="inquiry-box">
                             <td className="d-flex gap3">
                                 <div className="inquiry-box-prop-pic">
-                                    <img src={`/src/assets/media/properties/${convo.property.photos[0].filename}`}/>
+                                    <img src={`/src/assets/media/properties/${convo.property.picture}`}/>
                                 </div>
                                 <div className="d-flex flex-direction-y gap4">
-                                    <div className="text-l3">{convo.property.project_name} {convo.property.project_model}</div>
+                                    <div className="text-l3">{convo.property.name} {convo.property.model}</div>
                                     <div className="d-flex gap4 align-items-center">
                                         <Icon.GeoAlt/>
                                         <div className="text-m2">{convo.property.city} {convo.property.province}</div>
@@ -144,7 +150,7 @@ export default function AgentInquiries () {
 
                             <td>
                                 <div className="d-flex justify-content-start align-items-center">
-                                    <button onClick={() => handleAcceptInquiry(convo.id, `${convo.property.project_name} ${convo.property.project_model}`, `${convo.property.city} ${convo.property.province}`)} className="primary-btn-black1 d-flex align-items-center gap4"><Icon.Check className="text-l1"/>Accept</button>
+                                    <button onClick={() => handleAcceptInquiry(convo.id, `${convo.property.name} ${convo.property.model}`, `${convo.property.city} ${convo.property.province}`)} className="primary-btn-black1 d-flex align-items-center gap4"><Icon.Check className="text-l1"/>Accept</button>
                                 </div>                        
                             </td>
                                 

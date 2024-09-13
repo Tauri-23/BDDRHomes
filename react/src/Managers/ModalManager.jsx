@@ -9,6 +9,7 @@ import { AgentDelListingConfirmationModal1 } from "../components/Modals/agent_de
 import { AdminDelAgentConfirmation } from "../components/Modals/admin_del_agent_confirmation";
 import { AdminPropertiesOptionModal1 } from "../components/Modals/admin_properties_option_modal1";
 import AdminEditPropertyAddPhotoModal1 from "../components/Modals/admin_edit_property_add_photos_modal1";
+import ClientEditPfpModal1 from "../components/Modals/client_edit_pfp_modal1";
 
 const ModalManager = () => {
     const {modalState, hideModal} = useModal();
@@ -38,6 +39,10 @@ const ModalManager = () => {
                 return <ClientAddToWishlistModal1 {...modalState.props} onClose={hideModal}/>
             case 'ClientDelWishlistModal1' :
                 return <ClientDelWishlistModal1 {...modalState.props} onClose={hideModal}/>
+
+            // Profile
+            case 'ClientEditPfpModal1' :
+                return <ClientEditPfpModal1 {...modalState.props} onClose={hideModal}/>
 
 
 

@@ -36,7 +36,6 @@ export const PropertyBox1 = ({ wishlists, propId, property, isInWishlist, handle
                     </div>
                     <div className="property-box-pic-icons" onClick={handleHeartPressed}>
                         {isInWishlist ? (<Icon.HeartFill className="property-box-pic-icon1 fill"/>): (<Icon.Heart className="property-box-pic-icon1"/>)}
-                        <Icon.HeartFill className="property-box-pic-icon2"/>
                     </div>
                     
                     <img src={`/src/assets/media/properties/${property.photos[0].filename}`} alt="" />

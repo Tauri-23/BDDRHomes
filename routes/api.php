@@ -9,6 +9,8 @@ use App\Http\Controllers\Api\DevelopersController;
 use App\Http\Controllers\Api\PropertiesController;
 use App\Http\Controllers\Api\PropertyListingsController;
 use App\Http\Controllers\Api\TeamsController;
+use App\Http\Controllers\ClientPreferedLocation;
+use App\Http\Controllers\ProvinceController;
 use Illuminate\Support\Facades\Route;
 
 // Route::get('/user', function (Request $request) {
@@ -158,5 +160,25 @@ Route::post('/publish-property-listing', [PropertyListingsController::class, 'Pu
 */
 Route::get('/get-all-clients', [ClientController::class, 'GetAllClients']);
 Route::get('/get-clients-info/{clientId}', [ClientController::class, 'GetClientsInfo']);
+
+Route::post('/update-client-pfp', [ClientController::class, 'updatePfp']);
+
+
+
+
+
+/*
+* Province
+*/
+Route::get('/get-all-provinces', [ProvinceController::class, 'getAllProvince']);
+
+
+
+
+
+/* 
+*  Client Prefered Location
+*/
+Route::get('/get-all-client-prefered-location/{clientId}', [ClientPreferedLocation::class, 'getAllClientPreferedLoc']);
 
 

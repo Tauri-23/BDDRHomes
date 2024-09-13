@@ -20,14 +20,14 @@ export default function AdminEditPropertyPhotos() {
 
 
     /*
-    |    Used in debugging
+    |    Debugging
     */
     // useEffect(() => {
     //     console.log('addPhotos is updated', addPhotos);
     // }, [addPhotos]);
-    // useEffect(() => {
-    //     console.log('photos is updated', photos);
-    // }, [photos]);
+    useEffect(() => {
+        console.log('photos is updated', photos);
+    }, [photos]);
 
 
 

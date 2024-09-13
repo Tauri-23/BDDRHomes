@@ -12,7 +12,6 @@ export default function ClientMessages () {
     const [message, setMessage] = useState(null);
     const [messagesFromDb, setMessagesFromDb] = useState(null);
     const [conversationDb, setConversationDb] = useState(null);
-    const [propertiesInConvos, setPropertiesInConvos] = useState(null);
     const [selectedConvo, setSelectedConvo] = useState(null);
     const {user} = useStateContext();
 
@@ -23,9 +22,9 @@ export default function ClientMessages () {
     /*
     | Debugging
     */
-    useEffect(() => {
-        console.log(propertiesInConvos);
-    }, [propertiesInConvos])
+    // useEffect(() => {
+    //     console.log(conversationDb);
+    // }, [conversationDb])
 
 
     /* 
@@ -34,7 +33,7 @@ export default function ClientMessages () {
     useEffect(() => {
         const queryConversations = query(
             conversationref,
-            where("client", "==", user.id),
+            where("client.id", "==", user.id),
             orderBy("updatedAt", "desc")
         );
     
@@ -43,18 +42,7 @@ export default function ClientMessages () {
                 ...doc.data(),
                 id: doc.id
             }));
-    
-            // Fetch property info for each conversation
-            const propertyPromises = conversations.map(convo => fetchSpecificPublishedPropertyFull(convo.property));
-            const propertyData = await Promise.all(propertyPromises);
-
-            const conversationsWithData = conversations.map((convo, index) => ({
-                ...convo,
-                property: propertyData[index]
-            }));
-    
-            //setPropertiesInConvos(propertyData);
-            setConversationDb(conversationsWithData);
+            setConversationDb(conversations);
         });
     
         return () => unsubscribe(); // Clean up the snapshot listener
@@ -95,13 +83,6 @@ export default function ClientMessages () {
         return () => unsubscribe(); // Clean up the snapshot listener
     }, [selectedConvo, user.id]);
     
-    /* 
-    | Debug
-    */
-    useEffect(() => {
-        console.log(conversationDb);
-    }, [conversationDb])
-
 
 
 
@@ -167,12 +148,12 @@ export default function ClientMessages () {
                             onClick={() => setSelectedConvo(conversation.id)}
                             >
                                 <div className="conversation-component-pfp">
-                                    <img src={`/src/assets/media/properties/${conversation.property.photos[0].filename}`}/>
+                                    <img src={`/src/assets/media/properties/${conversation.property.picture}`}/>
                                 </div>
 
                                 <div className="d-flex flex-direction-y gap4">
                                     <div className="conversation-component-title">
-                                        {conversation.property.project_name} {conversation.property.project_model} {conversation.property.city} {conversation.property.province}
+                                        {conversation.property.name} {conversation.property.model} {conversation.property.city} {conversation.property.province}
                                     </div>
                                     <div className="text-m2 color-grey1 d-flex gap3">
                                         <div className='conversation-component-text'>{conversation.finalText.sender == user.id ? "You: " : ""}{conversation.finalText.text}</div>
@@ -203,14 +184,14 @@ export default function ClientMessages () {
                                 <div className="messages-content-header-pfp">
                                     {conversationDb?.length > 0 && conversationDb.map((conversation, index) => (
                                         conversation.id === selectedConvo 
-                                        && (<img key={conversation.id} src={`/src/assets/media/properties/${conversation.property.photos[0].filename}`} alt="" />)
+                                        && (<img key={conversation.id} src={`/src/assets/media/properties/${conversation.property.picture}`} alt="" />)
                                     ))}
                                 </div>
                                 <div className="d-flex flex-direction-y gap4">
                                     <div className="messages-content-header-title">
                                         {conversationDb?.length > 0 && conversationDb.map((conversation, index) => (
                                             conversation.id === selectedConvo 
-                                            && (`${conversation.property.project_name} ${conversation.property.project_model} ${conversation.property.city} ${conversation.property.province}`)
+                                            && (`${conversation.property.name} ${conversation.property.model} ${conversation.property.city} ${conversation.property.province}`)
                                         ))}
                                     </div>
                                     <div className="messages-content-header-text">Typically replies instantly</div>

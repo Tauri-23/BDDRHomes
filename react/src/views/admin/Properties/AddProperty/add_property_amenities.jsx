@@ -7,6 +7,13 @@ export default function AdminAddPropertyAmenities() {
     const [loading, setLoading] = useState(true);
     const {selectedPropertyAmenities, setSelectedPropertyAmenities} = useOutletContext();
 
+    /* 
+    | Debug
+    */
+    useEffect(() => {
+        console.log(selectedPropertyAmenities);
+    }, [selectedPropertyAmenities]);
+
     useEffect(() => {
         const getPropertyAmenities = async () => {
             try {
@@ -24,8 +31,8 @@ export default function AdminAddPropertyAmenities() {
     const handleSelectAmenities = (amenityId) => {
         setSelectedPropertyAmenities(prevSelectedAmenities =>
             prevSelectedAmenities.includes(amenityId)
-                ? prevSelectedAmenities.filter(id=> id !== amenityId)
-                : [...prevSelectedAmenities, amenityId]
+                ? prevSelectedAmenities.filter(id=> id != amenityId) // Remove Amenity
+                : [...prevSelectedAmenities, amenityId] // Add Amenity
         );
     };
 

@@ -10,7 +10,6 @@ import GuestListings from "./views/guest/listings";
 import ClientViewProperty from "./views/clients/view-property";
 import ClientMessages from "./views/clients/messages";
 import ClientTrippings from "./views/clients/trippings";
-import ClientProfile from "./views/clients/profile";
 import AgentDefault from "./views/agents/default";
 import AgentIndex from "./views/agents";
 import AgentMessages from "./views/agents/messages";
@@ -59,6 +58,8 @@ import AdminAddAgent from "./views/admin/Teams&Agents/add_agent";
 import AdminAddDeveloper from "./views/admin/Properties/add_developer";
 import AdminEditPropertyModel from "./views/admin/Properties/EditProperty/edit_property_model";
 import AgentInquiries from "./views/agents/inquiries";
+import ClientProfile from "./views/clients/Profile/profile";
+import ClientEditProfile from "./views/clients/Profile/EditProfile";
 
 const router = createBrowserRouter([
     /*
@@ -152,9 +153,15 @@ const router = createBrowserRouter([
                 path: 'Trippings',
                 element: <ClientTrippings/>
             },
+
+            // Profile
             {
                 path: 'Profile',
                 element: <ClientProfile/>
+            },
+            {
+                path: 'EditProfile',
+                element: <ClientEditProfile/>
             }
         ]
     },

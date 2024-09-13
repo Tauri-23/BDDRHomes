@@ -13,7 +13,6 @@ export default function AgentMessages () {
     const [message, setMessage] = useState("");
     const [messagesFromDb, setMessagesFromDb] = useState(null);
     const [conversationDb, setConversationDb] = useState(null);
-    const [propertiesInConvos, setPropertiesInConvos] = useState(null);
     // const [typesMessage]
     const [selectedConvo, setSelectedConvo] = useState(null);
     const {user} = useStateContext();
@@ -26,8 +25,8 @@ export default function AgentMessages () {
     | Debugging
     */
     useEffect(() => {
-        console.log(propertiesInConvos);
-    }, [propertiesInConvos])
+        console.log(conversationDb);
+    }, [conversationDb])
 
 
     /* 
@@ -36,7 +35,7 @@ export default function AgentMessages () {
     useEffect(() => {
         const queryConversations = query(
             conversationref,
-            where("agent", "==", user.id),
+            where("agent.id", "==", user.id),
             orderBy("updatedAt", "desc")
         );
     
@@ -45,22 +44,7 @@ export default function AgentMessages () {
                 ...doc.data(),
                 id: doc.id
             }));
-    
-            // Fetch property info for each conversation
-            const propertyPromises = conversations.map(convo => fetchSpecificPublishedPropertyFull(convo.property));
-            const propertyData = await Promise.all(propertyPromises);
-
-            const clientPromises = conversations.map(convo => fetchClientInfos(convo.client));
-            const clientData = await Promise.all(clientPromises);
-
-            const conversationsWithData = conversations.map((convo, index) => ({
-                ...convo,
-                property: propertyData[index],
-                client: clientData[index]
-            }));
-    
-            //setPropertiesInConvos(propertyData);
-            setConversationDb(conversationsWithData);
+            setConversationDb(conversations);
         });
     
         return () => unsubscribe(); // Clean up the snapshot listener
@@ -100,13 +84,6 @@ export default function AgentMessages () {
     
         return () => unsubscribe(); // Clean up the snapshot listener
     }, [selectedConvo, user.id]);
-    
-    /* 
-    | Debug
-    */
-    useEffect(() => {
-        console.log(conversationDb);
-    }, [conversationDb])
 
 
 
@@ -174,12 +151,12 @@ export default function AgentMessages () {
                             onClick={() => setSelectedConvo(conversation.id)}
                             >
                                 <div className="conversation-component-pfp">
-                                    <img src={`/src/assets/media/properties/${conversation.property.photos[0].filename}`}/>
+                                    <img src={`/src/assets/media/properties/${conversation.property.picture}`}/>
                                 </div>
 
                                 <div className="d-flex flex-direction-y gap4">
                                     <div className="conversation-component-title">
-                                        {conversation.property.project_name} {conversation.property.project_model} {conversation.property.city} {conversation.property.province}
+                                        {conversation.property.name} {conversation.property.model} {conversation.property.city} {conversation.property.province}
                                     </div>
                                     <div className="text-m2 color-grey1 d-flex gap3">
                                         <div className='conversation-component-text'>{conversation.finalText.sender == "agent" ? "You: " : ""}{conversation.finalText.text}</div>
@@ -210,7 +187,7 @@ export default function AgentMessages () {
                                 <div className="messages-content-header-pfp">
                                     {conversationDb?.length > 0 && conversationDb.map((conversation, index) => (
                                         conversation.id === selectedConvo 
-                                        && (<img key={conversation.id} src={`/src/assets/media/properties/${conversation.property.photos[0].filename}`} alt="" />)
+                                        && (<img key={conversation.id} src={`/src/assets/media/properties/${conversation.property.picture}`} alt="" />)
                                     ))}
                                 </div>
                                 
@@ -219,7 +196,7 @@ export default function AgentMessages () {
                                     && (
                                         <div key={conversation.id} className="d-flex flex-direction-y gap4">
                                             <div className="messages-content-header-title">
-                                                {conversation.property.project_name} {conversation.property.project_model} {conversation.property.city} {conversation.property.province}
+                                                {conversation.property.name} {conversation.property.model} {conversation.property.city} {conversation.property.province}
                                             </div>
                                             <div className="messages-content-header-text">Client: {conversation.client.firstname} {conversation.client.lastname}</div>
                                         </div>

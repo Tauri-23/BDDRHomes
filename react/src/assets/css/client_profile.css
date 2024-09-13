@@ -1,0 +1,125 @@
+.client-profile-outer-cont {
+    display: flex;
+    gap: 80px;
+    position: relative;
+}
+
+
+.client-profile-left-box1 {
+    width: 350px;
+    padding: 30px;
+    border-radius: 20px;
+    background: var(--white);
+    filter: drop-shadow(0 0 5px var(--grey1));
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.client-profile-pfp {
+    width: 100px;
+    aspect-ratio: 1/1;
+    background: var(--black1);
+    border-radius: 100%;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--white);
+    font-size: var(--text-xl3);
+    user-select: none;
+    overflow: hidden;
+}
+
+.client-profile-pfp img {
+    position: absolute;
+    height: 100%;
+}
+
+.client-profile-left-box2 {
+    width: 350px;
+    padding: 30px;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    border: 1px solid var(--grey1);
+}
+
+
+.client-profile-left-container {
+    display: flex;
+    flex-direction: column;
+    margin-top: 50px;
+    gap: 20px;
+    position: sticky;
+    top: 10;
+}
+.client-profile-right-container {
+    display: flex;
+    flex-direction: column;
+    margin-top: 50px;
+    gap: 10px;
+    width: 100%;
+}
+
+
+
+
+
+.client-profile-prefered-loc-cont {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    width: 100%;
+}
+.prefered-loc-chip {
+    padding: 10px;
+    border-radius: 20px;
+    border: 1px solid var(--grey1);
+}
+
+
+
+
+
+/*
+    Edit Profile
+*/
+.client-edit-profile-pfp {
+    width: 200px;
+    aspect-ratio: 1/1;
+    background: var(--black1);
+    border-radius: 100%;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--white);
+    font-size: 100px;
+    user-select: none;
+    overflow: hidden;
+}
+.client-edit-profile-pfp img {
+    position: absolute;
+    height: 100%;
+}
+.client-edit-profile-edit-pfp-btn {
+    background: var(--white);
+    padding: 5px 10px;
+    border-radius: 10px;
+    filter: drop-shadow(0 0 5px var(--black3));
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: var(--text-m1);
+    position: absolute;
+    bottom: -20px;
+    left: 0; 
+    right: 0; 
+    margin-inline: auto; 
+    width: fit-content;
+    cursor: pointer;
+    user-select: none;
+}

@@ -55,17 +55,30 @@ export default function ClientViewProperty() {
     /*
     | Debugging
     */
-    useEffect(() => {
-        console.log(propertyListed);
-    }, [propertyListed]);
+    // useEffect(() => {
+    //     console.log(propertyListed);
+    // }, [propertyListed]);
 
     const handleMessageAgent = async () => {
         const ChatBotIntroText = "Hello, Thank you for your interest in this property. An agent will get in touch soon.";
         try {
             // Create the conversation document and wait for it to complete
             const convoRef = await addDoc(messageAgentRef, {
-                property: id,
-                client: user.id,
+                property: {
+                    id: propertyListed.id,
+                    name: propertyListed.project_name,
+                    model: propertyListed.project_model,
+                    city: propertyListed.city,
+                    province: propertyListed.province,
+                    picture: propertyListed.photos[0].filename
+                },
+                client: {
+                    id: user.id,
+                    firstname: user.firstname,
+                    middlename: user.middlename,
+                    lastname: user.lastname,
+                    pfp: user.pfp
+                },
                 agent: null,
                 finalText: {
                     text: ChatBotIntroText,

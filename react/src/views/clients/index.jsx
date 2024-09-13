@@ -180,9 +180,9 @@ export default function ClientIndex() {
     //     console.log(properties);
     // }, [properties]);
 
-    useEffect(() => {
-        console.log(wishlists);
-    }, [wishlists]);
+    // useEffect(() => {
+    //     console.log(wishlists);
+    // }, [wishlists]);
 
     // useEffect(() => {
     //     console.log(propTypes);
