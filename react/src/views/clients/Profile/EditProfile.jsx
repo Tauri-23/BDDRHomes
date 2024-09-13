@@ -5,11 +5,23 @@ import { useModal } from "../../../contexts/ModalContext";
 import axiosClient from "../../../axios-client";
 import { notify } from "../../../assets/js/utils";
 import { ToastContainer } from "react-toastify";
+import EditText1 from "../../../components/FormComponents/edit_text_1";
+import ClientEditProfileInfo1 from "../../../components/ClientComponents/client_edit_profile_info1";
 
 export default function ClientEditProfile() {
     const {user, setUser} = useStateContext();
     const {showModal} = useModal();
     const [newPfp, setNewPfp] = useState(null);
+
+    const [isEditName, setEditName] = useState(false);
+    const [isEditEmail, setEditEmail] = useState(false);
+    const [isEditPhone, setEditPhone] = useState(false);
+
+    const [newFname, setNewFname] = useState(user.firstname);
+    const [newMname, setNewMname] = useState(user.middlename);
+    const [newLname, setNewLname] = useState(user.lastname);
+    const [newEmail, setNewEmail] = useState(user.email);
+    const [newPhone, setNewPhone] = useState(user.phone);
 
     const handleUploadClick = () => {
         document.getElementById('fileInput').click();
@@ -53,6 +65,7 @@ export default function ClientEditProfile() {
         <>
             <div className="content2">
                 <div className="client-profile-outer-cont">
+                    {/* Left */}
                     <div className="client-profile-left-container">
 
                         <div className="position-relative d-flex">
@@ -75,7 +88,50 @@ export default function ClientEditProfile() {
                         </div>
 
                     </div>
-                    <div className="client-profile-right-container bg-info"></div>
+
+                    {/* Right */}
+                    <div className="client-profile-right-container">
+                        {/* Personal Information */}
+                        <div className="text-l1 fw-bold mar-bottom-3 color-black2">Personal Information</div>
+
+                        <ClientEditProfileInfo1
+                            oldInfo={user.firstname} oldInfo2={user.middlename} oldInfo3={user.lastname}
+                            newInfo={newFname} newInfo2={newMname} newInfo3={newLname} 
+                            setNewInfo={setNewFname} setNewInfo2={setNewMname} setNewInfo3={setNewLname}
+                        
+                            isEditInfo={isEditName} setEditInfo={setEditName}
+                            title={"Name"}
+                            label={"Firstname"} label2={"Middlename"} label3={"Lastname"}
+                            />
+
+                        <div className="hr-line1 mar-top-2 mar-bottom-2"></div>
+
+                        <ClientEditProfileInfo1
+                            oldInfo={user.email}
+                            newInfo={newEmail}
+                            setNewInfo={setNewEmail}
+                        
+                            isEditInfo={isEditEmail} setEditInfo={setEditEmail}
+                            title={"Email"}
+                            label={"Email"}
+                            />
+
+                        <div className="hr-line1 mar-top-2 mar-bottom-2"></div>
+                        
+                        <ClientEditProfileInfo1
+                            oldInfo={user.phone}
+                            newInfo={newPhone}
+                            setNewInfo={setNewPhone}
+                        
+                            isEditInfo={isEditPhone} setEditInfo={setEditPhone}
+                            title={"Phone"}
+                            label={"Phone"}
+                            />
+
+                        <div className="hr-line1 mar-top-2 mar-bottom-2"></div>
+
+                        <div className="text-l1 fw-bold mar-bottom-3 color-black2">Prefered Location</div>
+                    </div>
                 </div>
             </div>
             <ToastContainer/>

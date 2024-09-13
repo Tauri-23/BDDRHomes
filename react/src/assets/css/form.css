@@ -3,7 +3,7 @@
 | Inputs 
 |----------------------------------------
 |*/
-.edit-text-1, .edit-text-2 {
+.edit-text-1, .edit-text-2, .edit-text-3 {
     padding: 8px 10px;
     background: var(--white2);
     border: 1px solid var(--white3);
@@ -12,6 +12,9 @@
 }
 .edit-text-2 {
     outline-color: var(--red1);
+}
+.edit-text-3 {
+    border: 1px solid var(--black1);
 }
 .edit-text-1.disabled1 {
     background: none;
@@ -42,4 +45,51 @@
     background: var(--blue1);
     color: white;
     cursor: pointer;
+}
+
+
+
+
+
+/*
+|----------------------------------------
+| Custom Inputs
+|----------------------------------------
+*/
+.custom-edit-text-1 {
+    position: relative;
+}
+.custom-edit-text-1-label {
+    position: absolute;
+    left: 10px;
+    top: 8px;
+    font-size: var(--text-m3);
+    color: var(--black2);
+}
+.custom-edit-text-1-label.invalid {
+    color: var(--red2);
+    font-weight: bold;
+}
+.custom-edit-text-1-input {
+    width: 100%;
+    padding: 30px 10px 8px 10px;
+    border-radius: var(--radius3);
+    border: 1px solid var(--grey1);
+    outline-color: var(--black1);
+}
+.custom-edit-text-1-input.invalid {
+    border: 1px solid var(--red2);
+    background: rgba(252, 115, 115, 0.1);
+    outline-color: var(--red2);
+}
+.custom-edit-text-1-input.invalid:focus {
+    background: transparent;
+}
+.custom-edit-text-1-error {
+    color: var(--red2);
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    margin-top: 5px;
+    font-size: var(--text-m3);
 }

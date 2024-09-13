@@ -9,11 +9,19 @@ import { useStateContext } from '../../contexts/ContextProvider';
 import PasswordInput from '../../components/password-input';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../../firebase-cofig';
-
-
+import EditText1 from '../../components/FormComponents/edit_text_1';
 
 
 export default function Signup() {
+    const [fname, setFname] = useState("");
+    const [mname, setMname] = useState("");
+    const [lname, setLname] = useState("");
+
+    const [uname, setUname] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [conPass, setConPass] = useState("");
+    
     const fnameRef = useRef();
     const mnameRef = useRef();
     const lnameRef = useRef();
@@ -101,21 +109,34 @@ export default function Signup() {
                 <div className="text-l3 mar-bottom-2">Personal Information</div>
 
                 <div className="d-flex mar-bottom-3 gap3">
-                    <div className="d-flex flex-direction-y gap4 w-100">
+                    {/* <div className="d-flex flex-direction-y gap4 w-100">
                         <label htmlFor="fname-in">First name</label>
                         <input ref={fnameRef} type="text" id="fname-in" name="fname-in" className="edit-text-1 w-100" placeholder="e.g. Juan" />
-                    </div>
+                        
+                    </div> */}
+                    <EditText1
+                        width={"w-100"}
+                        label={"First name"} 
+                        type={"text"} 
+                        value={fname} 
+                        setFieldValue={setFname}
+                        required={true}/>
 
-                    <div className="d-flex flex-direction-y gap4 w-100">
-                        <label htmlFor="mname-in">Middle name <sup className='mar-start-4 fst-italic'>Optional</sup></label>
-                        <input ref={mnameRef} type="text" id="mname-in" name="mname-in" className="edit-text-1 w-100" placeholder="e.g. Santos" />
-                    </div>
+                    <EditText1
+                        width={"w-100"}
+                        label={"Middle name"} 
+                        type={"text"} 
+                        value={mname} 
+                        setFieldValue={setMname}
+                        required={false}/>
 
-                    <div className="d-flex flex-direction-y gap4 w-100">
-                        <label htmlFor="lname-in">Last name</label>
-                        <input ref={lnameRef} type="text" id="lname-in" name="lname-in" className="edit-text-1 w-100" placeholder="e.g. Dela Cruz" />
-                    </div>
-
+                    <EditText1
+                        width={"w-100"}
+                        label={"Last name"} 
+                        type={"text"} 
+                        value={lname} 
+                        setFieldValue={setLname}
+                        required={true}/>
                 </div>
 
                 <div className="d-flex gap3">
@@ -144,15 +165,21 @@ export default function Signup() {
                 <div className="text-l3 mar-bottom-2 mar-top-1 mar-bottom-2">Credentials</div>
 
                 <div className="d-flex gap3 mar-bottom-3">
-                    <div className="d-flex flex-direction-y gap4 w-100">
-                        <label htmlFor="uname-in">Username</label>
-                        <input ref={unameRef} type="text" id="uname-in" name="uname-in" className="edit-text-1 w-100" placeholder="e.g. juan123" />
-                    </div>
+                    <EditText1
+                        width={"w-100"}
+                        label={"Username"} 
+                        type={"text"} 
+                        value={uname} 
+                        setFieldValue={setUname}
+                        required={true}/>
 
-                    <div className="d-flex flex-direction-y gap4 w-100">
-                        <label htmlFor="email-in">Email</label>
-                        <input ref={emailRef} type="text" id="email-in" name="email-in" className="edit-text-1 w-100" placeholder="Email" />
-                    </div>
+                    <EditText1
+                        width={"w-100"}
+                        label={"Email"} 
+                        type={"text"} 
+                        value={email} 
+                        setFieldValue={setEmail}
+                        required={true}/>
                 </div>
                 
                 <div className="d-flex gap3 w-100 mar-bottom-l1">
