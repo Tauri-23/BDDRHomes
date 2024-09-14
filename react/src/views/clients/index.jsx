@@ -3,7 +3,7 @@ import * as Icon from 'react-bootstrap-icons';
 import { PropertyBox1 } from "../../components/property_box1";
 import { useEffect, useState } from "react";
 import axiosClient from "../../axios-client";
-import { ClientSkeletonListingBox, PropertyListedCategorySkeleton } from "../../Skeletons/client-listing-skeletons";
+import { ClientSkeletonListingBox, PropertyListedCategorySkeleton, PropertyListedFilterBtnSkeleton, PropertyListedViewAsBtnSkeleton } from "../../Skeletons/client-listing-skeletons";
 import { fetchAllClientWishlists } from "../../Services/ClientWishlistService";
 import { notify } from "../../assets/js/utils";
 import { useStateContext } from "../../contexts/ContextProvider";
@@ -14,11 +14,22 @@ export default function ClientIndex() {
     const {user} = useStateContext();
     const {showModal} = useModal();
     const [properties, setProperties] = useState(null);
+
+    /* 
+    | This is for all properties, when i select property type all the properties will store here
+    | and the filtered property will be store in properties.
+    */
+    const [propertiesCont2, setPropertiesCont2] = useState(null);
     const [wishlists, setWishlists] = useState([]);
     const [propTypes, setPropTypes] = useState(null);
     const [amenities, setAmenities] = useState(null);
 
+    // For Filters
     const [selectedPropType, setSelectedPropType] = useState("");
+    const [selectedAmenities, setSelectedAmenities] = useState([]);
+    const [bedroomNumbers, setBedroomNumbers] = useState(0);
+    const [bathroomNumbers, setBathroomNumbers] = useState(0);
+    const [carportNumbers, setCarportNumbers] = useState(0);
 
 
 
@@ -60,12 +71,17 @@ export default function ClientIndex() {
                 setAmenities(data);
             } catch(error) {console.error(error)}
         }
-        
-        if(user) {
+
+        const getAll = async() => {
             getPublishedProperties();
-            getAllClientWishlists(user.id);
+            getAllClientWishlists(user.id);       
             getAllPropTypes();
             getAllAmenities();
+                 
+        }
+        
+        if(user) {
+            getAll();
         }
     }, []);
 
@@ -189,8 +205,36 @@ export default function ClientIndex() {
     | Filter
     */
     const handleFilterPressed = () => {
-        showModal('PropertySellingFilterModal1', {amenities});
+        showModal('PropertySellingFilterModal1', 
+            {
+                amenities, selectedAmenities, setSelectedAmenities,
+                bedroomNumbers, setBedroomNumbers,
+                bathroomNumbers, setBathroomNumbers,
+                carportNumbers, setCarportNumbers,
+            });
     }
+
+    useEffect(() => {
+        if(selectedPropType === "") {
+            setProperties(propertiesCont2);
+            setPropertiesCont2(null);
+        }
+
+        if(selectedPropType !== "" && propertiesCont2 === null) {
+            setPropertiesCont2(properties);
+        }
+        
+        if(selectedPropType !== "") {
+            setProperties(prevProp => {
+                if(!propertiesCont2) {
+                    return prevProp.filter(prop => prop.property_type.id === selectedPropType) // Filter the properties 
+                } else {
+                    return propertiesCont2.filter(prop => prop.property_type.id === selectedPropType) // get the propertiesCont2 and filter it.
+                }
+                
+            });
+        }
+    }, [selectedPropType]);
     
     
     /* 
@@ -199,6 +243,9 @@ export default function ClientIndex() {
     // useEffect(() => {
     //     console.log(properties);
     // }, [properties]);
+    // useEffect(() => {
+    //     console.log(propertiesCont2);
+    // }, [propertiesCont2]);
 
     // useEffect(() => {
     //     console.log(wishlists);
@@ -207,6 +254,10 @@ export default function ClientIndex() {
     // useEffect(() => {
     //     console.log(propTypes);
     // }, [propTypes]);
+
+    // useEffect(() => {
+    //     console.log(selectedAmenities)
+    // }, [selectedAmenities]);
 
     return (
         <>
@@ -223,8 +274,7 @@ export default function ClientIndex() {
                     )}
                     {propTypes && propTypes.length > 0 && propTypes.map(propType => (
                         <div key={propType.id} className={`listing-category-box ${selectedPropType === propType.id ? "active" : ""}`} onClick={() => setSelectedPropType(propType.id)}>
-                            <img src={`/src/assets/media/icons/${propType.icon}`} className='category-icon1' alt=""/>
-                            
+                            <img src={`/src/assets/media/icons/${propType.icon}`} className='category-icon1' alt=""/>                            
                             <div className="listing-category-box-text">{propType.type_name}</div>
                         </div>
                     ))}
@@ -233,7 +283,25 @@ export default function ClientIndex() {
                         <PropertyListedCategorySkeleton key={x}/>
                     ))}
                 </div>
-                <button className="secondary-btn-black2 gap3 d-flex align-items-center" onClick={handleFilterPressed}><Icon.Sliders/>Filter</button>
+
+                
+                {amenities && (
+                    <div className="d-flex gap3 align-items-center">
+                        <select className="secondary-btn-black2 gap3 d-flex align-items-center">
+                            <option value="1">View as monthly amortization</option>
+                            <option value="2">View as price</option>
+                            <option value="3">View as required income</option>
+                        </select>
+                        <button className="secondary-btn-black2 gap3 d-flex align-items-center" onClick={handleFilterPressed}><Icon.Sliders/>Filter</button>
+                    </div>
+                )}
+
+                {!amenities && (
+                    <div className="d-flex gap3 align-items-center">
+                        <PropertyListedViewAsBtnSkeleton/>
+                        <PropertyListedFilterBtnSkeleton/>
+                    </div>
+                )}                    
             </div>
 
             <div className="content1">
@@ -242,10 +310,7 @@ export default function ClientIndex() {
 
 
                     {/* Render Property boxes */}
-                    {properties && wishlists
-                    ?
-                    
-                    properties.map(prop => {
+                    {properties && properties.length > 0 && wishlists && properties.map(prop => {
                         const inWishlist = isInWishlist(prop.id);
                         return (
                             <PropertyBox1
@@ -260,10 +325,18 @@ export default function ClientIndex() {
                                 handleAddPropToWishlist={handleAddPropToWishlist}
                             />
                         );
-                    })
-                    : Array.from({length:10}, (_, index) => index).map((x) => (
+                    })}
+
+                    {!properties && Array.from({length:10}, (_, index) => index).map((x) => (
                         <ClientSkeletonListingBox key={x}/>
                     ))}
+
+                    {properties && properties.length < 1 && (
+                        <div className="">
+                            <div className="text-l2 fw-bold">No properties yet</div>
+                            <div className="text-m3">Stay tuned for more properties.</div>
+                        </div>
+                    )}
 
                     
 

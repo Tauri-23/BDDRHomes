@@ -27,3 +27,19 @@ export const PropertyListedCategorySkeleton = () => {
         </div>
     );
 }
+
+export const PropertyListedFilterBtnSkeleton = () => {
+    return(
+        <div className="bg-grey2 position-relative" style={{borderRadius: "10px", width: "130px", height:"50px", overflow: "hidden"}}>
+            <Shimmer/>
+        </div>
+    );
+}
+
+export const PropertyListedViewAsBtnSkeleton = () => {
+    return(
+        <div className="bg-grey2 position-relative" style={{borderRadius: "10px", width: "230px", height:"50px", overflow: "hidden"}}>
+            <Shimmer/>
+        </div>
+    );
+}

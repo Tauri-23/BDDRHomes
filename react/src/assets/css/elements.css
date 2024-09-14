@@ -248,6 +248,9 @@
 .text-skeleton-l {
     height: 40px;
 }
+.text-skeleton-sm  {
+    height: 20px;
+}
 .text-skeleton-xsm  {
     height: 10px;
 }

@@ -118,6 +118,7 @@
     height: 30px;
     border-radius: 100%;
     border: 1px solid var(--grey1);
+    background: transparent;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -127,4 +128,30 @@
 .property-selling-filter-modal-circle-btn1:hover {
     border: 1px solid var(--black2);
     color: var(--black1);
+}
+.property-selling-filter-modal-circle-btn1.disabled {
+    opacity: .5;
+    cursor: not-allowed;
+}
+.property-selling-filter-modal-circle-btn1.disabled:hover {
+    border: 1px solid var(--grey1);
+    color: var(--black3);
+}
+.amenity-btn {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    padding: 8px 10px;
+    border-radius: 20px;
+    border: 1px solid var(--grey1);
+    color: var(--black3);
+    cursor: pointer;
+}
+.amenity-btn.active {
+    color: var(--black1);
+    border: 1px solid var(--black1);
+}
+.amenity-btn img {
+    width: 25px;
+    aspect-ratio: 1/1;
 }
