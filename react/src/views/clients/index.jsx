@@ -3,23 +3,27 @@ import * as Icon from 'react-bootstrap-icons';
 import { PropertyBox1 } from "../../components/property_box1";
 import { useEffect, useState } from "react";
 import axiosClient from "../../axios-client";
-import { ClientSkeletonListingBox } from "../../Skeletons/client-listing-skeletons";
+import { ClientSkeletonListingBox, PropertyListedCategorySkeleton } from "../../Skeletons/client-listing-skeletons";
 import { fetchAllClientWishlists } from "../../Services/ClientWishlistService";
 import { notify } from "../../assets/js/utils";
-import { string } from "prop-types";
 import { useStateContext } from "../../contexts/ContextProvider";
-import { fetchPropertyTypes, fetchPublishedProperties } from "../../Services/GeneralPropertiesService";
+import { fetchPropertyAmenities, fetchPropertyTypes, fetchPublishedProperties } from "../../Services/GeneralPropertiesService";
+import { useModal } from "../../contexts/ModalContext";
 
 export default function ClientIndex() {
     const {user} = useStateContext();
+    const {showModal} = useModal();
     const [properties, setProperties] = useState(null);
     const [wishlists, setWishlists] = useState([]);
-    const [propTypes, setPropTypes] = useState([]);
+    const [propTypes, setPropTypes] = useState(null);
+    const [amenities, setAmenities] = useState(null);
+
+    const [selectedPropType, setSelectedPropType] = useState("");
 
 
 
     /*
-    |    Get all necessary datas from db
+    | Get all necessary datas from db
     */
     useEffect(() => {
         const getPublishedProperties = async() => {
@@ -49,18 +53,26 @@ export default function ClientIndex() {
                 console.error(error);
             }
         }
+
+        const getAllAmenities = async() => {
+            try {
+                const data = await fetchPropertyAmenities();
+                setAmenities(data);
+            } catch(error) {console.error(error)}
+        }
         
         if(user) {
             getPublishedProperties();
             getAllClientWishlists(user.id);
             getAllPropTypes();
+            getAllAmenities();
         }
     }, []);
 
 
 
     /* 
-    |   Checkers
+    | Checkers
     */
     const isInWishlist = (propId) => {
         if (wishlists && Array.isArray(wishlists)) {
@@ -170,7 +182,15 @@ export default function ClientIndex() {
             }
         })
     }
+
+
     
+    /* 
+    | Filter
+    */
+    const handleFilterPressed = () => {
+        showModal('PropertySellingFilterModal1', {amenities});
+    }
     
     
     /* 
@@ -195,21 +215,25 @@ export default function ClientIndex() {
 
                 {/* Categories */}
                 <div className="listing-category-cont">
-                    {propTypes.length > 0 && (
-                        <div className="category-btn-blue1 active">
+                    {propTypes && propTypes.length > 0 && (
+                        <div className={`listing-category-box ${selectedPropType === "" ? "active" : ""}`} onClick={() => setSelectedPropType("")}>
                             <Icon.Grid className='text-l2'/>
-                            <div className="category-btn-text">All</div>
+                            <div className="listing-category-box-text">All</div>
                         </div>
                     )}
-                    {propTypes.length > 0 && propTypes.map(propType => (
-                        <div key={propType.id} className="category-btn-blue1">
+                    {propTypes && propTypes.length > 0 && propTypes.map(propType => (
+                        <div key={propType.id} className={`listing-category-box ${selectedPropType === propType.id ? "active" : ""}`} onClick={() => setSelectedPropType(propType.id)}>
                             <img src={`/src/assets/media/icons/${propType.icon}`} className='category-icon1' alt=""/>
                             
-                            <div className="category-btn-text">{propType.type_name}</div>
+                            <div className="listing-category-box-text">{propType.type_name}</div>
                         </div>
                     ))}
+
+                    {!propTypes && Array.from({length: 10}, (_, index) => index).map(x => (
+                        <PropertyListedCategorySkeleton key={x}/>
+                    ))}
                 </div>
-                <div className="secondary-btn-black2 gap3 d-flex align-items-center"><Icon.Sliders/>Filter</div>
+                <button className="secondary-btn-black2 gap3 d-flex align-items-center" onClick={handleFilterPressed}><Icon.Sliders/>Filter</button>
             </div>
 
             <div className="content1">

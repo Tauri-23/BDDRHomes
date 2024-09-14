@@ -16,3 +16,14 @@ export const ClientSkeletonListingBox = () => {
         </div>
     )
 }
+
+export const PropertyListedCategorySkeleton = () => {
+    return(
+        <div className="listing-category-box">
+            <div className="position-relative" style={{height: "35px", width: "35px", borderRadius: "100%", overflow: "hidden"}}>
+                <Shimmer/>
+            </div>
+            <div className="text-skeleton-xsm w-100 position-relative"><Shimmer/></div>
+        </div>
+    );
+}

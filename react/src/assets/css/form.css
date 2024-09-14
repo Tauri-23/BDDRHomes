@@ -66,6 +66,11 @@
     font-size: var(--text-m3);
     color: var(--black2);
 }
+.custom-edit-text-1-label span {
+    font-style: italic;
+    font-size: var(--text-m4);
+    color: var(--black3);
+}
 .custom-edit-text-1-label.invalid {
     color: var(--red2);
     font-weight: bold;
@@ -92,4 +97,10 @@
     align-items: center;
     margin-top: 5px;
     font-size: var(--text-m3);
+}
+.custom-edit-text-1-see-pass {
+    position: absolute;
+    right: 10px;
+    top: 30px;
+    cursor: pointer;
 }

@@ -21,7 +21,6 @@ const ClientEditProfileInfo1 = ({
                 <EditText1
                     width={"w-25"}
                     label={label} 
-                    type={"text"} 
                     value={newInfo} 
                     setFieldValue={setNewInfo}
                     required={true}/>
@@ -30,7 +29,6 @@ const ClientEditProfileInfo1 = ({
                     <EditText1
                         width={"w-25"}
                         label={label2} 
-                        type={"text"} 
                         value={newInfo2} 
                         setFieldValue={setNewInfo2}
                         required={false}/>
@@ -40,7 +38,6 @@ const ClientEditProfileInfo1 = ({
                     <EditText1
                         width={"w-25"}
                         label={label3} 
-                        type={"text"} 
                         value={newInfo3} 
                         setFieldValue={setNewInfo3}
                         required={true}/>

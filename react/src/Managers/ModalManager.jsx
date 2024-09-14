@@ -10,6 +10,7 @@ import { AdminDelAgentConfirmation } from "../components/Modals/admin_del_agent_
 import { AdminPropertiesOptionModal1 } from "../components/Modals/admin_properties_option_modal1";
 import AdminEditPropertyAddPhotoModal1 from "../components/Modals/admin_edit_property_add_photos_modal1";
 import ClientEditPfpModal1 from "../components/Modals/client_edit_pfp_modal1";
+import PropertySellingFilterModal1 from "../components/Modals/property_selling_filter_modal1";
 
 const ModalManager = () => {
     const {modalState, hideModal} = useModal();
@@ -70,7 +71,18 @@ const ModalManager = () => {
 
 
 
-                
+
+            /*
+            |   ADMIN
+            */
+            // Property Selling
+            case 'PropertySellingFilterModal1' :
+                return <PropertySellingFilterModal1 {...modalState.props} onClose={hideModal}/>
+            
+
+
+
+
             /*
             |   DEFAULT
             */

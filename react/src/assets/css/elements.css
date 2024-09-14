@@ -238,7 +238,7 @@
 | Skeleton 
 |----------------------------------------
 */
-.text-skeleton-sm, .text-skeleton-m, .text-skeleton-l {
+.text-skeleton-xsm .text-skeleton-sm, .text-skeleton-m, .text-skeleton-l {
     height: 20px;
     background: var(--grey2);
 }
@@ -247,6 +247,9 @@
 }
 .text-skeleton-l {
     height: 40px;
+}
+.text-skeleton-xsm  {
+    height: 10px;
 }
 
 

@@ -10,6 +10,7 @@ import PasswordInput from '../../components/password-input';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../../firebase-cofig';
 import EditText1 from '../../components/FormComponents/edit_text_1';
+import EditPassword1 from '../../components/FormComponents/edit_password_1';
 
 
 export default function Signup() {
@@ -22,17 +23,9 @@ export default function Signup() {
     const [password, setPassword] = useState("");
     const [conPass, setConPass] = useState("");
     
-    const fnameRef = useRef();
-    const mnameRef = useRef();
-    const lnameRef = useRef();
     const genderRef = useRef();
     const bdateRef = useRef();
     const phoneRef = useRef();
-
-    const unameRef = useRef();
-    const emailRef = useRef();
-    const passRef = useRef();
-    const conpassRef = useRef();
 
     const {setUser, setToken, setUserType} = useStateContext();
 
@@ -40,16 +33,16 @@ export default function Signup() {
     const signupHandler = (ev) => {
         ev.preventDefault();
         const payload = {
-            fname: fnameRef.current.value,
-            mname: mnameRef.current.value,
-            lname: lnameRef.current.value,
+            fname: fname,
+            mname: mname,
+            lname: lname,
             gender: genderRef.current.value,
             bdate: bdateRef.current.value,
             phone: phoneRef.current.value,
-            uname: unameRef.current.value,
-            email: emailRef.current.value,
-            pass: passRef.current.value,
-            conpass: conpassRef.current.value,
+            uname: uname,
+            email: email,
+            pass: password,
+            conpass: conPass,
         }
 
         if (isEmptyOrSpaces(payload.fname) || isEmptyOrSpaces(payload.lname) ||
@@ -109,11 +102,6 @@ export default function Signup() {
                 <div className="text-l3 mar-bottom-2">Personal Information</div>
 
                 <div className="d-flex mar-bottom-3 gap3">
-                    {/* <div className="d-flex flex-direction-y gap4 w-100">
-                        <label htmlFor="fname-in">First name</label>
-                        <input ref={fnameRef} type="text" id="fname-in" name="fname-in" className="edit-text-1 w-100" placeholder="e.g. Juan" />
-                        
-                    </div> */}
                     <EditText1
                         width={"w-100"}
                         label={"First name"} 
@@ -183,24 +171,20 @@ export default function Signup() {
                 </div>
                 
                 <div className="d-flex gap3 w-100 mar-bottom-l1">
-                    {/* <div className="d-flex flex-direction-y gap4 w-100">
-                        <label htmlFor="pass-in">Password</label>
-                        <div className="d-flex position-relative align-items-center w-100">
-                            <input ref={passRef} type={inputType} id="pass-in" name="pass-in password-input" className="edit-text-1 w-100" />
-                            <Icon.EyeFill className='position-absolute right3 seePassIcon' onClick={togglePasswordVisibility}/>
-                        </div>
-                    </div> */}
 
-                    <PasswordInput ref={passRef} id='pass-in' label="Password"/>
-                    <PasswordInput ref={conpassRef} id='con-pass-in' label="Confirm Password"/>
+                    <EditPassword1
+                        width={"w-100"} 
+                        label={"Password"} 
+                        value={password} 
+                        setFieldValue={setPassword} 
+                        required={true}/>
 
-                    {/* <div className="d-flex flex-direction-y gap4 w-100">
-                        <label htmlFor="con-pass-in">Confirm Password</label>
-                        <div className="d-flex position-relative align-items-center w-100">
-                            <input ref={conpassRef} type={inputType2} id="con-pass-in" name="con-pass-in password-input" className="edit-text-1 w-100" />
-                            <Icon.EyeFill className='position-absolute right3 seePassIcon' onClick={togglePasswordVisibility2}/>
-                        </div>
-                    </div> */}
+                    <EditPassword1
+                        width={"w-100"} 
+                        label={"Confirm password"} 
+                        value={conPass} 
+                        setFieldValue={setConPass} 
+                        required={true}/>
                 </div>
 
 
