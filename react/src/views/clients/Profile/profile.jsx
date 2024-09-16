@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { formatDate } from '../../../assets/js/utils';
+import { formatDate, formatToPhilPeso } from '../../../assets/js/utils';
 import { useStateContext } from '../../../contexts/ContextProvider';
 import '/src/assets/css/client_profile.css';
 import * as Icon from "react-bootstrap-icons";
@@ -11,6 +11,7 @@ export default function ClientProfile() {
     const [preferedLoc, setPreferedLoc] = useState(null);
 
     useEffect(() => {
+        console.log(user);
         const getPreferedLoc = async() => {
             try {
                 const data = await fetchAllClientPreferedLoc(user.id);
@@ -53,6 +54,17 @@ export default function ClientProfile() {
                 <div className="client-profile-right-container">
                     <div className="text-l1 fw-bold">About {user.firstname}</div>
                     <Link to={'/BDDRClient/EditProfile'} className="secondary-btn-black1 align-self-start mar-bottom-1 color-black1">Edit Profile</Link>
+
+                    
+                    <div className="d-flex flex-direction-y gap4 mar-bottom-2">
+                        <div className="text-l3 fw-bold">Monthly Income</div>
+                        <div className="text-m1">{user.monthly_income ? formatToPhilPeso(user.monthly_income) : "Not set"}</div>
+                    </div>
+
+                    <div className="d-flex flex-direction-y gap4 mar-bottom-2">
+                        <div className="text-l3 fw-bold">Work</div>
+                        <div className="text-m1">{user.work || "Not set"}</div>
+                    </div>
                     
                     <div className="text-l3 fw-bold mar-bottom-3">Prefered Location</div>
                     <div className="client-profile-prefered-loc-cont">

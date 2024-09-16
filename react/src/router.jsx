@@ -60,6 +60,7 @@ import AdminEditPropertyModel from "./views/admin/Properties/EditProperty/edit_p
 import AgentInquiries from "./views/agents/inquiries";
 import ClientProfile from "./views/clients/Profile/profile";
 import ClientEditProfile from "./views/clients/Profile/EditProfile";
+import ClientOngoingTransactions from "./views/clients/Transactions/OngoingTransactions";
 
 const router = createBrowserRouter([
     /*
@@ -162,6 +163,12 @@ const router = createBrowserRouter([
             {
                 path: 'EditProfile',
                 element: <ClientEditProfile/>
+            },
+
+            // Ongoing Transactions
+            {
+                path: 'OngoingTransactions',
+                element: <ClientOngoingTransactions/>
             }
         ]
     },

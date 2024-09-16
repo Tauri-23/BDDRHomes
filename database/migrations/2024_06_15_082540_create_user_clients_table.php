@@ -26,6 +26,9 @@ return new class extends Migration
             $table->string('password');
 
             $table->string('pfp')->nullable();
+
+            $table->string('monthly_income')->nullable();
+            $table->string('work')->nullable();
             
             $table->timestamps();
         });

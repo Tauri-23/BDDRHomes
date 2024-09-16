@@ -11,30 +11,31 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('ongoing_deals', function (Blueprint $table) {
-            $table->string('id', 12)->primary();
-            $table->string('agent', 6)->nullable();
-            $table->string('client', 6)->nullable();
-            $table->string('property', 12)->nullable();
-
+        Schema::create('ongoing_transactions', function (Blueprint $table) {
+            $table->string("id", 16)->primary();
+            $table->string("client", 6)->nullable();
+            $table->string("agent",6)->nullable();
+            $table->string("property",12)->nullable();
+            $table->string("status")->default("pending");
             $table->timestamps();
+
 
             /**
              * Foreign Keys
              */
-            $table->foreign('client')
+            $table->foreign(columns: 'client')
                 ->references('id')
                 ->on('user_clients')
                 ->nullOnDelete()
                 ->cascadeOnUpdate();
 
-            $table->foreign('agent')
+            $table->foreign(columns: 'agent')
                 ->references('id')
                 ->on('user_agents')
                 ->nullOnDelete()
                 ->cascadeOnUpdate();
-            
-            $table->foreign('property')
+
+            $table->foreign(columns: 'property')
                 ->references('id')
                 ->on('published_properties')
                 ->nullOnDelete()
@@ -47,6 +48,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('ongoing_deals');
+        Schema::dropIfExists('ongoing_transactions');
     }
 };

@@ -1,13 +1,14 @@
 import * as Icon from 'react-bootstrap-icons';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { formatToPhilPeso } from '../../assets/js/utils';
+import { formatToPhilPeso, notify } from '../../assets/js/utils';
 import { useModal } from '../../contexts/ModalContext';
 import { fetchPropertyListedFullById } from '../../Services/GeneralPropertyListingService';
 import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
 import { useStateContext } from '../../contexts/ContextProvider';
 import { db } from '../../firebase-cofig';
 import { fetchSpecificPublishedPropertyFull } from '../../Services/GeneralPropertiesService';
+import axiosClient from '../../axios-client';
 
 export default function ClientViewProperty() {
     const {showModal} = useModal();
@@ -103,6 +104,24 @@ export default function ClientViewProperty() {
             console.error("Error creating conversation or message: ", error);
         }
     };
+
+    const handleStartTransaction = async() => {
+        const formData = new FormData();
+        formData.append("clientId", user.id);
+        formData.append("propId", id);
+
+        axiosClient.post("/create-transaction-from-client-post", formData)
+        .then(({data}) => {
+            if(data.status === 200) {
+                notify("default", data.message, "bottom-left", 3000);
+                navigate("/BDDRClient/OngoingTransactions");
+
+            } else {
+                notify("error", data.message, "bottom-left", 3000);
+            }
+        })
+        .catch(error => console.error(error));
+    }
     
 
 
@@ -268,7 +287,7 @@ export default function ClientViewProperty() {
                         {/* Actions */}
                         <div className="action-box d-flex gap1 flex-direction-y">
                                 {/* Price */}
-                                <div className="text-l2">{formatToPhilPeso(propertyListed.monthly_amortization)} <div className="text-m3 color-grey1">monthly amortization</div></div>
+                                <div className="text-l2">{formatToPhilPeso(propertyListed.price)} <div className="text-m3 color-grey1">TCP</div></div>
                                 <div className="d-flex flex-direction-y gap3">
                                     <div className="text-l3">Developer:</div>
                                     <div className="d-flex gap3 align-items-center">
@@ -287,7 +306,7 @@ export default function ClientViewProperty() {
                                 </div>
                                 <div className="d-flex flex-direction-y gap3">
                                     
-                                    <div className="primary-btn-black1 text-m2 text-center">Start a transaction</div>
+                                    <button onClick={handleStartTransaction} className="primary-btn-black1 text-m2 text-center">Start a transaction</button>
                                     <div className="d-flex gap3 w-100">
                                         <div className="secondary-btn-black1 text-m1 text-center" onClick={handleMessageAgent}><Icon.ChatSquareDots/></div>
                                         <div className="secondary-btn-black1 d-flex align-items-center justify-content-center text-m2 color-black1 w-100">Book A Tripping</div>

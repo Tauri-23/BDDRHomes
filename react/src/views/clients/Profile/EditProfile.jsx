@@ -3,9 +3,7 @@ import { useStateContext } from "../../../contexts/ContextProvider";
 import { useEffect, useState } from "react";
 import { useModal } from "../../../contexts/ModalContext";
 import axiosClient from "../../../axios-client";
-import { notify } from "../../../assets/js/utils";
-import { ToastContainer } from "react-toastify";
-import EditText1 from "../../../components/FormComponents/edit_text_1";
+import { formatToPhilPeso, notify } from "../../../assets/js/utils";
 import ClientEditProfileInfo1 from "../../../components/ClientComponents/client_edit_profile_info1";
 import { fetchAllClientPreferedLoc } from "../../../Services/ClientPreferedLocService";
 import { Link } from "react-router-dom";
@@ -24,6 +22,9 @@ export default function ClientEditProfile() {
     const [isEditEmail, setEditEmail] = useState(false);
     const [isEditPhone, setEditPhone] = useState(false);
     const [isEditPrefLoc, setEditPrefLoc] = useState(false);
+
+    const [isEditIncome, setEditIncome] = useState(false);
+    const [isEditWork, setEditWork] = useState(false);
 
     const [newFname, setNewFname] = useState(user.firstname);
     const [newMname, setNewMname] = useState(user.middlename);
@@ -181,6 +182,32 @@ export default function ClientEditProfile() {
                             label={"Phone"}
                             />
 
+                        <div className="hr-line1 mar-top-2 mar-bottom-2"></div>
+
+                        <div className="text-l1 fw-bold mar-bottom-3 color-black2">Qualifying Information</div>
+                        
+                        {/* Monthly Income */}
+                        <div className="d-flex flex-direction-y w-100">
+                            <div className="d-flex text-m3 justify-content-between">
+                                Monthly Income
+                                <div className="text-m2 text-decoration-underline cursor-pointer user-select-none" onClick={() => setEditIncome(!isEditIncome)}>{isEditIncome ? 'Cancel' : 'Edit'}</div>
+                            </div>
+
+                            <div className={`text-m1 color-black2 ${isEditIncome ? 'd-none' : ''}`}>{user.monthly_income ? formatToPhilPeso(user.monthly_income) : "Not set"}</div>
+                        </div>
+
+                        <div className="hr-line1 mar-top-2 mar-bottom-2"></div>
+
+                        {/* Job or Work */}
+                        <div className="d-flex flex-direction-y w-100">
+                            <div className="d-flex text-m3 justify-content-between">
+                                Work
+                                <div className="text-m2 text-decoration-underline cursor-pointer user-select-none" onClick={() => setEditWork(!isEditWork)}>{isEditWork ? 'Cancel' : 'Edit'}</div>
+                            </div>
+
+                            <div className={`text-m1 color-black2 ${isEditWork ? 'd-none' : ''}`}>{user.work || "Not set"}</div>
+                        </div>
+                        
                         <div className="hr-line1 mar-top-2 mar-bottom-2"></div>
 
                         {preferedLoc && locations && (
