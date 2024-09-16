@@ -78,6 +78,10 @@
     padding: 10px;
     border-radius: 20px;
     border: 1px solid var(--grey1);
+    cursor: pointer;
+}
+.prefered-loc-chip.active {
+    border: 1px solid var(--black1);
 }
 
 

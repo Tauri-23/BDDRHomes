@@ -180,5 +180,6 @@ Route::get('/get-all-provinces', [ProvinceController::class, 'getAllProvince']);
 *  Client Prefered Location
 */
 Route::get('/get-all-client-prefered-location/{clientId}', [ClientPreferedLocation::class, 'getAllClientPreferedLoc']);
+Route::post('/update-client-prefered-location', [ClientPreferedLocation::class, 'updateClientPreferedLoc']);
 
 

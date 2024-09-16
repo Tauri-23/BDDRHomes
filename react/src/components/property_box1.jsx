@@ -4,7 +4,7 @@ import { formatToPhilPeso } from "../assets/js/utils";
 import { useEffect } from "react";
 import { useModal } from "../contexts/ModalContext";
 
-export const PropertyBox1 = ({ wishlists, propId, property, isInWishlist, handleCreateWishlistAndAddPropToIt, handleRemovePropFromWishlist, handleAddPropToWishlist}) => { //TODO::put parameters]
+export const PropertyBox1 = ({ wishlists, propId, property, viewAs, isInWishlist, handleCreateWishlistAndAddPropToIt, handleRemovePropFromWishlist, handleAddPropToWishlist}) => { //TODO::put parameters]
     const {showModal} = useModal();
     const navigate = useNavigate();
 
@@ -90,7 +90,9 @@ export const PropertyBox1 = ({ wishlists, propId, property, isInWishlist, handle
 
                         {/* Price */}
                         <div className="text-start mar-top-3 text-m1 fw-bold">
-                            {formatToPhilPeso(property.monthly_amortization)}
+                            {viewAs == 1 
+                            ? formatToPhilPeso(property.monthly_amortization)
+                            : (viewAs == 2 ? formatToPhilPeso(property.price) : formatToPhilPeso(property.required_income))}
                         </div>
 
                         

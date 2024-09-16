@@ -25,6 +25,7 @@ export default function ClientIndex() {
     const [amenities, setAmenities] = useState(null);
 
     // For Filters
+    const [propViewAs, setPropViewAs] = useState(1);
     const [selectedPropType, setSelectedPropType] = useState("");
     const [selectedAmenities, setSelectedAmenities] = useState([]);
     const [bedroomNumbers, setBedroomNumbers] = useState(0);
@@ -287,7 +288,7 @@ export default function ClientIndex() {
                 
                 {amenities && (
                     <div className="d-flex gap3 align-items-center">
-                        <select className="secondary-btn-black2 gap3 d-flex align-items-center">
+                        <select className="secondary-btn-black2 gap3 d-flex align-items-center" value={propViewAs} onChange={(e) => setPropViewAs(e.target.value)}>
                             <option value="1">View as monthly amortization</option>
                             <option value="2">View as price</option>
                             <option value="3">View as required income</option>
@@ -317,7 +318,7 @@ export default function ClientIndex() {
                                 key={prop.id}
                                 wishlists={wishlists}
                                 property={prop}
-                                agent={prop.agent}
+                                viewAs={propViewAs}
                                 propId={prop.id}
                                 isInWishlist={inWishlist}
                                 handleCreateWishlistAndAddPropToIt={handleCreateWishlistAndAddPropToIt}

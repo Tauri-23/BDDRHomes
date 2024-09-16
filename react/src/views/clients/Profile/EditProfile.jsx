@@ -9,6 +9,8 @@ import EditText1 from "../../../components/FormComponents/edit_text_1";
 import ClientEditProfileInfo1 from "../../../components/ClientComponents/client_edit_profile_info1";
 import { fetchAllClientPreferedLoc } from "../../../Services/ClientPreferedLocService";
 import { Link } from "react-router-dom";
+import ClientEditProfilePreferedLoc from "../../../components/ClientComponents/client_edit_profile_prefered_loc";
+import { fetchAllProvinces } from "../../../Services/ProvinceService";
 
 export default function ClientEditProfile() {
     const {user, setUser} = useStateContext();
@@ -16,10 +18,12 @@ export default function ClientEditProfile() {
     const [newPfp, setNewPfp] = useState(null);
 
     const [preferedLoc, setPreferedLoc] = useState(null);
+    const [locations, setLocations] = useState(null);
 
     const [isEditName, setEditName] = useState(false);
     const [isEditEmail, setEditEmail] = useState(false);
     const [isEditPhone, setEditPhone] = useState(false);
+    const [isEditPrefLoc, setEditPrefLoc] = useState(false);
 
     const [newFname, setNewFname] = useState(user.firstname);
     const [newMname, setNewMname] = useState(user.middlename);
@@ -54,6 +58,7 @@ export default function ClientEditProfile() {
         });
     }
 
+    // Data Retrieval
     useEffect(() => {
         const getPreferedLocation = async() => {
             try {
@@ -62,8 +67,26 @@ export default function ClientEditProfile() {
             } catch(error) {console.error(error)}
         }
 
-        getPreferedLocation();
+        const getAllLocations = async() => {
+            try {
+                const data = await fetchAllProvinces();
+                setLocations(data);
+            } catch(error) {console.error(error)}
+        }
+
+        const getAllData = async() => {
+            getPreferedLocation();
+            getAllLocations();
+        }
+
+        getAllData();
     }, []);
+
+
+    const handleChangeInfoPost = () => {
+        const formData = new FormData();
+
+    }
 
 
     /**
@@ -160,20 +183,18 @@ export default function ClientEditProfile() {
 
                         <div className="hr-line1 mar-top-2 mar-bottom-2"></div>
 
-                        <div className="text-l1 fw-bold mar-bottom-3 color-black2 d-flex justify-content-between align-items-center">
-                            Prefered Location
-                            <div className="text-m2 text-decoration-underline cursor-pointer">Edit</div>
-                        </div>
-
-                        <div className="d-flex flex-wrap gap3">
-                            {preferedLoc && preferedLoc.map(prefLoc => (
-                                <div key={prefLoc.id} className="prefered-loc-chip">{prefLoc.province.province}</div>
-                            ))}
-                        </div>
+                        {preferedLoc && locations && (
+                            <ClientEditProfilePreferedLoc
+                                preferedLoc={preferedLoc}
+                                setPreferedLoc={setPreferedLoc}
+                                clientId={user.id}
+                                isEditPrefLoc={isEditPrefLoc}
+                                setEditPrefLoc={setEditPrefLoc}
+                                locations={locations}/>
+                        )}
                     </div>
                 </div>
             </div>
-            <ToastContainer/>
         </>
     );
 }

@@ -13,7 +13,7 @@ const ClientEditProfileInfo1 = ({
         <div className="d-flex flex-direction-y w-100">
             <div className="d-flex text-m3 justify-content-between">
                 {title} 
-                <div className="text-m2 text-decoration-underline cursor-pointer" onClick={() => setEditInfo(!isEditInfo)}>{isEditInfo ? 'Cancel' : 'Edit'}</div>
+                <div className="text-m2 text-decoration-underline cursor-pointer user-select-none" onClick={() => setEditInfo(!isEditInfo)}>{isEditInfo ? 'Cancel' : 'Edit'}</div>
             </div>
 
             <div className={`text-m1 color-black2 ${isEditInfo ? 'd-none' : ''}`}>{oldInfo} {oldInfo2} {oldInfo3}</div>
