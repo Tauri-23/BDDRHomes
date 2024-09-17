@@ -9,9 +9,9 @@ use App\Http\Controllers\Api\DevelopersController;
 use App\Http\Controllers\Api\PropertiesController;
 use App\Http\Controllers\Api\PropertyListingsController;
 use App\Http\Controllers\Api\TeamsController;
+use App\Http\Controllers\Api\TransactionController;
 use App\Http\Controllers\ClientPreferedLocation;
 use App\Http\Controllers\ProvinceController;
-use App\Http\Controllers\TransactionController;
 use Illuminate\Support\Facades\Route;
 
 // Route::get('/user', function (Request $request) {
@@ -191,5 +191,5 @@ Route::post('/update-client-prefered-location', [ClientPreferedLocation::class, 
 *  Transactions
 */
 Route::get('/get-all-pending-transactions', [TransactionController::class, 'GetAllPendingTransactions']);
-Route::get('/get-all-pending-transactions-client', [TransactionController::class, 'GetPendingTransactionClient']);
+Route::get('/get-all-pending-transactions-client/{clientId}', [TransactionController::class, 'GetPendingTransactionClient']);
 Route::post('/create-transaction-from-client-post', [TransactionController::class, 'CreateTransaction']);
