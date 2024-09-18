@@ -71,6 +71,7 @@ export const ClientNavbar1 = ({client, onLogout}) => {
                     <NavLink1 to="/BDDRClient/Messages" label="Messages" onClick={toggleNavModal1Visibility} />
                     <NavLink1 to="/BDDRClient/Trippings" label="Trippings" onClick={toggleNavModal1Visibility} />
                     <NavLink1 to="/BDDRClient/OngoingTransactions" label="Ongoing Transactions" onClick={toggleNavModal1Visibility} />
+                    <NavLink1 to="/BDDRClient/OngoingTransactions" label="Transaction History" onClick={toggleNavModal1Visibility} />
 
                     <div className="nav-hr"></div>
 
