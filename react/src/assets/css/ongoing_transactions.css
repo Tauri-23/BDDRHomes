@@ -1,0 +1,40 @@
+.transactions-table1 {
+    width: 100%;
+}
+
+.transactions-box {
+    background: var(--white);
+    filter: drop-shadow(0 0 1px var(--grey1));
+    width: 100%;
+    cursor: pointer;
+}
+.transactions-box-prop-pic {
+    width: 100px;
+    height: 100px;
+    position: relative;
+    border-radius: 10px;
+    overflow: hidden;
+}
+.transactions-box-prop-pic img {
+    height: 100%;
+    width: 100%;
+}
+
+
+.transactions-table1-thead {
+    padding: 30px;
+    width: 100%;
+}
+.transactions-table1-thead th {
+    font-size: var(--text-m1);
+    padding: 30px 10px;
+}
+
+
+.transactions-table1-tbody {
+    width: 100%;
+    padding: 30px;
+}
+.transactions-table1-tbody td {
+    padding: 20px 10px;
+}
