@@ -61,6 +61,8 @@ import AgentInquiries from "./views/agents/inquiries";
 import ClientProfile from "./views/clients/Profile/profile";
 import ClientEditProfile from "./views/clients/Profile/EditProfile";
 import ClientOngoingTransactions from "./views/clients/Transactions/OngoingTransactions";
+import AgentTransactionDefault from "./views/agents/Transactions/transactionDefault";
+import AgentPendingTransactions from "./views/agents/Transactions/pendingTransactions";
 
 const router = createBrowserRouter([
     /*
@@ -246,6 +248,18 @@ const router = createBrowserRouter([
                 path: 'Messages',
                 element: <AgentMessages/>
             },
+
+            {
+                path: 'Transactions',
+                element: <AgentTransactionDefault/>,
+                children: [
+                    {
+                        index: true,
+                        element: <AgentPendingTransactions/>
+                    }
+                ]
+            },
+
             {
                 path: 'Performance',
                 element: <AgentPerformance/>
