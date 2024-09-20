@@ -51,13 +51,14 @@
     border-radius: var(--radius3);
     cursor: pointer;
     border: none;
-    background: transparent;
+    background: transparent;;
 }
 .secondary-btn-blue1 {
     border: 1px solid var(--blue1);
 }
 .secondary-btn-black1 {
     border: 1px solid var(--black1);
+    color: var(--black1);
 } 
 .secondary-btn-black2 {
     border: 1px solid var(--black2);

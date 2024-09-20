@@ -16,6 +16,14 @@ class TransactionController extends Controller
     }
 
     // GET
+    public function GetAllOngoingTransactions($agentId)
+    {
+        return response()->json(
+            ongoing_transactions::where("status", "ongoing")
+                ->where("agent", $agentId)
+                ->with(["client", "agent", "property"])->get()
+        );
+    }
     public function GetAllPendingTransactions()
     {
         return response()->json(ongoing_transactions::where("status", "pending")->with(["client", "agent", "property"])->get());
@@ -53,6 +61,28 @@ class TransactionController extends Controller
             return response()->json([
                 "status" => 400,
                 "message" => "Failed creating transaction please try again later."
+            ]);
+        }
+    }
+
+    public function UpdateTransaction(Request $request)
+    {
+        $transaction = ongoing_transactions::find($request->transactionId);
+        $transaction->status = "ongoing";
+        $transaction->agent = $request->agentId;
+
+        if($transaction->save())
+        {
+            return response()->json([
+                "status" => 200,
+                "message" => 'Success'
+            ]);
+        }
+        else
+        {
+            return response()->json([
+                "status" => 401,
+                "message" => 'Something went wrong when getting the transaction please try again later.'
             ]);
         }
     }

@@ -53,9 +53,9 @@ export default function AgentInquiries () {
     /*
     | Debugging
     */
-    // useEffect(() => {
-    //     console.log(conversationDb)
-    // }, [conversationDb]);
+    useEffect(() => {
+        console.log(conversationDb)
+    }, [conversationDb]);
 
 
 

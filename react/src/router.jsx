@@ -63,6 +63,7 @@ import ClientEditProfile from "./views/clients/Profile/EditProfile";
 import ClientOngoingTransactions from "./views/clients/Transactions/OngoingTransactions";
 import AgentTransactionDefault from "./views/agents/Transactions/transactionDefault";
 import AgentPendingTransactions from "./views/agents/Transactions/pendingTransactions";
+import AgentOngoingTransaction from "./views/agents/Transactions/ongoingTransactions";
 
 const router = createBrowserRouter([
     /*
@@ -256,6 +257,10 @@ const router = createBrowserRouter([
                     {
                         index: true,
                         element: <AgentPendingTransactions/>
+                    },
+                    {
+                        path: "Ongoing",
+                        element: <AgentOngoingTransaction/>
                     }
                 ]
             },

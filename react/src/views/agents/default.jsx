@@ -10,6 +10,7 @@ import { ModalProvider } from "../../contexts/ModalContext";
 import ModalManager from "../../Managers/ModalManager";
 import { signOut } from "firebase/auth";
 import { auth } from "../../firebase-cofig";
+import { ToastContainer } from "react-toastify";
 
 export default function AgentDefault() {
     const { userType, setUserType, user, token, setUser, setToken } = useStateContext();
@@ -63,7 +64,7 @@ export default function AgentDefault() {
 
                 <Outlet/>
 
-                
+                <ToastContainer/>
             </div>
         </ModalProvider>
     );
