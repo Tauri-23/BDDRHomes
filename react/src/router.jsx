@@ -64,6 +64,7 @@ import ClientOngoingTransactions from "./views/clients/Transactions/OngoingTrans
 import AgentTransactionDefault from "./views/agents/Transactions/transactionDefault";
 import AgentPendingTransactions from "./views/agents/Transactions/pendingTransactions";
 import AgentOngoingTransaction from "./views/agents/Transactions/ongoingTransactions";
+import AgentViewOngoingTransaction from "./views/agents/Transactions/viewOngoingTransaction";
 
 const router = createBrowserRouter([
     /*
@@ -250,6 +251,7 @@ const router = createBrowserRouter([
                 element: <AgentMessages/>
             },
 
+            // Transactions
             {
                 path: 'Transactions',
                 element: <AgentTransactionDefault/>,
@@ -263,6 +265,10 @@ const router = createBrowserRouter([
                         element: <AgentOngoingTransaction/>
                     }
                 ]
+            },
+            {
+                path: 'ViewTransaction/:transactionId',
+                element: <AgentViewOngoingTransaction/>
             },
 
             {

@@ -34,6 +34,9 @@
     --radius2: 20px;
     --radius3: 10px;
     --radius4: 5px;
+
+    --navbar1-height: 70px;
+    --sidenav1-width: 300px;
 }
 
 * {

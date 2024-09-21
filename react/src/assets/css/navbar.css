@@ -5,7 +5,7 @@
 */
 .navbar1 {
     width: 100%;
-    height: 70px;
+    height: var(--navbar1-height);
     padding: 10px 50px;
     background: var(--white);
     display: flex;
@@ -52,7 +52,7 @@
 }
 .navbar2 {
     width: calc(100% - 0px);
-    height: 70px;
+    height: var(--navbar1-height);
     padding: 10px 50px;
     background: var(--white);
     display: flex;
@@ -130,7 +130,7 @@
 */
 .navbar3 {
     width: calc(100% - 0px);
-    height: 70px;
+    height: var(--navbar1-height);
     padding: 0 50px;
     background: var(--white);
     display: flex;
@@ -240,7 +240,7 @@
 */
 .navbar1-admin {
     width: calc(100% - 100px);
-    height: 70px;
+    height: var(--navbar1-height);
     padding: 0 50px;
     margin: 0 0 0 100px;
     background: var(--white);
@@ -260,7 +260,7 @@
 
 
 .sidenav1 {
-    width: 300px;
+    width: var(--sidenav1-width);
     height: 100%;
     position: fixed;
     display: flex;

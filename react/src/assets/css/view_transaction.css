@@ -1,0 +1,62 @@
+.view-transaction-cont1 {
+    display: flex;
+    gap: 80px;
+    position: sticky;
+    top: 0;
+}
+.view-transaction-left {
+    width: 550px;
+    height: 600px;
+    position: sticky;
+    top: calc(var(--navbar1-height) + 30px);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.view-transaction-left-box1 {
+    width: 100%;
+    border-radius: 20px;
+    background: var(--white);
+    filter: drop-shadow(0 0 3px var(--grey1));
+    padding: 30px;
+}
+
+.view-transaction-left-box1-pfp {
+    width: 100px;
+    height: 100px;
+    border-radius: 100%;
+    background: var(--black1);
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--text-xl1);
+    color: var(--white);
+    overflow: hidden;
+}
+.view-transaction-left-box1-pfp img, .view-transaction-left-box1-prop-pic img {
+    height: 100%;
+    position: absolute;
+}
+
+.view-transaction-left-box1-prop-pic {
+    width: 100px;
+    height: 100px;
+    border-radius: 20px;
+    background: var(--black1);
+    display: flex;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+}
+
+
+.view-transaction-right {
+    width: 100%;
+}
+
+
+.view-transaction-task-table-thead tr {
+    padding: 10px 20px;
+}

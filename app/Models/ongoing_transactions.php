@@ -11,7 +11,7 @@ class ongoing_transactions extends Model
 
     public function client()
     {
-        return $this->belongsTo(user_clients::class, "client", "id");
+        return $this->belongsTo(user_clients::class, "client", "id")->with("EmploymentType");
     }
 
     public function agent()

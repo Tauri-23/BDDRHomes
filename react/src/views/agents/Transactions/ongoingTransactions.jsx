@@ -2,8 +2,10 @@ import { useEffect, useState } from "react";
 import * as Icon from "react-bootstrap-icons";
 import { fetchAllAgentOngoingTransactions } from "../../../Services/GeneralTransactionService";
 import { useStateContext } from "../../../contexts/ContextProvider";
+import { useNavigate } from "react-router-dom";
 
 export default function AgentOngoingTransaction() {
+    const navigate = useNavigate();
     const {user} = useStateContext();
     const [ongoingTransactions, setOngoingTransactions] = useState(null);
 
@@ -17,6 +19,10 @@ export default function AgentOngoingTransaction() {
 
         getAllOngoingTransactions();
     }, []);
+
+    const redirectToViewTrasaction = (transactionId) => {
+        navigate(`/BDDRAgent/ViewTransaction/${transactionId}`);
+    }
 
 
     return(
@@ -62,7 +68,7 @@ export default function AgentOngoingTransaction() {
     
                     <tbody className="transactions-table1-tbody">
                         {ongoingTransactions && ongoingTransactions.length > 0 && ongoingTransactions.map((transaction) => (
-                            <tr key={transaction.id} className="transactions-box">
+                            <tr key={transaction.id} className="transactions-box" onClick={() => redirectToViewTrasaction(transaction.id)}>
                                 <td className="d-flex gap3">
                                     <div className="transactions-box-prop-pic">
                                         <img src={`/src/assets/media/properties/${transaction.property.photos[0].filename}`}/>

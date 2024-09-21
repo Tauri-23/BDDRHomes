@@ -191,7 +191,15 @@ class AuthController extends Controller
     public function getUser(Request $request) 
     {
         $user = $request->user();
-        $userType = $user instanceof user_clients ? 'client' : ($user instanceof user_agents ? 'agent' : 'admin'); //This is for now
+        $userType = $user instanceof user_clients 
+            ? 'client' 
+            : ($user instanceof user_agents ? 'agent' : 'admin');
+
+        if($userType == "client")
+        {
+            $user->load("EmploymentType");
+        }
+        
         return response()->json([
             'user' => $user,
             'user_type' => $userType,

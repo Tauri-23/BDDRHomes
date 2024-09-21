@@ -24,6 +24,7 @@ class TransactionController extends Controller
                 ->with(["client", "agent", "property"])->get()
         );
     }
+
     public function GetAllPendingTransactions()
     {
         return response()->json(ongoing_transactions::where("status", "pending")->with(["client", "agent", "property"])->get());
@@ -36,6 +37,13 @@ class TransactionController extends Controller
                 ->where("client", $clientId)
                 ->with(["client", "agent", "property"])->get()
         );
+    }
+
+    public function GetFullTransactionInfoById($transactionId)
+    {
+        $transaction = ongoing_transactions::where("id", $transactionId)->with(["client", "agent", "property"])->first();
+
+        return response()->json($transaction);
     }
 
 

@@ -10,6 +10,7 @@ use App\Http\Controllers\Api\PropertiesController;
 use App\Http\Controllers\Api\PropertyListingsController;
 use App\Http\Controllers\Api\TeamsController;
 use App\Http\Controllers\Api\TransactionController;
+use App\Http\Controllers\Api\TransactionRequirementsController;
 use App\Http\Controllers\ClientPreferedLocation;
 use App\Http\Controllers\ProvinceController;
 use Illuminate\Support\Facades\Route;
@@ -190,9 +191,19 @@ Route::post('/update-client-prefered-location', [ClientPreferedLocation::class, 
 /* 
 *  Transactions
 */
+Route::get('/get-full-transaction-info-by-transaction-id/{transactionId}', [TransactionController::class, 'GetFullTransactionInfoById']);
 Route::get('/get-all-ongoing-transactions-agent/{agentId}', [TransactionController::class, 'GetAllOngoingTransactions']);
 Route::get('/get-all-pending-transactions', [TransactionController::class, 'GetAllPendingTransactions']);
 Route::get('/get-all-pending-transactions-client/{clientId}', [TransactionController::class, 'GetPendingTransactionClient']);
 
 Route::post('/create-transaction-from-client-post', [TransactionController::class, 'CreateTransaction']);
 Route::post('/update-transaction-from-agent-post', [TransactionController::class, 'UpdateTransaction']);
+
+
+
+
+
+/* 
+*  Transaction Requirements
+*/
+Route::get('/get-transaction-requirements-where/{financingId}', [TransactionRequirementsController::class, 'GetTransactionRequirementsByFinancing']);

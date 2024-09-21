@@ -1,5 +1,15 @@
 import axiosClient from "../axios-client";
 
+export const fetchTransactionInfoFullById = async(transactionId) => {
+    try {
+        const response = await axiosClient.get(`/get-full-transaction-info-by-transaction-id/${transactionId}`);
+        return response.data;
+    } catch (error) {
+        console.error(`Error fetching full information of transaction: ${transactionId}`);
+        throw error;
+    }
+}
+
 export const fetchAllAgentOngoingTransactions = async(agentId) => {
     try {
         const response = await axiosClient.get(`/get-all-ongoing-transactions-agent/${agentId}`);

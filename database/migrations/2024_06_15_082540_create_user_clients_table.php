@@ -28,9 +28,20 @@ return new class extends Migration
             $table->string('pfp')->nullable();
 
             $table->string('monthly_income')->nullable();
+            $table->string('employment_type', 6)->nullable();
             $table->string('work')->nullable();
             
             $table->timestamps();
+
+            
+            /**
+             * Foreign Keys
+             */
+            $table->foreign('employment_type')
+                ->references('id')
+                ->on('employment_types')
+                ->nullOnDelete()
+                ->cascadeOnUpdate();
         });
     }
 
