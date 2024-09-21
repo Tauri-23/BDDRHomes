@@ -56,7 +56,33 @@
     width: 100%;
 }
 
+.view-transaction-task-table {
+    border-spacing: 10px;
+}
+.view-transaction-task-table-thead th {
+    padding: 20px;
+    font-size: var(--text-l3);
+}
+.view-transaction-task-table-tbody td {
+    padding: 20px 20px;
+}
+.view-transaction-task-table-tbody tr {
+    background-color: var(--white);
+    filter: drop-shadow(0 0 2px var(--grey1));
+    
+}
 
-.view-transaction-task-table-thead tr {
-    padding: 10px 20px;
+.requirement-info {    
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+.requirement-status-card {
+    padding: 5px;
+    border-radius: 5px;
+    font-size: var(--text-m3);
+}
+.requirement-status-card.pending {
+    color: var(--white);
+    background: var(--blue1);
 }

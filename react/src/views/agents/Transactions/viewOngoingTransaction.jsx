@@ -117,20 +117,30 @@ export default function AgentViewOngoingTransaction() {
                                 <div className="text-l1">Tasks</div>
                                 <div className="hr-line1 mar-y-1"></div>
 
-                                <table>
+                                <table className="view-transaction-task-table">
                                     <thead className="view-transaction-task-table-thead">
                                         <tr>
-                                            <th>Requirement</th>
-                                            <th>Note</th>
-                                            <th>Status</th>
+                                            <th>Requirements</th>
+                                            <th>Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody className="view-transaction-task-table-tbody">
                                         {tasks.map(task => (
                                             <tr>
-                                                <td>{task.requirement}</td>
-                                                <td>{task.notes}</td>
-                                                <td>Pending</td>
+                                                <td>
+                                                    <div className="requirement-info">
+                                                        <div className="d-flex gap3">
+                                                            <div className="text-m1">{task.requirement}</div>
+                                                            <span className="requirement-status-card pending">pending</span>
+                                                        </div>
+                                                        <div className="text-m3">{task.notes}</div>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div className="d-flex">
+                                                        <div className="primary-btn-black1 text-m3">Done</div>
+                                                    </div>
+                                                </td>
                                             </tr>
                                         ))}
                                     </tbody>
