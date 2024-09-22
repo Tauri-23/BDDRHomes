@@ -194,7 +194,7 @@ Route::post('/update-client-prefered-location', [ClientPreferedLocation::class, 
 Route::get('/get-full-transaction-info-by-transaction-id/{transactionId}', [TransactionController::class, 'GetFullTransactionInfoById']);
 Route::get('/get-all-ongoing-transactions-agent/{agentId}', [TransactionController::class, 'GetAllOngoingTransactions']);
 Route::get('/get-all-pending-transactions', [TransactionController::class, 'GetAllPendingTransactions']);
-Route::get('/get-all-pending-transactions-client/{clientId}', [TransactionController::class, 'GetPendingTransactionClient']);
+Route::get('/get-all-client-transactions-where/{clientId}/{status}', [TransactionController::class, 'GetClientTransactionsWhere']);
 
 Route::post('/create-transaction-from-client-post', [TransactionController::class, 'CreateTransaction']);
 Route::post('/update-transaction-from-agent-post', [TransactionController::class, 'UpdateTransaction']);

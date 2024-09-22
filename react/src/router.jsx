@@ -60,11 +60,14 @@ import AdminEditPropertyModel from "./views/admin/Properties/EditProperty/edit_p
 import AgentInquiries from "./views/agents/inquiries";
 import ClientProfile from "./views/clients/Profile/profile";
 import ClientEditProfile from "./views/clients/Profile/EditProfile";
-import ClientOngoingTransactions from "./views/clients/Transactions/OngoingTransactions";
 import AgentTransactionDefault from "./views/agents/Transactions/transactionDefault";
 import AgentPendingTransactions from "./views/agents/Transactions/pendingTransactions";
 import AgentOngoingTransaction from "./views/agents/Transactions/ongoingTransactions";
 import AgentViewOngoingTransaction from "./views/agents/Transactions/viewOngoingTransaction";
+import ClientTransactionDefault from "./views/clients/Transactions/transactionDefault";
+import ClientPendingTransactions from "./views/clients/Transactions/pendingTransactions";
+import ClientOngoingTransactions from "./views/clients/Transactions/ongoingTransactions";
+import ClientViewOngoingTransaction from "./views/clients/Transactions/viewOngoingTransaction";
 
 const router = createBrowserRouter([
     /*
@@ -169,11 +172,26 @@ const router = createBrowserRouter([
                 element: <ClientEditProfile/>
             },
 
-            // Ongoing Transactions
+            // Transactions
             {
-                path: 'OngoingTransactions',
-                element: <ClientOngoingTransactions/>
+                path: 'Transactions',
+                element: <ClientTransactionDefault/>,
+                children: [
+                    {
+                        index: true,
+                        element: <ClientPendingTransactions/>
+                    },
+                    {
+                        path: 'ongoing',
+                        element: <ClientOngoingTransactions/>
+                    }
+                ]
+            },
+            {
+                path: 'ViewTransaction/:transactionId',
+                element: <ClientViewOngoingTransaction/>
             }
+
         ]
     },
 

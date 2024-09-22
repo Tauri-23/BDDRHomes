@@ -210,6 +210,18 @@ export default function ClientEditProfile() {
                         
                         <div className="hr-line1 mar-top-2 mar-bottom-2"></div>
 
+                        {/* Job or Work */}
+                        <div className="d-flex flex-direction-y w-100">
+                            <div className="d-flex text-m3 justify-content-between">
+                                Employment Type
+                                <div className="text-m2 text-decoration-underline cursor-pointer user-select-none" onClick={() => setEditWork(!isEditWork)}>{isEditWork ? 'Cancel' : 'Edit'}</div>
+                            </div>
+
+                            <div className={`text-m1 color-black2 ${isEditWork ? 'd-none' : ''}`}>{user.employment_type.type || "Not set"}</div>
+                        </div>
+                        
+                        <div className="hr-line1 mar-top-2 mar-bottom-2"></div>
+
                         {preferedLoc && locations && (
                             <ClientEditProfilePreferedLoc
                                 preferedLoc={preferedLoc}

@@ -1,20 +1,20 @@
-import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { useStateContext } from "../../../contexts/ContextProvider";
+import { useEffect, useState } from "react";
 import { fetchAllClientTransactionsWhere } from "../../../Services/GeneralTransactionService";
-import { Link, useNavigate } from "react-router-dom";
 import * as Icon from "react-bootstrap-icons";
+import '../../../assets/css/ongoing_transactions.css';
 import Shimmer from "../../../Skeletons/shimmer";
 
-export default function ClientOngoingTransactions() {
-    const navigate = useNavigate();
+export default function ClientPendingTransactions() {
     const {user} = useStateContext();
-    const [ongoingTransactions, setOngoingTransactions] = useState(null);
+    const [pendingTransactions, setPendingTransactions] = useState(null);
 
     useEffect(() => {
         const getAllTransactions = async() => {
             try {
-                const data = await fetchAllClientTransactionsWhere(user.id, 'ongoing');
-                setOngoingTransactions(data);
+                const data = await fetchAllClientTransactionsWhere(user.id, "pending");
+                setPendingTransactions(data);
             } catch(error) {console.error(error)}
         }
 
@@ -25,19 +25,13 @@ export default function ClientOngoingTransactions() {
     | Debugging
     */
     // useEffect(() => {
-    //     console.log(ongoingTransactions);
-    // }, [ongoingTransactions])
-
-
-    const redirectToViewTrasaction = (transactionId) => {
-        navigate(`/BDDRClient/ViewTransaction/${transactionId}`)
-    }
-
+    //     console.log(pendingTransactions);
+    // }, [pendingTransactions])
 
     return(
         <>            
             <div className="d-flex flex-direction-y gap3 align-items-start">
-                {ongoingTransactions && ongoingTransactions.length < 1 && (
+                {pendingTransactions && pendingTransactions.length < 1 && (
                     <>
                         <div className="text-m1">There are no transactions yet</div>
                         <Link to={"/BDDRClient"} className="secondary-btn-black2 text-m2 color-black2">Search Properties</Link>
@@ -53,21 +47,19 @@ export default function ClientOngoingTransactions() {
                         </tr>
                     </thead> */}
 
-                    {ongoingTransactions && ongoingTransactions.length > 0 && (
+                    {pendingTransactions && pendingTransactions.length > 0 && (
                         <thead className="transactions-table1-thead">
                             <tr>
                                 <th>Property</th>
-                                <th>Agent</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
                     )}
                     
 
-                    {!ongoingTransactions && (
+                    {!pendingTransactions && (
                         <thead >
                             <tr className="w-100 d-flex justify-content-between mar-top-1">
-                                <th className="w-25 text-skeleton-m position-relative"><Shimmer/></th>
                                 <th className="w-25 text-skeleton-m position-relative"><Shimmer/></th>
                                 <th className="w-25 text-skeleton-m position-relative"><Shimmer/></th>
                             </tr>
@@ -75,10 +67,8 @@ export default function ClientOngoingTransactions() {
                     )}
 
                     <tbody className="transactions-table1-tbody">
-                        {ongoingTransactions && ongoingTransactions.length > 0 && ongoingTransactions.map((transaction) => (
-                            <tr key={transaction.id} className="transactions-box" 
-                            onClick={() => redirectToViewTrasaction(transaction.id)}
-                            >
+                        {pendingTransactions && pendingTransactions.length > 0 && pendingTransactions.map((transaction) => (
+                            <tr key={transaction.id} className="transactions-box">
                                 <td className="d-flex gap3">
                                     <div className="transactions-box-prop-pic">
                                         <img src={`/src/assets/media/properties/${transaction.property.photos[0].filename}`}/>
@@ -91,18 +81,6 @@ export default function ClientOngoingTransactions() {
                                         </div>
                                     </div>
                                 </td>
-
-                                <td>
-                                    <div className="d-flex gap3 align-items-center">
-                                        <div className="transactions-box-client-pfp">
-                                            {transaction.agent.pfp
-                                            ? (<img src={`/src/assets/media/clients/pfp/${transaction.agent.pfp}`}/>)
-                                            : (<div>{transaction.agent.firstname[0]}</div>)}
-                                        </div>
-                                        <div className="text-m2">{transaction.agent.firstname} {transaction.agent.lastname}</div>
-                                    </div>                                
-                                </td>
-                                
                                 <td>
                                     <div className="d-flex">
                                         <div className="primary-btn-black1">Cancel</div>

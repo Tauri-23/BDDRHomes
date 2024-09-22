@@ -1,4 +1,4 @@
-import { Link } from 'react-bootstrap-icons';
+import { Link } from 'react-router-dom';
 import '/src/assets/css/wishlist.css';
 
 export default function ClientTrippings() {

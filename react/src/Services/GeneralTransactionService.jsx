@@ -30,9 +30,9 @@ export const fetchAllPendingTransactions = async() => {
     }
 }
 
-export const fetchAllPendingClientTransactions = async(clientId) => {
+export const fetchAllClientTransactionsWhere = async(clientId, status) => {
     try {
-        const response = await axiosClient.get(`/get-all-pending-transactions-client/${clientId}`);
+        const response = await axiosClient.get(`/get-all-client-transactions-where/${clientId}/${status}`);
         return response.data;
     } catch (error) {
         console.error('Error client pending transactions', error);

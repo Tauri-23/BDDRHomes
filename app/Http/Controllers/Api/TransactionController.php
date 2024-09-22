@@ -30,11 +30,11 @@ class TransactionController extends Controller
         return response()->json(ongoing_transactions::where("status", "pending")->with(["client", "agent", "property"])->get());
     }
 
-    public function GetPendingTransactionClient($clientId)
+    public function GetClientTransactionsWhere($clientId, $status)
     {
         return response()->json(
-            ongoing_transactions::where("status", "pending")
-                ->where("client", $clientId)
+            ongoing_transactions::where("client", $clientId)
+                ->where("status", $status)
                 ->with(["client", "agent", "property"])->get()
         );
     }

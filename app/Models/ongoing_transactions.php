@@ -16,7 +16,7 @@ class ongoing_transactions extends Model
 
     public function agent()
     {
-        return $this->belongsTo(user_agents::class, "agent", "id");
+        return $this->belongsTo(user_agents::class, "agent", "id")->with("team");
     }
 
     public function property()
