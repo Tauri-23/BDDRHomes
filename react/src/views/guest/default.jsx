@@ -31,7 +31,7 @@ export default function GuestDefault() {
 
     // Render logic based on userType
     if (token) {
-        console.log(userType);
+        // console.log(userType);
         if (userType === 'client') {
             return <Navigate to="/BDDRClient" />;
         } else if (userType === 'agent') {
