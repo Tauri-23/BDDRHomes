@@ -3,7 +3,6 @@ import * as Icon from 'react-bootstrap-icons';
 import {isEmptyOrSpaces, isEmail, formatPhoneNumber, usePasswordToggle, notify} from '../../assets/js/utils';
 import {ToastContainer} from 'react-toastify';
 import { Link } from 'react-router-dom';
-import 'react-toastify/dist/ReactToastify.css';
 import axiosClient from '../../axios-client';
 import { useStateContext } from '../../contexts/ContextProvider';
 import PasswordInput from '../../components/password-input';
