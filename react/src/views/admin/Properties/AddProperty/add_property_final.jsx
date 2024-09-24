@@ -1,6 +1,7 @@
 import { useOutletContext } from "react-router-dom";
 import { formatToPhilPeso } from "../../../../assets/js/utils";
 import { useEffect } from "react";
+import { calcMonthlyAmort } from "../../../../Services/CalculationsService";
 
 export default function AdminAddPropertyFinal() {
 
@@ -22,6 +23,12 @@ export default function AdminAddPropertyFinal() {
         floorArea,
         selectedPropertyAmenities,
         selectedPropertyFinancing,
+
+        TCP,
+        termOfBankFinancing, 
+        bankInterestRate, 
+        DPPercent,
+
         monthlyAmortization,
         requiredIncome
     } = useOutletContext();
@@ -30,6 +37,8 @@ export default function AdminAddPropertyFinal() {
     const middleIndex = Math.ceil(selectedPropertyAmenities.length / 2);
     const firstHalfAmenities = selectedPropertyAmenities.slice(0, middleIndex);
     const secondHalfAmenities = selectedPropertyAmenities.slice(middleIndex);
+
+    const loanable = (TCP * (100 - DPPercent)) / 100;
 
     return(
         <div className="d-flex justify-content-center">
@@ -172,13 +181,33 @@ export default function AdminAddPropertyFinal() {
                         <div className="text-l3 about-content">{propertyDesc}</div>
                     </div> */}
                     <div className="d-flex flex-direction-y gap4">
+                        <div className="text-m1">Total Contract Price: </div>
+                        <div className="text-l3 fw-bold">{formatToPhilPeso(TCP)}</div>
+                    </div>
+
+                    <div className="d-flex flex-direction-y gap4">
+                        <div className="text-m1">Down Payment ({DPPercent}%):</div>
+                        <div className="text-l3 fw-bold">{formatToPhilPeso(TCP * DPPercent / 100)}</div>
+                    </div>
+
+                    <div className="d-flex flex-direction-y gap4">
+                        <div className="text-m1">Loanable ({100 - DPPercent}%): </div>
+                        <div className="text-l3 fw-bold">{formatToPhilPeso(loanable)}</div>
+                    </div>
+
+                    <div className="d-flex flex-direction-y gap4">
                         <div className="text-m1">Monthly Amortization: </div>
-                        <div className="text-l3 fw-bold">{formatToPhilPeso(monthlyAmortization)}</div>
+                        <div className="text-l3 fw-bold">{termOfBankFinancing.map(bank => (
+                            <div className="text-l3 fw-bold">{bank} years - {formatToPhilPeso(calcMonthlyAmort(loanable, bank, 0, bankInterestRate))}</div>
+                        ))}</div>
                     </div>
 
                     <div className="d-flex flex-direction-y gap4">
                         <div className="text-m1">Required Income: </div>
-                        <div className="text-l3 fw-bold">{formatToPhilPeso(requiredIncome)}</div>
+                        <div className="text-l3 fw-bold">
+                            {formatToPhilPeso(calcMonthlyAmort(loanable, termOfBankFinancing[termOfBankFinancing.length - 1], 0, bankInterestRate) / .35)} - 
+                            {formatToPhilPeso(calcMonthlyAmort(loanable, termOfBankFinancing[0], 0, bankInterestRate) / .35)}
+                        </div>
                     </div>
                 </div>
             </div>

@@ -43,6 +43,15 @@ export default function AdminAddPropertyDefault() {
     const [monthlyAmortization, setMonthlyAmortization] = useState(0);
     const [requiredIncome, setRequiredIncome] = useState(0);
 
+    const [TCP, setTCP] = useState(0);
+    const [DPPercent, setDPPercent] = useState(0);
+    const [termOfDP, setTermOfDP] = useState(0); //in months
+
+    const [termOfBankFinancing, setTermOfBankFinancing] = useState([]);
+    const [bankInterestRate, setBankInterestRate] = useState(0);
+
+    //Required income = Monthly Amort / .35
+
 
     // Links
     const backLinks = {
@@ -210,9 +219,9 @@ export default function AdminAddPropertyDefault() {
     /*
     | Debug
     */
-    // useEffect(() => {
-    //     console.log(projectDeveloper);
-    // }, [projectDeveloper]);
+    useEffect(() => {
+        console.log(termOfBankFinancing);
+    }, [termOfBankFinancing]);
 
     return(
         <div className={`content1-admin ${isSidenavOpen ? 'compressed' : ''} d-flex flex-direction-y justify-content-between position-relative`}>
@@ -257,10 +266,18 @@ export default function AdminAddPropertyDefault() {
                     setSelectedPropertyFinancing,
                     
                     // 7th (add_property_price_req_income)
-                    monthlyAmortization,
-                    setMonthlyAmortization,
-                    requiredIncome,
-                    setRequiredIncome
+                    TCP,
+                    setTCP,
+                    DPPercent,
+                    setDPPercent,
+                    termOfDP,
+                    setTermOfDP,
+                    termOfBankFinancing, 
+                    setTermOfBankFinancing,
+                    bankInterestRate, 
+                    setBankInterestRate,
+                    selectedPropertyFinancing,
+
                 }     
             }/>
 
