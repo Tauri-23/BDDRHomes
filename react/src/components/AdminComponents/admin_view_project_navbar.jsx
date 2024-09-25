@@ -45,7 +45,7 @@ const AdminViewProjectNavbar = ({title}) => {
             </div>
 
             <div ref={addPopupBoxRef} className={`add-properties-developers-popupbox1 ${displayAddBox ? '' : 'd-none'}`}>
-                <Link onClick={toggleAddPopupBox} to={'/BDDRAdmin/Properties&Developers/AddProperty'} className="nav-modal1-link">Add Property</Link>
+                <Link onClick={toggleAddPopupBox} to={'AddProperty'} className="nav-modal1-link">Add Property</Link>
             </div>
         </div>
     );

@@ -13,12 +13,12 @@ return new class extends Migration
     {
         Schema::create('published_properties', function (Blueprint $table) {
             $table->string('id', 12)->primary();
-            $table->text('project_name');
+            $table->string('project', 12)->nullable();
             $table->text('project_model');
 
             // Project Address
-            $table->text('province');
-            $table->text('city');
+            $table->text('province_denormalized');
+            $table->text('city_denormalized');
             // $table->longText('description');
 
             // Developer
@@ -34,9 +34,14 @@ return new class extends Migration
             $table->integer('storey');
 
             // Finances
-            $table->double('required_income');
-            $table->double('monthly_amortization');
-            $table->float('price')->default(0);
+            $table->float('tcp');
+            $table->float('dp_percent');
+            $table->integer('dp_term_months');
+            $table->float('loanable_percent');
+            $table->float('loan_interest_rate');
+            $table->text('loan_term_ma');
+            $table->text('required_income_min');
+            $table->text('required_income_max');
 
             
             $table->string('turnover');
@@ -55,6 +60,14 @@ return new class extends Migration
                 ->on('property_types')
                 ->nullOnDelete()
                 ->cascadeOnUpdate();
+            
+
+            $table->foreign('project')
+                ->references('id')
+                ->on('property_developers_projects')
+                ->nullOnDelete()
+                ->cascadeOnUpdate();
+                
 
             $table->foreign('developer')
                 ->references('id')
