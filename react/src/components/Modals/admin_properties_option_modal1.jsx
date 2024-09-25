@@ -14,11 +14,11 @@ export const AdminPropertiesOptionModal1 = ({property, handleRemovePropertyConfi
 
                 {/* Image */}
                 <div className="listing-option-modal-pic">
-                    <img src={`/src/assets/media/properties/${property.photos[0].filename}`} alt={property.name} />
+                    <img src={`/src/assets/media/properties/${property.photos[0].filename}`} alt={property.project_model} />
                 </div>
 
                 {/* Desc */}
-                <div className="text-m2 fw-bold text-center">{property.name}</div>
+                <div className="text-m2 fw-bold text-center">{property.project_model}</div>
                 <div className="text-m3 text-center mar-bottom-1">{property.address}</div>
 
                 {/* Btns */}

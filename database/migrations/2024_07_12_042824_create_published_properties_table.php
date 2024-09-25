@@ -39,9 +39,9 @@ return new class extends Migration
             $table->integer('dp_term_months');
             $table->float('loanable_percent');
             $table->float('loan_interest_rate');
-            $table->text('loan_term_ma');
-            $table->text('required_income_min');
-            $table->text('required_income_max');
+            $table->json('loan_term_ma');
+            $table->float('required_income_min');
+            $table->float('required_income_max');
 
             
             $table->string('turnover');

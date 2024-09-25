@@ -241,16 +241,17 @@ export default function ClientIndex() {
     /* 
     |   For Debugging
     */
-    // useEffect(() => {
-    //     console.log(properties);
-    // }, [properties]);
+    useEffect(() => {
+        console.log(properties);
+    }, [properties]);
+
     // useEffect(() => {
     //     console.log(propertiesCont2);
     // }, [propertiesCont2]);
 
-    // useEffect(() => {
-    //     console.log(wishlists);
-    // }, [wishlists]);
+    useEffect(() => {
+        console.log(wishlists);
+    }, [wishlists]);
 
     // useEffect(() => {
     //     console.log(propTypes);

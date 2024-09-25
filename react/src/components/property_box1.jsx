@@ -43,7 +43,7 @@ export const PropertyBox1 = ({ wishlists, propId, property, viewAs, isInWishlist
                 </div>
 
                 <div className="property-box-desc">
-                        <div className="text-l3 fw-bold">{property.project_name}, {property.project_model}</div>
+                        <div className="text-l3 fw-bold">{property.project.project_name}, {property.project_model}</div>
                         <div className="d-flex gap4 align-items-center text-m2 w-100">
                             <Icon.GeoAlt/>
                             <div className="listing-property-address">
@@ -91,8 +91,9 @@ export const PropertyBox1 = ({ wishlists, propId, property, viewAs, isInWishlist
                         {/* Price */}
                         <div className="text-start mar-top-3 text-m1 fw-bold">
                             {viewAs == 1 
-                            ? formatToPhilPeso(property.monthly_amortization)
-                            : (viewAs == 2 ? formatToPhilPeso(property.price) : formatToPhilPeso(property.required_income))}
+                            ? <>{formatToPhilPeso(property.monthly_amortization_min)} - {formatToPhilPeso(property.monthly_amortization_max)}</>
+                            : (viewAs == 2 ? formatToPhilPeso(property.tcp) 
+                                : <>{formatToPhilPeso(property.required_income_min)} - {formatToPhilPeso(property.required_income_max)}</>)}
                         </div>
 
                         

@@ -10,11 +10,7 @@ export default function AdminAddPropertyFinal() {
         selectedTypes,
         photos, 
 
-        projectName,
         projectModel,
-        projectDeveloper,
-        propertyProvince,
-        propertyCity,
         propertyTurnover,
 
         bedroom,
@@ -29,9 +25,6 @@ export default function AdminAddPropertyFinal() {
         termOfBankFinancing, 
         bankInterestRate, 
         DPPercent,
-
-        monthlyAmortization,
-        requiredIncome
     } = useOutletContext();
 
     // Divide the amenities into two halves

@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { isEmptyOrSpaces, notify } from "../../../../../assets/js/utils";
 import axiosClient from "../../../../../axios-client";
 import { fetchAllDevelopers } from "../../../../../Services/GeneralDeveloperPropertiesService";
+import { calcMonthlyAmort } from "../../../../../Services/CalculationsService";
 
 export default function AdminAddPropertyDefault() {
     const location = useLocation();
@@ -44,6 +45,7 @@ export default function AdminAddPropertyDefault() {
     const [termOfDP, setTermOfDP] = useState(0); //in months
 
     const [termOfBankFinancing, setTermOfBankFinancing] = useState([]);
+    const [termsWithMABank, setTermsWithMABank] = useState();
     const [bankInterestRate, setBankInterestRate] = useState(0);
 
     //Required income = Monthly Amort / .35
@@ -157,28 +159,47 @@ export default function AdminAddPropertyDefault() {
 
     // Upload the property to DB
     const handlePublishProperty = (event) => {
-        //event.preventDefault();
+        const loanable = (TCP * (100 - DPPercent)) / 100;
+        const reqIncomeMin = Number(calcMonthlyAmort(loanable, termOfBankFinancing[termOfBankFinancing.length - 1], 0, bankInterestRate) / .35).toFixed(2);
+        const reqIncomeMax = Number(calcMonthlyAmort(loanable, termOfBankFinancing[0], 0, bankInterestRate) / .35).toFixed(2);
+
+        const result = termOfBankFinancing.map(term => {
+            return {term: term, ma: calcMonthlyAmort(loanable, term, 0, bankInterestRate)};
+        });
+
+        // console.log(reqIncomeMin);
+        // console.log(reqIncomeMax);
+        // console.log(termsWithMABank);
+        event.preventDefault();
         setIsPosting(true);
         notify("default", "Publishing Property...", "bottom-left", 3000);
+
         const formData = new FormData();
-        formData.append('property_type', selectedTypes.id);
+        formData.append('projectId', project.id);
+        formData.append('model', projectModel);
+        formData.append('prov_den', project.province_denormalized);
 
-        formData.append('project_name', projectName);
-        formData.append('project_model', projectModel);
-        formData.append('project_developer', projectDeveloper.id);
-        formData.append('property_city', propertyCity);
-        formData.append('property_province', propertyProvince);
-        formData.append('property_turnover', propertyTurnover);
-
+        formData.append('city_den', project.city_denormalized);
+        formData.append('projDev', project.developer.id);
         formData.append('bedroom', bedroom);
-        formData.append('bathroom', bathroom);
+        formData.append('bath', bathroom);
         formData.append('carport', carport);
-        formData.append('storey', storey);
         formData.append('lot_area', lotArea);
         formData.append('floor_area', floorArea);
 
-        formData.append('required_income', requiredIncome);
-        formData.append('monthly_amortization', monthlyAmortization);
+        formData.append('property_type', selectedTypes.id);
+        formData.append('storey', storey);
+        formData.append('tcp', TCP);
+
+        formData.append('dp_percent', DPPercent);
+        formData.append('dp_term_months', 16);
+        formData.append('loanable_percent', 100 - DPPercent);
+        formData.append('loan_interest_rate', bankInterestRate);
+        formData.append('term_with_ma_bank', JSON.stringify(result));
+        formData.append('req_income_min', reqIncomeMin);
+
+        formData.append('req_income_max', reqIncomeMax);
+        formData.append('turnover', propertyTurnover);
 
         selectedPropertyAmenities.forEach((amenity, index) => {
             formData.append(`property_amenities[${index}]`, amenity.id);
@@ -197,13 +218,14 @@ export default function AdminAddPropertyDefault() {
             setIsPosting(false);
             if(data.status === 200) {
                 notify('default', data.message, "bottom-left", 3000);
-                navigate("/BDDRAdmin/Properties&Developers");
+                navigate(`/BDDRAdmin/Properties&Developers/ViewProject/${project.id}`);
             }
             else {
                 notify('error', data.message, 'top-center', 3000);
             }
         })
         .catch(error => {
+            setIsPosting(false);
             const response = error.response;
             if(response) {
                 console.log(response);
@@ -286,7 +308,7 @@ export default function AdminAddPropertyDefault() {
                 {/* Publish Btn */}
                 <button 
                     disabled={isPosting} 
-                    className={`primary-btn-black1 ${nextBtnState ? 'disabled' : ''} d-flex gap4 align-items-center ${location.pathname === "/BDDRAdmin/Properties&Developers/AddProperty/Finalize" ? '' : 'd-none'} ${isPosting ? 'disabled' : ''}`}
+                    className={`primary-btn-black1 ${nextBtnState ? 'disabled' : ''} d-flex gap4 align-items-center ${location.pathname === `/BDDRAdmin/Properties&Developers/ViewProject/${project.id}/AddProperty/Finalize` ? '' : 'd-none'} ${isPosting ? 'disabled' : ''}`}
                     onClick={handlePublishProperty}
                 >
                     Publish                      
@@ -294,7 +316,7 @@ export default function AdminAddPropertyDefault() {
                 </button>
                 
                 {/* Next Btn */}
-                <Link to={nextLinks[location.pathname]} className={`text-decoration-none color-black1 ${location.pathname === "/BDDRAdmin/Properties&Developers/AddProperty/Finalize" ? 'd-none' : ''}`}>
+                <Link to={nextLinks[location.pathname]} className={`text-decoration-none color-black1 ${location.pathname === `/BDDRAdmin/Properties&Developers/ViewProject/${project.id}/AddProperty/Finalize` ? 'd-none' : ''}`}>
                     <button 
                         disabled={nextBtnState} 
                         className={`primary-btn-black1 ${nextBtnState ? 'disabled' : ''} d-flex gap4 align-items-center`}

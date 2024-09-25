@@ -34,5 +34,10 @@ class published_properties extends Model
         return $this->belongsTo(property_developers::class, 'developer', 'id');
     }
 
+    public function project()
+    {
+        return $this->belongsTo(property_developers_projects::class, "project", "id");
+    }
+
     
 }

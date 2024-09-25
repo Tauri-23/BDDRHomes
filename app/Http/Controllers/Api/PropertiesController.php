@@ -42,7 +42,7 @@ class PropertiesController extends Controller
 
     public function getAllPublishedProperties()
     {
-        $properties = published_properties::with(['photos', 'amenities', 'financings', 'developer', 'propertyType'])->inRandomOrder()->get();
+        $properties = published_properties::with(['photos', 'amenities', 'financings', 'developer', 'propertyType', 'project'])->inRandomOrder()->get();
         return response()->json($properties);
     }
 
@@ -63,27 +63,33 @@ class PropertiesController extends Controller
     {
         $propertyId = $this->generateId->generate(published_properties::class, 12);
         $publishedProperty = new published_properties();
+
         $publishedProperty->id = $propertyId;
         
-        $publishedProperty->property_type = $request->property_type;
+        $publishedProperty->project = $request->projectId;
 
-        $publishedProperty->project_name = $request->project_name;
-        $publishedProperty->project_model = $request->project_model;
-        $publishedProperty->developer = $request->project_developer;
-        $publishedProperty->city = $request->property_city;
-        $publishedProperty->province = $request->property_province;
-        $publishedProperty->turnover = $request->property_turnover;
-        
+        $publishedProperty->project_model = $request->model;
+        $publishedProperty->province_denormalized = $request->prov_den;
+        $publishedProperty->city_denormalized = $request->city_den;
+        $publishedProperty->developer = $request->projDev;
+
         $publishedProperty->bedroom = $request->bedroom;
-        $publishedProperty->bath = $request->bathroom;
+        $publishedProperty->bath = $request->bath;
         $publishedProperty->carport = $request->carport;
-        $publishedProperty->storey = $request->storey;
         $publishedProperty->lot_area = $request->lot_area;
         $publishedProperty->floor_area = $request->floor_area;
+        $publishedProperty->property_type = $request->property_type;
+        $publishedProperty->storey = $request->storey;
+        $publishedProperty->tcp = $request->tcp;
 
-        
-        $publishedProperty->required_income = $request->required_income;
-        $publishedProperty->monthly_amortization = $request->monthly_amortization;
+        $publishedProperty->dp_percent = $request->dp_percent;
+        $publishedProperty->dp_term_months = $request->dp_term_months;
+        $publishedProperty->loanable_percent = $request->loanable_percent;
+        $publishedProperty->loan_interest_rate = $request->loan_interest_rate;
+        $publishedProperty->loan_term_ma = $request->term_with_ma_bank;
+        $publishedProperty->required_income_min = $request->req_income_min;
+        $publishedProperty->required_income_max = $request->req_income_max;
+        $publishedProperty->turnover = $request->turnover;
 
         if(!$publishedProperty->save()) 
         {

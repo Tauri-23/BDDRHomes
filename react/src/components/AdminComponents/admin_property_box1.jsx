@@ -5,8 +5,8 @@ export const AdminPropertyBox1 = ({property, handleListingClick}) => {
                 <img src={`/src/assets/media/properties/${property.photos[0].filename}`} alt={property.title} />
             </div>
             <div className="property-box-1-desc">
-                <div className="property-box-1-name">{property.project_name}, {property.project_model}</div>
-                <div className="property-box-1-address">{property.city} {property.province}</div>
+                <div className="property-box-1-name">{property.project_model}</div>
+                <div className="property-box-1-address">{property.city_denormalized} {property.province_denormalized}</div>
             </div>
         </div>
     )
