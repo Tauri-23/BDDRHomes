@@ -1,18 +1,13 @@
 import { Link, useOutletContext } from "react-router-dom";
-import * as Icon from 'react-bootstrap-icons';
-import { fetchPublishedProperties } from "../../../Services/GeneralPropertiesService";
 import { useEffect, useState } from "react";
 import { useModal } from "../../../contexts/ModalContext";
-import { AdminPropertyBox1 } from "../../../components/AdminComponents/admin_property_box1";
-import { SkeletonPropertyBox } from "../../../Skeletons/property_skeletons";
 import AdminPropertiesDevelopersNavbar from "../../../components/AdminComponents/admin_properties_developers_navbar";
-import { fetchAllDevsWithProperties } from "../../../Services/GeneralDeveloperPropertiesService";
+import { fetchAllDevsWithProjects } from "../../../Services/GeneralDeveloperPropertiesService";
 import AdminPropertiesDevelopersBox1 from "../../../components/AdminComponents/admin_properties_developers_box1";
 
 export default function AdminPropertyIndex() {
     const {showModal} = useModal();
     const {isSidenavOpen} = useOutletContext();
-    const [properties, setProperties] = useState(null);
     const [developers, setDevelopers] = useState(null);
 
     /**
@@ -24,25 +19,16 @@ export default function AdminPropertyIndex() {
 
 
     useEffect(() => {
-        const getPublishedProperties = async () => {
+        const getDevelopersWithProjects = async() => {
             try {
-                const data = await fetchPublishedProperties();
-                setProperties(data);
-            } catch (error) {
-                console.error(error);
-            }
-        };
-
-        const getDevelopersWithProperties = async() => {
-            try {
-                const data = await fetchAllDevsWithProperties();
+                const data = await fetchAllDevsWithProjects();
                 setDevelopers(data);
             } catch (error) {
                 console.error(error);
             }
         }
-        getDevelopersWithProperties();
-        getPublishedProperties();    
+
+        getDevelopersWithProjects();
     }, []);
 
 

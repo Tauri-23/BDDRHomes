@@ -68,6 +68,8 @@ import ClientTransactionDefault from "./views/clients/Transactions/transactionDe
 import ClientPendingTransactions from "./views/clients/Transactions/pendingTransactions";
 import ClientOngoingTransactions from "./views/clients/Transactions/ongoingTransactions";
 import ClientViewOngoingTransaction from "./views/clients/Transactions/viewOngoingTransaction";
+import AdminAddDevProjects from "./views/admin/Properties/add_projects";
+import AdminViewProject from "./views/admin/Properties/viewProject";
 
 const router = createBrowserRouter([
     /*
@@ -461,6 +463,18 @@ const router = createBrowserRouter([
                     {
                         path: "AddDeveloper",
                         element: <AdminAddDeveloper/>
+                    },
+
+                    // Add Projects
+                    {
+                        path: 'AddProjects',
+                        element: <AdminAddDevProjects/>
+                    },
+
+                    // View Projects
+                    {
+                        path: 'ViewProject/:projId',
+                        element: <AdminViewProject/>
                     }
                 ]
             },

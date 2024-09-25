@@ -4,9 +4,9 @@ import axiosClient from "../axios-client";
 |   Developers
 */
 // GET
-export const fetchAllDevsWithProperties = async() => {
+export const fetchAllDevsWithProjects = async() => {
     try {
-        const response = await axiosClient.get('/get-all-developers-with-properties');
+        const response = await axiosClient.get('/get-all-developers-with-projects');
         return response.data;
     } catch (error) {
         console.error('Error fetching developers with properties', error);

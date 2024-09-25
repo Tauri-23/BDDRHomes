@@ -20,9 +20,9 @@ class DevelopersController extends Controller
 
 
     // GET
-    public function GetAllDevelopersWithProperties()
+    public function GetAllDevelopersWithProjects()
     {
-        $developers = property_developers::with(["properties"])->get();
+        $developers = property_developers::with(["projects"])->orderByDesc('updated_at')->get();
         return response()->json($developers);
     }
 

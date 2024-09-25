@@ -13,4 +13,9 @@ class property_developers extends Model
     {
         return $this->hasMany(published_properties::class, "developer", "id")->with("photos");
     }
+
+    public function projects()
+    {
+        return $this->hasMany(property_developers_projects::class,"developer", "id");
+    }
 }

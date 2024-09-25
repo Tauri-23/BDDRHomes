@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import * as Icon from "react-bootstrap-icons";
 import { Link } from "react-router-dom";
 
-const AdminPropertiesDevelopersNavbar = ({viewAs, setViewAs}) => {
+const AdminViewProjectNavbar = ({title}) => {
     const [displayAddBox, setDisplayAddBox] = useState(false);
 
     const addPopupBoxRef = useRef(null);
@@ -30,21 +30,11 @@ const AdminPropertiesDevelopersNavbar = ({viewAs, setViewAs}) => {
     return(
         <div className="mar-bottom-l1 d-flex flex-direction-y gap2 position-relative">
             <div className="admin-properties-developers-nav">
-                <div className="text-l1 fw-bold">Developers and Projects</div>
+                <div className="text-l1 fw-bold">{title}</div>
                 <div className="d-flex align-items-center gap3">
                     <div className="circle-btn-1">
                         <Icon.Search className='text-m1'/>
                     </div>
-
-                    {/* <div 
-                    className="circle-btn-1"
-                    onClick={() => setTeamDisplayType(prev => {return prev === 'Grid' ? 'List' : 'Grid'})}
-                    >
-                        {teamDisplayType === 'Grid' 
-                        ? <Icon.ViewStacked className='text-m1'/>
-                        : <Icon.Grid className='text-m1'/>
-                        }
-                    </div> */}
                     
                     <div className='color-black1' onClick={toggleAddPopupBox}>
                         <div className="circle-btn-1">
@@ -54,18 +44,11 @@ const AdminPropertiesDevelopersNavbar = ({viewAs, setViewAs}) => {
                 </div>
             </div>
 
-            <select className="primary-btn-grey2 d-flex gap3 align-items-center align-self-end" value={viewAs} onChange={(e) => setViewAs(e.target.value)}>
-                <option value={1}>View as Developers and Properties</option>
-                <option value={2}>View as Developers</option>
-            </select>
-
             <div ref={addPopupBoxRef} className={`add-properties-developers-popupbox1 ${displayAddBox ? '' : 'd-none'}`}>
-                <Link onClick={toggleAddPopupBox} to={'AddDeveloper'} className="nav-modal1-link">Add Developer</Link>
-                <Link onClick={toggleAddPopupBox} to={'AddProjects'} className="nav-modal1-link">Add Project</Link>
-                {/* <Link onClick={toggleAddPopupBox} to={'AddProperty'} className="nav-modal1-link">Add Property</Link> */}
+                <Link onClick={toggleAddPopupBox} to={'/BDDRAdmin/Properties&Developers/AddProperty'} className="nav-modal1-link">Add Property</Link>
             </div>
         </div>
     );
 }
 
-export default AdminPropertiesDevelopersNavbar;
+export default AdminViewProjectNavbar;

@@ -42,10 +42,26 @@
     overflow: hidden;
 }
 
-.developer-box-properties-container {
+.developer-box-projects-table {
     width: 100%;
+}
+.developer-box-projects-table-thead th{
     padding: 20px;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
+    background: var(--blue1);
+    color: var(--white);
+}
+
+.developer-box-projects-table-tbody tr {
+    cursor: pointer;
+}
+
+.developer-box-projects-table-tbody tr:nth-child(even) {
+    background: var(--grey1);
+}
+
+.developer-box-projects-table-tbody td{
+    padding: 20px;
+}
+.project-box {
+    width: 100%;
 }

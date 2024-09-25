@@ -85,15 +85,31 @@ const AdminPropertiesDevelopersBox1 = ({developer}) => {
                 </tbody>
             </table> */}
 
-            <div className={`developer-box-properties-container ${_developer.properties.length > 0 ? '' : 'd-none'}`}>
-                {_developer.properties.length > 0 && _developer.properties.map(property => (
-                    <AdminPropertyBox1 key={property.id} property={property} handleListingClick={handleListingClick}/>
-                ))}
-            </div>
+            <table className={`developer-box-projects-table ${_developer.projects.length > 0 ? '' : 'd-none'}`}>
+                <thead className="developer-box-projects-table-thead">
+                    <tr>
+                        <th>Project</th>
+                        <th>Location</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody className="developer-box-projects-table-tbody">
+                    {_developer.projects.length > 0 && _developer.projects.map(project => (
+                        <tr key={project.id} onClick={() => navigate(`ViewProject/${project.id}`)}>
+                            <td>{project.project_name}</td>
+                            <td>{project.city_denormalized} {project.province_denormalized}</td>
+                            <td>View Properties <Icon.ChevronDoubleRight/></td>
+                        </tr>
+                        
+                        // <AdminPropertyBox1 key={property.id} property={property} handleListingClick={handleListingClick}/>
+                    ))}
+                </tbody>
+                
+            </table>
 
             {/* IF No Properties */}
-            <div className={`w-100 text-center ${_developer.properties.length > 0 ? 'd-none' : ''} padding2`}>
-                No Properties
+            <div className={`w-100 text-center ${_developer.projects.length > 0 ? 'd-none' : ''} padding2`}>
+                No Projects
             </div>
         </div>
     );

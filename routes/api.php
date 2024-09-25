@@ -3,16 +3,18 @@
 use App\Http\Controllers\Api\AdminAgentController;
 use App\Http\Controllers\Api\AdminController;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\CitiesController;
 use App\Http\Controllers\Api\ClientController;
 use App\Http\Controllers\Api\ClientWishlistController;
 use App\Http\Controllers\Api\DevelopersController;
 use App\Http\Controllers\Api\PropertiesController;
+use App\Http\Controllers\Api\PropertyDevelopersProjectsController;
 use App\Http\Controllers\Api\PropertyListingsController;
 use App\Http\Controllers\Api\TeamsController;
 use App\Http\Controllers\Api\TransactionController;
 use App\Http\Controllers\Api\TransactionRequirementsController;
 use App\Http\Controllers\ClientPreferedLocation;
-use App\Http\Controllers\ProvinceController;
+use App\Http\Controllers\Api\ProvinceController;
 use Illuminate\Support\Facades\Route;
 
 // Route::get('/user', function (Request $request) {
@@ -105,10 +107,20 @@ Route::get('/get-admin-info/{adminId}', [AdminController::class, 'FetchAdminInfo
 /*
 * Developers
 */
-Route::get('/get-all-developers-with-properties', [DevelopersController::class, 'GetAllDevelopersWithProperties']);
+Route::get('/get-all-developers-with-projects', [DevelopersController::class, 'GetAllDevelopersWithProjects']);
 Route::get('/get-all-developers', [DevelopersController::class, 'GetAllDevelopers']);
 
 Route::post('/create-developer', [DevelopersController::class, 'CreateDeveloper']);
+
+
+
+/*
+* Projects
+*/
+Route::get('/get-all-projects-full', [PropertyDevelopersProjectsController::class, 'GetAllProjectsFull']);
+Route::get('/get-all-projects-info-full-by-id/{projId}', [PropertyDevelopersProjectsController::class, 'GetProjInfoFullById']);
+
+Route::post('/create-project', [PropertyDevelopersProjectsController::class, 'CreateProject']);
 
 
 
@@ -144,6 +156,8 @@ Route::post('/general-remove-published-property-financing', [PropertiesControlle
 Route::post('/general-add-published-property-financing', [PropertiesController::class, 'addFinancingInProperty']);
 
 
+
+
 /*
 * Property Listings
 */
@@ -173,6 +187,15 @@ Route::post('/update-client-pfp', [ClientController::class, 'updatePfp']);
 * Province
 */
 Route::get('/get-all-provinces', [ProvinceController::class, 'getAllProvince']);
+
+
+
+
+
+/*
+* Cities
+*/
+Route::get('/get-all-cities', [CitiesController::class, 'GetAllCities']);
 
 
 
