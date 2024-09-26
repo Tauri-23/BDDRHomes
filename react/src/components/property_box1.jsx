@@ -47,7 +47,7 @@ export const PropertyBox1 = ({ wishlists, propId, property, viewAs, isInWishlist
                         <div className="d-flex gap4 align-items-center text-m2 w-100">
                             <Icon.GeoAlt/>
                             <div className="listing-property-address">
-                                {property.city} {property.province}
+                                {property.city_denormalized} {property.province_denormalized}
                             </div>                            
                         </div>
 
