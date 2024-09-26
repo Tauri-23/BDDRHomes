@@ -45,6 +45,20 @@ export const fetchPublishedProperties = async() => {
     }
 }
 
+export const fetchPublishedPropertiesWhereProject = async(projId) => {
+    try {
+        const response = await axiosClient.get(`/get-published-property-where-project/${projId}`)
+        const propData = response.data;
+        propData.map(prop => {
+            prop.loan_term_ma = JSON.parse(prop.loan_term_ma);
+        });
+        return propData;
+    } catch(error) {
+        console.error('Error fetching properties', error);
+        throw error;
+    }
+}
+
 export const fetchSpecificPublishedPropertyFull = async(propId) => {
     try {
         const response = await axiosClient.get(`/get-published-property-by-id/${propId}`);

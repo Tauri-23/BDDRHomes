@@ -4,22 +4,23 @@ import { fetchAllProjectsFull, fetchProjectInfoFullById } from "../../../../Serv
 import * as Icon from "react-bootstrap-icons";
 import AdminViewProjectNavbar from "../../../../components/AdminComponents/admin_view_project_navbar";
 import { AdminPropertyBox1 } from "../../../../components/AdminComponents/admin_property_box1";
-import { fetchPublishedProperties } from "../../../../Services/GeneralPropertiesService";
+import { fetchPublishedProperties, fetchPublishedPropertiesWhereProject } from "../../../../Services/GeneralPropertiesService";
 import { useModal } from "../../../../contexts/ModalContext";
 
 export default function AdminViewProjectIndex() {
     const {showModal} = useModal();
+    const {projId} = useParams();
     const {isSidenavOpen, project} = useOutletContext();
     const [properties, setProperties] = useState(null);
 
     useEffect(() => {
         const getAllPropertiesFull = async() => {
             try {
-                const data = await fetchPublishedProperties();
+                const data = await fetchPublishedPropertiesWhereProject(projId);
                 setProperties(data);
             } catch(error) {console.error(error)}
         }
-
+        
         getAllPropertiesFull();
     }, []);
 

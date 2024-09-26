@@ -138,6 +138,7 @@ Route::get('/general-get-property-types', [PropertiesController::class, 'getProp
 Route::get('/general-get-property-amenities', [PropertiesController::class, 'getPropertyAmenities']);
 Route::get('/general-get-property-financing', [PropertiesController::class, 'getPropertyFinancing']);
 Route::get('/get-published-property', [PropertiesController::class, 'getAllPublishedProperties']);
+Route::get('/get-published-property-where-project/{projId}', [PropertiesController::class, 'getAllPublishedPropertiesWhereProject']);
 Route::get('/get-published-property-by-id/{propId}', [PropertiesController::class, 'getFullPropertyViaId']);
 
 Route::post('/general-publish-property-post', [PropertiesController::class, 'publishPropertyPost']);

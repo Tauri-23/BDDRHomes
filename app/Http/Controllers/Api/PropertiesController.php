@@ -46,6 +46,12 @@ class PropertiesController extends Controller
         return response()->json($properties);
     }
 
+    public function getAllPublishedPropertiesWhereProject($projId)
+    {
+        $properties = published_properties::with(['photos', 'amenities', 'financings', 'developer', 'propertyType', 'project'])->where('project', $projId)->inRandomOrder()->get();
+        return response()->json($properties);
+    }
+
     public function getFullPropertyViaId($propId)
     {
         $property = published_properties::where('id', $propId)
