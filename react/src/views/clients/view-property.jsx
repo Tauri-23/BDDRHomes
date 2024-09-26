@@ -67,10 +67,10 @@ export default function ClientViewProperty() {
             const convoRef = await addDoc(messageAgentRef, {
                 property: {
                     id: propertyListed.id,
-                    name: propertyListed.project_name,
+                    name: propertyListed.project_model,
                     model: propertyListed.project_model,
-                    city: propertyListed.city,
-                    province: propertyListed.province,
+                    city: propertyListed.city_denormalized,
+                    province: propertyListed.province_denormalized,
                     picture: propertyListed.photos[0].filename
                 },
                 client: {
