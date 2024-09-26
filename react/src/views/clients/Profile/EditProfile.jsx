@@ -3,7 +3,7 @@ import { useStateContext } from "../../../contexts/ContextProvider";
 import { useEffect, useState } from "react";
 import { useModal } from "../../../contexts/ModalContext";
 import axiosClient from "../../../axios-client";
-import { formatToPhilPeso, notify } from "../../../assets/js/utils";
+import { formatToPhilPeso, isEmptyOrSpaces, notify } from "../../../assets/js/utils";
 import ClientEditProfileInfo1 from "../../../components/ClientComponents/client_edit_profile_info1";
 import { fetchAllClientPreferedLoc } from "../../../Services/ClientPreferedLocService";
 import { Link } from "react-router-dom";
@@ -84,9 +84,34 @@ export default function ClientEditProfile() {
     }, []);
 
 
-    const handleChangeInfoPost = () => {
+    const handleChangeInfoPost = (editType) => {
         const formData = new FormData();
+        formData.append('client_id', user.id);
+        formData.append('editType', editType);
 
+        switch(editType) {
+            case "name":
+                formData.append("fname", newFname);
+                formData.append("mname", newMname);
+                formData.append("lname", newLname);
+                break;
+            case "email":
+                formData.append("email", newEmail);
+                break;
+        }
+
+        axiosClient.post('/update-client-info', formData)
+        .then(({data}) => {
+            if(data.status === 200) {
+                setEditName(false);
+                setEditEmail(false);
+
+                setUser(data.client);
+            }
+            notify("default", data.message, "bottom-left", 3000);
+            
+
+        }).catch(error => {console.error(error)})
     }
 
 
@@ -152,10 +177,13 @@ export default function ClientEditProfile() {
                             oldInfo={user.firstname} oldInfo2={user.middlename} oldInfo3={user.lastname}
                             newInfo={newFname} newInfo2={newMname} newInfo3={newLname} 
                             setNewInfo={setNewFname} setNewInfo2={setNewMname} setNewInfo3={setNewLname}
+                            displayInput2={true} displayInput3={true}
                         
                             isEditInfo={isEditName} setEditInfo={setEditName}
                             title={"Name"}
                             label={"Firstname"} label2={"Middlename"} label3={"Lastname"}
+                            handleChangeInfoPost={() => handleChangeInfoPost("name")}
+                            isSaveBtnActive={!isEmptyOrSpaces(newFname) && !isEmptyOrSpaces(newLname) && (newFname !== user.firstname || newMname !== user.middlename || newLname !== user.lastname) }
                             />
 
                         <div className="hr-line1 mar-top-2 mar-bottom-2"></div>
@@ -168,6 +196,8 @@ export default function ClientEditProfile() {
                             isEditInfo={isEditEmail} setEditInfo={setEditEmail}
                             title={"Email"}
                             label={"Email"}
+                            handleChangeInfoPost={() => handleChangeInfoPost("email")}
+                            isSaveBtnActive={!isEmptyOrSpaces(newEmail) && newEmail !== user.email}
                             />
 
                         <div className="hr-line1 mar-top-2 mar-bottom-2"></div>

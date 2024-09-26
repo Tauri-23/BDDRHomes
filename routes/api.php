@@ -178,6 +178,7 @@ Route::get('/get-all-clients', [ClientController::class, 'GetAllClients']);
 Route::get('/get-clients-info/{clientId}', [ClientController::class, 'GetClientsInfo']);
 
 Route::post('/update-client-pfp', [ClientController::class, 'updatePfp']);
+Route::post('/update-client-info', [ClientController::class, 'UpdateClientInfo']);
 
 
 

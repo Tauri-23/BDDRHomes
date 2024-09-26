@@ -74,4 +74,41 @@ class ClientController extends Controller
             ], 500);
         }
     }
+
+    public function UpdateClientInfo(Request $request)
+    {
+        $client = user_clients::find($request->client_id);
+
+        if(!$client)
+        {
+            return response()->json([
+                'status' => 404,
+                'message' => 'Client not found.'
+            ]);
+        }
+
+        switch($request->editType)
+        {
+            case 'name':
+                $client->firstname = $request->fname;
+                $client->middlename = $request->mname ? $request->mname : null;
+                $client->lastname = $request->lname;
+                break;
+            case 'email':
+                $client->email = $request->email;
+                break;
+            default:
+                return response()->json([
+                    'status' => 401,
+                    'message' => 'Invalid request type.'
+                ]);
+                
+        }
+        $client->save();
+        return response()->json([
+            'status' => 200,
+            'message' => 'Profile information updated',
+            'client' => $client
+        ]);
+    }
 }

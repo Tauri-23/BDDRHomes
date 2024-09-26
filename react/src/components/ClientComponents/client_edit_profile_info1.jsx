@@ -4,10 +4,14 @@ const ClientEditProfileInfo1 = ({
     oldInfo, oldInfo2 = null, oldInfo3 = null,
     newInfo, newInfo2 = null, newInfo3 = null, 
     setNewInfo, setNewInfo2 = null, setNewInfo3 = null,
+    displayInput2, displayInput3,
 
     isEditInfo, setEditInfo,
+    isSaveBtnActive,
     title,
-    label, label2 = null, label3 = null
+    label, label2 = null, label3 = null,
+
+    handleChangeInfoPost
     }) => {
     return(
         <div className="d-flex flex-direction-y w-100">
@@ -25,7 +29,7 @@ const ClientEditProfileInfo1 = ({
                     setFieldValue={setNewInfo}
                     required={true}/>
 
-                {oldInfo2 && (
+                {displayInput2 && (
                     <EditText1
                         width={"w-25"}
                         label={label2} 
@@ -34,7 +38,7 @@ const ClientEditProfileInfo1 = ({
                         required={false}/>
                 )}
 
-                {oldInfo3 && (
+                {displayInput3 && (
                     <EditText1
                         width={"w-25"}
                         label={label3} 
@@ -44,7 +48,11 @@ const ClientEditProfileInfo1 = ({
                 )}
                 
             </div>
-            <button className={`primary-btn-black1 mar-top-2 align-self-start ${isEditInfo ? '' : 'd-none'}`}>Save</button>
+            <button 
+            disabled={!isSaveBtnActive}
+            onClick={handleChangeInfoPost}
+            className={`primary-btn-black1 mar-top-2 align-self-start ${isEditInfo ? '' : 'd-none'} ${isSaveBtnActive ? '' : 'disabled'}`}
+            >Save</button>
         </div>
     );
 }
