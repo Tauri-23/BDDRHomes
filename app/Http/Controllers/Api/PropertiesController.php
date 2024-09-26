@@ -49,7 +49,7 @@ class PropertiesController extends Controller
     public function getFullPropertyViaId($propId)
     {
         $property = published_properties::where('id', $propId)
-            ->with(['photos', 'amenities', 'propertyType', 'financings', 'developer'])
+            ->with(['photos', 'amenities', 'propertyType', 'financings', 'developer', 'project'])
             ->first();
 
         return response()->json($property);

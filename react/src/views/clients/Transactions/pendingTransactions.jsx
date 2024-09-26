@@ -33,7 +33,7 @@ export default function ClientPendingTransactions() {
             <div className="d-flex flex-direction-y gap3 align-items-start">
                 {pendingTransactions && pendingTransactions.length < 1 && (
                     <>
-                        <div className="text-m1">There are no transactions yet</div>
+                        <div className="text-m1 mar-top-1">There are no transactions yet</div>
                         <Link to={"/BDDRClient"} className="secondary-btn-black2 text-m2 color-black2">Search Properties</Link>
                     </>
                 )}

@@ -43,7 +43,7 @@ export const PropertyBox1 = ({ wishlists, propId, property, viewAs, isInWishlist
                 </div>
 
                 <div className="property-box-desc">
-                        <div className="text-l3 fw-bold">{property.project.project_name}, {property.project_model}</div>
+                        <div className="text-l3 fw-bold">{property.project_model}</div>
                         <div className="d-flex gap4 align-items-center text-m2 w-100">
                             <Icon.GeoAlt/>
                             <div className="listing-property-address">
@@ -89,11 +89,11 @@ export const PropertyBox1 = ({ wishlists, propId, property, viewAs, isInWishlist
                         </div>
 
                         {/* Price */}
-                        <div className="text-start mar-top-3 text-m1 fw-bold">
+                        <div className="text-start mar-top-3 text-m2 fw-bold">
                             {viewAs == 1 
-                            ? <>{formatToPhilPeso(property.monthly_amortization_min)} - {formatToPhilPeso(property.monthly_amortization_max)}</>
-                            : (viewAs == 2 ? formatToPhilPeso(property.tcp) 
-                                : <>{formatToPhilPeso(property.required_income_min)} - {formatToPhilPeso(property.required_income_max)}</>)}
+                            ? <div className="d-flex align-items-center gap3">{formatToPhilPeso(property.loan_term_ma[property.loan_term_ma.length -1].ma)} - {formatToPhilPeso(property.loan_term_ma[0].ma)} <div className="text-m4 fst-italic">Monthly Amortization</div></div>
+                            : (viewAs == 2 ? <div className="d-flex align-items-center gap3">{formatToPhilPeso(property.tcp)} <div className="text-m4 fst-italic">TCP</div></div> 
+                                : <div className="d-flex align-items-center gap3">{formatToPhilPeso(property.required_income_min)} - {formatToPhilPeso(property.required_income_max)} <div className="text-m4 fst-italic">required income</div></div>)}
                         </div>
 
                         

@@ -56,9 +56,9 @@ export default function ClientViewProperty() {
     /*
     | Debugging
     */
-    // useEffect(() => {
-    //     console.log(propertyListed);
-    // }, [propertyListed]);
+    useEffect(() => {
+        console.log(propertyListed);
+    }, [propertyListed]);
 
     const handleMessageAgent = async () => {
         const ChatBotIntroText = "Hello, Thank you for your interest in this property. An agent will get in touch soon.";
@@ -187,11 +187,11 @@ export default function ClientViewProperty() {
                     <div className="property-infos mar-top-1">
                         <div className="property-infos-texts">
                                 {/* Property Name */}
-                                <div className="text-l1 fw-bold">{propertyListed.project_name} {propertyListed.project_model}</div>
+                                <div className="text-l1 fw-bold">{propertyListed.project.project_name} {propertyListed.project_model}</div>
                                 {/* Property Location */}
                                 <div className="d-flex text-l3 gap3 align-items-center mar-top-3">
                                     <Icon.GeoAlt/>
-                                    {propertyListed.city} {propertyListed.province}
+                                    {propertyListed.city_denormalized} {propertyListed.province_denormalized}
                                 </div>
 
 
@@ -280,6 +280,35 @@ export default function ClientViewProperty() {
                                         </div>
                                     </div>
                                 </div>
+
+                                <div className="mar-top-l1 mar-bottom-l1 listing-hr"></div>
+
+                                {/* Financings */}
+                                <div className="d-flex flex-direction-y gap2">
+                                    <div className="text-l2 fw-bold">Bank Computation</div>
+
+                                    <div className="d-flex flex-direction-y gap3">
+                                        <div className="text-m1 d-flex gap3">
+                                            <div>DP  ({propertyListed.dp_percent} %): </div>
+                                            <div>{formatToPhilPeso(propertyListed.tcp * propertyListed.dp_percent /100)}</div>
+                                        </div>
+
+                                        <div className="text-m1 d-flex gap3">
+                                            <div>Loanable  ({propertyListed.loanable_percent} %): </div>
+                                            <div>{formatToPhilPeso(propertyListed.tcp * propertyListed.loanable_percent /100)}</div>
+                                        </div>
+
+                                        {propertyListed.loan_term_ma.map((loan_term, index) => (
+                                            <div key={index} className="text-m1 d-flex gap3">
+                                                <div>{loan_term.term}years</div>
+                                                <div>-</div>
+                                                <div>{formatToPhilPeso(loan_term.ma)}</div>
+                                                <div>-</div>
+                                                <div className='fw-bold'>Required Income: {formatToPhilPeso(loan_term.ma /.35)}</div>                                           
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
                         </div>
 
 
@@ -287,7 +316,7 @@ export default function ClientViewProperty() {
                         {/* Actions */}
                         <div className="action-box d-flex gap1 flex-direction-y">
                                 {/* Price */}
-                                <div className="text-l2">{formatToPhilPeso(propertyListed.price)} <div className="text-m3 color-grey1">TCP</div></div>
+                                <div className="text-l2">{formatToPhilPeso(propertyListed.tcp)} <div className="text-m3 color-grey1">TCP</div></div>
                                 <div className="d-flex flex-direction-y gap3">
                                     <div className="text-l3">Developer:</div>
                                     <div className="d-flex gap3 align-items-center">
@@ -316,6 +345,8 @@ export default function ClientViewProperty() {
                     </div>
 
                     <div className="mar-top-l1 mar-bottom-l1 listing-hr"></div>
+
+                    
 
                     {/* Map */}
                     <div className="mar-top-l1 d-flex flex-direction-y gap2">

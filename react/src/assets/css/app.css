@@ -166,6 +166,9 @@ body, html {
 .text-m3 {
     font-size: var(--text-m3);
 }
+.text-m4 {
+    font-size: var(--text-m4);
+}
 
 .text-center {
     text-align:center;

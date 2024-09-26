@@ -39,7 +39,7 @@ export default function ClientOngoingTransactions() {
             <div className="d-flex flex-direction-y gap3 align-items-start">
                 {ongoingTransactions && ongoingTransactions.length < 1 && (
                     <>
-                        <div className="text-m1">There are no transactions yet</div>
+                        <div className="text-m1 mar-top-1">There are no transactions yet</div>
                         <Link to={"/BDDRClient"} className="secondary-btn-black2 text-m2 color-black2">Search Properties</Link>
                     </>
                 )}
