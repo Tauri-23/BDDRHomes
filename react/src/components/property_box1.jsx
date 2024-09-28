@@ -72,14 +72,19 @@ export const PropertyBox1 = ({ wishlists, propId, property, viewAs, isInWishlist
                                 {property.bath}
                             </div>
 
-                            <div className="listing-box-specs-box">
+                            <div className={`listing-box-specs-box ${property.carport > 0 ? '' : 'd-none'}`}>
                                 <img src="/src/assets/media/icons/garages.svg" alt="" />
                                 {property.carport}
                             </div>
 
                             <div className="listing-box-specs-box">
-                                <img src="/src/assets/media/icons/area.svg" alt="" />
-                                {property.lot_area}
+                                {/* <img src="/src/assets/media/icons/area.svg" alt="" /> */}
+                                <div>LA: {property.lot_area}sqm</div>
+                            </div>
+
+                            <div className="listing-box-specs-box">
+                                {/* <img src="/src/assets/media/icons/area.svg" alt="" /> */}
+                                <div>FA: {property.floor_area}sqm</div>
                             </div>
 
                             {/* <div className="listing-box-specs-box">

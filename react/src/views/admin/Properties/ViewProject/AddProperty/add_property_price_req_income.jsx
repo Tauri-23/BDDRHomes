@@ -75,7 +75,7 @@ export default function AdminAddPropertyPriceReqIncome() {
                                                 <div className='d-flex flex-direction-y gap3'>
                                                     <label htmlFor="tcp-in" className='text-m1'>Terms</label>
                                                     <div className="d-flex flex-wrap gap3">
-                                                        {Array.from({length: 20}, (_, index) => index).map(x => (
+                                                        {Array.from({length: 30}, (_, index) => index).map(x => (
                                                             <div className={`${termOfBankFinancing.includes(x + 1) ? 'primary' : 'secondary'}-btn-black1`} key={x} onClick={() => handleSelectBankTerm(x + 1)}>{x + 1} years</div>
                                                         ))}
                                                     </div>

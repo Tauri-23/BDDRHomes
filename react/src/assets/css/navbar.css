@@ -267,7 +267,7 @@
     flex-direction: column;
     gap: 20px;
     background: var(--white);
-    filter: drop-shadow(0 0 1px var(--grey1));
+    filter: drop-shadow(0 0 3px var(--grey1));
     padding: 0 20px 50px 20px;
     z-index: 21;
     transition: all .2s ease;

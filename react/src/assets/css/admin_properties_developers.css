@@ -40,6 +40,7 @@
     height: 50px;
     border-radius: 100%;
     overflow: hidden;
+    background: var(--white);
 }
 
 .developer-box-projects-table {
