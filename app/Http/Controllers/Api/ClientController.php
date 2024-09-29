@@ -19,7 +19,7 @@ class ClientController extends Controller
 
     public function GetAllClients()
     {
-        $clients = user_clients::all();
+        $clients = user_clients::with(["prefered_locations", "employment_type"])->get();
         return response()->json($clients);
     }
 

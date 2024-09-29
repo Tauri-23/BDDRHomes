@@ -15,10 +15,13 @@
     "@dnd-kit/utilities": "^3.2.2",
     "axios": "^1.7.2",
     "bootstrap": "^5.3.3",
+    "chart.js": "^4.4.4",
     "firebase": "^10.13.2",
+    "ml-kmeans": "^6.0.0",
     "prop-types": "^15.8.1",
     "react": "^18.2.0",
     "react-bootstrap-icons": "^1.11.4",
+    "react-chartjs-2": "^5.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.23.1",
     "react-toastify": "^10.0.5"
