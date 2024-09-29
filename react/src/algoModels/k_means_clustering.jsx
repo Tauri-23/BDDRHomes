@@ -88,7 +88,7 @@ export default function KMeansClustering() {
 
     const runClustering = () => {
         const dataForClustering = prepDataForClustering();
-        const k = 4; // Number of clusters
+        const k = 3; // Number of clusters
 
         console.log(dataForClustering);
         
@@ -111,6 +111,9 @@ export default function KMeansClustering() {
     // useEffect(() => {
     //     console.log(provinces);
     // }, [provinces]);
+    useEffect(() => {
+        console.log(centroids);
+    }, [centroids]);
 
 
     if(properties) {
