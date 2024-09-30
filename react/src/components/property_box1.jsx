@@ -96,9 +96,9 @@ export const PropertyBox1 = ({ wishlists, propId, property, viewAs, isInWishlist
                         {/* Price */}
                         <div className="text-start mar-top-3 text-m2 fw-bold">
                             {viewAs == 1 
-                            ? <div className="d-flex align-items-center gap3">{formatToPhilPeso(property.loan_term_ma[property.loan_term_ma.length -1].ma)} - {formatToPhilPeso(property.loan_term_ma[0].ma)} <div className="text-m4 fst-italic">Monthly Amortization</div></div>
-                            : (viewAs == 2 ? <div className="d-flex align-items-center gap3">{formatToPhilPeso(property.tcp)} <div className="text-m4 fst-italic">TCP</div></div> 
-                                : <div className="d-flex align-items-center gap3">{formatToPhilPeso(property.required_income_min)} - {formatToPhilPeso(property.required_income_max)} <div className="text-m4 fst-italic">required income</div></div>)}
+                            ? <div className="d-flex align-items-center gap3 fw-bold">{formatToPhilPeso(property.loan_term_ma[property.loan_term_ma.length -1].ma)} - {formatToPhilPeso(property.loan_term_ma[0].ma)} <div className="text-m4 fst-italic">Monthly Amortization</div></div>
+                            : (viewAs == 2 ? <div className="d-flex align-items-center gap3 fw-bold">{formatToPhilPeso(property.tcp)} <div className="text-m4 fst-italic">TCP</div></div> 
+                                : <div className="d-flex align-items-center gap3 fw-bold">{formatToPhilPeso(property.required_income_min)} - {formatToPhilPeso(property.required_income_max)} <div className="text-m4 fst-italic">required income</div></div>)}
                         </div>
 
                         
