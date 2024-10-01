@@ -12,6 +12,7 @@ export default function KMeansClustering() {
     const [centroids, setCentroids] = useState(null);
 
     const [clusterSummaries, setClusterSummaries] = useState(null);
+    const [clusterMapping, setClusterMapping] = useState(null);
 
     const [properties, setProperties] = useState(null);
     const [clients, setClients] = useState(null);
@@ -93,7 +94,7 @@ export default function KMeansClustering() {
 
     // For Summary of Clusters
     useEffect(() => {
-        if(!clusters || !centroids) return;
+        if(!clusters || !centroids || !clusterMapping) return;
         const _clusterSummaries = Array(centroids.length).fill(null).map(() => ({
             totalProperties: 0,
             totalBedrooms: 0,
@@ -126,7 +127,7 @@ export default function KMeansClustering() {
         //     console.log(`Average TCP: ${(summary.totalTCP / summary.totalProperties).toFixed(2)}`);
         //     console.log();
         // });
-    }, [clusters, centroids]);
+    }, [clusters, centroids, clusterMapping]);
     
 
 
@@ -141,6 +142,33 @@ export default function KMeansClustering() {
         // console.log(result);
         setClusters(result.clusters);
         setCentroids(result.centroids);
+
+
+        // Calculate average TCP for each cluster
+        const averageTCPs = Array(k).fill(0).map((_, index) => {
+            const clusterProperties = properties.filter((_, clusterIndex) => result.clusters[clusterIndex] === index);
+            const totalTCP = clusterProperties.reduce((sum, prop) => sum + prop.tcp, 0);
+            return totalTCP / (clusterProperties.length || 1); // Avoid division by zero
+        });
+
+
+        // Assign labels based on average TCP
+        const sortedClusters = averageTCPs.map((tcp, index) => ({ index, tcp }))
+        .sort((a, b) => a.tcp - b.tcp); // Sort by average TCP
+
+        const clusterLabels = sortedClusters.map((cluster, i) => {
+            if (i === 0) return 'Entry level';
+            if (i === 1) return 'Medium';
+            return 'High end';
+        });
+
+        // Create a mapping of clusters to labels
+        const _clusterMapping = {};
+        sortedClusters.forEach(({ index }, i) => {
+            _clusterMapping[index] = clusterLabels[i];
+        });
+
+        setClusterMapping(_clusterMapping);
     }
 
 
@@ -162,6 +190,9 @@ export default function KMeansClustering() {
     // useEffect(() => {
     //     console.log(clusterSummaries);
     // }, [clusterSummaries]);
+    useEffect(() => {
+        console.log(clusterMapping);
+    }, [clusterMapping]);
 
 
     if(properties) {
@@ -177,7 +208,7 @@ export default function KMeansClustering() {
 
                 {clusterSummaries && clusterSummaries.map((summary, index) => (
                     <div className="mar-bottom-1">
-                        <div className="text-m1 mar-bottom-3">Cluster {index + 1} Summary:</div>
+                        <div className="text-m1 mar-bottom-3">Cluster {index + 1} Summary ({clusterMapping[index]}):</div>
                         <div className="text-m3">Total Properties: {summary.totalProperties}</div>
                         <div className="text-m3">Average Bedrooms: {(summary.totalBedrooms / summary.totalProperties).toFixed(2)}</div>
                         <div className="text-m3">Average Bathrooms: {(summary.totalBathrooms / summary.totalProperties).toFixed(2)}</div>
