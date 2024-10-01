@@ -184,15 +184,15 @@ export default function KMeansClustering() {
     // useEffect(() => {
     //     console.log(provinces);
     // }, [provinces]);
-    // useEffect(() => {
-    //     console.log(centroids);
-    // }, [centroids]);
-    // useEffect(() => {
-    //     console.log(clusterSummaries);
-    // }, [clusterSummaries]);
     useEffect(() => {
-        console.log(clusterMapping);
-    }, [clusterMapping]);
+        console.log(centroids);
+    }, [centroids]);
+    useEffect(() => {
+        console.log(clusterSummaries);
+    }, [clusterSummaries]);
+    // useEffect(() => {
+    //     console.log(clusterMapping);
+    // }, [clusterMapping]);
 
 
     if(properties) {
@@ -207,7 +207,7 @@ export default function KMeansClustering() {
                 </div>
 
                 {clusterSummaries && clusterSummaries.map((summary, index) => (
-                    <div className="mar-bottom-1">
+                    <div key={index} className="mar-bottom-1">
                         <div className="text-m1 mar-bottom-3">Cluster {index + 1} Summary ({clusterMapping[index]}):</div>
                         <div className="text-m3">Total Properties: {summary.totalProperties}</div>
                         <div className="text-m3">Average Bedrooms: {(summary.totalBedrooms / summary.totalProperties).toFixed(2)}</div>
