@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import * as Icon from 'react-bootstrap-icons';
 import {isEmptyOrSpaces, isEmail, formatPhoneNumber, usePasswordToggle, notify} from '../../assets/js/utils';
 import {ToastContainer} from 'react-toastify';
@@ -10,60 +10,95 @@ import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../../firebase-cofig';
 import EditText1 from '../../components/FormComponents/edit_text_1';
 import EditPassword1 from '../../components/FormComponents/edit_password_1';
+import { fetchAllProvinces } from '../../Services/ProvinceService';
+import { number } from 'prop-types';
 
 
 export default function Signup() {
+    const {setUser, setToken, setUserType} = useStateContext();
+
     const [fname, setFname] = useState("");
     const [mname, setMname] = useState("");
     const [lname, setLname] = useState("");
+
+    const [gender, setGender] = useState("Male");
+    const [bdate, setBdate] = useState("");
+    const [phone, setPhone] = useState("");
 
     const [uname, setUname] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [conPass, setConPass] = useState("");
+
+    const [provinces, setProvinces] = useState(null);
+
+    const [preferedLoc, setPreferedLoc] = useState([]);
     
     const genderRef = useRef();
     const bdateRef = useRef();
     const phoneRef = useRef();
 
-    const {setUser, setToken, setUserType} = useStateContext();
+    useEffect(() => {
+        const getAllProvinces = async() => {
+            try {
+                const data = await fetchAllProvinces();
+                setProvinces(data);
+            } catch (error) {
+                console.error(error);
+            }
+        }
+
+        getAllProvinces();
+    }, []);
 
 
     const signupHandler = (ev) => {
         ev.preventDefault();
-        const payload = {
-            fname: fname,
-            mname: mname,
-            lname: lname,
-            gender: genderRef.current.value,
-            bdate: bdateRef.current.value,
-            phone: phoneRef.current.value,
-            uname: uname,
-            email: email,
-            pass: password,
-            conpass: conPass,
-        }
+        const formData = new FormData();
+        formData.append('fname', fname);
+        formData.append('mname', mname);
+        formData.append('lname', lname);
+        formData.append('gender', gender);
+        formData.append('bdate', bdate);
+        formData.append('phone', phone);
+        formData.append('uname', uname);
+        formData.append('email', email);
+        formData.append('pass', password);
+        preferedLoc.forEach((loc, index) => {
+            formData.append(`prefLoc[${index}]`, parseInt(loc.id));
+        });
 
-        if (isEmptyOrSpaces(payload.fname) || isEmptyOrSpaces(payload.lname) ||
-            isEmptyOrSpaces(payload.bdate) || isEmptyOrSpaces(payload.phone) ||
-            isEmptyOrSpaces(payload.uname) || isEmptyOrSpaces(payload.email) ||
-            isEmptyOrSpaces(payload.pass) || isEmptyOrSpaces(payload.conpass)) {
+        // console.log(fname);
+        // console.log(mname);
+        // console.log(lname);
+        // console.log(gender);
+        // console.log(bdate);
+        // console.log(phone);
+        // console.log(uname);
+        // console.log(email);
+        // console.log(password);
+        // console.log(preferedLoc);
+
+        if (isEmptyOrSpaces(fname) || isEmptyOrSpaces(lname) ||
+            isEmptyOrSpaces(bdate) || isEmptyOrSpaces(phone) ||
+            isEmptyOrSpaces(uname) || isEmptyOrSpaces(email) ||
+            isEmptyOrSpaces(password) || isEmptyOrSpaces(conPass) || preferedLoc.length < 1) {
 
             notify('error', 'Please fill-up the required fields.', 'top-center', 3000);
             return;
         }
 
-        if (!isEmail(payload.email)) {
+        if (!isEmail(email)) {
             notify('error', 'Invalid email format.', 'top-center', 3000);
             return;
         }
 
-        if (payload.pass !== payload.conpass) {
+        if (password !== conPass) {
             notify('error', 'Passwords do not match.', 'top-center', 3000);
             return;
         }
     
-        axiosClient.post('/signup', payload)
+        axiosClient.post('/signup', formData)
         .then(({data}) => {
             createUserWithEmailAndPassword(auth, data.user.email, data.user.password);
             setUser(data.user);
@@ -77,10 +112,7 @@ export default function Signup() {
             }
         })
         .catch(error => {
-            const response = error.response;
-            if(response && response.status === 422) {
-                console.log(response.data.errors);
-            }
+            console.error(error)
         });
         
     }
@@ -88,7 +120,16 @@ export default function Signup() {
     const handlePhoneInputChange = (event) => {
         const formattedPhoneNumber = formatPhoneNumber(event.target.value);
         event.target.value = formattedPhoneNumber; // Update the input field directly
+        setPhone(formattedPhoneNumber);
     };
+
+    const addRemovePrefLoc = (loc) => {
+        setPreferedLoc(prev =>
+            prev.some(prefLoc => prefLoc.id == loc.id)
+                ? prev.filter(prefLoc => prefLoc.id !== loc.id)
+                : [...prev, loc]
+        );        
+    }
 
 
     return (
@@ -129,7 +170,13 @@ export default function Signup() {
                 <div className="d-flex gap3">
                     <div className="d-flex mar-bottom-3 flex-direction-y gap4 w-100">
                         <label htmlFor="gender-in">Gender</label>
-                        <select ref={genderRef} type="text" id="gender-in" name="gender-in" className="edit-text-1 w-100">
+                        <select 
+                        type="text" 
+                        id="gender-in" 
+                        name="gender-in" 
+                        className="edit-text-1 w-100" 
+                        onChange={(e) => setGender(e.target.value)} value={gender}
+                        >
                             <option value="Male">Male</option>
                             <option value="Male">Female</option>
                         </select>
@@ -137,19 +184,26 @@ export default function Signup() {
                     
                     <div className="d-flex flex-direction-y gap4 w-100">
                         <label htmlFor="bdate-in">Birth Date</label>
-                        <input ref={bdateRef} type="date" id="bdate-in" name="bdate-in" className="edit-text-1 w-100" placeholder="Birth Date" />
+                        <input 
+                        type="date" 
+                        id="bdate-in" 
+                        name="bdate-in" 
+                        className="edit-text-1 w-100" 
+                        placeholder="Birth Date" 
+                        onChange={(e) => setBdate(e.target.value)}/>
                     </div>
                 </div>
 
                 <div className="d-flex flex-direction-y gap4">
                     <label htmlFor="phone-in">Phone Number</label>
-                    <input ref={phoneRef} onInput={handlePhoneInputChange} type="text" id="phone-in" name="phone-in" className="edit-text-1 w-100" placeholder="9XX XXX XXXX" maxLength={10} />
+                    <input 
+                    onInput={handlePhoneInputChange} type="text" id="phone-in" name="phone-in" className="edit-text-1 w-100" placeholder="9XX XXX XXXX" maxLength={10} />
                 </div>
 
 
 
                 {/* CREDENTIALS */}
-                <div className="text-l3 mar-bottom-2 mar-top-1 mar-bottom-2">Credentials</div>
+                <div className="text-l3 mar-bottom-2 mar-top-1">Credentials</div>
 
                 <div className="d-flex gap3 mar-bottom-3">
                     <EditText1
@@ -169,7 +223,7 @@ export default function Signup() {
                         required={true}/>
                 </div>
                 
-                <div className="d-flex gap3 w-100 mar-bottom-l1">
+                <div className="d-flex gap3 w-100">
 
                     <EditPassword1
                         width={"w-100"} 
@@ -185,6 +239,25 @@ export default function Signup() {
                         setFieldValue={setConPass} 
                         required={true}/>
                 </div>
+
+
+
+                {/* Prefered Location */}
+                <div className="text-l3 mar-bottom-2 mar-top-1">Prefered Location</div>
+
+                <div className="d-flex flex-wrap gap3 mar-bottom-l1">
+                    {provinces?.length > 0 && provinces.map(loc => (
+                        <div 
+                        key={loc.id} 
+                        onClick={() => addRemovePrefLoc(loc)}
+                        className={`prefered-loc-chip ${preferedLoc.some(prefLoc => prefLoc.id == loc.id) ? "active" : ""}`}
+                        >
+                            {loc.province}
+                        </div>
+                    ))}
+                </div>
+                
+                
 
 
                 {/* Action Buttons */}

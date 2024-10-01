@@ -81,7 +81,9 @@
     cursor: pointer;
 }
 .prefered-loc-chip.active {
-    border: 1px solid var(--black1);
+    /* border: 1px solid var(--black1); */
+    background: var(--black1);
+    color: var(--white);
 }
 
 

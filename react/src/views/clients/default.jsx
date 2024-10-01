@@ -22,6 +22,7 @@ export default function ClientDefault() {
                 setUser(data.user);
             })
             .catch((error) => {
+                console.error(error);
                 if (error.response && error.response.status === 401) {
                     setUser({});
                     setToken(null);

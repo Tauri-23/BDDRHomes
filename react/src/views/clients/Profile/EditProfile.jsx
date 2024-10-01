@@ -247,7 +247,7 @@ export default function ClientEditProfile() {
                                 <div className="text-m2 text-decoration-underline cursor-pointer user-select-none" onClick={() => setEditWork(!isEditWork)}>{isEditWork ? 'Cancel' : 'Edit'}</div>
                             </div>
 
-                            <div className={`text-m1 color-black2 ${isEditWork ? 'd-none' : ''}`}>{user.employment_type.type || "Not set"}</div>
+                            <div className={`text-m1 color-black2 ${isEditWork ? 'd-none' : ''}`}>{user.employment_type?.type || "Not set"}</div>
                         </div>
                         
                         <div className="hr-line1 mar-top-2 mar-bottom-2"></div>

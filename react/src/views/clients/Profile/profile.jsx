@@ -68,7 +68,7 @@ export default function ClientProfile() {
 
                     <div className="d-flex flex-direction-y gap4 mar-bottom-2">
                         <div className="text-l3 fw-bold">Employment type</div>
-                        <div className="text-m1">{user.employment_type.type || "Not set"}</div>
+                        <div className="text-m1">{user.employment_type?.type || "Not set"}</div>
                     </div>
                     
                     <div className="text-l3 fw-bold mar-bottom-3">Prefered Location</div>

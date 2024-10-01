@@ -6,6 +6,7 @@ use App\Contracts\IGenerateIdService;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\SignupRequest;
+use App\Models\client_prefered_locations;
 use App\Models\user_admins;
 use App\Models\user_agents;
 use App\Models\user_clients;
@@ -33,42 +34,54 @@ class AuthController extends Controller
     */
     public function signupPost(Request $request)
     {
-        $isEmailExist = user_clients::where('email', $request->email)->exists();
-        $isPhoneExist = user_clients::where('phone', $request->phone)->exists();
-        
-        if($isEmailExist) 
+        try
         {
-            return response()->json([
-                'status' => 422,
-                'message' => 'Email already exists.'
-            ]);
-        }
+            $isEmailExist = user_clients::where('email', $request->email)->exists();
+            $isPhoneExist = user_clients::where('phone', $request->phone)->exists();
+            
+            if($isEmailExist) 
+            {
+                return response()->json([
+                    'status' => 422,
+                    'message' => 'Email already exists.'
+                ]);
+            }
 
-        if($isPhoneExist) 
-        {
-            return response()->json([
-                'status' => 422,
-                'message' => 'Phone Number already exists.'
-            ]);
-        }
+            if($isPhoneExist) 
+            {
+                return response()->json([
+                    'status' => 422,
+                    'message' => 'Phone Number already exists.'
+                ]);
+            }
+            
+            $user = new user_clients();
+            $clientId = $this->generateId->generate(user_clients::class, 6);
+            $user->id = $clientId;
+            $user->firstname = $request->fname;
+            $user->middlename = $request->mname ? $request->mname : null;
+            $user->lastname = $request->lname;
+            $user->gender = $request->gender;
+            $user->bdate = $request->bdate;
+            $user->phone = $request->phone;
 
-        $user = new user_clients();
-        $userId = $this->generateId->generate(user_clients::class, 6);
-        $user->id = $userId;
-        $user->firstname = $request->fname;
-        $user->middlename = $request->mname;
-        $user->lastname = $request->lname;
-        $user->gender = $request->gender;
-        $user->bdate = $request->bdate;
-        $user->phone = $request->phone;
+            $user->username = $request->uname;
+            $user->email = $request->email;
+            $user->password = bcrypt($request->pass);
 
-        $user->username = $request->uname;
-        $user->email = $request->email;
-        $user->password = bcrypt($request->pass);
+            $user->save();
 
-        if($user->save()) 
-        {
-            $user = user_clients::find($userId);
+            // Input prefered Location
+            foreach($request->prefLoc as $prefLocation)
+            {
+                $pref = new client_prefered_locations();
+                $pref->client = $clientId;
+                $pref->province = $prefLocation;
+
+                $pref->save();
+            }
+
+            $user = user_clients::find($clientId);
             $token = $user->createToken('main')->plainTextToken;
 
             return response()->json([
@@ -79,13 +92,13 @@ class AuthController extends Controller
                 'user_type' => 'client'
             ]);
         }
-        else
+        catch(\Exception $ex)
         {
             return response()->json([
-                'status' => 401,
-                'message' => 'Something went wrong please try again later.'
-            ]);
-        }      
+                'status' => 500,
+                'message' =>$ex->getMessage()
+            ], 500);
+        }    
 
         
     }
@@ -195,7 +208,7 @@ class AuthController extends Controller
             ? 'client' 
             : ($user instanceof user_agents ? 'agent' : 'admin');
 
-        if($userType == "client")
+        if($userType == "client" && $user->employment_type != null)
         {
             $user->load("EmploymentType");
         }
