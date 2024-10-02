@@ -19,6 +19,8 @@ return new class extends Migration
             // Project Address
             $table->text('province_denormalized');
             $table->text('city_denormalized');
+            $table->unsignedBigInteger('province')->nullable();
+            $table->unsignedBigInteger('city')->nullable();
             // $table->longText('description');
 
             // Developer
@@ -72,6 +74,18 @@ return new class extends Migration
             $table->foreign('developer')
                 ->references('id')
                 ->on('property_developers')
+                ->nullOnDelete()
+                ->cascadeOnUpdate();
+            
+            $table->foreign('province')
+                ->references('id')
+                ->on('provinces')
+                ->nullOnDelete()
+                ->cascadeOnUpdate();
+
+            $table->foreign('city')
+                ->references('id')
+                ->on('cities')
                 ->nullOnDelete()
                 ->cascadeOnUpdate();
 

@@ -14,6 +14,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
+use function PHPUnit\Framework\isNull;
+
 class AuthController extends Controller
 {
     protected $generateId;
@@ -203,16 +205,20 @@ class AuthController extends Controller
 
     public function getUser(Request $request) 
     {
+        // Get the currently authenticated user
         $user = $request->user();
+
+        // Determine the user type based on the class of the user
         $userType = $user instanceof user_clients 
             ? 'client' 
             : ($user instanceof user_agents ? 'agent' : 'admin');
 
-        if($userType == "client" && $user->employment_type != null)
-        {
-            $user->load("EmploymentType");
+        // If the user is a client and has an employment type, load the employmentType relationship
+        if($userType === 'client' && !is_null($user->employment_type)) {
+            $user->load('employment_type'); // Use the relationship name here
         }
         
+        // Return the user and user type in a JSON response
         return response()->json([
             'user' => $user,
             'user_type' => $userType,

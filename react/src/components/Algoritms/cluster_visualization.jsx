@@ -25,7 +25,7 @@ const ClusterVisualization = ({ properties, clusters, centroids }) => {
             label: `Cluster ${i + 1}`,
             data: properties
                 .filter((_, index) => clusters[index] === i)
-                .map(prop => ({ x: prop.lot_area, y: prop.floor_area })),
+                .map(prop => ({ x: prop.floor_area, y: prop.tcp })),
             backgroundColor: colors[i % colors.length], // Predefined colors for consistency
         });
     }
@@ -34,7 +34,7 @@ const ClusterVisualization = ({ properties, clusters, centroids }) => {
     centroids.forEach((centroid, index) => {
         data.datasets.push({
             label: `Centroid ${index + 1}`,
-            data: [{ x: centroid[3], y: centroid[4] }], // lot_area and floor_area
+            data: [{ x: centroid[0], y: centroid[1] }], // lot_area and floor_area
             backgroundColor: 'black',
             pointRadius: 10,
             pointHoverRadius: 15,
@@ -53,8 +53,8 @@ const ClusterVisualization = ({ properties, clusters, centroids }) => {
                 data={data} 
                 options={{
                     scales: {
-                        x: { title: { display: true, text: 'Lot Area' } },
-                        y: { title: { display: true, text: 'Floor Area' } },
+                        x: { title: { display: true, text: 'Floor Area' } },
+                        y: { title: { display: true, text: 'TCP' } },
                     }
                 }} 
             />

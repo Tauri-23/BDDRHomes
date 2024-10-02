@@ -42,20 +42,20 @@ class PropertiesController extends Controller
 
     public function getAllPublishedProperties()
     {
-        $properties = published_properties::with(['photos', 'amenities', 'financings', 'developer', 'propertyType', 'project'])->inRandomOrder()->get();
+        $properties = published_properties::with(['photos', 'amenities', 'financings', 'developer', 'propertyType', 'project', 'province', 'city'])->get();
         return response()->json($properties);
     }
 
     public function getAllPublishedPropertiesWhereProject($projId)
     {
-        $properties = published_properties::with(['photos', 'amenities', 'financings', 'developer', 'propertyType', 'project'])->where('project', $projId)->inRandomOrder()->get();
+        $properties = published_properties::with(['photos', 'amenities', 'financings', 'developer', 'propertyType', 'project', 'province', 'city'])->where('project', $projId)->get();
         return response()->json($properties);
     }
 
     public function getFullPropertyViaId($propId)
     {
         $property = published_properties::where('id', $propId)
-            ->with(['photos', 'amenities', 'propertyType', 'financings', 'developer', 'project'])
+            ->with(['photos', 'amenities', 'propertyType', 'financings', 'developer', 'project', 'province', 'city'])
             ->first();
 
         return response()->json($property);

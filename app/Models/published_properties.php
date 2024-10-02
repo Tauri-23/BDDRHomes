@@ -39,5 +39,15 @@ class published_properties extends Model
         return $this->belongsTo(property_developers_projects::class, "project", "id");
     }
 
+    public function province()
+    {
+        return $this->belongsTo(provinces::class, 'province', 'id');
+    }
+
+    public function city()
+    {
+        return $this->belongsTo(cities::class, 'city', 'id');
+    }
+
     
 }

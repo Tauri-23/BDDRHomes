@@ -6,215 +6,66 @@ import ClusterVisualization from "../components/Algoritms/cluster_visualization"
 import { fetchAllClients } from "../Services/ClientsServices";
 import { fetchAllProvinces } from "../Services/ProvinceService";
 import { formatToPhilPeso } from "../assets/js/utils";
+import { KMeansClusteringMachine } from "./k_means_clustering_machine";
 
 export default function KMeansClustering() {
+    const [properties, setProperties] = useState(null);
+    const [propsScatterPlot, setPropsScatterPlot] = useState([]);
     const [clusters, setClusters] = useState(null);
     const [centroids, setCentroids] = useState(null);
 
-    const [clusterSummaries, setClusterSummaries] = useState(null);
-    const [clusterMapping, setClusterMapping] = useState(null);
-
-    const [properties, setProperties] = useState(null);
-    const [clients, setClients] = useState(null);
-    const [provinces, setProvinces] = useState(null);
-
-
-    // Fetch all the data needed from database
-    useEffect(() => { 
-        const getAllPropertiesFull = async() => {
-            try {
-                const data = await fetchPublishedProperties();
-                setProperties(data);
-            } catch(error) {console.error(error)}
-        }
-
-        const getAllClientsFull = async() => {
-            try {
-                const data = await fetchAllClients();
-                setClients(data);
-            } catch(error) {console.error(error)}
-        }
-
-        const getAllProvince = async() => {
-            try {
-                const data = await fetchAllProvinces();
-                setProvinces(data);
-            } catch(error) {console.error(error)}
-        }
-
-        const getAll = async() => {
-            getAllPropertiesFull();
-            getAllClientsFull();
-            getAllProvince();
-        }
-
-        getAll();
-    }, []);
-
-
-    // Ready the data from for the clustering
-    const prepDataForClustering = () => {
-
-        // Prepare property data
-        const propertyData = properties.map(prop => [
-            prop.id,
-            parseInt(prop.bedroom),
-            parseInt(prop.bath),
-            prop.lot_area,
-            prop.floor_area,
-            provinces.filter(prov => prov.province == prop.province_denormalized)[0].id,
-            prop.tcp
-        ]);
-
-        // Prepare Client
-        const clientData = clients.map(client => {
-
-            const preferredLocationIds = client.prefered_locations.map(prefLoc => 
-                prefLoc.id || 0 // Map to province ID
-            );
-    
-            // Create a numerical representation (average or max) for preferred locations
-            const averagePreferredLocationId = preferredLocationIds.length > 0 
-                ? preferredLocationIds.reduce((sum, locId) => sum + locId, 0) / preferredLocationIds.length
-                : 0;
-    
-            return [
-                client.id,
-                averagePreferredLocationId,  // Average location ID
-                parseFloat(client.monthly_income)  // Ensure numeric type
-            ];
-        });
-        
-        return {
-            properties: propertyData,
-            clients: clientData
-        }
-    }
-
-
-    // For Summary of Clusters
     useEffect(() => {
-        if(!clusters || !centroids || !clusterMapping) return;
-        const _clusterSummaries = Array(centroids.length).fill(null).map(() => ({
-            totalProperties: 0,
-            totalBedrooms: 0,
-            totalBathrooms: 0,
-            totalLotArea: 0,
-            totalFloorArea: 0,
-            totalTCP: 0
-        }))
-    
-        clusters.forEach((clusterIndex, i) => {
-            const property = properties[i];  // Get the corresponding property
-            _clusterSummaries[clusterIndex].totalProperties++;
-            _clusterSummaries[clusterIndex].totalBedrooms += parseInt(property.bedroom);
-            _clusterSummaries[clusterIndex].totalBathrooms += parseInt(property.bath);
-            _clusterSummaries[clusterIndex].totalLotArea += property.lot_area;
-            _clusterSummaries[clusterIndex].totalFloorArea += property.floor_area;
-            _clusterSummaries[clusterIndex].totalTCP += property.tcp;
+        KMeansClusteringMachine().then(propertiesToReturn => {
+            // console.log('Clustered Properties:', propertiesToReturn);
+            setProperties(propertiesToReturn.properties);
+            setClusters(propertiesToReturn.clusters);
+            setCentroids(propertiesToReturn.centroids);
+            console.log(propertiesToReturn.properties);
+            setPropsScatterPlot(prev => {
+                const result = propertiesToReturn.properties.flatMap(prop =>
+                    prop.properties // This assumes prop.properties is an array
+                );
+            
+                return [...prev, ...result]; // Update state by combining previous properties with the new ones
+            });
         });
+    }, [])
 
-        setClusterSummaries(_clusterSummaries);
-    
-        // Calculate averages for each cluster
-        // clusterSummaries?.forEach((summary, index) => {
-        //     console.log(`Cluster ${index + 1} Summary:`);
-        //     console.log(`Total Properties: ${summary.totalProperties}`);
-        //     console.log(`Average Bedrooms: ${(summary.totalBedrooms / summary.totalProperties).toFixed(2)}`);
-        //     console.log(`Average Bathrooms: ${(summary.totalBathrooms / summary.totalProperties).toFixed(2)}`);
-        //     console.log(`Average Lot Area: ${(summary.totalLotArea / summary.totalProperties).toFixed(2)}`);
-        //     console.log(`Average Floor Area: ${(summary.totalFloorArea / summary.totalProperties).toFixed(2)}`);
-        //     console.log(`Average TCP: ${(summary.totalTCP / summary.totalProperties).toFixed(2)}`);
-        //     console.log();
-        // });
-    }, [clusters, centroids, clusterMapping]);
-    
-
-
-    // Clustering Function
-    const runClustering = () => {
-        const dataForClustering = prepDataForClustering();
-        const k = 3; // Number of clusters
-
-        // console.log(dataForClustering);
-        
-        const result = kmeans(dataForClustering.properties, k);
-        // console.log(result);
-        setClusters(result.clusters);
-        setCentroids(result.centroids);
-
-
-        // Calculate average TCP for each cluster
-        const averageTCPs = Array(k).fill(0).map((_, index) => {
-            const clusterProperties = properties.filter((_, clusterIndex) => result.clusters[clusterIndex] === index);
-            const totalTCP = clusterProperties.reduce((sum, prop) => sum + prop.tcp, 0);
-            return totalTCP / (clusterProperties.length || 1); // Avoid division by zero
-        });
-
-
-        // Assign labels based on average TCP
-        const sortedClusters = averageTCPs.map((tcp, index) => ({ index, tcp }))
-        .sort((a, b) => a.tcp - b.tcp); // Sort by average TCP
-
-        const clusterLabels = sortedClusters.map((cluster, i) => {
-            if (i === 0) return 'Entry level';
-            if (i === 1) return 'Medium';
-            return 'High end';
-        });
-
-        // Create a mapping of clusters to labels
-        const _clusterMapping = {};
-        sortedClusters.forEach(({ index }, i) => {
-            _clusterMapping[index] = clusterLabels[i];
-        });
-
-        setClusterMapping(_clusterMapping);
-    }
-
-
-    /*
-    | Debugging 
-    */
-    // useEffect(() => {
-    //     console.log(properties);
-    // }, [properties]);
-    // useEffect(() => {
-    //     console.log(clients);
-    // }, [clients]);
-    // useEffect(() => {
-    //     console.log(provinces);
-    // }, [provinces]);
     useEffect(() => {
-        console.log(centroids);
-    }, [centroids]);
-    useEffect(() => {
-        console.log(clusterSummaries);
-    }, [clusterSummaries]);
-    // useEffect(() => {
-    //     console.log(clusterMapping);
-    // }, [clusterMapping]);
-
-
+        console.log(propsScatterPlot);
+    }, [propsScatterPlot])
+    
     if(properties) {
         return (
             <div>
                 <h1>K-means Clustering Example</h1>
-                <button onClick={runClustering}>Run K-means Clustering</button>
                 <div style={{width: "800px", height: "500px"}}>
-                    {clusters && (
-                        <ClusterVisualization properties={properties} clusters={clusters} centroids={centroids}/>
+                    {clusters && propsScatterPlot.length > 0 && (
+                        <ClusterVisualization properties={propsScatterPlot} clusters={clusters} centroids={centroids}/>
                     )}                    
                 </div>
-
-                {clusterSummaries && clusterSummaries.map((summary, index) => (
+    
+                {properties.map((property, index) => (
                     <div key={index} className="mar-bottom-1">
-                        <div className="text-m1 mar-bottom-3">Cluster {index + 1} Summary ({clusterMapping[index]}):</div>
-                        <div className="text-m3">Total Properties: {summary.totalProperties}</div>
+                        <div className="text-m1 mar-bottom-3">Cluster {index + 1}:</div>
+                        {property.properties.map((property, index) => (
+                            <li key={index}>
+                                ID: {property.id}, 
+                                Province: {property.province.province}, 
+                                Bedrooms: {property.bedroom}, 
+                                Bathrooms: {property.bath}, 
+                                Lot Area: {property.lot_area}, 
+                                Floor Area: {property.floor_area}, 
+                                TCP: {formatToPhilPeso(property.tcp)}
+                            </li>
+                        ))}
+    
+                        {/* <div className="text-m3">Total Properties: {summary.totalProperties}</div>
                         <div className="text-m3">Average Bedrooms: {(summary.totalBedrooms / summary.totalProperties).toFixed(2)}</div>
                         <div className="text-m3">Average Bathrooms: {(summary.totalBathrooms / summary.totalProperties).toFixed(2)}</div>
                         <div className="text-m3">Average Lot Area: {(summary.totalLotArea / summary.totalProperties).toFixed(2)}</div>
                         <div className="text-m3">Average Floor Area: {(summary.totalFloorArea / summary.totalProperties).toFixed(2)}</div>
-                        <div className="text-m3">Average TCP: {formatToPhilPeso((summary.totalTCP / summary.totalProperties).toFixed(2))}</div>
+                        <div className="text-m3">Average TCP: {formatToPhilPeso((summary.totalTCP / summary.totalProperties).toFixed(2))}</div> */}
                     </div>
                 ))}
             </div>

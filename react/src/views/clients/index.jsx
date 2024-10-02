@@ -9,6 +9,7 @@ import { notify } from "../../assets/js/utils";
 import { useStateContext } from "../../contexts/ContextProvider";
 import { fetchPropertyAmenities, fetchPropertyTypes, fetchPublishedProperties } from "../../Services/GeneralPropertiesService";
 import { useModal } from "../../contexts/ModalContext";
+import { KMeansClusteringMachine } from "../../algoModels/k_means_clustering_machine";
 
 export default function ClientIndex() {
     const {user} = useStateContext();
@@ -25,7 +26,7 @@ export default function ClientIndex() {
     const [amenities, setAmenities] = useState(null);
 
     // For Filters
-    const [propViewAs, setPropViewAs] = useState(1);
+    const [propViewAs, setPropViewAs] = useState(2);
     const [selectedPropType, setSelectedPropType] = useState("");
     const [selectedAmenities, setSelectedAmenities] = useState([]);
     const [bedroomNumbers, setBedroomNumbers] = useState(0);
@@ -39,12 +40,9 @@ export default function ClientIndex() {
     */
     useEffect(() => {
         const getPublishedProperties = async() => {
-            try {
-                const data = await fetchPublishedProperties();
-                setProperties(data);                
-            } catch (error) {
-                console.error(error);
-            }
+            KMeansClusteringMachine([1]).then(propertiesToReturn => {
+                setProperties(propertiesToReturn.properties.flatMap(prop => prop.properties));
+            });
         }
 
         const getAllClientWishlists = async(id) => {
@@ -241,17 +239,17 @@ export default function ClientIndex() {
     /* 
     |   For Debugging
     */
-    useEffect(() => {
-        console.log(properties);
-    }, [properties]);
+    // useEffect(() => {
+    //     console.log(properties);
+    // }, [properties]);
 
     // useEffect(() => {
     //     console.log(propertiesCont2);
     // }, [propertiesCont2]);
 
-    useEffect(() => {
-        console.log(wishlists);
-    }, [wishlists]);
+    // useEffect(() => {
+    //     console.log(wishlists);
+    // }, [wishlists]);
 
     // useEffect(() => {
     //     console.log(propTypes);
@@ -327,6 +325,9 @@ export default function ClientIndex() {
                                 handleAddPropToWishlist={handleAddPropToWishlist}
                             />
                         );
+                        // return propLabel.properties.map(prop => {
+                            
+                        // })
                     })}
 
                     {!properties && Array.from({length:10}, (_, index) => index).map((x) => (

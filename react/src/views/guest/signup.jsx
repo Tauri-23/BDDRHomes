@@ -178,7 +178,7 @@ export default function Signup() {
                         onChange={(e) => setGender(e.target.value)} value={gender}
                         >
                             <option value="Male">Male</option>
-                            <option value="Male">Female</option>
+                            <option value="Female">Female</option>
                         </select>
                     </div>
                     
