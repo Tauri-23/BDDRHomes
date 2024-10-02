@@ -38,9 +38,19 @@
 }
 .developer-box2-logo {
     height: 50px;
+    width: 50px;
     border-radius: 100%;
     overflow: hidden;
     background: var(--white);
+    position: relative;
+    overflow: hidden;
+    filter: drop-shadow(0 0 2px var(--grey1));
+    display: flex;
+    justify-content: center;
+}
+.developer-box2-logo img{
+    position: absolute;
+    height: 100%;
 }
 
 .developer-box-projects-table {

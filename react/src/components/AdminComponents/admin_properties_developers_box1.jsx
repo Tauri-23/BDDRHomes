@@ -48,7 +48,10 @@ const AdminPropertiesDevelopersBox1 = ({developer}) => {
         <div className="developer-box-2">
             <div className="developer-box-2-head">
                 <div className="d-flex gap3 align-items-center">
-                    <img src={`/src/assets/media/developers/${_developer.logo}`} className="developer-box2-logo" />
+                    <div className="developer-box2-logo">
+                        <img src={`/src/assets/media/developers/${_developer.logo}`} />
+                    </div>
+                    
                     {_developer.name}
                 </div>
                 <div>

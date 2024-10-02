@@ -77,6 +77,8 @@ class PropertiesController extends Controller
         $publishedProperty->project_model = $request->model;
         $publishedProperty->province_denormalized = $request->prov_den;
         $publishedProperty->city_denormalized = $request->city_den;
+        $publishedProperty->province = $request->province;
+        $publishedProperty->city = $request->city;
         $publishedProperty->developer = $request->projDev;
 
         $publishedProperty->bedroom = $request->bedroom;

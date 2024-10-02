@@ -177,9 +177,12 @@ export default function AdminAddPropertyDefault() {
         const formData = new FormData();
         formData.append('projectId', project.id);
         formData.append('model', projectModel);
-        formData.append('prov_den', project.province_denormalized);
 
+        formData.append('prov_den', project.province_denormalized);
         formData.append('city_den', project.city_denormalized);
+        formData.append('province', project.province);
+        formData.append('city', project.city);
+
         formData.append('projDev', project.developer.id);
         formData.append('bedroom', bedroom);
         formData.append('bath', bathroom);
