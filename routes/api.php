@@ -177,6 +177,7 @@ Route::post('/publish-property-listing', [PropertyListingsController::class, 'Pu
 * Clients
 */
 Route::get('/get-all-clients', [ClientController::class, 'GetAllClients']);
+Route::get('/get-all-clients-with-property-views', [ClientController::class, 'GetAllClientsWithPropViews']);
 Route::get('/get-clients-info/{clientId}', [ClientController::class, 'GetClientsInfo']);
 
 Route::post('/update-client-pfp', [ClientController::class, 'updatePfp']);

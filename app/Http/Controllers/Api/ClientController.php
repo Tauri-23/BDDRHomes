@@ -22,6 +22,12 @@ class ClientController extends Controller
         $clients = user_clients::with(["prefered_locations", "employment_type"])->get();
         return response()->json($clients);
     }
+    
+    public function GetAllClientsWithPropViews()
+    {
+        $clients = user_clients::with(["prefered_locations", "employment_type", 'property_views'])->get();
+        return response()->json($clients);
+    }
 
     public function GetClientsInfo($clientId)
     {

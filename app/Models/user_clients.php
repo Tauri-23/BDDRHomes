@@ -19,4 +19,9 @@ class user_clients extends Model
     {
         return $this->hasMany(client_prefered_locations::class,"client","id");
     }
+
+    public function property_views()
+    {
+        return $this->hasMany(client_property_views::class, 'client', 'id');
+    }
 }

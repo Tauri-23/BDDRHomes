@@ -10,6 +10,16 @@ export const fetchAllClients = async() => {
     }
 }
 
+export const fetchAllClientsWithPropViews = async() => {
+    try {
+        const response = await axiosClient.get('/get-all-clients-with-property-views');
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching agents', error);
+        throw error;
+    }
+}
+
 
 
 export const fetchClientInfos = async(clientId) => {
