@@ -3,16 +3,28 @@ import * as Icon from "react-bootstrap-icons";
 import { formatToPhilPeso } from "../assets/js/utils";
 import { useEffect } from "react";
 import { useModal } from "../contexts/ModalContext";
+import { useStateContext } from "../contexts/ContextProvider";
+import axiosClient from "../axios-client";
 
 export const PropertyBox1 = ({ wishlists, propId, property, viewAs, isInWishlist, handleCreateWishlistAndAddPropToIt, handleRemovePropFromWishlist, handleAddPropToWishlist}) => { //TODO::put parameters]
     const {showModal} = useModal();
     const navigate = useNavigate();
+    const {user} = useStateContext();
 
     // useEffect(() => {
     //     console.log(`${property}`);
     // }, []);
 
     const handleViewProperty = (event) => {
+
+        const formData = new FormData();
+        formData.append('clientId', user.id);
+        formData.append('propId', propId);
+        axiosClient.post('/create-prop-views', formData)
+        .then(({data}) => {
+            console.log(data.message);
+        }).catch((error) => console.error(error));
+
         navigate(`/BDDRClient/ViewProperty/${propId}`);
     }
 

@@ -72,6 +72,7 @@ import AdminAddPropertyFinancing from "./views/admin/Properties/ViewProject/AddP
 import AdminAddPropertyPriceReqIncome from "./views/admin/Properties/ViewProject/AddProperty/add_property_price_req_income";
 import AdminAddPropertyFinal from "./views/admin/Properties/ViewProject/AddProperty/add_property_final";
 import KMeansClustering from "./algoModels/k_means_clustering";
+import CollabPropertyViews from "./algoModels/collab_for_property_views";
 
 const router = createBrowserRouter([
     /*
@@ -118,6 +119,10 @@ const router = createBrowserRouter([
     {
         path: 'k-means',
         element: <KMeansClustering/>
+    },
+    {
+        path: 'collab-prop-views',
+        element: <CollabPropertyViews/>
     },
     
 

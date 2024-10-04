@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\AdminController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\CitiesController;
 use App\Http\Controllers\Api\ClientController;
+use App\Http\Controllers\Api\ClientPropertyViewsController;
 use App\Http\Controllers\Api\ClientWishlistController;
 use App\Http\Controllers\Api\DevelopersController;
 use App\Http\Controllers\Api\PropertiesController;
@@ -232,3 +233,12 @@ Route::post('/update-transaction-from-agent-post', [TransactionController::class
 *  Transaction Requirements
 */
 Route::get('/get-transaction-requirements-where/{financingId}', [TransactionRequirementsController::class, 'GetTransactionRequirementsByFinancing']);
+
+
+
+
+
+/* 
+*  Property Views
+*/
+Route::post('/create-prop-views', [ClientPropertyViewsController::class, 'addPropertyView']);
