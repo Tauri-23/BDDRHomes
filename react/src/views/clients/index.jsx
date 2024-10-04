@@ -10,11 +10,13 @@ import { useStateContext } from "../../contexts/ContextProvider";
 import { fetchPropertyAmenities, fetchPropertyTypes, fetchPublishedProperties } from "../../Services/GeneralPropertiesService";
 import { useModal } from "../../contexts/ModalContext";
 import { KMeansClusteringMachine } from "../../algoModels/k_means_clustering_machine";
+import { CollabForPropViewMachine } from "../../algoModels/collab_for_property_views_machine";
 
 export default function ClientIndex() {
     const {user} = useStateContext();
     const {showModal} = useModal();
     const [properties, setProperties] = useState(null);
+    const [recommendedProperties, setRecommendedProperties] = useState(null);
 
     /* 
     | This is for all properties, when i select property type all the properties will store here
@@ -40,9 +42,20 @@ export default function ClientIndex() {
     */
     useEffect(() => {
         const getPublishedProperties = async() => {
-            KMeansClusteringMachine([1]).then(propertiesToReturn => {
-                setProperties(propertiesToReturn.properties.flatMap(prop => prop.properties));
+            // KMeansClusteringMachine([1]).then(propertiesToReturn => {
+            //     setProperties(propertiesToReturn.properties.flatMap(prop => prop.properties));
+            // });
+
+            CollabForPropViewMachine(user.id).then(data => {
+                setRecommendedProperties(data.topRecommendations);
             });
+
+            try {
+                const data = await fetchPublishedProperties();
+                setProperties(data);
+            } catch (error) {
+                console.error(error);
+            } 
         }
 
         const getAllClientWishlists = async(id) => {
@@ -239,9 +252,9 @@ export default function ClientIndex() {
     /* 
     |   For Debugging
     */
-    // useEffect(() => {
-    //     console.log(properties);
-    // }, [properties]);
+    useEffect(() => {
+        console.log(recommendedProperties);
+    }, [recommendedProperties]);
 
     // useEffect(() => {
     //     console.log(propertiesCont2);
@@ -312,6 +325,28 @@ export default function ClientIndex() {
                     {/* Render Property boxes */}
                     {properties && properties.length > 0 && wishlists && properties.map(prop => {
                         const inWishlist = isInWishlist(prop.id);
+
+                        if(recommendedProperties.some(rec => rec.property == prop.id)) {
+                            console.log();
+                            return (
+                                <PropertyBox1
+                                    key={prop.id}
+                                    wishlists={wishlists}
+                                    property={prop}
+                                    viewAs={propViewAs}
+                                    propId={prop.id}
+                                    isInWishlist={inWishlist}
+                                    handleCreateWishlistAndAddPropToIt={handleCreateWishlistAndAddPropToIt}
+                                    handleRemovePropFromWishlist={handleRemovePropFromWishlist}
+                                    handleAddPropToWishlist={handleAddPropToWishlist}
+                                />
+                            );
+                        }
+                        
+                    })}
+
+                    {properties && properties.length > 0 && wishlists && properties.map(prop => {
+                        const inWishlist = isInWishlist(prop.id);
                         return (
                             <PropertyBox1
                                 key={prop.id}
@@ -325,9 +360,6 @@ export default function ClientIndex() {
                                 handleAddPropToWishlist={handleAddPropToWishlist}
                             />
                         );
-                        // return propLabel.properties.map(prop => {
-                            
-                        // })
                     })}
 
                     {!properties && Array.from({length:10}, (_, index) => index).map((x) => (
