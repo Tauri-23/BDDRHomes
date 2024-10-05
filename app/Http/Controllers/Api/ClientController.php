@@ -103,6 +103,9 @@ class ClientController extends Controller
             case 'email':
                 $client->email = $request->email;
                 break;
+            case 'phone':
+                $client->phone = $request->phone;
+                break;
             default:
                 return response()->json([
                     'status' => 401,

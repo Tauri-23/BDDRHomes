@@ -6,6 +6,11 @@ const ClientEditProfilePreferedLoc = ({preferedLoc, locations, setPreferedLoc, c
     const [_preferedLoc, _setPreferedLoc] = useState(preferedLoc);
 
     const addRemovePrefLoc = (loc) => {
+        if(_preferedLoc.length < 2 && _preferedLoc.some(prefLoc => prefLoc.province.id == loc.id)) {
+            notify('default', 'Minimum prefered location is 1', 'bottom-left', 3000);
+            return;
+        }
+
         _setPreferedLoc(prev =>
             prev.some(prefLoc => prefLoc.province.id == loc.id)
                 ? prev.filter(prefLoc => prefLoc.province.id !== loc.id)

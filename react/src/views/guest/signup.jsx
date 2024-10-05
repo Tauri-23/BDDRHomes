@@ -12,6 +12,8 @@ import EditText1 from '../../components/FormComponents/edit_text_1';
 import EditPassword1 from '../../components/FormComponents/edit_password_1';
 import { fetchAllProvinces } from '../../Services/ProvinceService';
 import { number } from 'prop-types';
+import EditPhone1 from '../../components/FormComponents/edit_phone_1';
+import EditEmail1 from '../../components/FormComponents/edit_email_1';
 
 
 export default function Signup() {
@@ -195,9 +197,12 @@ export default function Signup() {
                 </div>
 
                 <div className="d-flex flex-direction-y gap4">
-                    <label htmlFor="phone-in">Phone Number</label>
-                    <input 
-                    onInput={handlePhoneInputChange} type="text" id="phone-in" name="phone-in" className="edit-text-1 w-100" placeholder="9XX XXX XXXX" maxLength={10} />
+                    <EditPhone1
+                        width={"w-100"}
+                        label={"Phone number"} 
+                        value={phone} 
+                        setFieldValue={setPhone}
+                        required={true}/>
                 </div>
 
 
@@ -214,7 +219,7 @@ export default function Signup() {
                         setFieldValue={setUname}
                         required={true}/>
 
-                    <EditText1
+                    <EditEmail1
                         width={"w-100"}
                         label={"Email"} 
                         type={"text"} 

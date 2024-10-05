@@ -3,12 +3,13 @@ import { useStateContext } from "../../../contexts/ContextProvider";
 import { useEffect, useState } from "react";
 import { useModal } from "../../../contexts/ModalContext";
 import axiosClient from "../../../axios-client";
-import { formatToPhilPeso, isEmptyOrSpaces, notify } from "../../../assets/js/utils";
+import { formatToPhilPeso, isEmail, isEmptyOrSpaces, notify } from "../../../assets/js/utils";
 import ClientEditProfileInfo1 from "../../../components/ClientComponents/client_edit_profile_info1";
 import { fetchAllClientPreferedLoc } from "../../../Services/ClientPreferedLocService";
 import { Link } from "react-router-dom";
 import ClientEditProfilePreferedLoc from "../../../components/ClientComponents/client_edit_profile_prefered_loc";
 import { fetchAllProvinces } from "../../../Services/ProvinceService";
+import ClientEditProfileInfo2 from "../../../components/ClientComponents/client_edit_profile_info2";
 
 export default function ClientEditProfile() {
     const {user, setUser} = useStateContext();
@@ -98,6 +99,9 @@ export default function ClientEditProfile() {
             case "email":
                 formData.append("email", newEmail);
                 break;
+            case "phone":
+                formData.append("phone", newPhone);
+                break;
         }
 
         axiosClient.post('/update-client-info', formData)
@@ -105,6 +109,7 @@ export default function ClientEditProfile() {
             if(data.status === 200) {
                 setEditName(false);
                 setEditEmail(false);
+                setEditPhone(false);
 
                 setUser(data.client);
             }
@@ -197,12 +202,12 @@ export default function ClientEditProfile() {
                             title={"Email"}
                             label={"Email"}
                             handleChangeInfoPost={() => handleChangeInfoPost("email")}
-                            isSaveBtnActive={!isEmptyOrSpaces(newEmail) && newEmail !== user.email}
+                            isSaveBtnActive={!isEmptyOrSpaces(newEmail) && isEmail(newEmail) && newEmail !== user.email}
                             />
 
                         <div className="hr-line1 mar-top-2 mar-bottom-2"></div>
                         
-                        <ClientEditProfileInfo1
+                        <ClientEditProfileInfo2
                             oldInfo={user.phone}
                             newInfo={newPhone}
                             setNewInfo={setNewPhone}
@@ -210,6 +215,8 @@ export default function ClientEditProfile() {
                             isEditInfo={isEditPhone} setEditInfo={setEditPhone}
                             title={"Phone"}
                             label={"Phone"}
+                            handleChangeInfoPost={() => handleChangeInfoPost("phone")}
+                            isSaveBtnActive={!isEmptyOrSpaces(newPhone) && newPhone.length == 12 && newPhone !== user.phone}
                             />
 
                         <div className="hr-line1 mar-top-2 mar-bottom-2"></div>
