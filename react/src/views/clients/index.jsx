@@ -347,19 +347,22 @@ export default function ClientIndex() {
 
                     {properties && properties.length > 0 && wishlists && properties.map(prop => {
                         const inWishlist = isInWishlist(prop.id);
-                        return (
-                            <PropertyBox1
-                                key={prop.id}
-                                wishlists={wishlists}
-                                property={prop}
-                                viewAs={propViewAs}
-                                propId={prop.id}
-                                isInWishlist={inWishlist}
-                                handleCreateWishlistAndAddPropToIt={handleCreateWishlistAndAddPropToIt}
-                                handleRemovePropFromWishlist={handleRemovePropFromWishlist}
-                                handleAddPropToWishlist={handleAddPropToWishlist}
-                            />
-                        );
+                        if(recommendedProperties.some(rec => rec.property != prop.id)) {
+                            return (
+                                <PropertyBox1
+                                    key={prop.id}
+                                    wishlists={wishlists}
+                                    property={prop}
+                                    viewAs={propViewAs}
+                                    propId={prop.id}
+                                    isInWishlist={inWishlist}
+                                    handleCreateWishlistAndAddPropToIt={handleCreateWishlistAndAddPropToIt}
+                                    handleRemovePropFromWishlist={handleRemovePropFromWishlist}
+                                    handleAddPropToWishlist={handleAddPropToWishlist}
+                                />
+                            );
+                        }
+                        
                     })}
 
                     {!properties && Array.from({length:10}, (_, index) => index).map((x) => (

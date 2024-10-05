@@ -1,5 +1,6 @@
 import { createContext, useContext, useState, useEffect } from "react";
-import { auth, googleProvider } from "../firebase-cofig.js";
+import Cookies from "js-cookie"; // Import js-cookie
+import { auth } from "../firebase-cofig.js";
 import { signOut } from "firebase/auth";
 
 const StateContext = createContext({
@@ -12,56 +13,60 @@ const StateContext = createContext({
 });
 
 export const ContextProvider = ({ children }) => {
-    const [user, setUser] = useState(JSON.parse(localStorage.getItem('USER')));
-    const [token, setToken] = useState(localStorage.getItem('ACCESS_TOKEN'));
-    const [userType, setUserType] = useState(localStorage.getItem('USER_TYPE'));
+    const [user, setUser] = useState(() => {
+        const cookieUser = Cookies.get('USER');
+        return cookieUser ? JSON.parse(cookieUser) : null;
+    });
+    
+    const [token, setToken] = useState(() => Cookies.get('ACCESS_TOKEN'));
+    
+    const [userType, setUserType] = useState(() => Cookies.get('USER_TYPE'));
 
     useEffect(() => {
-        // Check if token exists in localStorage and set it initially
-        const storedUser = localStorage.getItem('USER');
-        if(storedUser) {
-            setUser(JSON.parse(storedUser));
+        // Check cookies initially
+        const cookieUser = Cookies.get('USER');
+        if (cookieUser) {
+            setUser(JSON.parse(cookieUser));
         }
 
-        const storedToken = localStorage.getItem('ACCESS_TOKEN');
-        if (storedToken) {
-            setToken(storedToken);
+        const cookieToken = Cookies.get('ACCESS_TOKEN');
+        if (cookieToken) {
+            setToken(cookieToken);
         }
 
-        const storedUserType = localStorage.getItem('USER_TYPE');
-        if(storedUserType) {
-            setUserType(storedUserType);
+        const cookieUserType = Cookies.get('USER_TYPE');
+        if (cookieUserType) {
+            setUserType(cookieUserType);
         }
-
     }, []);
 
     const updateUser = (newUser) => {
         setUser(newUser);
-        if(newUser) {
-            localStorage.setItem('USER', JSON.stringify(newUser));
+        if (newUser) {
+            Cookies.set('USER', JSON.stringify(newUser), { expires: 7 }); // Cookie expires in 7 days
         } else {
-            localStorage.removeItem('USER');
+            Cookies.remove('USER');
         }
-    }
+    };
 
     const updateToken = (newToken) => {
         setToken(newToken);
         if (newToken) {
-            localStorage.setItem('ACCESS_TOKEN', newToken);
+            Cookies.set('ACCESS_TOKEN', newToken, { expires: 7 }); // Cookie expires in 7 days
         } else {
-            localStorage.removeItem('ACCESS_TOKEN');
-            signOut(auth);
+            Cookies.remove('ACCESS_TOKEN');
+            signOut(auth); // Sign out user if token is removed
         }
     };
 
     const updateUserType = (newUserType) => {
         setUserType(newUserType);
-        if(newUserType) {
-            localStorage.setItem('USER_TYPE', newUserType);
+        if (newUserType) {
+            Cookies.set('USER_TYPE', newUserType, { expires: 7 }); // Cookie expires in 7 days
         } else {
-            localStorage.removeItem('USER_TYPE');
+            Cookies.remove('USER_TYPE');
         }
-    }
+    };
 
     return (
         <StateContext.Provider value={{

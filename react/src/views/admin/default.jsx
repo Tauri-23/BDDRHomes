@@ -31,7 +31,7 @@ export default function AdminDefault() {
                     setToken(null);
                 }
             });
-        }
+        } else {setUser(null); setUserType(null)}
     }, []);
 
     const onLogout = (ev) => {

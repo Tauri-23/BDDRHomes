@@ -24,17 +24,17 @@ export default function ClientDefault() {
             .catch((error) => {
                 console.error(error);
                 if (error.response && error.response.status === 401) {
-                    setUser({});
+                    setUser(null);
                     setToken(null);
                 }
             });
-        }
+        } else {setUser(null); setUserType(null)}
     }, []);
 
     const onLogout = (ev) => {
         axiosClient.post('/logout')
             .then(() => {
-                setUser({});
+                setUser(null);
                 setToken(null);
                 setUserType(null);
                 signOut(auth);

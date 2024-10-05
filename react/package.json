@@ -17,6 +17,7 @@
     "bootstrap": "^5.3.3",
     "chart.js": "^4.4.4",
     "firebase": "^10.13.2",
+    "js-cookie": "^3.0.5",
     "ml-kmeans": "^6.0.0",
     "ml-matrix": "^6.11.1",
     "prop-types": "^15.8.1",
@@ -28,6 +29,7 @@
     "react-toastify": "^10.0.5"
   },
   "devDependencies": {
+    "@types/js-cookie": "^3.0.6",
     "@types/react": "^18.2.66",
     "@types/react-dom": "^18.2.22",
     "@vitejs/plugin-react": "^4.2.1",

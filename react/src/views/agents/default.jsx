@@ -33,7 +33,7 @@ export default function AgentDefault() {
                     setToken(null);
                 }
             });
-        }
+        } else {setUser(null); setUserType(null)}
     }, []);
 
     const onLogout = (ev) => {

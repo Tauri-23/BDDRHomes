@@ -185,7 +185,7 @@ class AuthController extends Controller
 
         if ($user) 
         {
-            $user->tokens()->delete();
+            $user->currentAccessToken()->delete();;
 
             return response()->json([
                 'status' => 200,
