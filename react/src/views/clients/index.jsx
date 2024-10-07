@@ -258,12 +258,12 @@ export default function ClientIndex() {
     /* 
     |   For Debugging
     */
-    useEffect(() => {
-        console.log(recPropBasedPropViewTimes);
-    }, [recPropBasedPropViewTimes]);
-    useEffect(() => {
-        console.log(recPropBasedPrefLoc);
-    }, [recPropBasedPrefLoc]);
+    // useEffect(() => {
+    //     console.log(recPropBasedPropViewTimes);
+    // }, [recPropBasedPropViewTimes]);
+    // useEffect(() => {
+    //     console.log(recPropBasedPrefLoc);
+    // }, [recPropBasedPrefLoc]);
 
     // useEffect(() => {
     //     console.log(propertiesCont2);
