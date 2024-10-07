@@ -11,12 +11,14 @@ import { fetchPropertyAmenities, fetchPropertyTypes, fetchPublishedProperties } 
 import { useModal } from "../../contexts/ModalContext";
 import { KMeansClusteringMachine } from "../../algoModels/k_means_clustering_machine";
 import { CollabForPropViewMachine } from "../../algoModels/collab_for_property_views_machine";
+import { ContentBasedForPrefLocMachine } from "../../algoModels/content_based_pref_loc_machine";
 
 export default function ClientIndex() {
     const {user} = useStateContext();
     const {showModal} = useModal();
     const [properties, setProperties] = useState(null);
-    const [recommendedProperties, setRecommendedProperties] = useState(null);
+    const [recPropBasedPropViewTimes, setRecPropBasedPropViewTimes] = useState(null);
+    const [recPropBasedPrefLoc, setRecPropBasedPrefLoc] = useState(null);
 
     /* 
     | This is for all properties, when i select property type all the properties will store here
@@ -47,8 +49,12 @@ export default function ClientIndex() {
             // });
 
             CollabForPropViewMachine(user.id).then(data => {
-                setRecommendedProperties(data.topRecommendations);
+                setRecPropBasedPropViewTimes(data.topRecommendations);
             });
+
+            ContentBasedForPrefLocMachine(user.id).then(data => {
+                setRecPropBasedPrefLoc(data.properties);
+            })
 
             try {
                 const data = await fetchPublishedProperties();
@@ -253,8 +259,11 @@ export default function ClientIndex() {
     |   For Debugging
     */
     useEffect(() => {
-        console.log(recommendedProperties);
-    }, [recommendedProperties]);
+        console.log(recPropBasedPropViewTimes);
+    }, [recPropBasedPropViewTimes]);
+    useEffect(() => {
+        console.log(recPropBasedPrefLoc);
+    }, [recPropBasedPrefLoc]);
 
     // useEffect(() => {
     //     console.log(propertiesCont2);
@@ -323,10 +332,11 @@ export default function ClientIndex() {
 
 
                     {/* Render Property boxes */}
+                    {/* Based on Prop View times (Collaborative Filtering) */}
                     {properties && properties.length > 0 && wishlists && properties.map(prop => {
                         const inWishlist = isInWishlist(prop.id);
 
-                        if(recommendedProperties.some(rec => rec.property == prop.id)) {
+                        if(recPropBasedPropViewTimes.some(rec => rec.property == prop.id)) {
                             console.log();
                             return (
                                 <PropertyBox1
@@ -345,9 +355,10 @@ export default function ClientIndex() {
                         
                     })}
 
+                    {/* General Properties does not in the recommendations */}
                     {properties && properties.length > 0 && wishlists && properties.map(prop => {
                         const inWishlist = isInWishlist(prop.id);
-                        if(recommendedProperties.some(rec => rec.property != prop.id)) {
+                        if(recPropBasedPropViewTimes.some(rec => rec.property != prop.id) && recPropBasedPrefLoc.some(rec => rec.id != prop.id)) {
                             return (
                                 <PropertyBox1
                                     key={prop.id}

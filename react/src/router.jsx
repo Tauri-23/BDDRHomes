@@ -73,6 +73,7 @@ import AdminAddPropertyPriceReqIncome from "./views/admin/Properties/ViewProject
 import AdminAddPropertyFinal from "./views/admin/Properties/ViewProject/AddProperty/add_property_final";
 import KMeansClustering from "./algoModels/k_means_clustering";
 import CollabPropertyViews from "./algoModels/collab_for_property_views";
+import ContentBasedUserProfile from "./algoModels/content_based_user_profile";
 
 const router = createBrowserRouter([
     /*
@@ -123,6 +124,10 @@ const router = createBrowserRouter([
     {
         path: 'collab-prop-views',
         element: <CollabPropertyViews/>
+    },
+    {
+        path: 'content-based-client-profile',
+        element: <ContentBasedUserProfile/>
     },
     
 
