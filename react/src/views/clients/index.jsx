@@ -332,6 +332,7 @@ export default function ClientIndex() {
 
 
                     {/* Render Property boxes */}
+
                     {/* Based on Prop View times (Collaborative Filtering) */}
                     {properties && properties.length > 0 && wishlists && properties.map(prop => {
                         const inWishlist = isInWishlist(prop.id);
@@ -355,10 +356,29 @@ export default function ClientIndex() {
                         
                     })}
 
+                    {/* Based on Prefered Location */}
+                    {properties && properties.length > 0 && wishlists && recPropBasedPrefLoc.map(prop => {
+                        const inWishlist = isInWishlist(prop.id);
+                        return (
+                            <PropertyBox1
+                                key={prop.id}
+                                wishlists={wishlists}
+                                property={prop}
+                                viewAs={propViewAs}
+                                propId={prop.id}
+                                isInWishlist={inWishlist}
+                                handleCreateWishlistAndAddPropToIt={handleCreateWishlistAndAddPropToIt}
+                                handleRemovePropFromWishlist={handleRemovePropFromWishlist}
+                                handleAddPropToWishlist={handleAddPropToWishlist}
+                            />
+                        );
+                        
+                    })}
+
                     {/* General Properties does not in the recommendations */}
                     {properties && properties.length > 0 && wishlists && properties.map(prop => {
                         const inWishlist = isInWishlist(prop.id);
-                        if(recPropBasedPropViewTimes.some(rec => rec.property != prop.id) && recPropBasedPrefLoc.some(rec => rec.id != prop.id)) {
+                        if(!recPropBasedPropViewTimes.some(rec => rec.property == prop.id) && !recPropBasedPrefLoc.some(rec => rec.id == prop.id)) {
                             return (
                                 <PropertyBox1
                                     key={prop.id}

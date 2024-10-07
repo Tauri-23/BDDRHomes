@@ -148,6 +148,7 @@ export default function ContentBasedUserProfile() {
                 <div key={index}>
                     <h3>{rec.client}'s</h3>
                     <div>Prefered Locations</div>
+                    <div>Prefered Locations</div>
                     {rec.prefered_locations.map(prefLoc => (
                         <li key={prefLoc.id}>{prefLoc.province.province}</li>
                     ))}
