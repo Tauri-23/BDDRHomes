@@ -7,7 +7,8 @@ const PropertySellingFilterModal1 = ({
     bedroomNumbers, setBedroomNumbers,
     bathroomNumbers, setBathroomNumbers,
     carportNumbers, setCarportNumbers,
-    numOfFilteredProps,
+    filteredProp2, setFilteredProp2,
+    properties,
     onClose 
 }) => {
 
@@ -15,6 +16,10 @@ const PropertySellingFilterModal1 = ({
     const [_bedroomNumbers, _setBedroomNumbers] = useState(bedroomNumbers);
     const [_bathroomNumbers, _setBathroomNumbers] = useState(bathroomNumbers);
     const [_carportNumbers, _setCarportNumbers] = useState(carportNumbers);
+    const [_filteredProps, _setFilteredProps] = useState(properties);
+
+
+
 
     const handleSelectUnselectAmenity = (amenityId) => {
         _setSelectedAmenities(prevSelectedAmenity => 
@@ -28,14 +33,41 @@ const PropertySellingFilterModal1 = ({
                 ? prevSelectedAmenity.filter(amty => amty !== amenityId)
                 : [...prevSelectedAmenity, amenityId]
         );
-    }
+    } 
 
-    /*
-    | Debug
-    */
-    // useEffect(() => {
-    //     console.log(_selectedAmenities)
-    // }, [_selectedAmenities]);    
+
+
+    /**
+     * Handle Filter adjustments
+     */
+    useEffect(() => {
+        _setFilteredProps(
+            properties.filter(prop => {
+                // Check bedrooms
+                const matchesBedrooms = _bedroomNumbers > 0 ? prop.bedroom >= _bedroomNumbers : true;
+                // Check bathrooms
+                const matchesBathrooms = _bathroomNumbers > 0 ? prop.bath >= _bathroomNumbers : true;
+                // Check carports
+                const matchesCarports = _carportNumbers > 0 ? prop.carport >= _carportNumbers : true;
+                // Check amenities
+                const matchesAmenities = _selectedAmenities.length > 0
+                ? _selectedAmenities.every(selectedId =>
+                    prop.amenities.some(am => am.amenity.id === selectedId)
+                )
+                : true;
+    
+                // Return true if all conditions are satisfied
+                return matchesBedrooms && matchesBathrooms && matchesCarports && matchesAmenities;
+            })
+        );
+    }, [_bedroomNumbers, _bathroomNumbers, _carportNumbers, _selectedAmenities, properties]);
+    
+
+    useEffect(() => {
+        console.log(_filteredProps);
+    }, [_filteredProps]);
+
+
 
     return(
         <div className= {`modal1`}>
@@ -158,7 +190,7 @@ const PropertySellingFilterModal1 = ({
                     onClick={() => {onClose();}}
                     className={`primary-btn-black1 text-center`}
                     >
-                        Show {numOfFilteredProps} properties
+                        Show {_filteredProps.length} properties
                     </button>
                 </div>  
             </div>

@@ -35,7 +35,7 @@ export default function ClientIndex() {
     const [bedroomNumbers, setBedroomNumbers] = useState(0);
     const [bathroomNumbers, setBathroomNumbers] = useState(0);
     const [carportNumbers, setCarportNumbers] = useState(0);
-    const [numOfFilteredProps, setNumOfFilteredProps] = useState(0);
+    const [filteredProp2, setFilteredProp2] = useState(null);
 
 
 
@@ -54,6 +54,7 @@ export default function ClientIndex() {
                 ]);
     
                 setProperties(publishedProps);
+                setFilteredProp2(publishedProps);
                 setWishlists(wishlistsData);
                 setPropTypes(propTypesData);
                 setAmenities(amenitiesData);
@@ -75,15 +76,6 @@ export default function ClientIndex() {
             getAll();
         }
     }, [user]);
-    
-
-    // Set numberofProps
-    useEffect(() => {
-        if(properties) {
-            setNumOfFilteredProps(properties.length);
-        }
-        
-    }, [properties]);
 
 
 
@@ -215,7 +207,8 @@ export default function ClientIndex() {
                 bedroomNumbers, setBedroomNumbers,
                 bathroomNumbers, setBathroomNumbers,
                 carportNumbers, setCarportNumbers,
-                numOfFilteredProps
+                filteredProp2, setFilteredProp2,
+                properties
             });
     }
 
@@ -225,20 +218,6 @@ export default function ClientIndex() {
         }
         return properties?.filter(prop => prop.property_type.id === selectedPropType);
     }, [selectedPropType, properties]);
-
-    useEffect(() => {
-        if(bedroomNumbers > 0) {
-            console.log('asd');
-            setNumOfFilteredProps(filteredProperties.filter(prop => prop.bedroom >= bedroomNumbers).length);
-        }        
-    }, [bedroomNumbers, bathroomNumbers, carportNumbers]);
-
-    /**
-     * Debugging
-     */
-    useEffect(() => {
-        console.log(bedroomNumbers);
-    }, [bedroomNumbers])
 
 
     
