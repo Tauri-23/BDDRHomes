@@ -7,6 +7,7 @@ const PropertySellingFilterModal1 = ({
     bedroomNumbers, setBedroomNumbers,
     bathroomNumbers, setBathroomNumbers,
     carportNumbers, setCarportNumbers,
+    numOfFilteredProps,
     onClose 
 }) => {
 
@@ -157,7 +158,7 @@ const PropertySellingFilterModal1 = ({
                     onClick={() => {onClose();}}
                     className={`primary-btn-black1 text-center`}
                     >
-                        Show 0 properties
+                        Show {numOfFilteredProps} properties
                     </button>
                 </div>  
             </div>

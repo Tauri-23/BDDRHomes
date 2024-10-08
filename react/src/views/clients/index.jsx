@@ -1,7 +1,7 @@
 import { Outlet, useOutletContext } from "react-router-dom";
 import * as Icon from 'react-bootstrap-icons';
 import { PropertyBox1 } from "../../components/property_box1";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import axiosClient from "../../axios-client";
 import { ClientSkeletonListingBox, PropertyListedCategorySkeleton, PropertyListedFilterBtnSkeleton, PropertyListedViewAsBtnSkeleton } from "../../Skeletons/client-listing-skeletons";
 import { fetchAllClientWishlists } from "../../Services/ClientWishlistService";
@@ -16,18 +16,17 @@ import { ContentBasedForPrefLocMachine } from "../../algoModels/content_based_pr
 export default function ClientIndex() {
     const {user} = useStateContext();
     const {showModal} = useModal();
-    const [properties, setProperties] = useState(null);
-    const [recPropBasedPropViewTimes, setRecPropBasedPropViewTimes] = useState(null);
-    const [recPropBasedPrefLoc, setRecPropBasedPrefLoc] = useState(null);
 
-    /* 
-    | This is for all properties, when i select property type all the properties will store here
-    | and the filtered property will be store in properties.
-    */
-    const [propertiesCont2, setPropertiesCont2] = useState(null);
     const [wishlists, setWishlists] = useState([]);
     const [propTypes, setPropTypes] = useState(null);
     const [amenities, setAmenities] = useState(null);
+
+    const [properties, setProperties] = useState(null);
+    const [recPropBasedPropViewTimes, setRecPropBasedPropViewTimes] = useState(null);
+    const [recPropBasedPrefLoc, setRecPropBasedPrefLoc] = useState(null);
+    
+    const [isRenderReady, setRenderReady] = useState(false);
+    
 
     // For Filters
     const [propViewAs, setPropViewAs] = useState(2);
@@ -36,6 +35,8 @@ export default function ClientIndex() {
     const [bedroomNumbers, setBedroomNumbers] = useState(0);
     const [bathroomNumbers, setBathroomNumbers] = useState(0);
     const [carportNumbers, setCarportNumbers] = useState(0);
+    const [numOfFilteredProps, setNumOfFilteredProps] = useState(0);
+
 
 
 
@@ -43,111 +44,96 @@ export default function ClientIndex() {
     | Get all necessary datas from db
     */
     useEffect(() => {
-        const getPublishedProperties = async() => {
-            // KMeansClusteringMachine([1]).then(propertiesToReturn => {
-            //     setProperties(propertiesToReturn.properties.flatMap(prop => prop.properties));
-            // });
-
-            CollabForPropViewMachine(user.id).then(data => {
-                setRecPropBasedPropViewTimes(data.topRecommendations);
-            });
-
-            ContentBasedForPrefLocMachine(user.id).then(data => {
-                setRecPropBasedPrefLoc(data.properties);
-            })
-
+        const getAll = async () => {
             try {
-                const data = await fetchPublishedProperties();
-                setProperties(data);
-            } catch (error) {
-                console.error(error);
-            } 
-        }
-
-        const getAllClientWishlists = async(id) => {
-            try {
-                const data = await fetchAllClientWishlists(id);
-                setWishlists(data);
+                const [publishedProps, wishlistsData, propTypesData, amenitiesData] = await Promise.all([
+                    fetchPublishedProperties(),
+                    fetchAllClientWishlists(user.id),
+                    fetchPropertyTypes(),
+                    fetchPropertyAmenities()
+                ]);
+    
+                setProperties(publishedProps);
+                setWishlists(wishlistsData);
+                setPropTypes(propTypesData);
+                setAmenities(amenitiesData);
+    
+                // Fetch recommendations after getting properties
+                const [recPropsViewTimes, recPropsPrefLoc] = await Promise.all([
+                    CollabForPropViewMachine(user.id),
+                    ContentBasedForPrefLocMachine(user.id)
+                ]);
+    
+                setRecPropBasedPropViewTimes(recPropsViewTimes.topRecommendations);
+                setRecPropBasedPrefLoc(recPropsPrefLoc.properties);
             } catch (error) {
                 console.error(error);
             }
-
-        }
-
-        const getAllPropTypes = async() => {
-            try {
-                const data = await fetchPropertyTypes();
-                setPropTypes(data);
-            } catch (error) {
-                console.error(error);
-            }
-        }
-
-        const getAllAmenities = async() => {
-            try {
-                const data = await fetchPropertyAmenities();
-                setAmenities(data);
-            } catch(error) {console.error(error)}
-        }
-
-        const getAll = async() => {
-            getPublishedProperties();
-            getAllClientWishlists(user.id);       
-            getAllPropTypes();
-            getAllAmenities();
-                 
-        }
-        
-        if(user) {
+        };
+    
+        if (user) {
             getAll();
         }
-    }, []);
+    }, [user]);
+    
+
+    // Set numberofProps
+    useEffect(() => {
+        if(properties) {
+            setNumOfFilteredProps(properties.length);
+        }
+        
+    }, [properties]);
 
 
 
     /* 
     | Checkers
     */
-    const isInWishlist = (propId) => {
-        if (wishlists && Array.isArray(wishlists)) {
-            // Ensure propId is treated as a string for comparison
-            const propIdStr = String(propId);
+    const isInWishlist = useCallback((propId) => {
+        if (!wishlists || !Array.isArray(wishlists)) return false;
     
-            // Check if any wishlist contains the propertyId
-            return wishlists.some(wishlist =>
-                wishlist.wishlist_properties &&
-                wishlist.wishlist_properties.some(wishlistProp => 
-                    String(wishlistProp.property.id) === propIdStr
-                )
-            );
+        const propIdStr = String(propId);
+        return wishlists.some(wishlist =>
+            wishlist.wishlist_properties &&
+            wishlist.wishlist_properties.some(wishlistProp => 
+                String(wishlistProp.property.id) === propIdStr
+            )
+        );
+    }, [wishlists]);
+    
+
+    // For isRenderReady
+    useEffect(() => {
+        if(properties && recPropBasedPropViewTimes && recPropBasedPrefLoc && wishlists) {
+            setRenderReady(true);
+        } else {
+            setRenderReady(false);
         }
-        return false;
-    }
+    }, [properties, recPropBasedPropViewTimes, recPropBasedPrefLoc, wishlists]);
     
     
 
     /*
     |   On Heart Press
     */
-    const handleCreateWishlistAndAddPropToIt = (wishlistName, propId) => {
+    const handleCreateWishlistAndAddPropToIt = useCallback((wishlistName, propId) => {
         const formData = new FormData();
         formData.append('clientId', user.id);
         formData.append('wishlistName', wishlistName)
-        formData.append('propertyId',propId)
-
+        formData.append('propertyId', propId);
+    
         axiosClient.post('/client-create-wishlist-put-property', formData)
-        .then(({data}) => {
-            if(data.status === 200) {
-                setWishlists(prevWishlists => (
-                   [...prevWishlists, data.wishlist]
-                ));
-                notify('default', data.message, 'bottom-left', 3000);
-            } else {
-                notify('error', data.message, 'top-center', 3000);
-            }
-        })
-        .catch(error => {console.error(error)});
-    }
+            .then(({data}) => {
+                if (data.status === 200) {
+                    setWishlists(prevWishlists => [...prevWishlists, data.wishlist]);
+                    notify('default', data.message, 'bottom-left', 3000);
+                } else {
+                    notify('error', data.message, 'top-center', 3000);
+                }
+            })
+            .catch(error => console.error(error));
+    }, [user.id]);
 
     const handleRemovePropFromWishlist = (propId) => {
         const formData = new FormData();
@@ -229,58 +215,60 @@ export default function ClientIndex() {
                 bedroomNumbers, setBedroomNumbers,
                 bathroomNumbers, setBathroomNumbers,
                 carportNumbers, setCarportNumbers,
+                numOfFilteredProps
             });
     }
 
+    const filteredProperties = useMemo(() => {
+        if (selectedPropType === "") {
+            return properties;
+        }
+        return properties?.filter(prop => prop.property_type.id === selectedPropType);
+    }, [selectedPropType, properties]);
+
     useEffect(() => {
-        if(selectedPropType === "") {
-            setProperties(propertiesCont2);
-            setPropertiesCont2(null);
-        }
+        if(bedroomNumbers > 0) {
+            console.log('asd');
+            setNumOfFilteredProps(filteredProperties.filter(prop => prop.bedroom >= bedroomNumbers).length);
+        }        
+    }, [bedroomNumbers, bathroomNumbers, carportNumbers]);
 
-        if(selectedPropType !== "" && propertiesCont2 === null) {
-            setPropertiesCont2(properties);
-        }
-        
-        if(selectedPropType !== "") {
-            setProperties(prevProp => {
-                if(!propertiesCont2) {
-                    return prevProp.filter(prop => prop.property_type.id === selectedPropType) // Filter the properties 
-                } else {
-                    return propertiesCont2.filter(prop => prop.property_type.id === selectedPropType) // get the propertiesCont2 and filter it.
-                }
-                
-            });
-        }
-    }, [selectedPropType]);
+    /**
+     * Debugging
+     */
+    useEffect(() => {
+        console.log(bedroomNumbers);
+    }, [bedroomNumbers])
+
+
     
-    
-    /* 
-    |   For Debugging
-    */
-    // useEffect(() => {
-    //     console.log(recPropBasedPropViewTimes);
-    // }, [recPropBasedPropViewTimes]);
-    // useEffect(() => {
-    //     console.log(recPropBasedPrefLoc);
-    // }, [recPropBasedPrefLoc]);
+    /**
+     * Render Properies
+     */
+    const renderProperties = (propertiesToRender) => {
+        return propertiesToRender.map(prop => {
+            const inWishlist = isInWishlist(prop.id);
+            return (
+                <PropertyBox1
+                    key={prop.id}
+                    wishlists={wishlists}
+                    property={prop}
+                    viewAs={propViewAs}
+                    propId={prop.id}
+                    isInWishlist={inWishlist}
+                    handleCreateWishlistAndAddPropToIt={handleCreateWishlistAndAddPropToIt}
+                    handleRemovePropFromWishlist={handleRemovePropFromWishlist}
+                    handleAddPropToWishlist={handleAddPropToWishlist}
+                />
+            );
+        });
+    }
 
-    // useEffect(() => {
-    //     console.log(propertiesCont2);
-    // }, [propertiesCont2]);
 
-    // useEffect(() => {
-    //     console.log(wishlists);
-    // }, [wishlists]);
 
-    // useEffect(() => {
-    //     console.log(propTypes);
-    // }, [propTypes]);
-
-    // useEffect(() => {
-    //     console.log(selectedAmenities)
-    // }, [selectedAmenities]);
-
+    /**
+     * Render Content
+     */
     return (
         <>
             {/* Property Types Category-btns */}
@@ -327,90 +315,101 @@ export default function ClientIndex() {
             </div>
 
             <div className="content1">
-                {/* Properties Container */}
-                <div className="properties-cont">
 
 
-                    {/* Render Property boxes */}
-
-                    {/* Based on Prop View times (Collaborative Filtering) */}
-                    {properties && properties.length > 0 && wishlists && properties.map(prop => {
-                        const inWishlist = isInWishlist(prop.id);
-
-                        if(recPropBasedPropViewTimes.some(rec => rec.property == prop.id)) {
-                            console.log();
-                            return (
-                                <PropertyBox1
-                                    key={prop.id}
-                                    wishlists={wishlists}
-                                    property={prop}
-                                    viewAs={propViewAs}
-                                    propId={prop.id}
-                                    isInWishlist={inWishlist}
-                                    handleCreateWishlistAndAddPropToIt={handleCreateWishlistAndAddPropToIt}
-                                    handleRemovePropFromWishlist={handleRemovePropFromWishlist}
-                                    handleAddPropToWishlist={handleAddPropToWishlist}
-                                />
-                            );
-                        }
-                        
-                    })}
-
-                    {/* Based on Prefered Location */}
-                    {properties && properties.length > 0 && wishlists && recPropBasedPrefLoc.map(prop => {
-                        const inWishlist = isInWishlist(prop.id);
-                        return (
-                            <PropertyBox1
-                                key={prop.id}
-                                wishlists={wishlists}
-                                property={prop}
-                                viewAs={propViewAs}
-                                propId={prop.id}
-                                isInWishlist={inWishlist}
-                                handleCreateWishlistAndAddPropToIt={handleCreateWishlistAndAddPropToIt}
-                                handleRemovePropFromWishlist={handleRemovePropFromWishlist}
-                                handleAddPropToWishlist={handleAddPropToWishlist}
-                            />
-                        );
-                        
-                    })}
-
-                    {/* General Properties does not in the recommendations */}
-                    {properties && properties.length > 0 && wishlists && properties.map(prop => {
-                        const inWishlist = isInWishlist(prop.id);
-                        if(!recPropBasedPropViewTimes.some(rec => rec.property == prop.id) && !recPropBasedPrefLoc.some(rec => rec.id == prop.id)) {
-                            return (
-                                <PropertyBox1
-                                    key={prop.id}
-                                    wishlists={wishlists}
-                                    property={prop}
-                                    viewAs={propViewAs}
-                                    propId={prop.id}
-                                    isInWishlist={inWishlist}
-                                    handleCreateWishlistAndAddPropToIt={handleCreateWishlistAndAddPropToIt}
-                                    handleRemovePropFromWishlist={handleRemovePropFromWishlist}
-                                    handleAddPropToWishlist={handleAddPropToWishlist}
-                                />
-                            );
-                        }
-                        
-                    })}
-
-                    {!properties && Array.from({length:10}, (_, index) => index).map((x) => (
-                        <ClientSkeletonListingBox key={x}/>
-                    ))}
-
-                    {properties && properties.length < 1 && (
-                        <div className="">
-                            <div className="text-l2 fw-bold">No properties yet</div>
-                            <div className="text-m3">Stay tuned for more properties.</div>
+                {/* Based on Prop View times (Collaborative Filtering) */}
+                {isRenderReady && selectedPropType === "" && (
+                    <div className="mar-bottom-l1">
+                        <div className={`text-l1 mar-bottom-l2 fw-bold`}>
+                            Based on your activities
                         </div>
-                    )}
 
-                    
+                        <div className="properties-cont">
+                            {renderProperties(properties.filter(prop => recPropBasedPropViewTimes.some(rec => rec.property == prop.id)))}
+                        </div>
+                    </div>
+                )}
+                
 
 
-                </div>
+
+
+
+                {/* Based on Prefered Location */}
+                {isRenderReady && selectedPropType === "" && (
+                    <div className="mar-bottom-l1">
+                        <div className={`text-l1 mar-bottom-l2 fw-bold ${isRenderReady ? '' : 'd-none'}`}>
+                            Based on your prefered locations
+                        </div>
+
+                        <div className="properties-cont">
+                            {renderProperties(recPropBasedPrefLoc)}
+                        </div>
+                    </div>
+                )}
+                
+
+
+
+
+
+                {/* All Properties */}
+                {isRenderReady && selectedPropType === "" && (
+                    <div>
+                        <div className={`text-l1 mar-bottom-l2 fw-bold ${isRenderReady ? '' : 'd-none'}`}>
+                            Other properties
+                        </div>
+
+                        <div className="properties-cont">
+                            {renderProperties(properties)}
+                        </div>
+
+                        {properties?.length < 1 && (
+                            <div className="">
+                                <div className="text-l2 fw-bold">No properties yet</div>
+                                <div className="text-m3">Stay tuned for more properties.</div>
+                            </div>
+                        )}
+                    </div>
+                )}
+                
+
+
+
+
+
+                {/* Filtered Properties */}
+                {isRenderReady && selectedPropType !== "" && (
+                    <div>
+                        <div className="properties-cont">
+                            {renderProperties(filteredProperties)}
+                        </div>
+
+                        {filteredProperties.length < 1 && (
+                            <div className="">
+                                <div className="text-l2 fw-bold">No properties yet</div>
+                                <div className="text-m3">Stay tuned for more properties.</div>
+                            </div>
+                        )}
+                    </div>
+                )}
+                
+
+
+
+
+
+                {/* When render is not ready */}
+                {!isRenderReady && (
+                    <div className={`properties-cont`}>
+                        {!isRenderReady && Array.from({ length: 10 }).map((_, index) => (
+                            <ClientSkeletonListingBox key={index} />
+                        ))}
+                    </div>
+                )}
+                
+
+
             </div>
         </>
     )
