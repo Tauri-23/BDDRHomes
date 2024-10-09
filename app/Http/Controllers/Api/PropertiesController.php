@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Contracts\IGenerateFilenameService;
 use App\Contracts\IGenerateIdService;
 use App\Http\Controllers\Controller;
+use App\Models\ongoing_transactions;
 use App\Models\property_amenities;
 use App\Models\property_financing;
 use App\Models\property_types;
@@ -59,6 +60,12 @@ class PropertiesController extends Controller
             ->first();
 
         return response()->json($property);
+    }
+
+    public function isPropertyInClientOngoingTransaction($clientId, $propId)
+    {
+        $isExist = ongoing_transactions::where('client', $clientId)->where('property', $propId)->exists();
+        return response()->json($isExist);
     }
 
     

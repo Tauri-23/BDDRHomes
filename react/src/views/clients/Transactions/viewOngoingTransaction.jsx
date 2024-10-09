@@ -94,7 +94,7 @@ export default function ClientViewOngoingTransaction() {
 
                                         <div>
                                             <div className="text-m1 fw-bold">{transaction.property.project_name} {transaction.property.project_model}</div>
-                                            <div className="text-m2">{transaction.property.city} {transaction.property.province}</div>
+                                            <div className="text-m2">{transaction.property.city.city} {transaction.property.province.province}</div>
                                         </div>
                                     </div>
 

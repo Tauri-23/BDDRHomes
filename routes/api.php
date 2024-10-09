@@ -141,6 +141,7 @@ Route::get('/general-get-property-financing', [PropertiesController::class, 'get
 Route::get('/get-published-property', [PropertiesController::class, 'getAllPublishedProperties']);
 Route::get('/get-published-property-where-project/{projId}', [PropertiesController::class, 'getAllPublishedPropertiesWhereProject']);
 Route::get('/get-published-property-by-id/{propId}', [PropertiesController::class, 'getFullPropertyViaId']);
+Route::get('/is-prop-in-client-ongoing-transaction/{clientId}/{propId}', [PropertiesController::class, 'isPropertyInClientOngoingTransaction']);
 
 Route::post('/general-publish-property-post', [PropertiesController::class, 'publishPropertyPost']);
 Route::post('/general-delete-property-permanently', [PropertiesController::class, 'deletePropertyPermanentlyPost']);

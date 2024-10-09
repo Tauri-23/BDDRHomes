@@ -87,7 +87,7 @@ export default function ClientOngoingTransactions() {
                                         <div className="text-l3">{transaction.property.project_name} {transaction.property.project_model}</div>
                                         <div className="d-flex gap4 align-items-center">
                                             <Icon.GeoAlt/>
-                                            <div className="text-m2">{transaction.property.city} {transaction.property.province}</div>
+                                            <div className="text-m2">{transaction.property.city.city} {transaction.property.province.province}</div>
                                         </div>
                                     </div>
                                 </td>

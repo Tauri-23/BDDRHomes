@@ -42,7 +42,7 @@ export default function ClientIndex() {
 
 
     /*
-    | Get all necessary datas from db
+    | Get all necessary data from db
     */
     useEffect(() => {
         const getAll = async () => {

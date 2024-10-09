@@ -70,3 +70,13 @@ export const fetchSpecificPublishedPropertyFull = async(propId) => {
         throw error;
     }
 }
+
+export const isPropertyInOngoingTransaction = async(clientId, propId) => {
+    try {
+        const response = await axiosClient.get(`/is-prop-in-client-ongoing-transaction/${clientId}/${propId}`);
+        return response.data;
+    } catch(error) {
+        console.error('Error fetching property', error);
+        throw error;
+    }
+}

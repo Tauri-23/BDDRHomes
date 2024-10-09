@@ -7,13 +7,14 @@ import { fetchPropertyListedFullById } from '../../Services/GeneralPropertyListi
 import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
 import { useStateContext } from '../../contexts/ContextProvider';
 import { db } from '../../firebase-cofig';
-import { fetchSpecificPublishedPropertyFull } from '../../Services/GeneralPropertiesService';
+import { fetchSpecificPublishedPropertyFull, isPropertyInOngoingTransaction } from '../../Services/GeneralPropertiesService';
 import axiosClient from '../../axios-client';
 
 export default function ClientViewProperty() {
     const {showModal} = useModal();
     const {id} = useParams(); // Property Id
     const [propertyListed, setPropertyListed] = useState(null);
+    const [isInOngoingTransaction, setIsInOngoingTransaction] = useState(null);
     const {user} = useStateContext();
     const navigate = useNavigate();
 
@@ -28,17 +29,29 @@ export default function ClientViewProperty() {
     const messageAgentRef = collection(db, "conversation");
     const messagesRef = collection(db, "messages");
 
+
+
+
+
+    /**
+     * Fetch all necessary data
+     */
     useEffect(() => {
-        const getPropertyFull = async() => {
+        const getAll = async() => {
             try {
-                const data = await fetchSpecificPublishedPropertyFull(id);
-                setPropertyListed(data);
+                const [publishedProp, isInOngoingTransaction] = await Promise.all([
+                    fetchSpecificPublishedPropertyFull(id),
+                    isPropertyInOngoingTransaction(user.id, id)
+                ]);
+
+                setPropertyListed(publishedProp);
+                setIsInOngoingTransaction(isInOngoingTransaction);
             } catch (error) {
                 console.error(error);
             }
-        };        
+        }      
 
-        getPropertyFull();
+        getAll();
     }, []);
 
     useEffect(() => {
@@ -114,7 +127,7 @@ export default function ClientViewProperty() {
         .then(({data}) => {
             if(data.status === 200) {
                 notify("default", data.message, "bottom-left", 3000);
-                navigate("/BDDRClient/OngoingTransactions");
+                navigate("/BDDRClient/Transactions");
 
             } else {
                 notify("error", data.message, "bottom-left", 3000);
@@ -134,7 +147,7 @@ export default function ClientViewProperty() {
     
     return (
         <div className="content2 position-relative">
-            {propertyListed && firstHalfAmenities && secondHalfAmenities
+            {propertyListed && firstHalfAmenities && secondHalfAmenities && isInOngoingTransaction != null
             ? (
                 <>
                     <div className="d-flex justify-content-between mar-bottom-1 align-items-center">
@@ -335,7 +348,12 @@ export default function ClientViewProperty() {
                                 </div>
                                 <div className="d-flex flex-direction-y gap3">
                                     
-                                    <button onClick={handleStartTransaction} className="primary-btn-black1 text-m2 text-center">Start a transaction</button>
+                                    <button 
+                                    disabled={isInOngoingTransaction} 
+                                    onClick={handleStartTransaction} 
+                                    className={`primary-btn-black1 ${isInOngoingTransaction ? 'disabled' : ''} text-m2 text-center`}>
+                                        {isInOngoingTransaction ? 'This property is in your transactions' : 'Start a transaction'}
+                                    </button>
                                     <div className="d-flex gap3 w-100">
                                         <div className="secondary-btn-black1 text-m1 text-center" onClick={handleMessageAgent}><Icon.ChatSquareDots/></div>
                                         <div className="secondary-btn-black1 d-flex align-items-center justify-content-center text-m2 color-black1 w-100">Book A Tripping</div>
