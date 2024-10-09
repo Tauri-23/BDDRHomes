@@ -98,12 +98,8 @@ export default function ClientIndex() {
 
     // For isRenderReady
     useEffect(() => {
-        if(properties && recPropBasedPropViewTimes && recPropBasedPrefLoc && wishlists) {
-            setRenderReady(true);
-        } else {
-            setRenderReady(false);
-        }
-    }, [properties, recPropBasedPropViewTimes, recPropBasedPrefLoc, wishlists]);
+        setRenderReady(!!(properties && recPropBasedPropViewTimes && recPropBasedPrefLoc && wishlists));
+    }, [properties, recPropBasedPropViewTimes, recPropBasedPrefLoc, wishlists]);    
     
     
 
@@ -226,86 +222,51 @@ export default function ClientIndex() {
     }, [selectedPropType, properties]);
 
     // Filter Btn event from filter modal
-    const handleFilterProp = (props, isFiltered) => {
+    const handleFilterProp = useCallback((props, isFiltered) => {
         setFiltering(isFiltered);
         setFilteredProp2(props);
-    }
+    }, []);
 
     // Reset filters
-    const handleRemoveBedsFilter = () => {
+    const filterProperties = (overrides = {}) => {
+        const {
+            bedroomNumbers: overrideBedroomNumbers = bedroomNumbers,
+            bathroomNumbers: overrideBathroomNumbers = bathroomNumbers,
+            carportNumbers: overrideCarportNumbers = carportNumbers,
+        } = overrides;
+    
+        setFilteredProp2(
+            properties.filter(prop => {
+                const matchesBedrooms = overrideBedroomNumbers > 0 ? prop.bedroom >= overrideBedroomNumbers : true;
+                const matchesBathrooms = overrideBathroomNumbers > 0 ? prop.bath >= overrideBathroomNumbers : true;
+                const matchesCarports = overrideCarportNumbers > 0 ? prop.carport >= overrideCarportNumbers : true;
+                const matchesAmenities = selectedAmenities.length > 0
+                    ? selectedAmenities.every(selectedId =>
+                        prop.amenities.some(am => am.amenity.id === selectedId)
+                    )
+                    : true;
+                const matchesPropTypes = selectedPropType !== "" ? prop.property_type.id === selectedPropType : true;
+    
+                // Return true if all conditions are satisfied
+                return matchesPropTypes && matchesBedrooms && matchesBathrooms && matchesCarports && matchesAmenities;
+            })
+        );
+    };
+    
+    const handleRemoveBedsFilter = useCallback(() => {
         setBedroomNumbers(0);
-        setFilteredProp2(
-            properties.filter(prop => {
-                // Check bedrooms
-                const matchesBedrooms = prop.bedroom >= 0;
-                // Check bathrooms
-                const matchesBathrooms = bathroomNumbers > 0 ? prop.bath >= bathroomNumbers : true;
-                // Check carports
-                const matchesCarports = carportNumbers > 0 ? prop.carport >= carportNumbers : true;
-                // Check amenities
-                const matchesAmenities = selectedAmenities.length > 0
-                ? selectedAmenities.every(selectedId =>
-                    prop.amenities.some(am => am.amenity.id === selectedId)
-                )
-                : true;
-
-                const matchesPropTypes = selectedPropType !== "" ? prop.property_type.id == selectedPropType : true;
+        filterProperties({ bedroomNumbers: 0 });
+    }, []);
     
-                // Return true if all conditions are satisfied
-                return matchesPropTypes && matchesBedrooms && matchesBathrooms && matchesCarports && matchesAmenities;
-            })
-        );
-    }
-
-    const handleRemoveBathsFilter = () => {
+    const handleRemoveBathsFilter = useCallback(() => {
         setBathroomNumbers(0);
-        setFilteredProp2(
-            properties.filter(prop => {
-                // Check bedrooms
-                const matchesBedrooms = bedroomNumbers > 0 ? prop.bedroom >= bedroomNumbers : true;
-                // Check bathrooms
-                const matchesBathrooms = prop.bath >= 0;
-                // Check carports
-                const matchesCarports = carportNumbers > 0 ? prop.carport >= carportNumbers : true;
-                // Check amenities
-                const matchesAmenities = selectedAmenities.length > 0
-                ? selectedAmenities.every(selectedId =>
-                    prop.amenities.some(am => am.amenity.id === selectedId)
-                )
-                : true;
-
-                const matchesPropTypes = selectedPropType !== "" ? prop.property_type.id == selectedPropType : true;
+        filterProperties({ bathroomNumbers: 0 });
+    }, []);
     
-                // Return true if all conditions are satisfied
-                return matchesPropTypes && matchesBedrooms && matchesBathrooms && matchesCarports && matchesAmenities;
-            })
-        );
-    }
-
-    const handleRemoveCarportsFilter = () => {
-        setBathroomNumbers(0);
-        setFilteredProp2(
-            properties.filter(prop => {
-                // Check bedrooms
-                const matchesBedrooms = bedroomNumbers > 0 ? prop.bedroom >= bedroomNumbers : true;
-                // Check bathrooms
-                const matchesBathrooms =bathroomNumbers > 0 ? prop.bath >= bathroomNumbers : true;
-                // Check carports
-                const matchesCarports = prop.carport >= 0;
-                // Check amenities
-                const matchesAmenities = selectedAmenities.length > 0
-                ? selectedAmenities.every(selectedId =>
-                    prop.amenities.some(am => am.amenity.id === selectedId)
-                )
-                : true;
-
-                const matchesPropTypes = selectedPropType !== "" ? prop.property_type.id == selectedPropType : true;
-    
-                // Return true if all conditions are satisfied
-                return matchesPropTypes && matchesBedrooms && matchesBathrooms && matchesCarports && matchesAmenities;
-            })
-        );
-    }
+    const handleRemoveCarportsFilter = useCallback(() => {
+        setCarportNumbers(0);
+        filterProperties({ carportNumbers: 0 });
+    }, []);
 
 
 
@@ -403,7 +364,6 @@ export default function ClientIndex() {
 
 
 
-
                 {/* Based on Prefered Location */}
                 {isRenderReady && selectedPropType === "" && !isFiltering && (
                     <div className="mar-bottom-l1">
@@ -416,7 +376,6 @@ export default function ClientIndex() {
                         </div>
                     </div>
                 )}
-                
 
 
 
@@ -441,13 +400,12 @@ export default function ClientIndex() {
                         )}
                     </div>
                 )}
-                
 
 
 
 
 
-                {/* Filtered Properties */}
+                {/* Filtered by proptypes */}
                 {isRenderReady && selectedPropType !== "" && !isFiltering && (
                     <div>
                         <div className="properties-cont">
@@ -463,6 +421,11 @@ export default function ClientIndex() {
                     </div>
                 )}
                 
+
+
+
+
+                {/* Filtered by filtered modal and proptypes */}
                 {isRenderReady && isFiltering && (
                     <div>
                         <div className="properties-cont">
