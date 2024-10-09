@@ -12,6 +12,7 @@
     background: var(--white);
     padding: 0 50px;
     filter: drop-shadow(0 1px 1px var(--grey1));
+    transition: all ease .3s;
 }
 .listing-category-cont {
     display: flex;

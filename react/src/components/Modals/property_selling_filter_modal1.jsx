@@ -3,11 +3,14 @@ import propTypes from 'prop-types';
 import { useEffect, useState } from "react";
 
 const PropertySellingFilterModal1 = ({ 
-    amenities, selectedAmenities, setSelectedAmenities, 
+    amenities, 
+    selectedAmenities, setSelectedAmenities, 
     bedroomNumbers, setBedroomNumbers,
     bathroomNumbers, setBathroomNumbers,
-    carportNumbers, setCarportNumbers,
-    filteredProp2, setFilteredProp2,
+    carportNumbers, setCarportNumbers, 
+    isFiltering,
+    selectedPropType,
+    handleFilterProp, 
     properties,
     onClose 
 }) => {
@@ -17,6 +20,7 @@ const PropertySellingFilterModal1 = ({
     const [_bathroomNumbers, _setBathroomNumbers] = useState(bathroomNumbers);
     const [_carportNumbers, _setCarportNumbers] = useState(carportNumbers);
     const [_filteredProps, _setFilteredProps] = useState(properties);
+    const [_isFiltering, _setFiltering] = useState(isFiltering);
 
 
 
@@ -41,6 +45,13 @@ const PropertySellingFilterModal1 = ({
      * Handle Filter adjustments
      */
     useEffect(() => {
+
+        if(_bedroomNumbers == 0 && _bathroomNumbers == 0 && _carportNumbers == 0 && _selectedAmenities == 0 && _selectedAmenities.length == 0) {
+            _setFiltering(false);
+        }
+        else {
+            _setFiltering(true);
+        }
         _setFilteredProps(
             properties.filter(prop => {
                 // Check bedrooms
@@ -55,17 +66,30 @@ const PropertySellingFilterModal1 = ({
                     prop.amenities.some(am => am.amenity.id === selectedId)
                 )
                 : true;
+
+                const matchesPropTypes = selectedPropType !== "" ? prop.property_type.id == selectedPropType : true;
     
                 // Return true if all conditions are satisfied
-                return matchesBedrooms && matchesBathrooms && matchesCarports && matchesAmenities;
+                return matchesPropTypes && matchesBedrooms && matchesBathrooms && matchesCarports && matchesAmenities;
             })
         );
     }, [_bedroomNumbers, _bathroomNumbers, _carportNumbers, _selectedAmenities, properties]);
-    
 
-    useEffect(() => {
-        console.log(_filteredProps);
-    }, [_filteredProps]);
+
+
+    const handleClearFilter = () => {
+        _setSelectedAmenities([]);
+        _setBedroomNumbers(0);
+        _setBathroomNumbers(0);
+        _setCarportNumbers(0);
+        _setFilteredProps(properties);
+
+        setSelectedAmenities([]);
+        setBedroomNumbers(0);
+        setBathroomNumbers(0);
+        setCarportNumbers(0);
+        _setFiltering(false);
+    }
 
 
 
@@ -169,7 +193,7 @@ const PropertySellingFilterModal1 = ({
                     {/* Amenities */}
                     <div className="d-flex flex-direction-y gap2">
                         <div className="text-l3 fw-bold mar-bottom-3">Amenities</div>
-                        <div className="d-flex flex-wrap gap3">
+                        <div className="d-flex flex-wrap gap3 user-select-none">
                             {amenities.length > 0 && amenities.map(amenity => (
                                 <div key={amenity.id} className={`amenity-btn  ${_selectedAmenities.includes(amenity.id) ? "active" : ""}`} onClick={() => handleSelectUnselectAmenity(amenity.id)}>
                                     <img src={`/src/assets/media/icons/${amenity.icon}`} alt="" />
@@ -182,15 +206,15 @@ const PropertySellingFilterModal1 = ({
 
                 {/* Foot */}
                 <div className="property-selling-filter-modal-foot">            
-                    <button className="secondary-btn-black2 text-center d-flex gap3 align-items-center justify-content-center" onClick={onClose}>
-                        Cancel
+                    <button className="secondary-btn-black2 text-center d-flex gap3 align-items-center justify-content-center" onClick={handleClearFilter}>
+                        Clear filters
                     </button>
 
                     <button 
-                    onClick={() => {onClose();}}
+                    onClick={() => {onClose(); handleFilterProp(_filteredProps, _isFiltering)}}
                     className={`primary-btn-black1 text-center`}
                     >
-                        Show {_filteredProps.length} properties
+                        {_filteredProps.length > 0 ? `Show ${_filteredProps.length} properties` : 'No exact matches'}                        
                     </button>
                 </div>  
             </div>

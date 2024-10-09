@@ -36,6 +36,7 @@ export default function ClientIndex() {
     const [bathroomNumbers, setBathroomNumbers] = useState(0);
     const [carportNumbers, setCarportNumbers] = useState(0);
     const [filteredProp2, setFilteredProp2] = useState(null);
+    const [isFiltering, setFiltering] = useState(false);
 
 
 
@@ -200,24 +201,113 @@ export default function ClientIndex() {
     /* 
     | Filter
     */
+    // Show Filter Modal
     const handleFilterPressed = () => {
         showModal('PropertySellingFilterModal1', 
             {
-                amenities, selectedAmenities, setSelectedAmenities,
+                amenities, 
+                selectedAmenities, setSelectedAmenities,
                 bedroomNumbers, setBedroomNumbers,
                 bathroomNumbers, setBathroomNumbers,
                 carportNumbers, setCarportNumbers,
-                filteredProp2, setFilteredProp2,
+                isFiltering,
+                selectedPropType,
+                handleFilterProp,
                 properties
             });
     }
 
-    const filteredProperties = useMemo(() => {
+    // Filter Based on propTypes
+    useMemo(() => {
         if (selectedPropType === "") {
-            return properties;
+            setFilteredProp2(properties);
         }
-        return properties?.filter(prop => prop.property_type.id === selectedPropType);
+        setFilteredProp2(properties?.filter(prop => prop.property_type.id === selectedPropType));
     }, [selectedPropType, properties]);
+
+    // Filter Btn event from filter modal
+    const handleFilterProp = (props, isFiltered) => {
+        setFiltering(isFiltered);
+        setFilteredProp2(props);
+    }
+
+    // Reset filters
+    const handleRemoveBedsFilter = () => {
+        setBedroomNumbers(0);
+        setFilteredProp2(
+            properties.filter(prop => {
+                // Check bedrooms
+                const matchesBedrooms = prop.bedroom >= 0;
+                // Check bathrooms
+                const matchesBathrooms = bathroomNumbers > 0 ? prop.bath >= bathroomNumbers : true;
+                // Check carports
+                const matchesCarports = carportNumbers > 0 ? prop.carport >= carportNumbers : true;
+                // Check amenities
+                const matchesAmenities = selectedAmenities.length > 0
+                ? selectedAmenities.every(selectedId =>
+                    prop.amenities.some(am => am.amenity.id === selectedId)
+                )
+                : true;
+
+                const matchesPropTypes = selectedPropType !== "" ? prop.property_type.id == selectedPropType : true;
+    
+                // Return true if all conditions are satisfied
+                return matchesPropTypes && matchesBedrooms && matchesBathrooms && matchesCarports && matchesAmenities;
+            })
+        );
+    }
+
+    const handleRemoveBathsFilter = () => {
+        setBathroomNumbers(0);
+        setFilteredProp2(
+            properties.filter(prop => {
+                // Check bedrooms
+                const matchesBedrooms = bedroomNumbers > 0 ? prop.bedroom >= bedroomNumbers : true;
+                // Check bathrooms
+                const matchesBathrooms = prop.bath >= 0;
+                // Check carports
+                const matchesCarports = carportNumbers > 0 ? prop.carport >= carportNumbers : true;
+                // Check amenities
+                const matchesAmenities = selectedAmenities.length > 0
+                ? selectedAmenities.every(selectedId =>
+                    prop.amenities.some(am => am.amenity.id === selectedId)
+                )
+                : true;
+
+                const matchesPropTypes = selectedPropType !== "" ? prop.property_type.id == selectedPropType : true;
+    
+                // Return true if all conditions are satisfied
+                return matchesPropTypes && matchesBedrooms && matchesBathrooms && matchesCarports && matchesAmenities;
+            })
+        );
+    }
+
+    const handleRemoveCarportsFilter = () => {
+        setBathroomNumbers(0);
+        setFilteredProp2(
+            properties.filter(prop => {
+                // Check bedrooms
+                const matchesBedrooms = bedroomNumbers > 0 ? prop.bedroom >= bedroomNumbers : true;
+                // Check bathrooms
+                const matchesBathrooms =bathroomNumbers > 0 ? prop.bath >= bathroomNumbers : true;
+                // Check carports
+                const matchesCarports = prop.carport >= 0;
+                // Check amenities
+                const matchesAmenities = selectedAmenities.length > 0
+                ? selectedAmenities.every(selectedId =>
+                    prop.amenities.some(am => am.amenity.id === selectedId)
+                )
+                : true;
+
+                const matchesPropTypes = selectedPropType !== "" ? prop.property_type.id == selectedPropType : true;
+    
+                // Return true if all conditions are satisfied
+                return matchesPropTypes && matchesBedrooms && matchesBathrooms && matchesCarports && matchesAmenities;
+            })
+        );
+    }
+
+
 
 
     
@@ -297,7 +387,7 @@ export default function ClientIndex() {
 
 
                 {/* Based on Prop View times (Collaborative Filtering) */}
-                {isRenderReady && selectedPropType === "" && (
+                {isRenderReady && selectedPropType === "" && !isFiltering && (
                     <div className="mar-bottom-l1">
                         <div className={`text-l1 mar-bottom-l2 fw-bold`}>
                             Based on your activities
@@ -315,7 +405,7 @@ export default function ClientIndex() {
 
 
                 {/* Based on Prefered Location */}
-                {isRenderReady && selectedPropType === "" && (
+                {isRenderReady && selectedPropType === "" && !isFiltering && (
                     <div className="mar-bottom-l1">
                         <div className={`text-l1 mar-bottom-l2 fw-bold ${isRenderReady ? '' : 'd-none'}`}>
                             Based on your prefered locations
@@ -333,7 +423,7 @@ export default function ClientIndex() {
 
 
                 {/* All Properties */}
-                {isRenderReady && selectedPropType === "" && (
+                {isRenderReady && selectedPropType === "" && !isFiltering && (
                     <div>
                         <div className={`text-l1 mar-bottom-l2 fw-bold ${isRenderReady ? '' : 'd-none'}`}>
                             Other properties
@@ -358,13 +448,13 @@ export default function ClientIndex() {
 
 
                 {/* Filtered Properties */}
-                {isRenderReady && selectedPropType !== "" && (
+                {isRenderReady && selectedPropType !== "" && !isFiltering && (
                     <div>
                         <div className="properties-cont">
-                            {renderProperties(filteredProperties)}
+                            {renderProperties(filteredProp2)}
                         </div>
 
-                        {filteredProperties.length < 1 && (
+                        {filteredProp2.length < 1 && (
                             <div className="">
                                 <div className="text-l2 fw-bold">No properties yet</div>
                                 <div className="text-m3">Stay tuned for more properties.</div>
@@ -373,6 +463,27 @@ export default function ClientIndex() {
                     </div>
                 )}
                 
+                {isRenderReady && isFiltering && (
+                    <div>
+                        <div className="properties-cont">
+                            {renderProperties(filteredProp2)}
+                        </div>
+
+                        {filteredProp2.length < 1 && (
+                            <div className="">
+                                <div className="text-l2 fw-bold">No exact matches</div>
+                                <div className="text-m3 mar-bottom-1">Try changing or removing some of your filters.</div>
+                                <div className="d-flex gap3">
+                                    {bedroomNumbers > 0 && (<div className="secondary-btn-black1" onClick={handleRemoveBedsFilter}>Remove bedrooms filters</div>)}
+                                    {bathroomNumbers > 0 && (<div className="secondary-btn-black1" onClick={handleRemoveBathsFilter}>Remove baths filters</div>)}
+                                    {carportNumbers > 0 && (<div className="secondary-btn-black1" onClick={handleRemoveCarportsFilter}>Remove carports filters</div>)}
+                                    
+                                    <div className="secondary-btn-black1">Remove Amenities filters</div>
+                                </div>
+                            </div>
+                        )}
+                    </div>
+                )}
 
 
 
