@@ -213,21 +213,7 @@ export default function ClientIndex() {
             });
     }
 
-    // Filter Based on propTypes
-    useMemo(() => {
-        if (selectedPropType === "") {
-            setFilteredProp2(properties);
-        }
-        setFilteredProp2(properties?.filter(prop => prop.property_type.id === selectedPropType));
-    }, [selectedPropType, properties]);
-
-    // Filter Btn event from filter modal
-    const handleFilterProp = useCallback((props, isFiltered) => {
-        setFiltering(isFiltered);
-        setFilteredProp2(props);
-    }, []);
-
-    // Reset filters
+    // Filter Properties based on all filters
     const filterProperties = (overrides = {}) => {
         const {
             bedroomNumbers: overrideBedroomNumbers = bedroomNumbers,
@@ -252,7 +238,28 @@ export default function ClientIndex() {
             })
         );
     };
-    
+
+    // Filter Based on propTypes
+    useMemo(() => {
+        if (selectedPropType === "" && !isFiltering) {
+            setFilteredProp2(properties);
+        }
+        if(selectedPropType !== "" && isFiltering) {  // if is filtered by the filter modal
+            filterProperties();
+        }
+        if(selectedPropType !== "" && !isFiltering) {
+            setFilteredProp2(properties?.filter(prop => prop.property_type.id === selectedPropType));
+        }
+        
+    }, [selectedPropType, properties]);
+
+    // Filter Btn event from filter modal
+    const handleFilterProp = useCallback((props, isFiltered) => {
+        setFiltering(isFiltered);
+        setFilteredProp2(props);
+    }, []);
+
+    // Reset filters   
     const handleRemoveBedsFilter = useCallback(() => {
         setBedroomNumbers(0);
         filterProperties({ bedroomNumbers: 0 });
