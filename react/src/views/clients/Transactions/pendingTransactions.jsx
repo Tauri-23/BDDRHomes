@@ -5,9 +5,13 @@ import { fetchAllClientTransactionsWhere } from "../../../Services/GeneralTransa
 import * as Icon from "react-bootstrap-icons";
 import '../../../assets/css/ongoing_transactions.css';
 import Shimmer from "../../../Skeletons/shimmer";
+import { useModal } from "../../../contexts/ModalContext";
+import { notify } from "../../../assets/js/utils";
+import axiosClient from "../../../axios-client";
 
 export default function ClientPendingTransactions() {
     const {user} = useStateContext();
+    const {showModal} = useModal();
     const [pendingTransactions, setPendingTransactions] = useState(null);
 
     useEffect(() => {
@@ -27,6 +31,26 @@ export default function ClientPendingTransactions() {
     // useEffect(() => {
     //     console.log(pendingTransactions);
     // }, [pendingTransactions])
+
+    const handleCancelTransactionPost = (transactionId) => {
+        const formData = new FormData();
+        formData.append('transactionId', transactionId);
+        formData.append('newStatus', 'cancelled');
+
+        axiosClient.post('/update-transaction-from-client-post', formData)
+        .then(({data}) => {
+            if(data.status === 200) {
+                notify('default', data.message, 'bottom-left', 3000);
+                setPendingTransactions(prev => prev.filter(transaction => transaction.id !== transactionId));
+            } else {
+                notify('default', data.message, 'bottom-left', 3000);
+            }
+        });
+    }
+
+    const cancelTransaction = (transaction) => {
+        showModal('ClientCancelTransactionConfirmationModal1', {transaction, handleCancelTransactionPost})
+    }
 
     return(
         <>            
@@ -83,7 +107,7 @@ export default function ClientPendingTransactions() {
                                 </td>
                                 <td>
                                     <div className="d-flex">
-                                        <div className="primary-btn-black1">Cancel</div>
+                                        <div className="primary-btn-black1" onClick={() => cancelTransaction(transaction)}>Cancel</div>
                                     </div>
                                 </td>
                             </tr>

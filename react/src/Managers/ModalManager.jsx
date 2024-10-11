@@ -12,6 +12,8 @@ import AdminEditPropertyAddPhotoModal1 from "../components/Modals/admin_edit_pro
 import ClientEditPfpModal1 from "../components/Modals/client_edit_pfp_modal1";
 import PropertySellingFilterModal1 from "../components/Modals/property_selling_filter_modal1";
 import { AgentGetTransactionConfirmationModal1 } from "../components/Modals/agent_get_transaction_confirmation_modal1";
+import { ClientCancelTransactionConfirmationModal1 } from "../components/Modals/client_cancel_transaction_confirmation_modal1";
+import ClientViewPropSetEmpTypeModal1 from "../components/Modals/client_view_prop_set_emp_type_modal1";
 
 const ModalManager = () => {
     const {modalState, hideModal} = useModal();
@@ -36,18 +38,31 @@ const ModalManager = () => {
             /*
             |   CLIENT
             */
-            // Property Selling
+            // Properties
             case 'PropertySellingFilterModal1' :
                 return <PropertySellingFilterModal1 {...modalState.props} onClose={hideModal}/>
+
+
+            // View property
+            case 'ClientViewPropSetEmpTypeModal1':
+                return <ClientViewPropSetEmpTypeModal1 {...modalState.props} onClose={hideModal}/>
+
+
             // Wishlist
             case 'ClientAddToWishlistModal1' :
                 return <ClientAddToWishlistModal1 {...modalState.props} onClose={hideModal}/>
             case 'ClientDelWishlistModal1' :
                 return <ClientDelWishlistModal1 {...modalState.props} onClose={hideModal}/>
 
+
             // Profile
             case 'ClientEditPfpModal1' :
                 return <ClientEditPfpModal1 {...modalState.props} onClose={hideModal}/>
+            
+
+            // Profile
+            case 'ClientCancelTransactionConfirmationModal1' :
+                return <ClientCancelTransactionConfirmationModal1 {...modalState.props} onClose={hideModal}/>
 
 
 

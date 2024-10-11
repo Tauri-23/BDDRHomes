@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\ClientController;
 use App\Http\Controllers\Api\ClientPropertyViewsController;
 use App\Http\Controllers\Api\ClientWishlistController;
 use App\Http\Controllers\Api\DevelopersController;
+use App\Http\Controllers\Api\EmploymentTypesController;
 use App\Http\Controllers\Api\PropertiesController;
 use App\Http\Controllers\Api\PropertyDevelopersProjectsController;
 use App\Http\Controllers\Api\PropertyListingsController;
@@ -225,7 +226,8 @@ Route::get('/get-all-pending-transactions', [TransactionController::class, 'GetA
 Route::get('/get-all-client-transactions-where/{clientId}/{status}', [TransactionController::class, 'GetClientTransactionsWhere']);
 
 Route::post('/create-transaction-from-client-post', [TransactionController::class, 'CreateTransaction']);
-Route::post('/update-transaction-from-agent-post', [TransactionController::class, 'UpdateTransaction']);
+Route::post('/update-transaction-from-agent-post', [TransactionController::class, 'AdminUpdateTransaction']);
+Route::post('/update-transaction-from-client-post', [TransactionController::class, 'ClientUpdateTransaction']);
 
 
 
@@ -244,3 +246,12 @@ Route::get('/get-transaction-requirements-where/{financingId}', [TransactionRequ
 *  Property Views
 */
 Route::post('/create-prop-views', [ClientPropertyViewsController::class, 'addPropertyView']);
+
+
+
+
+
+/* 
+*  Transaction Requirements
+*/
+Route::get('/get-all-emp-types', [EmploymentTypesController::class, 'GetAllEmploymentType']);

@@ -13,7 +13,20 @@ return new class extends Migration
     {
         Schema::create('ongoing_transaction_tasks', function (Blueprint $table) {
             $table->id();
+            $table->string("transaction", 16)->nullable();
+            $table->string('requirement');
+            $table->text('description');
+            $table->string('status')->default('no-action');
             $table->timestamps();
+
+            /**
+             * Foreign keys
+             */
+            $table->foreign('transaction')
+            ->references('id')
+            ->on('ongoing_transactions')
+            ->cascadeOnDelete()
+            ->cascadeOnUpdate();
         });
     }
 

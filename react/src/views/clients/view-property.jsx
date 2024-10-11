@@ -9,14 +9,17 @@ import { useStateContext } from '../../contexts/ContextProvider';
 import { db } from '../../firebase-cofig';
 import { fetchSpecificPublishedPropertyFull, isPropertyInOngoingTransaction } from '../../Services/GeneralPropertiesService';
 import axiosClient from '../../axios-client';
+import { fetchAllEmpTypes } from '../../Services/GeneralEmploymentTypesService';
 
 export default function ClientViewProperty() {
+    const navigate = useNavigate();
+    const {user} = useStateContext();
     const {showModal} = useModal();
     const {id} = useParams(); // Property Id
     const [propertyListed, setPropertyListed] = useState(null);
     const [isInOngoingTransaction, setIsInOngoingTransaction] = useState(null);
-    const {user} = useStateContext();
-    const navigate = useNavigate();
+    const [empTypes, setEmpTypes] = useState(null);   
+    
 
     const [middleIndexAmenities, setMiddleIndexAmenities] = useState(null);
     const [firstHalfAmenities, setFirstHalfAmenities] = useState(null);
@@ -39,13 +42,15 @@ export default function ClientViewProperty() {
     useEffect(() => {
         const getAll = async() => {
             try {
-                const [publishedProp, isInOngoingTransaction] = await Promise.all([
+                const [publishedProp, isInOngoingTransaction, empTypesDb] = await Promise.all([
                     fetchSpecificPublishedPropertyFull(id),
-                    isPropertyInOngoingTransaction(user.id, id)
+                    isPropertyInOngoingTransaction(user.id, id),
+                    fetchAllEmpTypes()
                 ]);
 
                 setPropertyListed(publishedProp);
                 setIsInOngoingTransaction(isInOngoingTransaction);
+                setEmpTypes(empTypesDb);
             } catch (error) {
                 console.error(error);
             }
@@ -66,12 +71,6 @@ export default function ClientViewProperty() {
         }
     }, [propertyListed]);
 
-    /*
-    | Debugging
-    */
-    useEffect(() => {
-        console.log(propertyListed);
-    }, [propertyListed]);
 
     const handleMessageAgent = async () => {
         const ChatBotIntroText = "Hello, Thank you for your interest in this property. An agent will get in touch soon.";
@@ -118,7 +117,22 @@ export default function ClientViewProperty() {
         }
     };
 
-    const handleStartTransaction = async() => {
+    const handleSetEmploymentRTypePost = (empTypeId) => {
+        const formData = new FormData();
+        formData.append('empTypeId', empTypeId);
+        formData.append('editType', 'empType');
+        formData.append('client_id', user.id);
+
+        axiosClient.post('/update-client-info', formData)
+        .then(({data}) => {
+            if(data.status === 200) {
+                handleStartTransactionPost();
+            }
+        }).catch(error => console.error(error));
+    }
+
+
+    const handleStartTransactionPost = async() => {
         const formData = new FormData();
         formData.append("clientId", user.id);
         formData.append("propId", id);
@@ -134,6 +148,15 @@ export default function ClientViewProperty() {
             }
         })
         .catch(error => console.error(error));
+    }
+
+
+    const handleStartTransaction = async() => {
+        if(user.employment_type === null) {
+            showModal('ClientViewPropSetEmpTypeModal1', {empTypes, handleSetEmploymentRTypePost});
+            return;
+        }
+        handleStartTransactionPost();
     }
     
 
@@ -198,6 +221,7 @@ export default function ClientViewProperty() {
 
                     {/* Property Infos */}
                     <div className="property-infos mar-top-1">
+                        {/* Infos */}
                         <div className="property-infos-texts">
                                 {/* Property Name */}
                                 <div className="text-l1 fw-bold">{propertyListed.project.project_name} {propertyListed.project_model}</div>
@@ -296,7 +320,7 @@ export default function ClientViewProperty() {
 
                                 <div className="mar-top-l1 mar-bottom-l1 listing-hr"></div>
 
-                                {/* Financings */}
+                                {/* Bank Computations */}
                                 <div className="d-flex flex-direction-y gap2">
                                     <div className="text-l2 fw-bold">Bank Computation</div>
 
@@ -352,7 +376,7 @@ export default function ClientViewProperty() {
                                     disabled={isInOngoingTransaction} 
                                     onClick={handleStartTransaction} 
                                     className={`primary-btn-black1 ${isInOngoingTransaction ? 'disabled' : ''} text-m2 text-center`}>
-                                        {isInOngoingTransaction ? 'This property is in your transactions' : 'Start a transaction'}
+                                        {isInOngoingTransaction ? 'This property is already in your transactions' : 'Start a transaction'}
                                     </button>
                                     <div className="d-flex gap3 w-100">
                                         <div className="secondary-btn-black1 text-m1 text-center" onClick={handleMessageAgent}><Icon.ChatSquareDots/></div>

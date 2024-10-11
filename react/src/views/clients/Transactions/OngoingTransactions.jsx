@@ -4,9 +4,13 @@ import { fetchAllClientTransactionsWhere } from "../../../Services/GeneralTransa
 import { Link, useNavigate } from "react-router-dom";
 import * as Icon from "react-bootstrap-icons";
 import Shimmer from "../../../Skeletons/shimmer";
+import { useModal } from "../../../contexts/ModalContext";
+import axiosClient from "../../../axios-client";
+import { notify } from "../../../assets/js/utils";
 
 export default function ClientOngoingTransactions() {
     const navigate = useNavigate();
+    const {showModal} = useModal();
     const {user} = useStateContext();
     const [ongoingTransactions, setOngoingTransactions] = useState(null);
 
@@ -26,11 +30,37 @@ export default function ClientOngoingTransactions() {
     */
     // useEffect(() => {
     //     console.log(ongoingTransactions);
-    // }, [ongoingTransactions])
+    // }, [ongoingTransactions])  
 
 
-    const redirectToViewTrasaction = (transactionId) => {
-        navigate(`/BDDRClient/ViewTransaction/${transactionId}`)
+    const handleTransactionClick = (event, transaction) => {
+        if(event.target.className === 'primary-btn-black1') {
+            cancelTransaction(transaction);
+            return;
+        }
+
+        navigate(`/BDDRClient/ViewTransaction/${transaction.id}`)
+    }
+
+
+    const handleCancelTransactionPost = (transactionId) => {
+        const formData = new FormData();
+        formData.append('transactionId', transactionId);
+        formData.append('newStatus', 'cancelled');
+
+        axiosClient.post('/update-transaction-from-client-post', formData)
+        .then(({data}) => {
+            if(data.status === 200) {
+                notify('default', data.message, 'bottom-left', 3000);
+                setOngoingTransactions(prev => prev.filter(transaction => transaction.id !== transactionId));
+            } else {
+                notify('default', data.message, 'bottom-left', 3000);
+            }
+        });
+    }
+
+    const cancelTransaction = (transaction) => {
+        showModal('ClientCancelTransactionConfirmationModal1', {transaction, handleCancelTransactionPost})
     }
 
 
@@ -77,7 +107,7 @@ export default function ClientOngoingTransactions() {
                     <tbody className="transactions-table1-tbody">
                         {ongoingTransactions && ongoingTransactions.length > 0 && ongoingTransactions.map((transaction) => (
                             <tr key={transaction.id} className="transactions-box" 
-                            onClick={() => redirectToViewTrasaction(transaction.id)}
+                            onClick={(e) => handleTransactionClick(e, transaction)}
                             >
                                 <td className="d-flex gap3">
                                     <div className="transactions-box-prop-pic">

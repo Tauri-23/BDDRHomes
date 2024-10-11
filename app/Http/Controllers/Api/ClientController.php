@@ -106,6 +106,9 @@ class ClientController extends Controller
             case 'phone':
                 $client->phone = $request->phone;
                 break;
+            case 'empType':
+                $client->employment_type = $request->empTypeId;
+                break;
             default:
                 return response()->json([
                     'status' => 401,

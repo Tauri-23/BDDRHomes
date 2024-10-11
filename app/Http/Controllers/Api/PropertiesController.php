@@ -64,7 +64,7 @@ class PropertiesController extends Controller
 
     public function isPropertyInClientOngoingTransaction($clientId, $propId)
     {
-        $isExist = ongoing_transactions::where('client', $clientId)->where('property', $propId)->exists();
+        $isExist = ongoing_transactions::where('client', $clientId)->where('property', $propId)->whereNot('status', 'cancelled')->exists();
         return response()->json($isExist);
     }
 
