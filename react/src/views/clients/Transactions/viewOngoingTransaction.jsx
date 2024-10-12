@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { fetchTransactionInfoFullById } from "../../../Services/GeneralTransactionService";
 import * as Icon from "react-bootstrap-icons";
 import "../../../assets/css/view_transaction.css";
@@ -7,9 +7,9 @@ import { formatToPhilPeso } from "../../../assets/js/utils";
 import { fetchTransactionReqirements } from "../../../Services/GeneralTransactionRequirementsService";
 
 export default function ClientViewOngoingTransaction() {
+    const navigate = useNavigate();
     const {transactionId} = useParams();
     const [transaction, setTransaction] = useState(null);
-    const [tasks, setTasks] = useState(null);
 
     useEffect(() => {
         const getFullTransactionInfo = async() => {
@@ -105,14 +105,9 @@ export default function ClientViewOngoingTransaction() {
                                 <div className="hr-line1 mar-y-1"></div>
 
                                 <table className="view-transaction-task-table">
-                                    <thead className="view-transaction-task-table-thead">
-                                        <tr>
-                                            <th>Requirements</th>
-                                        </tr>
-                                    </thead>
                                     <tbody className="view-transaction-task-table-tbody">
                                         {transaction.tasks.map(task => (
-                                            <tr key={task.id}>
+                                            <tr key={task.id} onClick={() => navigate(`/BDDRClient/ViewTask/${task.id}`)}>
                                                 <td>
                                                     <div className="requirement-info">
                                                         <div className="d-flex gap3">

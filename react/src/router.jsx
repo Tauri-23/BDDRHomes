@@ -74,6 +74,7 @@ import AdminAddPropertyFinal from "./views/admin/Properties/ViewProject/AddPrope
 import KMeansClustering from "./algoModels/k_means_clustering";
 import CollabPropertyViews from "./algoModels/collab_for_property_views";
 import ContentBasedUserProfile from "./algoModels/content_based_user_profile";
+import ClientViewTask from "./views/clients/Transactions/viewTask";
 
 const router = createBrowserRouter([
     /*
@@ -218,6 +219,10 @@ const router = createBrowserRouter([
             {
                 path: 'ViewTransaction/:transactionId',
                 element: <ClientViewOngoingTransaction/>
+            },
+            {
+                path: 'ViewTask/:taskId',
+                element: <ClientViewTask/>
             }
 
         ]

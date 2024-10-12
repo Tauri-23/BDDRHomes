@@ -39,3 +39,15 @@ export const fetchAllClientTransactionsWhere = async(clientId, status) => {
         throw error;
     }
 }
+
+
+
+export const fetchTaskFullInfoById = async(taskId) => {
+    try {
+        const response = await axiosClient.get(`/get-task-full-info-by-id/${taskId}`);
+        return response.data;
+    } catch (error) {
+        console.error('Error client pending transactions', error);
+        throw error;
+    }
+}

@@ -48,6 +48,11 @@ class TransactionController extends Controller
         return response()->json($transaction);
     }
 
+    public function GetFullTaskInfoById($taskId)
+    {
+        return response()->json(ongoing_transaction_tasks::find($taskId));
+    }
+
 
 
 

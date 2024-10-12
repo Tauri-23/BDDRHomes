@@ -224,6 +224,7 @@ Route::get('/get-full-transaction-info-by-transaction-id/{transactionId}', [Tran
 Route::get('/get-all-ongoing-transactions-agent/{agentId}', [TransactionController::class, 'GetAllOngoingTransactions']);
 Route::get('/get-all-pending-transactions', [TransactionController::class, 'GetAllPendingTransactions']);
 Route::get('/get-all-client-transactions-where/{clientId}/{status}', [TransactionController::class, 'GetClientTransactionsWhere']);
+Route::get('/get-task-full-info-by-id/{taskId}', [TransactionController::class, 'GetFullTaskInfoById']);
 
 Route::post('/create-transaction-from-client-post', [TransactionController::class, 'CreateTransaction']);
 Route::post('/create-transaction-task-from-agent-post', [TransactionController::class, 'CreateTask']);
