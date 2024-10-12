@@ -19,15 +19,7 @@ export default function ClientViewOngoingTransaction() {
             } catch (error) {console.error(error)}
         }
 
-        const getRequirements = async() => {
-            try {
-                const data = await fetchTransactionReqirements('381064');
-                setTasks(data);
-            } catch (error) {console.error(error)}
-        }
-
         getFullTransactionInfo();
-        getRequirements();
     }, []);
 
     /*
@@ -39,7 +31,7 @@ export default function ClientViewOngoingTransaction() {
 
     return(
         <div className="content1 position-relative">
-            {transaction && tasks
+            {transaction
                 ? (
                     <>
                         <div className="text-l1 fw-bold color-black2 mar-bottom-l1">Transaction</div>
@@ -119,15 +111,15 @@ export default function ClientViewOngoingTransaction() {
                                         </tr>
                                     </thead>
                                     <tbody className="view-transaction-task-table-tbody">
-                                        {tasks.map(task => (
+                                        {transaction.tasks.map(task => (
                                             <tr key={task.id}>
                                                 <td>
                                                     <div className="requirement-info">
                                                         <div className="d-flex gap3">
                                                             <div className="text-m1">{task.requirement}</div>
-                                                            <span className="requirement-status-card pending">pending</span>
+                                                            <span className={`requirement-status-card ${task.status}`}>{task.status}</span>
                                                         </div>
-                                                        <div className="text-m3">{task.notes}</div>
+                                                        <div className="text-m3">{task.description}</div>
                                                     </div>
                                                 </td>
                                             </tr>

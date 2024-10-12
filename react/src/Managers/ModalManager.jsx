@@ -14,6 +14,8 @@ import PropertySellingFilterModal1 from "../components/Modals/property_selling_f
 import { AgentGetTransactionConfirmationModal1 } from "../components/Modals/agent_get_transaction_confirmation_modal1";
 import { ClientCancelTransactionConfirmationModal1 } from "../components/Modals/client_cancel_transaction_confirmation_modal1";
 import ClientViewPropSetEmpTypeModal1 from "../components/Modals/client_view_prop_set_emp_type_modal1";
+import { GeneralConfirmationModal1 } from "../components/Modals/general_confirmation_modal";
+import AgentAddTransactionTaskModal1 from "../components/Modals/agent_add_transaction_task_modal1";
 
 const ModalManager = () => {
     const {modalState, hideModal} = useModal();
@@ -60,7 +62,7 @@ const ModalManager = () => {
                 return <ClientEditPfpModal1 {...modalState.props} onClose={hideModal}/>
             
 
-            // Profile
+            // Transaction
             case 'ClientCancelTransactionConfirmationModal1' :
                 return <ClientCancelTransactionConfirmationModal1 {...modalState.props} onClose={hideModal}/>
 
@@ -75,18 +77,20 @@ const ModalManager = () => {
             case 'AdminDelAgentConfirmationModal1' :
                 return <AdminDelAgentConfirmation {...modalState.props} onClose={hideModal}/>
             
+
             // Properties
             case 'AdminPropertiesOptionModal1':
                 return <AdminPropertiesOptionModal1 {...modalState.props} onClose={hideModal}/>
                 
+
             // Edit Property
             case 'AdminEditPropertyAddPhotoModal1' :
                 return <AdminEditPropertyAddPhotoModal1 {...modalState.props} onClose={hideModal}/>
             case 'AdminEditPropertyDelPhotoModal1':
                 return <AdminEditPropertyDelPhotoModal1 {...modalState.props} onClose={hideModal}/>
             case 'AdminEditPropertyDelAmenityModal1':
-                return <AdminEditPropertyDelAmenityModal1 {...modalState.props} onClose={hideModal}/>    
-            
+                return <AdminEditPropertyDelAmenityModal1 {...modalState.props} onClose={hideModal}/>
+
 
 
 
@@ -97,8 +101,26 @@ const ModalManager = () => {
             // Transactions
             case 'AgentGetTransactionConfirmationModal1' :
                 return <AgentGetTransactionConfirmationModal1 {...modalState.props} onClose={hideModal}/>
+
+            case 'AgentAddTransactionTaskModal1' :
+                return <AgentAddTransactionTaskModal1 {...modalState.props} onClose={hideModal}/>
             
             
+
+
+
+
+            
+
+
+
+
+            /**
+             * General
+             */
+            case 'GeneralConfirmationModal1':
+                return <GeneralConfirmationModal1 {...modalState.props} onClose={hideModal}/>
+
 
 
 

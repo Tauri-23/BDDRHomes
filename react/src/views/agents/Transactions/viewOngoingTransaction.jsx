@@ -3,13 +3,14 @@ import { Link, useParams } from "react-router-dom";
 import { fetchTransactionInfoFullById } from "../../../Services/GeneralTransactionService";
 import * as Icon from "react-bootstrap-icons";
 import "../../../assets/css/view_transaction.css";
-import { formatToPhilPeso } from "../../../assets/js/utils";
-import { fetchTransactionReqirements } from "../../../Services/GeneralTransactionRequirementsService";
+import { formatToPhilPeso, notify } from "../../../assets/js/utils";
+import { useModal } from "../../../contexts/ModalContext";
+import axiosClient from "../../../axios-client";
 
 export default function AgentViewOngoingTransaction() {
     const {transactionId} = useParams();
+    const {showModal} = useModal();
     const [transaction, setTransaction] = useState(null);
-    const [tasks, setTasks] = useState(null);
 
     useEffect(() => {
         const getFullTransactionInfo = async() => {
@@ -19,27 +20,75 @@ export default function AgentViewOngoingTransaction() {
             } catch (error) {console.error(error)}
         }
 
-        const getRequirements = async() => {
-            try {
-                const data = await fetchTransactionReqirements('381064');
-                setTasks(data);
-            } catch (error) {console.error(error)}
-        }
-
         getFullTransactionInfo();
-        getRequirements();
     }, []);
 
-    /*
-    | Debugging
-    */
-    useEffect(() => {
-        console.log(transaction);
-    }, [transaction]);
+
+
+
+
+    /**
+     * Handlers
+     */
+    const handleMarkAsDonePost = (taskId) => {
+        const formData = new FormData();
+        formData.append('taskId', taskId);
+        formData.append('newStatus', 'done');
+    
+        axiosClient.post('/update-transaction-task-status-from-agent-post', formData)
+            .then(({data}) => {
+                if (data.status === 200) {
+                    setTransaction(prev => ({
+                        ...prev,
+                        tasks: prev.tasks.map(task =>
+                            task.id === taskId ? { ...task, status: 'done' } : task
+                        )
+                    }));
+                }
+                notify('default', data.message, 'bottom-left', 3000);
+            })
+            .catch(error => console.error(error));
+    }
+
+    const handleMarkAsDone = (req, taskId) => {
+        showModal('GeneralConfirmationModal1', {
+            title: "Mark as done Task",
+            note: `Mark as done this task ${req}`,
+            positiveBtnText: 'Mark as done',
+            handlePositiveBtnClick: () => handleMarkAsDonePost(taskId)
+        });
+    }
+
+
+    const handleAddTaskPost = (req, note) => {
+        const formData = new FormData();
+        formData.append('transaction', transaction.id);
+        formData.append('req', req);
+        formData.append('note', note);
+
+        axiosClient.post('/create-transaction-task-from-agent-post', formData)
+        .then(({data}) => {
+            if (data.status === 200) {
+                console.log(data.task);
+                setTransaction(prev => ({
+                    ...prev,
+                    tasks: [...prev.tasks, data.task]  // Append the new task to the existing tasks
+                }));
+            }
+            notify('default', data.message, 'bottom-left', 3000);
+        }).catch(error => console.error(error));
+    }
+    const handleAddTask = () => {
+        showModal('AgentAddTransactionTaskModal1', {handleAddTaskPost});
+    }
+
+    
+    
+
 
     return(
         <div className="content1">
-            {transaction && tasks
+            {transaction
                 ? (
                     <>
                         <div className="text-l1 fw-bold color-black2 mar-bottom-l1">Transaction</div>
@@ -113,32 +162,54 @@ export default function AgentViewOngoingTransaction() {
                             </div>
                 
                 
+                            {/* Tasks */}
                             <div className="view-transaction-right">
-                                <div className="text-l1">Tasks</div>
+                                <div className="d-flex align-items-center justify-content-between">
+                                    <div className="text-l1">Tasks</div>
+                                    <div 
+                                    className="primary-btn-black1 d-flex gap3 align-items-center"
+                                    onClick={handleAddTask}
+                                    >
+                                        <Icon.PlusLg className="text-l3 fw-bold"/> Add Task
+                                    </div>
+                                </div>
                                 <div className="hr-line1 mar-y-1"></div>
 
                                 <table className="view-transaction-task-table">
                                     <thead className="view-transaction-task-table-thead">
                                         <tr>
                                             <th>Requirements</th>
-                                            <th>Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody className="view-transaction-task-table-tbody">
-                                        {tasks.map(task => (
-                                            <tr>
+                                        {transaction.tasks.map(task => (
+                                            <tr key={task.id}>
                                                 <td>
                                                     <div className="requirement-info">
                                                         <div className="d-flex gap3">
                                                             <div className="text-m1">{task.requirement}</div>
-                                                            <span className="requirement-status-card pending">pending</span>
+                                                            <span className={`requirement-status-card ${task.status}`}>{task.status}</span>
                                                         </div>
-                                                        <div className="text-m3">{task.notes}</div>
+                                                        <div className="text-m3">{task.description}</div>
                                                     </div>
                                                 </td>
                                                 <td>
-                                                    <div className="d-flex">
-                                                        <div className="primary-btn-black1 text-m3">Done</div>
+                                                    <div className="d-flex justify-content-end">
+                                                        {task.status === 'done' 
+                                                        ? (
+                                                            <button 
+                                                            className='primary-btn-black1 text-m3'>
+                                                                Done
+                                                            </button>
+                                                        )
+                                                        : (
+                                                            <button 
+                                                            className='secondary-btn-black1 text-m3' 
+                                                            onClick={() => handleMarkAsDone(task.requirement, task.id)}>
+                                                                Mark as Done
+                                                            </button>
+                                                        )}
+                                                        
                                                     </div>
                                                 </td>
                                             </tr>

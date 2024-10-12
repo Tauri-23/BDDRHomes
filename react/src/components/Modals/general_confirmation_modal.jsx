@@ -1,9 +1,11 @@
 import * as Icon from 'react-bootstrap-icons';
 import propTypes from 'prop-types';
+import { Link } from 'react-router-dom';
+import { useEffect } from 'react';
 
-export const AgentGetTransactionConfirmationModal1 = ({ transaction, handleGetTransactionPost, onClose }) => {
+export const GeneralConfirmationModal1 = ({ title, note, positiveBtnText, handlePositiveBtnClick, onClose }) => {
 
-    // useEffect(() => {console.log(wishlist);}, wishlist);
+    // useEffect(() => {console.log(transaction);}, [transaction]);
     
 
     return(
@@ -15,18 +17,18 @@ export const AgentGetTransactionConfirmationModal1 = ({ transaction, handleGetTr
 
                 {/* Desc */}
                 <div className="text-center mar-bottom-1 d-flex flex-direction-y gap3">
-                    <div className="text-m1 fw-bold w-100">Get this transaction?</div>
-                    <div className="text-m2 w-50 m-auto">"{transaction}" will be assigned to you</div>
+                    <div className="text-m1 fw-bold w-100">{title}</div>
+                    <div className="text-m2 w-50 m-auto">{note}</div>
                 </div>
 
                 {/* Btns */}
                 <div className="d-flex flex-direction-y gap3">
                         
                     <div 
-                    onClick={() => {handleGetTransactionPost(transaction); onClose();}} 
+                    onClick={() => {handlePositiveBtnClick(); onClose();}} 
                     className="primary-btn-black1 text-center"
                     >
-                        Get Transaction
+                        {positiveBtnText}
                     </div>
                 </div>
             </div>
@@ -34,6 +36,6 @@ export const AgentGetTransactionConfirmationModal1 = ({ transaction, handleGetTr
     );
 };
 
-AgentGetTransactionConfirmationModal1.propTypes = {
-    onClose: propTypes.func.isRequired
+GeneralConfirmationModal1.propTypes = {
+    onClose: propTypes.func.isRequired,
 };

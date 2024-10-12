@@ -43,7 +43,7 @@ class TransactionController extends Controller
 
     public function GetFullTransactionInfoById($transactionId)
     {
-        $transaction = ongoing_transactions::where("id", $transactionId)->with(["client", "agent", "property"])->first();
+        $transaction = ongoing_transactions::where("id", $transactionId)->with(["client", "agent", "property", "tasks"])->first();
 
         return response()->json($transaction);
     }
@@ -85,7 +85,31 @@ class TransactionController extends Controller
         }
     }
 
-    public function AdminUpdateTransaction(Request $request)
+    public function CreateTask(Request $request)
+    {
+        $task = new ongoing_transaction_tasks();
+        $task->transaction = $request->transaction;
+        $task->requirement = $request->req;
+        $task->description = $request->note;
+        $task->status = 'no-action';
+        if($task->save())
+        {
+            return response()->json([
+                'status' => 200,
+                'task' => $task,
+                'message' => 'Something went wrong when adding task please try again later.'
+            ]);
+        }
+        else
+        {
+            return response()->json([
+                'status' => 401,
+                'message' => 'Something went wrong when adding task please try again later.'
+            ]);
+        }
+    }
+
+    public function AgentUpdateTransaction(Request $request)
     {
         $localEmpReq = [
             ["req" => "2 valid ID's", "desc" => "Back to back with 3 specimen signature"],
@@ -124,6 +148,27 @@ class TransactionController extends Controller
                 "message" => 'Something went wrong when updating the transaction please try again later.'
             ]);
         }
+    }
+
+    public function AgentUpdateTransactionTaskStatus(Request $request)
+    {
+        $transaction = ongoing_transaction_tasks::find($request->taskId);
+
+        if(!$transaction)
+        {
+            return response()->json([
+                'status' => 404,
+                'message' => 'Task not found'
+            ]);
+        }
+
+        $transaction->status = $request->newStatus;
+        $transaction->save();
+
+        return response()->json([
+            'status' => 200,
+            'message' => 'Success'
+        ]);
     }
 
     public function ClientUpdateTransaction(Request $request)

@@ -23,4 +23,9 @@ class ongoing_transactions extends Model
     {
         return $this->belongsTo(published_properties::class,"property", "id")->with(["photos", "province", "city"]);
     }
+
+    public function tasks()
+    {
+        return $this->hasMany(ongoing_transaction_tasks::class, 'transaction', 'id');
+    }
 }

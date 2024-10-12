@@ -49,7 +49,13 @@ export default function ClientPendingTransactions() {
     }
 
     const cancelTransaction = (transaction) => {
-        showModal('ClientCancelTransactionConfirmationModal1', {transaction, handleCancelTransactionPost})
+        // showModal('ClientCancelTransactionConfirmationModal1', {transaction, handleCancelTransactionPost})
+        showModal('GeneralConfirmationModal1', {
+            title: "Cancel this Transaction?",
+            note: `transaction for ${transaction.project_model} will be cancelled`,
+            positiveBtnText: 'Cancel Transaction',
+            handlePositiveBtnClick: () => handleCancelTransactionPost(transaction.id)
+        });
     }
 
     return(

@@ -226,7 +226,9 @@ Route::get('/get-all-pending-transactions', [TransactionController::class, 'GetA
 Route::get('/get-all-client-transactions-where/{clientId}/{status}', [TransactionController::class, 'GetClientTransactionsWhere']);
 
 Route::post('/create-transaction-from-client-post', [TransactionController::class, 'CreateTransaction']);
-Route::post('/update-transaction-from-agent-post', [TransactionController::class, 'AdminUpdateTransaction']);
+Route::post('/create-transaction-task-from-agent-post', [TransactionController::class, 'CreateTask']);
+Route::post('/update-transaction-from-agent-post', [TransactionController::class, 'AgentUpdateTransaction']);
+Route::post('/update-transaction-task-status-from-agent-post', [TransactionController::class, 'AgentUpdateTransactionTaskStatus']);
 Route::post('/update-transaction-from-client-post', [TransactionController::class, 'ClientUpdateTransaction']);
 
 
