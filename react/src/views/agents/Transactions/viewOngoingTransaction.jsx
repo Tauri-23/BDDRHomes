@@ -35,7 +35,7 @@ export default function AgentViewOngoingTransaction() {
         formData.append('taskId', taskId);
         formData.append('newStatus', 'done');
     
-        axiosClient.post('/update-transaction-task-status-from-agent-post', formData)
+        axiosClient.post('/update-transaction-task-status', formData)
             .then(({data}) => {
                 if (data.status === 200) {
                     setTransaction(prev => ({

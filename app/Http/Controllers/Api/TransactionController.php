@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Contracts\IGenerateFilenameService;
 use App\Contracts\IGenerateIdService;
 use App\Http\Controllers\Controller;
+use App\Models\ongoing_transaction_task_files;
 use App\Models\ongoing_transaction_tasks;
 use App\Models\ongoing_transactions;
 use App\Models\user_clients;
@@ -12,12 +14,16 @@ use Illuminate\Http\Request;
 class TransactionController extends Controller
 {
     protected $generateId;
-    public function __construct(IGenerateIdService $generateId)
+    protected $generateFilename;
+    public function __construct(IGenerateIdService $generateId, IGenerateFilenameService $generateFilename)
     {
         $this->generateId = $generateId;
+        $this->generateFilename = $generateFilename;
     }
 
-    // GET
+    /**
+     * GET
+     */
     public function GetAllOngoingTransactions($agentId)
     {
         return response()->json(
@@ -53,11 +59,19 @@ class TransactionController extends Controller
         return response()->json(ongoing_transaction_tasks::find($taskId));
     }
 
+    // Task
+    public function getAllTaskFilesWhereTaskId($taskId)
+    {
+        return response()->json(ongoing_transaction_task_files::where('task', $taskId)->get());
+    }
 
 
 
 
-    // POST
+
+    /**
+     * POST
+     */
     public function CreateTransaction(Request $request)
     {
         // check if the transaction is existing (if there is a client id and property id but no agent id and its cancelled)
@@ -86,30 +100,6 @@ class TransactionController extends Controller
             return response()->json([
                 "status" => 200,
                 "message" => "Success"
-            ]);
-        }
-    }
-
-    public function CreateTask(Request $request)
-    {
-        $task = new ongoing_transaction_tasks();
-        $task->transaction = $request->transaction;
-        $task->requirement = $request->req;
-        $task->description = $request->note;
-        $task->status = 'no-action';
-        if($task->save())
-        {
-            return response()->json([
-                'status' => 200,
-                'task' => $task,
-                'message' => 'Something went wrong when adding task please try again later.'
-            ]);
-        }
-        else
-        {
-            return response()->json([
-                'status' => 401,
-                'message' => 'Something went wrong when adding task please try again later.'
             ]);
         }
     }
@@ -154,8 +144,55 @@ class TransactionController extends Controller
             ]);
         }
     }
+    
+    public function ClientUpdateTransaction(Request $request)
+    {
+        $transaction = ongoing_transactions::findOrFail($request->transactionId);
+        $transaction->status = $request->newStatus;
 
-    public function AgentUpdateTransactionTaskStatus(Request $request)
+        if($transaction->save())
+        {
+            return response()->json([
+                "status" => 200,
+                "message" => 'Transaction cancelled'
+            ]);
+        }
+        else
+        {
+            return response()->json([
+                "status" => 401,
+                "message" => 'Something went wrong when cancelling the transaction please try again later.'
+            ]);
+        }
+    }
+
+
+    // Task
+    public function CreateTask(Request $request)
+    {
+        $task = new ongoing_transaction_tasks();
+        $task->transaction = $request->transaction;
+        $task->requirement = $request->req;
+        $task->description = $request->note;
+        $task->status = 'no-action';
+        if($task->save())
+        {
+            return response()->json([
+                'status' => 200,
+                'task' => $task,
+                'message' => 'Something went wrong when adding task please try again later.'
+            ]);
+        }
+        else
+        {
+            return response()->json([
+                'status' => 401,
+                'message' => 'Something went wrong when adding task please try again later.'
+            ]);
+        }
+    }
+
+    public function UpdateTransactionTaskStatus(Request $request)
     {
         $transaction = ongoing_transaction_tasks::find($request->taskId);
 
@@ -176,24 +213,37 @@ class TransactionController extends Controller
         ]);
     }
 
-    public function ClientUpdateTransaction(Request $request)
+    public function AddFileToTask(Request $request)
     {
-        $transaction = ongoing_transactions::findOrFail($request->transactionId);
-        $transaction->status = $request->newStatus;
+        foreach($request->file('files') as $key => $file)
+        {
+            try
+            {
+                $targetDirectory = base_path('react/src/assets/media/task_files');
+                $newFilename = $this->generateFilename->generate($file, $targetDirectory);
 
-        if($transaction->save())
-        {
-            return response()->json([
-                "status" => 200,
-                "message" => 'Transaction cancelled'
-            ]);
+                $file->move($targetDirectory, $newFilename);
+    
+                $taskFile = new ongoing_transaction_task_files();
+                $taskFile->task = $request->taskId;
+                $taskFile->old_filename = $request->oldFileName[$key];
+                $taskFile->filename = $newFilename;
+                $taskFile->file_type = $request->fileTypes[$key];
+                $taskFile->save();
+            }
+            catch(\Exception $ex)
+            {
+                return response()->json([
+                    'status' => 500,
+                    'message' =>'Failed to upload file: ' . $ex->getMessage()
+                ]);
+            }   
         }
-        else
-        {
-            return response()->json([
-                "status" => 401,
-                "message" => 'Something went wrong when cancelling the transaction please try again later.'
-            ]);
-        }
+        
+        return response()->json([
+            'status' => 200,
+            'files' => ongoing_transaction_task_files::where('task', $request->taskId)->get(),
+            'message' => 'Success'
+        ]);
     }
 }

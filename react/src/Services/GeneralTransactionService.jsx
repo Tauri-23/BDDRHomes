@@ -47,7 +47,17 @@ export const fetchTaskFullInfoById = async(taskId) => {
         const response = await axiosClient.get(`/get-task-full-info-by-id/${taskId}`);
         return response.data;
     } catch (error) {
-        console.error('Error client pending transactions', error);
+        console.error(`Error fetching full task info task id: ${taskId}`, error);
+        throw error;
+    }
+}
+
+export const fetchAllTaskFilesById = async(taskId) => {
+    try {
+        const response = await axiosClient.get(`/get-all-task-files-where-task-id/${taskId}`);
+        return response.data;
+    } catch (error) {
+        console.error(`Error fetching all tasks file task id: ${taskId}`, error);
         throw error;
     }
 }

@@ -229,7 +229,7 @@ Route::get('/get-task-full-info-by-id/{taskId}', [TransactionController::class, 
 Route::post('/create-transaction-from-client-post', [TransactionController::class, 'CreateTransaction']);
 Route::post('/create-transaction-task-from-agent-post', [TransactionController::class, 'CreateTask']);
 Route::post('/update-transaction-from-agent-post', [TransactionController::class, 'AgentUpdateTransaction']);
-Route::post('/update-transaction-task-status-from-agent-post', [TransactionController::class, 'AgentUpdateTransactionTaskStatus']);
+Route::post('/update-transaction-task-status', [TransactionController::class, 'UpdateTransactionTaskStatus']);
 Route::post('/update-transaction-from-client-post', [TransactionController::class, 'ClientUpdateTransaction']);
 
 
@@ -254,7 +254,18 @@ Route::post('/create-prop-views', [ClientPropertyViewsController::class, 'addPro
 
 
 
-/* 
-*  Transaction Requirements
-*/
+/**
+ * Employment Types
+ */
 Route::get('/get-all-emp-types', [EmploymentTypesController::class, 'GetAllEmploymentType']);
+
+
+
+
+
+/**
+ * Transaction task files
+ */
+Route::get('/get-all-task-files-where-task-id/{taskId}', [TransactionController::class, 'getAllTaskFilesWhereTaskId']);
+
+Route::post('/upload-task-files', [TransactionController::class, 'AddFileToTask']);
