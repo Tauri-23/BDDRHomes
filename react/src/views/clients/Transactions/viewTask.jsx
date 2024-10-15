@@ -194,6 +194,10 @@ export default function ClientViewTask() {
 
 
 
+                    <div className="hr-line1 mar-bottom-l2"></div>
+
+
+
                     {/* Reject Reason */}
                     {task.status === 'rejected' && (
                         <>
@@ -201,10 +205,6 @@ export default function ClientViewTask() {
                             <div className="mar-bottom-l2 text-m2">{task.reject_reason}</div>
                         </>
                     )}
-
-
-
-                    <div className="hr-line1 mar-bottom-l2"></div>
 
 
 

@@ -15,6 +15,20 @@ export default function ClientDefault() {
     const { user, userType, token, setUserType, setUser, setToken } = useStateContext();
     const location = useLocation();
 
+
+
+    /**
+     * Scroll up every change location
+     */
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, [location.pathname]);
+
+
+
+    /**
+     * For protected access
+     */
     useEffect(() => {
         if (token) {            
             axiosClient.get('/user')
@@ -46,6 +60,11 @@ export default function ClientDefault() {
         return <Navigate to="/" />;
     }
 
+
+
+    /**
+     * Render
+     */
     if(user) {
         return (
             <ModalProvider>

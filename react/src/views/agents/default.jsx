@@ -16,11 +16,20 @@ export default function AgentDefault() {
     const { userType, setUserType, user, token, setUser, setToken } = useStateContext();
     const location = useLocation();
 
-    /*
-    |----------------------------------------
-    | Token and UserType Checker 
-    |----------------------------------------
-    */
+
+
+    /**
+     * Scroll up every change location
+     */
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, [location.pathname]);
+
+
+
+    /**
+     * For protected access
+     */
     useEffect(() => {
         if (token) {
             axiosClient.get('/user')
@@ -53,8 +62,9 @@ export default function AgentDefault() {
 
 
 
-
-    
+    /**
+     * Render
+     */
     return (
         <ModalProvider>
             <div className="w-100 h-100 position-relative">

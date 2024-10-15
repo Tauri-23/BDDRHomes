@@ -92,10 +92,6 @@ const router = createBrowserRouter([
                 element: <GuestIndex/>
             },
             {
-                path: 'listings',
-                element: <GuestListings/>
-            },
-            {
                 path: 'viewProperty/:id',
                 element: <ViewProperty/>
             },

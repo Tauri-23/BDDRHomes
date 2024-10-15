@@ -12,6 +12,20 @@ export default function GuestDefault() {
     const {user, token, setUser, userType, setUserType, setToken} = useStateContext();
     const location = useLocation();
 
+
+
+    /**
+     * Scroll up every change location
+     */
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, [location.pathname]);
+
+
+
+    /**
+     * For protected access
+     */
     useEffect(() => {
         if (token) {
             axiosClient.get('/user')
@@ -29,6 +43,8 @@ export default function GuestDefault() {
         }
     }, []);
 
+
+
     // Render logic based on userType
     if (token) {
         // console.log(userType);
@@ -40,27 +56,31 @@ export default function GuestDefault() {
             return <Navigate to="/BDDRAdmin" />;
         }
     }
-    
 
+
+
+    /**
+     * Render
+     */
     return (
         <ModalProvider>            
             <div className="w-100 h-100">
-            <ModalManager/>
+                <ModalManager/>
 
-            {/* Navbar */}
-            <GuestNavbar1/>
+                {/* Navbar */}
+                <GuestNavbar1/>
 
-            {/* Children Contents */}
-            <Outlet/>
+                {/* Children Contents */}
+                <Outlet/>
 
-            {/* Footer */}
-            <div className="footer1">
-                <div className="d-flex align-items-center gap3">
-                    <img src={"/src/assets/media/logos/logo1.png"} className="navbar-1-logo-pic" alt="" />
-                    <div className="text-l3 fw-bold color-white1">BDDR <span className="color-blue1 fw-bold">Homes</span></div>
+                {/* Footer */}
+                <div className="footer1">
+                    <div className="d-flex align-items-center gap3">
+                        <img src={"/src/assets/media/logos/logo1.png"} className="navbar-1-logo-pic" alt="" />
+                        <div className="text-l3 fw-bold color-white1">BDDR <span className="color-blue1 fw-bold">Homes</span></div>
+                    </div>
                 </div>
             </div>
-        </div>
         </ModalProvider>
     )
 };
