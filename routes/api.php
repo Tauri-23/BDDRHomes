@@ -269,3 +269,4 @@ Route::get('/get-all-emp-types', [EmploymentTypesController::class, 'GetAllEmplo
 Route::get('/get-all-task-files-where-task-id/{taskId}', [TransactionController::class, 'getAllTaskFilesWhereTaskId']);
 
 Route::post('/upload-task-files', [TransactionController::class, 'AddFileToTask']);
+Route::post('/del-task-file', [TransactionController::class, 'DelTaskFilePerma']);

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { fetchTransactionInfoFullById } from "../../../Services/GeneralTransactionService";
 import * as Icon from "react-bootstrap-icons";
 import "../../../assets/css/view_transaction.css";
@@ -10,6 +10,7 @@ import axiosClient from "../../../axios-client";
 export default function AgentViewOngoingTransaction() {
     const {transactionId} = useParams();
     const {showModal} = useModal();
+    const navigate = useNavigate();
     const [transaction, setTransaction] = useState(null);
 
     useEffect(() => {
@@ -175,15 +176,20 @@ export default function AgentViewOngoingTransaction() {
                                 </div>
                                 <div className="hr-line1 mar-y-1"></div>
 
+
+
+                                {/* Tasks Table */}
                                 <table className="view-transaction-task-table">
                                     <thead className="view-transaction-task-table-thead">
                                         <tr>
                                             <th>Requirements</th>
                                         </tr>
                                     </thead>
+                                    
+
                                     <tbody className="view-transaction-task-table-tbody">
                                         {transaction.tasks.map(task => (
-                                            <tr key={task.id}>
+                                            <tr key={task.id} onClick={() => navigate(`/BDDRAgent/ViewTask/${task.id}`)}>
                                                 <td>
                                                     <div className="requirement-info">
                                                         <div className="d-flex gap3">
@@ -193,7 +199,7 @@ export default function AgentViewOngoingTransaction() {
                                                         <div className="text-m3">{task.description}</div>
                                                     </div>
                                                 </td>
-                                                <td>
+                                                {/* <td>
                                                     <div className="d-flex justify-content-end">
                                                         {task.status === 'done' 
                                                         ? (
@@ -211,11 +217,12 @@ export default function AgentViewOngoingTransaction() {
                                                         )}
                                                         
                                                     </div>
-                                                </td>
+                                                </td> */}
                                             </tr>
                                         ))}
                                     </tbody>
                                 </table>
+
                             </div>
                         </div>
                         

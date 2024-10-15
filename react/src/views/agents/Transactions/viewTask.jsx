@@ -8,7 +8,7 @@ import axiosClient from "../../../axios-client";
 import { notify } from "../../../assets/js/utils";
 import { useModal } from "../../../contexts/ModalContext";
 
-export default function ClientViewTask() {
+export default function AgentViewTask() {
     const {taskId} = useParams();
     const {showModal} = useModal();
     const [task, setTask] = useState(null);
@@ -126,24 +126,24 @@ export default function ClientViewTask() {
     /**
      * Turn In Handler
      */
-    const handleTurnInClick = () => {
+    const handleMarkAsDoneClick = () => {
         showModal('GeneralConfirmationModal1', 
             {
-                title: `Turn in this task?`, 
-                note: `This task will become pending for checking.`, 
-                positiveBtnText: "Turn in", 
-                handlePositiveBtnClick: () => handleChangeStatusPost("pending"),
+                title: `Mark as done task?`, 
+                note: `This task will be mark as done.`, 
+                positiveBtnText: "Mark as done", 
+                handlePositiveBtnClick: () => handleChangeStatusPost("done"),
             }
         )
     }
 
-    const handleUnsubmitClick = () => {
+    const handleRejectClick = () => {
         showModal('GeneralConfirmationModal1', 
             {
-                title: `Unsubmit this task?`, 
-                note: `This task will be unsubmitted and you can add some files again.`, 
-                positiveBtnText: "Unsubmit", 
-                handlePositiveBtnClick: () => handleChangeStatusPost("no-action"),
+                title: `Reject task?`, 
+                note: `This task will be rejected and client can add some files again.`, 
+                positiveBtnText: "Reject", 
+                handlePositiveBtnClick: () => handleChangeStatusPost("rejected"),
             }
         )
     }
@@ -178,7 +178,7 @@ export default function ClientViewTask() {
             ? (
                 <>
                     <div className="d-flex justify-content-start mar-bottom-1">
-                        <Link to={`/BDDRClient/ViewTransaction/${task.transaction}`} className="d-flex gap3 align-items-center text-l3 color-black1 text-decoration-none cursor-pointer">
+                        <Link to={`/BDDRAgent/ViewTransaction/${task.transaction}`} className="d-flex gap3 align-items-center text-l3 color-black1 text-decoration-none cursor-pointer">
                             <Icon.ChevronLeft/>
                             Back
                         </Link>                
@@ -206,113 +206,35 @@ export default function ClientViewTask() {
                                         <div className="flex-grow-1">
                                             <div className="task-file-name">{file.old_filename}</div>
                                         </div>
-
-                                        {task.status === 'no-action' && (
-                                            <div className="task-file-x">
-                                                <Icon.XLg onClick={() => handleRemoveFileClick(file.id, file.old_filename)} className="cursor-pointer text-l3"/>
-                                            </div>
-                                        )}
                                     </div>
                                 ))}
                             </div>
                         </>
                     )}
-
-
-
-                    {/* Render TempFiles */}
-                    {tempFiles.length > 0 && addFileActive && (
-                        <div className="d-flex flex-direction-y gap3 mar-bottom-1">
-                            {tempFiles?.map((tempFile, index) => (
-                                <div key={index} className="task-file-cont">
-                                    {tempFile.file_type === 'application/pdf' 
-                                        ? <div className="task-file-img"><img src={`/src/assets/media/icons/pdf.svg`} className="task-file-img-pdf"/></div> 
-                                        : <div className="task-file-img"><img src={`/src/assets/media/task_files/${tempFile.filename}`} className="task-file-img-img"/></div>}
-                                    <div className="flex-grow-1">
-                                        <div className="task-file-name">{tempFile.name}</div>
-                                    </div>
-
-                                    <div className="task-file-x">
-                                        <Icon.XLg onClick={() => deleteTempFile(index)} className="cursor-pointer text-l3"/>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-                    )}
                     
-
-
-                    {/* Input box */}
-                    {addFileActive && (
-                        <div className="add-file-container mar-bottom-l3">
-                            <div className="d-flex flex-direction-y gap4 justify-content-center h-100 align-items-center">
-                                <Icon.Upload className="text-l3 cursor-pointer" onClick={handleUploadClick}/>
-                                <div 
-                                    className="text-m2 text-center text-decoration-underline cursor-pointer"
-                                    onClick={handleUploadClick}
-                                >
-                                    upload file
-                                </div>
-                                <input 
-                                    type="file" 
-                                    id="fileInput"
-                                    className='d-none'
-                                    multiple 
-                                    accept="image/*,application/pdf"
-                                    onChange={handleFileChange}
-                                />
-                            </div>
-                        </div>
-                    )}
+                    
 
                     {/* Action btns */}
                     <div className="d-flex gap3">
-                        {addFileActive && task.status === 'no-action' && (
-                            <button 
-                            disabled={tempFiles.length < 1}
-                            className={`primary-btn-black1 d-flex align-items-center user-select-none gap4 ${tempFiles.length < 1 ? 'disabled' : ''}`} 
-                            onClick={handleSaveTempFile}>
-                                <Icon.Floppy/>
-                                Save File
-                            </button>
-                        )}
-
-                        {!addFileActive && task.status === 'no-action' && (
-                            <div className="secondary-btn-black1 d-flex align-items-center user-select-none gap4" onClick={() => setAddFileActive(prev => !prev)}>
-                                <Icon.Paperclip/>
-                                Add File
-                            </div>
-                        )}
-
-                        {addFileActive && task.status === 'no-action' && (
-                            <div className="secondary-btn-black1 d-flex align-items-center user-select-none gap4" onClick={() => setAddFileActive(prev => !prev)}>
-                                <Icon.XLg/>
-                                Cancel
-                            </div>
-                        )}
-
-                        
-                        {!addFileActive && task.status === 'no-action'
+                        {task.status === 'pending'
                         && (
                             <button 
-                            disabled={files.length < 1}
-                            className={`primary-btn-black1 d-flex align-items-center user-select-none gap4 ${files.length > 0 ? '' : 'disabled'}`}
-                            onClick={() => handleTurnInClick()}
-                            >
-                                <Icon.Send/> 
-                                Turn in
-                            </button>
-                        )}
-
-                        {!addFileActive && task.status === 'pending'
-                        && (
-                            <button 
-                            disabled={files.length < 1}
-                            className={`primary-btn-black1 d-flex align-items-center user-select-none gap4 ${files.length > 0 ? '' : 'disabled'}`}
-                            onClick={() => handleUnsubmitClick()}
+                            className={`secondary-btn-black1 d-flex align-items-center user-select-none gap4`}
+                            onClick={() => handleRejectClick()}
                             >
                                 <Icon.XLg/> 
-                                Unsubmit
+                                Reject
+                            </button>
+                        )}
+                        
+                        {task.status === 'pending'
+                        && (
+                            <button 
+                            className={`primary-btn-black1 d-flex align-items-center user-select-none gap4`}
+                            onClick={() => handleMarkAsDoneClick()}
+                            >
+                                <Icon.CheckLg/> 
+                                Mark as Done
                             </button>
                         )}
                         

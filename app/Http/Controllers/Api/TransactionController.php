@@ -246,4 +246,32 @@ class TransactionController extends Controller
             'message' => 'Success'
         ]);
     }
+
+    public function DelTaskFilePerma(Request $request)
+    {
+        $file = ongoing_transaction_task_files::find($request->fileId);
+        $filename = $file->filename;
+
+        if($file->delete())
+        {
+            $targetDirectory = base_path('react/src/assets/media/task_files');
+            $filepath = "$targetDirectory/$filename";
+            if(file_exists($filepath))
+            {
+                unlink($filepath);
+            }
+
+            return response()->json([
+                'status' => 200,
+                'message' => 'Success'
+            ]);
+        }
+        else
+        {
+            return response()->json([
+                'status' => 401,
+                'message' => 'Something went wrong please try again later.'
+            ]);
+        }
+    }
 }

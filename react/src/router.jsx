@@ -75,6 +75,7 @@ import KMeansClustering from "./algoModels/k_means_clustering";
 import CollabPropertyViews from "./algoModels/collab_for_property_views";
 import ContentBasedUserProfile from "./algoModels/content_based_user_profile";
 import ClientViewTask from "./views/clients/Transactions/viewTask";
+import AgentViewTask from "./views/agents/Transactions/viewTask";
 
 const router = createBrowserRouter([
     /*
@@ -321,6 +322,11 @@ const router = createBrowserRouter([
                 path: 'ViewTransaction/:transactionId',
                 element: <AgentViewOngoingTransaction/>
             },
+            {
+                path: 'ViewTask/:taskId',
+                element: <AgentViewTask/>
+            },
+
 
             {
                 path: 'Performance',
