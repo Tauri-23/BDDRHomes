@@ -199,25 +199,6 @@ export default function AgentViewOngoingTransaction() {
                                                         <div className="text-m3">{task.description}</div>
                                                     </div>
                                                 </td>
-                                                {/* <td>
-                                                    <div className="d-flex justify-content-end">
-                                                        {task.status === 'done' 
-                                                        ? (
-                                                            <button 
-                                                            className='primary-btn-black1 text-m3'>
-                                                                Done
-                                                            </button>
-                                                        )
-                                                        : (
-                                                            <button 
-                                                            className='secondary-btn-black1 text-m3' 
-                                                            onClick={() => handleMarkAsDone(task.requirement, task.id)}>
-                                                                Mark as Done
-                                                            </button>
-                                                        )}
-                                                        
-                                                    </div>
-                                                </td> */}
                                             </tr>
                                         ))}
                                     </tbody>

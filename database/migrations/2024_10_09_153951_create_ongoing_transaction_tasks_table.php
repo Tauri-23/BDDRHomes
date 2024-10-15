@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('requirement');
             $table->text('description');
             $table->string('status')->default('no-action');
+            $table->text('reject_reason')->nullable();
             $table->timestamps();
 
             /**

@@ -183,6 +183,7 @@ export default function ClientViewTask() {
                             Back
                         </Link>                
                     </div>
+
                     <div className="text-l1 fw-bold color-black2 mar-bottom-l1">Task</div>
 
                     <div className="d-flex gap2 mar-bottom-3 align-items-start">
@@ -190,6 +191,20 @@ export default function ClientViewTask() {
                         <span className={`requirement-status-card ${task.status}`}>{task.status}</span>
                     </div>
                     <div className="text-m1 color-black2 mar-bottom-l2">{task.description}</div>
+
+
+
+                    {/* Reject Reason */}
+                    {task.status === 'rejected' && (
+                        <>
+                            <div className="mar-bottom-3 text-m1 fw-bold">Reject reason:</div>
+                            <div className="mar-bottom-l2 text-m2">{task.reject_reason}</div>
+                        </>
+                    )}
+
+
+
+                    <div className="hr-line1 mar-bottom-l2"></div>
 
 
 
@@ -207,7 +222,7 @@ export default function ClientViewTask() {
                                             <div className="task-file-name">{file.old_filename}</div>
                                         </div>
 
-                                        {task.status === 'no-action' && (
+                                        {(task.status === 'no-action' || task.status === 'rejected') && (
                                             <div className="task-file-x">
                                                 <Icon.XLg onClick={() => handleRemoveFileClick(file.id, file.old_filename)} className="cursor-pointer text-l3"/>
                                             </div>
@@ -225,9 +240,9 @@ export default function ClientViewTask() {
                         <div className="d-flex flex-direction-y gap3 mar-bottom-1">
                             {tempFiles?.map((tempFile, index) => (
                                 <div key={index} className="task-file-cont">
-                                    {tempFile.file_type === 'application/pdf' 
+                                    {tempFile.type === 'application/pdf' 
                                         ? <div className="task-file-img"><img src={`/src/assets/media/icons/pdf.svg`} className="task-file-img-pdf"/></div> 
-                                        : <div className="task-file-img"><img src={`/src/assets/media/task_files/${tempFile.filename}`} className="task-file-img-img"/></div>}
+                                        : <div className="task-file-img"><img src={URL.createObjectURL(tempFile)} className="task-file-img-img"/></div>}
                                     <div className="flex-grow-1">
                                         <div className="task-file-name">{tempFile.name}</div>
                                     </div>
@@ -267,7 +282,7 @@ export default function ClientViewTask() {
 
                     {/* Action btns */}
                     <div className="d-flex gap3">
-                        {addFileActive && task.status === 'no-action' && (
+                        {addFileActive && (task.status === 'no-action' || task.status === 'rejected') && (
                             <button 
                             disabled={tempFiles.length < 1}
                             className={`primary-btn-black1 d-flex align-items-center user-select-none gap4 ${tempFiles.length < 1 ? 'disabled' : ''}`} 
@@ -277,14 +292,14 @@ export default function ClientViewTask() {
                             </button>
                         )}
 
-                        {!addFileActive && task.status === 'no-action' && (
+                        {!addFileActive && (task.status === 'no-action' || task.status === 'rejected') && (
                             <div className="secondary-btn-black1 d-flex align-items-center user-select-none gap4" onClick={() => setAddFileActive(prev => !prev)}>
                                 <Icon.Paperclip/>
                                 Add File
                             </div>
                         )}
 
-                        {addFileActive && task.status === 'no-action' && (
+                        {addFileActive && (task.status === 'no-action' || task.status === 'rejected') && (
                             <div className="secondary-btn-black1 d-flex align-items-center user-select-none gap4" onClick={() => setAddFileActive(prev => !prev)}>
                                 <Icon.XLg/>
                                 Cancel
@@ -292,7 +307,7 @@ export default function ClientViewTask() {
                         )}
 
                         
-                        {!addFileActive && task.status === 'no-action'
+                        {!addFileActive && (task.status === 'no-action' || task.status === 'rejected')
                         && (
                             <button 
                             disabled={files.length < 1}

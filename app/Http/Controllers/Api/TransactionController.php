@@ -194,9 +194,9 @@ class TransactionController extends Controller
 
     public function UpdateTransactionTaskStatus(Request $request)
     {
-        $transaction = ongoing_transaction_tasks::find($request->taskId);
+        $transactionTask = ongoing_transaction_tasks::find($request->taskId);
 
-        if(!$transaction)
+        if(!$transactionTask)
         {
             return response()->json([
                 'status' => 404,
@@ -204,11 +204,15 @@ class TransactionController extends Controller
             ]);
         }
 
-        $transaction->status = $request->newStatus;
-        $transaction->save();
+        $transactionTask->status = $request->newStatus;
+        if($request->newStatus == 'rejected') {
+            $transactionTask->reject_reason = $request->reason;
+        }
+        $transactionTask->save();
 
         return response()->json([
             'status' => 200,
+            'task' => $transactionTask,
             'message' => 'Success'
         ]);
     }

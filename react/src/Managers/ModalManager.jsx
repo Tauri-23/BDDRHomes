@@ -16,6 +16,7 @@ import { ClientCancelTransactionConfirmationModal1 } from "../components/Modals/
 import ClientViewPropSetEmpTypeModal1 from "../components/Modals/client_view_prop_set_emp_type_modal1";
 import { GeneralConfirmationModal1 } from "../components/Modals/general_confirmation_modal";
 import AgentAddTransactionTaskModal1 from "../components/Modals/agent_add_transaction_task_modal1";
+import GeneralTextAreaModal1 from "../components/Modals/general_text_area_modal1";
 
 const ModalManager = () => {
     const {modalState, hideModal} = useModal();
@@ -101,7 +102,6 @@ const ModalManager = () => {
             // Transactions
             case 'AgentGetTransactionConfirmationModal1' :
                 return <AgentGetTransactionConfirmationModal1 {...modalState.props} onClose={hideModal}/>
-
             case 'AgentAddTransactionTaskModal1' :
                 return <AgentAddTransactionTaskModal1 {...modalState.props} onClose={hideModal}/>
             
@@ -120,6 +120,8 @@ const ModalManager = () => {
              */
             case 'GeneralConfirmationModal1':
                 return <GeneralConfirmationModal1 {...modalState.props} onClose={hideModal}/>
+            case 'GeneralTextAreaModal1' :
+                return <GeneralTextAreaModal1 {...modalState.props} onClose={hideModal}/>
 
 
 
