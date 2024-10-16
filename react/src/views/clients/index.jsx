@@ -40,7 +40,6 @@ export default function ClientIndex() {
 
 
 
-
     /*
     | Get all necessary data from db
     */
@@ -276,8 +275,6 @@ export default function ClientIndex() {
     }, []);
 
 
-
-
     
     /**
      * Render Properies
@@ -366,13 +363,11 @@ export default function ClientIndex() {
                         </div>
                     </div>
                 )}
-                
-
 
 
 
                 {/* Based on Prefered Location */}
-                {isRenderReady && selectedPropType === "" && !isFiltering && (
+                {isRenderReady && selectedPropType === "" && recPropBasedPrefLoc?.length > 0 && !isFiltering && (
                     <div className="mar-bottom-l1">
                         <div className={`text-l1 mar-bottom-l2 fw-bold ${isRenderReady ? '' : 'd-none'}`}>
                             Based on your prefered locations
@@ -383,8 +378,6 @@ export default function ClientIndex() {
                         </div>
                     </div>
                 )}
-
-
 
 
 
@@ -410,8 +403,6 @@ export default function ClientIndex() {
 
 
 
-
-
                 {/* Filtered by proptypes */}
                 {isRenderReady && selectedPropType !== "" && !isFiltering && (
                     <div>
@@ -428,8 +419,6 @@ export default function ClientIndex() {
                     </div>
                 )}
                 
-
-
 
 
                 {/* Filtered by filtered modal and proptypes */}
@@ -454,8 +443,6 @@ export default function ClientIndex() {
                         )}
                     </div>
                 )}
-
-
 
 
 

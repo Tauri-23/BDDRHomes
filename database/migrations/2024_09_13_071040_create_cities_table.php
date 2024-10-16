@@ -15,6 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('city');
             $table->unsignedBigInteger('province')->nullable();
+            $table->decimal("lat", 8, 6)->nullable();
+            $table->decimal('long', 9, 6)->nullable();
             $table->timestamps();
 
             /**

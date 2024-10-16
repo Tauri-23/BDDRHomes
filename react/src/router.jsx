@@ -76,6 +76,7 @@ import CollabPropertyViews from "./algoModels/collab_for_property_views";
 import ContentBasedUserProfile from "./algoModels/content_based_user_profile";
 import ClientViewTask from "./views/clients/Transactions/viewTask";
 import AgentViewTask from "./views/agents/Transactions/viewTask";
+import ContentBasedSearchFeature from "./algoModels/content_based_search_feature";
 
 const router = createBrowserRouter([
     /*
@@ -126,6 +127,10 @@ const router = createBrowserRouter([
     {
         path: 'content-based-client-profile',
         element: <ContentBasedUserProfile/>
+    },
+    {
+        path: 'content-based-search-feature',
+        element: <ContentBasedSearchFeature/>
     },
     
 

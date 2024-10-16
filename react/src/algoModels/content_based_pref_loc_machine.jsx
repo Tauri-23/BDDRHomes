@@ -20,34 +20,73 @@ export async function ContentBasedForPrefLocMachine(clientId) {
         }
     }
 
+
+
     const [prefered_locations, properties] = await Promise.all([getAllClientPrefLoc(), getAllProperties()]);
+
+
 
     // Function To Match properties Location to Prefered Locations
     const getMatchingPropertiesWithScores = (preferedLocations, properties, maxDistanceKm) => {
-        return properties.map(property => {
-            // Calculate distances between the property and each preferred location
-            const distances = preferedLocations.map(location => 
-                haversineDistance(
-                    location.province.lat, location.province.long,
-                    property.province.lat, property.province.long
-                )
+        const matchedProperties = [];
+        const addedPropertyIds = new Set(); // Set to track unique property IDs
+    
+
+        // 1. First, get properties where the province matches the preferred location's province
+        const matchedProvinceProperties = properties.filter(property =>
+          preferedLocations.some(location => location.province.id === property.province.id)
+        );
+    
+
+        // Add matched properties directly to the result (ensuring no duplicates)
+        matchedProvinceProperties.forEach(property => {
+          if (!addedPropertyIds.has(property.id)) {
+            // matchedProperties.push(property);
+            matchedProperties.push({
+                property: property,
+                minDistance: 0,
+                score: 0,
+            });
+            addedPropertyIds.add(property.id); // Track added property by its ID
+          }
+        });
+    
+
+        // 2. Next, filter out properties that are not in the preferred province
+        const unmatchedProvinceProperties = properties.filter(
+          property => !preferedLocations.some(location => location.province.id === property.province.id)
+        );
+    
+        
+        // 3. Compare cities of properties in preferred provinces with cities in unmatched properties
+        unmatchedProvinceProperties.forEach(unmatchedProperty => {
+          matchedProvinceProperties.forEach(matchedProperty => {
+            const distance = haversineDistance(
+              matchedProperty.city.lat, matchedProperty.city.long,
+              unmatchedProperty.city.lat, unmatchedProperty.city.long
             );
     
-            // Get the closest distance
-            const minDistance = Math.min(...distances);
+            // If the unmatched property is close enough to the matched property's city
+            if (distance <= maxDistanceKm) {
+              const score = 1 - (distance / maxDistanceKm); // Normalize score based on distance
     
-            // Normalize score based on distance
-            const score = minDistance <= maxDistanceKm 
-                ? 1 - (minDistance / maxDistanceKm)  // Score is between 1 (close) and 0 (far)
-                : 0; // Score is 0 if the distance is beyond the maxDistanceKm
+              // Add the unmatched property if it's unique
+              if (!addedPropertyIds.has(unmatchedProperty.id)) {
+                matchedProperties.push({
+                  property: unmatchedProperty,
+                  minDistance: distance,
+                  score: score.toFixed(2),
+                });
+                addedPropertyIds.add(unmatchedProperty.id); // Track added property
+              }
+            }
+          });
+        });
     
-            return {
-                property,
-                minDistance, // Return the closest distance
-                score: score.toFixed(2)  // Score rounded to 2 decimal places
-            };
-        }).filter(item => item.score > 0);  // Filter out properties with a score of 0
-    };
+        return matchedProperties;
+      };
+
+
 
     // Haversine formula for calculating distance between two coordinates (lat/long)
     const haversineDistance = (lat1, lon1, lat2, lon2) => {
@@ -64,10 +103,12 @@ export async function ContentBasedForPrefLocMachine(clientId) {
         return R * c;
     }
 
+
+
     // Main Logic
     if(prefered_locations?.length > 0 && properties?.length > 0) {
-        const matchingProperties = getMatchingPropertiesWithScores(prefered_locations, properties, 70);
-
+        const matchingProperties = getMatchingPropertiesWithScores(prefered_locations, properties, 50);
+        
         // Now `matchingProperties` is an array of property matches with distances and scores
         return {properties: matchingProperties.map(prop => prop.property)}
     }
