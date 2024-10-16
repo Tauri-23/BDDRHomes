@@ -17,14 +17,14 @@ export const PropertyBox1 = ({ wishlists, propId, property, viewAs, isInWishlist
 
     const handleViewProperty = (event) => {
 
-        // Disabled Temporarily
-        // const formData = new FormData();
-        // formData.append('clientId', user.id);
-        // formData.append('propId', propId);
-        // axiosClient.post('/create-prop-views', formData)
-        // .then(({data}) => {
-        //     console.log(data.message);
-        // }).catch((error) => console.error(error));
+        // For prop views
+        const formData = new FormData();
+        formData.append('clientId', user.id);
+        formData.append('propId', propId);
+        axiosClient.post('/create-prop-views', formData)
+        .then(({data}) => {
+            console.log(data.message);
+        }).catch((error) => console.error(error));
 
         navigate(`/BDDRClient/ViewProperty/${propId}`);
     }

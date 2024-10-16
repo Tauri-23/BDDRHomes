@@ -6,7 +6,6 @@ import GuestDefault from "./views/guest/default";
 import GuestIndex from "./views/guest/index";
 import ClientDefault from "./views/clients/default";
 import ClientIndex from "./views/clients";
-import GuestListings from "./views/guest/listings";
 import ClientViewProperty from "./views/clients/view-property";
 import ClientMessages from "./views/clients/messages";
 import ClientTrippings from "./views/clients/trippings";
@@ -76,7 +75,7 @@ import CollabPropertyViews from "./algoModels/collab_for_property_views";
 import ContentBasedUserProfile from "./algoModels/content_based_user_profile";
 import ClientViewTask from "./views/clients/Transactions/viewTask";
 import AgentViewTask from "./views/agents/Transactions/viewTask";
-import ContentBasedSearchFeature from "./algoModels/content_based_search_feature";
+import ContentBasedSearchFeatureFuzzy from "./algoModels/content_based_search_feature_fuzzy";
 
 const router = createBrowserRouter([
     /*
@@ -129,8 +128,8 @@ const router = createBrowserRouter([
         element: <ContentBasedUserProfile/>
     },
     {
-        path: 'content-based-search-feature',
-        element: <ContentBasedSearchFeature/>
+        path: 'content-based-search-feature-fuzzy',
+        element: <ContentBasedSearchFeatureFuzzy/>
     },
     
 
