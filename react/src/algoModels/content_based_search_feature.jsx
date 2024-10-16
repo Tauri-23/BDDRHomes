@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { fetchPublishedProperties } from "../Services/GeneralPropertiesService";
 
+
 export default function ContentBasedSearchFeature() {
     const [properties, setProperties] = useState([]);
 
