@@ -3,8 +3,9 @@ import * as Icon from 'react-bootstrap-icons';
 import { Link } from "react-router-dom";
 import { NavLink1 } from "../navlink1";
 
-export const ClientNavbar1 = ({client, onLogout}) => {
+export const ClientNavbar1 = ({client, handleSearchBtnClick,  onLogout}) => {
     const [navModal1Visible, setNavModal1Visibility] = useState(false);
+    const [_searchValue, _setSearchValue] = useState("");
     const navModalRef = useRef(null);
 
     const toggleNavModal1Visibility = (event) => {
@@ -43,10 +44,10 @@ export const ClientNavbar1 = ({client, onLogout}) => {
                 
                 {/* Searchbar Only for Properties Page */}
                 <div className={`position-relative d-flex align-items-center ${location.pathname !== '/BDDRClient' ? 'd-none' : ''}`}>
-                    <input type="text" name="" id="" className="search-bar-1" placeholder="Search Properties, Locations, Agents, etc." />
+                    <input type="text" className="search-bar-1" value={_searchValue} onInput={(e) => _setSearchValue(e.target.value)} placeholder="Search Properties, Locations, Agents, etc." />
                     
                     <div className="search-btn">
-                        <Icon.Search/>
+                        <Icon.Search onClick={() => handleSearchBtnClick(_searchValue)}/>
                     </div>
                 </div>
                 

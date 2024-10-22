@@ -3,7 +3,7 @@ import * as Icon from 'react-bootstrap-icons';
 import { useStateContext } from "../../contexts/ContextProvider";
 import { ClientNavbar1 } from "../../components/ClientComponents/client_navbar_1";
 import { Footer1 } from "../../components/footer1";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import axiosClient from "../../axios-client";
 import { ModalProvider } from "../../contexts/ModalContext";
 import ModalManager from "../../Managers/ModalManager";
@@ -14,6 +14,8 @@ import { signOut } from "firebase/auth";
 export default function ClientDefault() {
     const { user, userType, token, setUserType, setUser, setToken } = useStateContext();
     const location = useLocation();
+
+    const [searchValue, setSearchValue] = useState("");
 
 
 
@@ -63,6 +65,15 @@ export default function ClientDefault() {
 
 
     /**
+     * Handlers
+     */
+    const handleSearchBtnClick = (value) => {
+        setSearchValue(value);
+    }
+
+
+
+    /**
      * Render
      */
     if(user) {
@@ -72,10 +83,10 @@ export default function ClientDefault() {
                     <ModalManager/>
                     
                     {/* Navbar */}
-                    <ClientNavbar1 client={user} onLogout={onLogout} />
+                    <ClientNavbar1 client={user} handleSearchBtnClick={handleSearchBtnClick} onLogout={onLogout} />
     
                     {/* Children Contents */}
-                    <Outlet/>
+                    <Outlet context={{searchValue, setSearchValue}}/>
     
                     <ToastContainer/>
     

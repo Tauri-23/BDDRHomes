@@ -1,19 +1,22 @@
-import { Outlet, useOutletContext } from "react-router-dom";
+import { useOutletContext } from "react-router-dom";
 import * as Icon from 'react-bootstrap-icons';
 import { PropertyBox1 } from "../../components/property_box1";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import axiosClient from "../../axios-client";
 import { ClientSkeletonListingBox, PropertyListedCategorySkeleton, PropertyListedFilterBtnSkeleton, PropertyListedViewAsBtnSkeleton } from "../../Skeletons/client-listing-skeletons";
 import { fetchAllClientWishlists } from "../../Services/ClientWishlistService";
-import { notify } from "../../assets/js/utils";
+import { isEmptyOrSpaces, notify } from "../../assets/js/utils";
 import { useStateContext } from "../../contexts/ContextProvider";
 import { fetchPropertyAmenities, fetchPropertyTypes, fetchPublishedProperties } from "../../Services/GeneralPropertiesService";
 import { useModal } from "../../contexts/ModalContext";
 import { KMeansClusteringMachine } from "../../algoModels/k_means_clustering_machine";
 import { CollabForPropViewMachine } from "../../algoModels/collab_for_property_views_machine";
 import { ContentBasedForPrefLocMachine } from "../../algoModels/content_based_pref_loc_machine";
+import { ContentBasedSearchFeatureFuzzyMachine } from "../../algoModels/content_based_search_feature_fuzzy_machine";
 
 export default function ClientIndex() {
+    const {searchValue, setSearchValue} = useOutletContext();
+
     const {user} = useStateContext();
     const {showModal} = useModal();
 
@@ -28,6 +31,7 @@ export default function ClientIndex() {
     const [isRenderReady, setRenderReady] = useState(false);
     
 
+
     // For Filters
     const [propViewAs, setPropViewAs] = useState(2);
     const [selectedPropType, setSelectedPropType] = useState("");
@@ -38,11 +42,14 @@ export default function ClientIndex() {
     const [filteredProp2, setFilteredProp2] = useState(null);
     const [isFiltering, setFiltering] = useState(false);
 
+    const [isSearching, setSearching] = useState(false);
+    const [searchResults, setSearchResults] = useState([]);
+
 
 
     /*
-    | Get all necessary data from db
-    */
+     * Get all necessary data from db
+     */
     useEffect(() => {
         const getAll = async () => {
             try {
@@ -79,6 +86,28 @@ export default function ClientIndex() {
 
 
 
+    /**
+     * For Search
+     */
+    const getSearchResult = useCallback(async () => {
+        if(!isEmptyOrSpaces(searchValue) && properties) {
+            const results = await ContentBasedSearchFeatureFuzzyMachine(properties, searchValue);
+            setSearchResults(results);
+        }
+    }, [searchValue]);
+
+    useMemo(() => {
+        if(isEmptyOrSpaces(searchValue)) {
+            setSearching(false);
+            setSearchResults([]);
+        } else {
+            getSearchResult();
+            setSearching(true);
+        }
+    }, [searchValue]);
+
+
+
     /* 
     | Checkers
     */
@@ -93,6 +122,7 @@ export default function ClientIndex() {
             )
         );
     }, [wishlists]);
+    
     
 
     // For isRenderReady
@@ -351,8 +381,42 @@ export default function ClientIndex() {
             <div className="content1">
 
 
+
+                {/* Search Properties */}
+                {isRenderReady && selectedPropType === "" && !isFiltering && isSearching && (
+                    <div className="mar-bottom-l1">
+                        
+
+                        {searchResults.length > 0 && (
+                            <div className="mar-bottom-l2">
+                                <div className={`text-l1 fw-bold`}>
+                                    Results
+                                </div>
+                                <div className={`text-m1`}>
+                                    searched for: {searchValue}
+                                </div>
+                            </div>
+                        )}
+
+                        {searchResults.length < 1 && (
+                            <div className="">
+                                <div className="text-l2 fw-bold">No results for {searchValue}</div>
+                                <div className="text-m3">Try changing your search value.</div>
+                            </div>
+                        )}
+
+                        {searchResults.length > 0 && (
+                            <div className="properties-cont">
+                                {renderProperties(searchResults)}
+                            </div>
+                        )}
+                    </div>
+                )}
+
+
+
                 {/* Based on Prop View times (Collaborative Filtering) */}
-                {isRenderReady && selectedPropType === "" && !isFiltering && (
+                {isRenderReady && selectedPropType === "" && !isFiltering && !isSearching && (
                     <div className="mar-bottom-l1">
                         <div className={`text-l1 mar-bottom-l2 fw-bold`}>
                             Based on your activities
@@ -367,7 +431,7 @@ export default function ClientIndex() {
 
 
                 {/* Based on Prefered Location */}
-                {isRenderReady && selectedPropType === "" && recPropBasedPrefLoc?.length > 0 && !isFiltering && (
+                {isRenderReady && selectedPropType === "" && recPropBasedPrefLoc?.length > 0 && !isFiltering && !isSearching && (
                     <div className="mar-bottom-l1">
                         <div className={`text-l1 mar-bottom-l2 fw-bold ${isRenderReady ? '' : 'd-none'}`}>
                             Based on your prefered locations
@@ -382,7 +446,7 @@ export default function ClientIndex() {
 
 
                 {/* All Properties */}
-                {isRenderReady && selectedPropType === "" && !isFiltering && (
+                {isRenderReady && selectedPropType === "" && !isFiltering && !isSearching && (
                     <div>
                         <div className={`text-l1 mar-bottom-l2 fw-bold ${isRenderReady ? '' : 'd-none'}`}>
                             Other properties
@@ -404,7 +468,7 @@ export default function ClientIndex() {
 
 
                 {/* Filtered by proptypes */}
-                {isRenderReady && selectedPropType !== "" && !isFiltering && (
+                {isRenderReady && selectedPropType !== "" && !isFiltering && !isSearching && (
                     <div>
                         <div className="properties-cont">
                             {renderProperties(filteredProp2)}
@@ -422,7 +486,7 @@ export default function ClientIndex() {
 
 
                 {/* Filtered by filtered modal and proptypes */}
-                {isRenderReady && isFiltering && (
+                {isRenderReady && isFiltering && !isSearching && (
                     <div>
                         <div className="properties-cont">
                             {renderProperties(filteredProp2)}
