@@ -2,22 +2,40 @@ import { useEffect, useRef, useState } from "react";
 import * as Icon from 'react-bootstrap-icons';
 import { Link } from "react-router-dom";
 import { NavLink1 } from "../navlink1";
+import { isEmptyOrSpaces } from "../../assets/js/utils";
 
 export const ClientNavbar1 = ({client, handleSearchBtnClick,  onLogout}) => {
     const [navModal1Visible, setNavModal1Visibility] = useState(false);
     const [_searchValue, _setSearchValue] = useState("");
     const navModalRef = useRef(null);
 
+
+
     const toggleNavModal1Visibility = (event) => {
         event.stopPropagation();
         setNavModal1Visibility(!navModal1Visible);
     }
+
+
 
     const handleClickOutside = (event) => {
         if (navModalRef.current && !navModalRef.current.contains(event.target)) {
             setNavModal1Visibility(false);
         }
     };
+
+
+
+    /**
+     * Make the Search state disabled
+     */
+    useEffect(() => {
+        if(isEmptyOrSpaces(_searchValue)) {
+            handleSearchBtnClick(_searchValue);
+        }
+    }, [_searchValue]);
+
+
 
     useEffect(() => {
         // Add event listener for clicks on the window
@@ -30,6 +48,8 @@ export const ClientNavbar1 = ({client, handleSearchBtnClick,  onLogout}) => {
     }, []);
 
     const displayNavModal = navModal1Visible ? '' : 'd-none';
+
+
 
     return (
         <>
