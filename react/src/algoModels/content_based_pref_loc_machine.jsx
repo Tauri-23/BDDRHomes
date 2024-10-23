@@ -1,7 +1,7 @@
 import { fetchAllClientPreferedLoc } from "../Services/ClientPreferedLocService";
 import { fetchPublishedProperties } from "../Services/GeneralPropertiesService";
 
-export async function ContentBasedForPrefLocMachine(clientId) {
+export async function ContentBasedForPrefLocMachine(clientId, properties) {
     const getAllClientPrefLoc = async() => {
         try {
             return await fetchAllClientPreferedLoc(clientId);
@@ -11,18 +11,18 @@ export async function ContentBasedForPrefLocMachine(clientId) {
         }
     }
 
-    const getAllProperties = async() => {
-        try {
-            return await fetchPublishedProperties();
-        } catch (error) {
-            console.error(error);
-            return[];
-        }
-    }
+    // const getAllProperties = async() => {
+    //     try {
+    //         return await fetchPublishedProperties();
+    //     } catch (error) {
+    //         console.error(error);
+    //         return[];
+    //     }
+    // }
 
 
 
-    const [prefered_locations, properties] = await Promise.all([getAllClientPrefLoc(), getAllProperties()]);
+    const [prefered_locations/*, properties*/] = await Promise.all([getAllClientPrefLoc()/*, getAllProperties()*/]);
 
 
 

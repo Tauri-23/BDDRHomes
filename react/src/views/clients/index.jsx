@@ -69,7 +69,7 @@ export default function ClientIndex() {
                 // Fetch recommendations after getting properties
                 const [recPropsViewTimes, recPropsPrefLoc] = await Promise.all([
                     CollabForPropViewMachine(user.id),
-                    ContentBasedForPrefLocMachine(user.id)
+                    ContentBasedForPrefLocMachine(user.id, publishedProps)
                 ]);
     
                 setRecPropBasedPropViewTimes(recPropsViewTimes.topRecommendations);
