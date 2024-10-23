@@ -48,7 +48,7 @@ export const fetchPublishedProperties = async() => {
 export const fetchPublishedPropertiesPaginated = async(limit, page) => {
     try {
         const response = await axiosClient.get(`/get-published-property-paginated/${limit}/${page}`);
-        const propData = response.data;
+        const propData = response.data.data;
         propData.map(prop => {
             prop.loan_term_ma = JSON.parse(prop.loan_term_ma);
         });
