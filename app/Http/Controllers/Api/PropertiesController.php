@@ -47,6 +47,14 @@ class PropertiesController extends Controller
         return response()->json($properties);
     }
 
+    public function getAllPublishedPropertiesPaginated($limit, $page)
+    {
+        $properties = published_properties::with(['photos', 'amenities', 'financings', 'developer', 'propertyType', 'project', 'province', 'city'])
+        ->paginate($limit, ['*'], 'page', $page);
+
+        return response()->json($properties);
+    }
+
     public function getAllPublishedPropertiesWhereProject($projId)
     {
         $properties = published_properties::with(['photos', 'amenities', 'financings', 'developer', 'propertyType', 'project', 'province', 'city'])->where('project', $projId)->get();

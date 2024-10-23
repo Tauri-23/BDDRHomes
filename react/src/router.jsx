@@ -1,11 +1,14 @@
 import {createBrowserRouter} from "react-router-dom";
+import React from "react";
+
+
 import Signup from "./views/guest/signup";
 import Signin from "./views/guest/signin";
 import NotFound from "./notFound";
 import GuestDefault from "./views/guest/default";
-import GuestIndex from "./views/guest/index";
+// import GuestIndex from "./views/guest/index";
 import ClientDefault from "./views/clients/default";
-import ClientIndex from "./views/clients";
+// import ClientIndex from "./views/clients";
 import ClientViewProperty from "./views/clients/view-property";
 import ClientMessages from "./views/clients/messages";
 import ClientTrippings from "./views/clients/trippings";
@@ -77,6 +80,9 @@ import ClientViewTask from "./views/clients/Transactions/viewTask";
 import AgentViewTask from "./views/agents/Transactions/viewTask";
 import ContentBasedSearchFeatureFuzzy from "./algoModels/content_based_search_feature_fuzzy";
 
+const LazyClientIndex = React.lazy(() => import('./views/clients/index'));
+const LazyGuestIndex = React.lazy(() => import('./views/guest/index'));
+
 const router = createBrowserRouter([
     /*
     |----------------------------------------
@@ -89,7 +95,7 @@ const router = createBrowserRouter([
         children: [
             {
                 index: true,
-                element: <GuestIndex/>
+                element: <React.Suspense><LazyGuestIndex/></React.Suspense>
             },
             {
                 path: 'viewProperty/:id',
@@ -161,9 +167,9 @@ const router = createBrowserRouter([
         children: [
             {
                 index: true,
-                element: <ClientIndex/>
+                element: <React.Suspense><LazyClientIndex/></React.Suspense>
             },
-            { //TODO::implement get property id
+            {
                 path: 'ViewProperty/:id',
                 element: <ClientViewProperty/>
             },

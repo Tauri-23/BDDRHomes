@@ -9,7 +9,6 @@ import { isEmptyOrSpaces, notify } from "../../assets/js/utils";
 import { useStateContext } from "../../contexts/ContextProvider";
 import { fetchPropertyAmenities, fetchPropertyTypes, fetchPublishedProperties } from "../../Services/GeneralPropertiesService";
 import { useModal } from "../../contexts/ModalContext";
-import { KMeansClusteringMachine } from "../../algoModels/k_means_clustering_machine";
 import { CollabForPropViewMachine } from "../../algoModels/collab_for_property_views_machine";
 import { ContentBasedForPrefLocMachine } from "../../algoModels/content_based_pref_loc_machine";
 import { ContentBasedSearchFeatureFuzzyMachine } from "../../algoModels/content_based_search_feature_fuzzy_machine";
